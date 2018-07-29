@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 花1000毫秒，从不透明（1）变为透明（0） -->
+    <!--
+    repeatCount表示重复次数
+    repeatMode表示开始的模式，restart表示每次重新开始，reverse表示接着来，即不透明->透明->不透明
+    -->
+    <alpha
+        android:duration="2600"
+        android:fromAlpha="0"
+        android:toAlpha="1" />
+</set>
