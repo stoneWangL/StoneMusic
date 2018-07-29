@@ -1,0 +1,7 @@
+# StoneMusic
+
+## 简要介绍：
+stoneMusic是一款基于Android的本地音乐播放器
+
+### 应用图标：
+![应用图标](https://github.com/stoneWangL/StoneMusic/blob/master/app/src/main/res/drawable/music_log.png)
