@@ -49,7 +49,7 @@ public class FirstActivity extends BaseNoBarActivity {
         new Handler().postDelayed(new Runnable(){
             @Override
             public void run(){
-                Intent intent2 = new Intent (FirstActivity.this,MainActivity.class);
+                Intent intent2 = new Intent (FirstActivity.this,LocalListActivity.class);
                 startActivity(intent2);//跳转界面
                 FirstActivity.this.finish();//关闭此界面
             }

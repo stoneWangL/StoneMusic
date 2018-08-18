@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--文字sp-->
     <dimen name="log_size">30sp</dimen>
+    <dimen name="big_title">20sp</dimen>
+
+    <!--位置dp-->
 
 </resources>

@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">StoneMusic</string>
+    <string name="local_music">本地音乐</string>
 </resources>
