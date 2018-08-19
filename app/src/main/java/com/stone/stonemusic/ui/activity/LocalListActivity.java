@@ -1,22 +1,39 @@
 package com.stone.stonemusic.ui.activity;
 
 import android.app.Activity;
+import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 
 import com.stone.stonemusic.R;
+import com.stone.stonemusic.adapter.LocalMusicFragmentPagerAdapter;
 import com.stone.stonemusic.utils.MusicAppUtils;
 
-public class LocalListActivity extends AppCompatActivity {
+public class LocalListActivity extends AppCompatActivity{
     public static final String TAG = "MainActivity";
+
+    private TabLayout.Tab tabMusic;
+    private TabLayout.Tab tabArtist;
+    private TabLayout.Tab tabAlbum;
+    private TabLayout.Tab tabFolder;
+    private ViewPager vpLocalMusic;
+    private LocalMusicFragmentPagerAdapter musicFragmentPagerAdapter;
+    private TabLayout tabLayoutBar;
+
+    /*几个代表Fragment页面的常量*/
+    public static final int PAGE_MUSIC = 0;
+    public static final int PAGE_ARTIST = 1;
+    public static final int PAGE_ALBUM = 2;
+    public static final int PAGE_FOLDER = 3;
 //    public static final int FLAG_HOMEKEY_DISPATCHED = 0x80000000;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,28 +41,30 @@ public class LocalListActivity extends AppCompatActivity {
         setStatusBarColor(this, R.color.colorBarBottom);
 //        this.getWindow().setFlags(FLAG_HOMEKEY_DISPATCHED, FLAG_HOMEKEY_DISPATCHED);//关键代码
         setContentView(R.layout.activity_local_list);
+
+
+        initViews();
     }
 
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-//        return super.onKeyDown(keyCode, event);
-//        if (KeyEvent.KEYCODE_HOME == keyCode) {
-//            //点击Home键所执行的代码
-//        }
-        if (keyCode == KeyEvent.KEYCODE_BACK){
-            if ((System.currentTimeMillis()) > 2000) {
+    private void initViews() {
 
-            }
+        /*使用适配器将ViewPager与Fragment绑定在一起*/
+        vpLocalMusic = findViewById(R.id.vp_local_music);
+        musicFragmentPagerAdapter = new LocalMusicFragmentPagerAdapter(getSupportFragmentManager());
+        vpLocalMusic.setAdapter(musicFragmentPagerAdapter);
 
-        }
-        return super.onKeyDown(keyCode, event); // 不会回到 home 页面
+        //将TabLayout与ViewPager绑定在一起
+        tabLayoutBar = findViewById(R.id.tab_layout_bar);
+        tabLayoutBar.setupWithViewPager(vpLocalMusic);
+
+        //指定Tab的位置
+        tabMusic = tabLayoutBar.getTabAt(PAGE_MUSIC);
+        tabArtist = tabLayoutBar.getTabAt(PAGE_ARTIST);
+        tabAlbum = tabLayoutBar.getTabAt(PAGE_ALBUM);
+        tabFolder = tabLayoutBar.getTabAt(PAGE_FOLDER);
+
     }
 
-//    @Override
-//    public void onBackPressed() {
-////        super.onBackPressed();
-//        ToastUtils.getToastShort("返回键坏了");
-//    }
 
     @Override
     protected void onStop() {
@@ -82,5 +101,27 @@ public class LocalListActivity extends AppCompatActivity {
             ViewCompat.requestApplyInsets(mChildView);
         }
     }
+
+
+    //    @Override
+//    public boolean onKeyDown(int keyCode, KeyEvent event) {
+////        return super.onKeyDown(keyCode, event);
+////        if (KeyEvent.KEYCODE_HOME == keyCode) {
+////            //点击Home键所执行的代码
+////        }
+//        if (keyCode == KeyEvent.KEYCODE_BACK){
+//            if ((System.currentTimeMillis()) > 2000) {
+//
+//            }
+//
+//        }
+//        return super.onKeyDown(keyCode, event); // 不会回到 home 页面
+//    }
+
+//    @Override
+//    public void onBackPressed() {
+////        super.onBackPressed();
+//        ToastUtils.getToastShort("返回键坏了");
+//    }
 
 }

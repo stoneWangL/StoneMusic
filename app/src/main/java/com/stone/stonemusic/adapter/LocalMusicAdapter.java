@@ -1,0 +1,66 @@
+package com.stone.stonemusic.adapter;
+
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+import com.stone.stonemusic.R;
+import com.stone.stonemusic.bean.Music;
+import com.stone.stonemusic.utils.MusicAppUtils;
+
+import java.util.List;
+
+public class LocalMusicAdapter extends ArrayAdapter<Music> {
+    private int resourceId;
+    private Bitmap pic;
+
+
+    public LocalMusicAdapter(Context context, int textViewResourceId, List<Music> objects){
+        super(context, textViewResourceId, objects);
+        resourceId = textViewResourceId;
+    }
+
+    @NonNull
+    @Override
+    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+        Music music = getItem(position);
+        View view;
+        ViewHold viewHold;
+        if (convertView == null){
+            view = LayoutInflater.from(getContext()).inflate(resourceId,parent,false);
+            viewHold = new ViewHold();
+            viewHold.listMusicImage = view.findViewById(R.id.list_music_image);
+            viewHold.musicName = view.findViewById(R.id.music_name);
+            viewHold.musicArtist = view.findViewById(R.id.music_artist);
+            view.setTag(viewHold);
+        }else{
+            view = convertView;
+            viewHold = (ViewHold) view.getTag();
+        }
+
+//        pic = GetMusic.getMusicBitemp(getContext(),music.getId(),music.getAlbum_id(),0);
+//        viewHold.listMusicImage.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+//        viewHold.listMusicImage.setImageBitmap(pic);
+//        viewHold.listMusicImage.setBackgroundResource(R.drawable.list_message3);
+        Glide.with(MusicAppUtils.getContext()).load(R.drawable.list_message3).into(viewHold.listMusicImage);
+        viewHold.musicName.setText(music.getTitle());
+        viewHold.musicArtist.setText(music.getArtist());
+        return view;
+    }
+
+    class ViewHold{
+        ImageView listMusicImage;
+        TextView musicName;
+        TextView musicArtist;
+
+    }
+
+}
