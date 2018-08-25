@@ -1,35 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:padding="5dp">
+    android:layout_height="@dimen/item_height"
+    android:orientation="horizontal">
+    <View
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.3"
+        />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="5.6"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/item_playorpause"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_marginEnd="11dp"
+            android:background="@drawable/ic_item_playorpause"
+            android:visibility="gone"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/music_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:text="阿拉啦"
+                android:textSize="@dimen/big_item_title"
+                android:textColor="@color/black"
+                />
+
+            <TextView
+                android:id="@+id/music_artist"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:text="慕寒-热门华宇242"
+                android:textSize="@dimen/big_item_artist"/>
+        </LinearLayout>
+
+
+
+    </LinearLayout>
 
     <ImageView
-        android:id="@+id/list_music_image"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_alignParentLeft="true" />
-
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:layout_toRightOf="@+id/list_music_image"
-        android:paddingLeft="15dp">
-        <TextView
-            android:id="@+id/music_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:textSize="@dimen/big_title"
-            android:singleLine="true"
-            />
-
-        <TextView
-            android:id="@+id/music_artist"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/music_name"
-            android:singleLine="true" />
-    </RelativeLayout>
-
-</RelativeLayout>
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.5"
+        android:background="@drawable/ic_item_set"
+        android:layout_gravity="center"/>
+    <View
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.5"/>
+</LinearLayout>

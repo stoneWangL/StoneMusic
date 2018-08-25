@@ -37,7 +37,7 @@ public class LocalMusicAdapter extends ArrayAdapter<Music> {
         if (convertView == null){
             view = LayoutInflater.from(getContext()).inflate(resourceId,parent,false);
             viewHold = new ViewHold();
-            viewHold.listMusicImage = view.findViewById(R.id.list_music_image);
+
             viewHold.musicName = view.findViewById(R.id.music_name);
             viewHold.musicArtist = view.findViewById(R.id.music_artist);
             view.setTag(viewHold);
@@ -50,14 +50,14 @@ public class LocalMusicAdapter extends ArrayAdapter<Music> {
 //        viewHold.listMusicImage.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
 //        viewHold.listMusicImage.setImageBitmap(pic);
 //        viewHold.listMusicImage.setBackgroundResource(R.drawable.list_message3);
-        Glide.with(MusicAppUtils.getContext()).load(R.drawable.list_message3).into(viewHold.listMusicImage);
+//        Glide.with(MusicAppUtils.getContext()).load(R.drawable.list_message3).into(viewHold.listMusicImage);
         viewHold.musicName.setText(music.getTitle());
         viewHold.musicArtist.setText(music.getArtist());
         return view;
     }
 
     class ViewHold{
-        ImageView listMusicImage;
+//        ImageView listMusicImage;
         TextView musicName;
         TextView musicArtist;
 
