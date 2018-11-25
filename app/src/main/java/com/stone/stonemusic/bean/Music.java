@@ -9,10 +9,12 @@ public class Music implements Serializable{
     private String title;
     private String artist;
     private long size;//music的音乐长度
-    private String url;
+
     private int isMusic;
     private long duration;
     private String album;
+    //文件路径
+    private String fileUrl;
 
     public long getId() {
         return id;
@@ -54,14 +56,6 @@ public class Music implements Serializable{
         this.size = size;
     }
 
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
     public int getIsMusic() {
         return isMusic;
     }
@@ -86,4 +80,15 @@ public class Music implements Serializable{
         this.album = album;
     }
 
+    public long getSize() {
+        return size;
+    }
+
+    public String getFileUrl() {
+        return fileUrl;
+    }
+
+    public void setFileUrl(String fileUrl) {
+        this.fileUrl = fileUrl;
+    }
 }

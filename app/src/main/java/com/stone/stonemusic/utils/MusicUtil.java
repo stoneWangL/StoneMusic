@@ -44,7 +44,7 @@ public class MusicUtil {
                         m.setArtist(artist);
                         m.setDuration(duration);
                         m.setSize(size);
-                        m.setUrl(url);
+                        m.setFileUrl(url);
                         m.setAlbum(album);
                         m.setAlbum_id(album_id);
                         musicList.add(m);

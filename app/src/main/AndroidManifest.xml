@@ -5,14 +5,15 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
+        android:name=".utils.MusicAppUtils"
         android:allowBackup="true"
         android:icon="@drawable/ic_log"
         android:label="@string/app_name"
         android:roundIcon="@drawable/ic_log"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        android:name=".utils.MusicAppUtils">
-        <activity android:name=".ui.activity.FirstActivity"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".ui.activity.FirstActivity"
             android:theme="@style/TwoTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,10 +21,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.activity.LocalListActivity"
-            android:theme="@style/TwoTheme"
-            android:screenOrientation="portrait">
-        </activity>
+        <activity
+            android:name=".ui.activity.LocalListActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/TwoTheme"></activity>
+
+        <service
+            android:name=".service.MusicService"
+            android:enabled="true"
+            android:exported="true"></service>
     </application>
 
 </manifest>
