@@ -4,6 +4,7 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.Binder;
 import android.os.IBinder;
+import android.util.Log;
 
 import com.stone.stonemusic.model.SongModel;
 import com.stone.stonemusic.utils.MediaStateCode;
@@ -17,13 +18,20 @@ public class MusicService extends Service {
     }
 
     @Override
+    public void onCreate() {
+        super.onCreate();
+        Log.d("stone1128","音乐服务onCreate");
+    }
+
+    @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        Log.d("stone1128","音乐服务onStartCommand");
         int state = intent.getIntExtra("state", 0);
         switch (state) {
             case MediaStateCode.PLAY_START:
                 MediaUtils.prepare(
-                        SongModel.getInstance().getSongList().get(
-                                MediaUtils.currentSongPosition).getFileUrl());
+                        SongModel.getInstance().getSongList().
+                                get(MediaUtils.currentSongPosition).getFileUrl());
                 MediaUtils.start();
                 break;
             case MediaStateCode.PLAY_PAUSE:
@@ -61,5 +69,6 @@ public class MusicService extends Service {
         MediaUtils.release();
         super.onDestroy();
         System.exit(0);
+        Log.d("stone1128","音乐服务onDestroy");
     }
 }

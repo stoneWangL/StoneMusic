@@ -24,12 +24,13 @@
         <activity
             android:name=".ui.activity.LocalListActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/TwoTheme"></activity>
+            android:theme="@style/TwoTheme" />
 
         <service
             android:name=".service.MusicService"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true" />
+
     </application>
 
 </manifest>

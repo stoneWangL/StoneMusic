@@ -14,6 +14,9 @@ import android.widget.TextView;
 import com.stone.stonemusic.R;
 import com.stone.stonemusic.adapter.LocalMusicAdapter;
 import com.stone.stonemusic.bean.Music;
+import com.stone.stonemusic.model.SongModel;
+import com.stone.stonemusic.service.MusicService;
+import com.stone.stonemusic.utils.BroadcastUtils;
 import com.stone.stonemusic.utils.MusicAppUtils;
 import com.stone.stonemusic.utils.MusicUtil;
 
@@ -25,6 +28,8 @@ public class MusicListFragment extends Fragment {
     private List<Music> musicList = new ArrayList<>();
     private LocalMusicAdapter adapter;
     private TextView mBottomBarTitle;
+    private TextView mBottomBarArtist;
+
 
 
     public MusicListFragment() {
@@ -37,7 +42,7 @@ public class MusicListFragment extends Fragment {
         listView = view.findViewById(R.id.lv_music_list);
 
         mBottomBarTitle = getActivity().findViewById(R.id.bottom_bar_title);
-
+        mBottomBarArtist = getActivity().findViewById(R.id.bottom_bar_artist);
 
         readMusic();
 
@@ -46,6 +51,8 @@ public class MusicListFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.d("stone1126", "位置："+position+"; 歌名："+musicList.get(position).getTitle());
                 mBottomBarTitle.setText(musicList.get(position).getTitle());
+                mBottomBarArtist.setText(musicList.get(position).getArtist());
+                BroadcastUtils.sendPlayMusicBroadcast();
             }
         });
 
@@ -54,7 +61,7 @@ public class MusicListFragment extends Fragment {
 
     private void readMusic(){
         try{
-            musicList = new MusicUtil().getMusic(MusicAppUtils.getContext());
+            musicList = SongModel.getInstance().getSongList();
             adapter = new LocalMusicAdapter(MusicAppUtils.getContext(),R.layout.item_music,musicList);
             listView.setAdapter(adapter);
         }catch(Exception e){

@@ -1,7 +1,10 @@
 package com.stone.stonemusic.ui.activity;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.support.design.widget.TabLayout;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -11,10 +14,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageView;
 
 import com.stone.stonemusic.R;
 import com.stone.stonemusic.adapter.LocalMusicFragmentPagerAdapter;
+import com.stone.stonemusic.model.SongModel;
+import com.stone.stonemusic.receiver.MusicBroadCastReceiver;
+import com.stone.stonemusic.service.MusicService;
+import com.stone.stonemusic.utils.BroadcastUtils;
+import com.stone.stonemusic.utils.MediaStateCode;
+import com.stone.stonemusic.utils.MediaUtils;
 import com.stone.stonemusic.utils.MusicAppUtils;
+import com.stone.stonemusic.utils.MusicUtil;
 
 public class LocalListActivity extends AppCompatActivity{
     public static final String TAG = "MainActivity";
@@ -34,6 +45,8 @@ public class LocalListActivity extends AppCompatActivity{
     public static final int PAGE_FOLDER = 3;
 //    public static final int FLAG_HOMEKEY_DISPATCHED = 0x80000000;
 
+    private ImageView mIvPlay;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +57,10 @@ public class LocalListActivity extends AppCompatActivity{
 
 
         initViews();
+
+        //init音乐列表
+        SongModel.getInstance().setSongList(new MusicUtil().getMusic(MusicAppUtils.getContext()));
+
     }
 
     private void initViews() {
@@ -63,6 +80,26 @@ public class LocalListActivity extends AppCompatActivity{
         tabAlbum = tabLayoutBar.getTabAt(PAGE_ALBUM);
         tabFolder = tabLayoutBar.getTabAt(PAGE_FOLDER);
 
+
+
+    }
+
+    //播放键控制
+    public void play(View view){
+        switch (MediaUtils.currentState) {
+            case MediaStateCode.PLAY_START:
+                BroadcastUtils.sendPauseMusicBroadcast();
+                break;
+            case MediaStateCode.PLAY_PAUSE:
+                BroadcastUtils.sendContinueMusicBroadcast();
+                break;
+            case MediaStateCode.PLAY_CONTINUE:
+                BroadcastUtils.sendPauseMusicBroadcast();
+                break;
+            case MediaStateCode.PLAY_STOP:
+                BroadcastUtils.sendPlayMusicBroadcast();
+                break;
+        }
     }
 
 
@@ -76,6 +113,9 @@ public class LocalListActivity extends AppCompatActivity{
     protected void onDestroy() {
         super.onDestroy();
         Log.d(TAG,"onDestroy");
+
+        LocalBroadcastManager.getInstance(MusicAppUtils.getContext()).unregisterReceiver(MusicBroadCastReceiver.getInstance());
+        stopService(new Intent(this, MusicService.class));
     }
 
     /**
