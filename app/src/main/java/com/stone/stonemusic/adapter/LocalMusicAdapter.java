@@ -13,10 +13,11 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.stone.stonemusic.R;
+import com.stone.stonemusic.bean.ItemViewChoose;
 import com.stone.stonemusic.bean.Music;
-import com.stone.stonemusic.utils.MusicAppUtils;
 
 import java.util.List;
+
 
 public class LocalMusicAdapter extends ArrayAdapter<Music> {
     private int resourceId;
@@ -38,9 +39,11 @@ public class LocalMusicAdapter extends ArrayAdapter<Music> {
             view = LayoutInflater.from(getContext()).inflate(resourceId,parent,false);
             viewHold = new ViewHold();
 
+            viewHold.ItemPlayOrPause = view.findViewById(R.id.item_playOrPause);
             viewHold.musicName = view.findViewById(R.id.music_name);
             viewHold.musicArtist = view.findViewById(R.id.music_artist);
             view.setTag(viewHold);
+
         }else{
             view = convertView;
             viewHold = (ViewHold) view.getTag();
@@ -51,6 +54,14 @@ public class LocalMusicAdapter extends ArrayAdapter<Music> {
 //        viewHold.listMusicImage.setImageBitmap(pic);
 //        viewHold.listMusicImage.setBackgroundResource(R.drawable.list_message3);
 //        Glide.with(MusicAppUtils.getContext()).load(R.drawable.list_message3).into(viewHold.listMusicImage);
+
+        //根据是否选中，显示对应position的item是否播放
+        if (ItemViewChoose.getInstance().getItemChoosePosition() == position){
+            viewHold.ItemPlayOrPause.setVisibility(View.VISIBLE);
+        } else {
+            viewHold.ItemPlayOrPause.setVisibility(View.GONE);
+        }
+
         viewHold.musicName.setText(music.getTitle());
         viewHold.musicArtist.setText(music.getArtist());
         return view;
@@ -58,9 +69,12 @@ public class LocalMusicAdapter extends ArrayAdapter<Music> {
 
     class ViewHold{
 //        ImageView listMusicImage;
+        ImageView ItemPlayOrPause;
         TextView musicName;
         TextView musicArtist;
 
     }
+
+
 
 }

@@ -24,7 +24,7 @@ public class MediaUtils {
 
 
 
-    //开始
+    //准备
     public static void prepare(String path) {
         if (getMediaPlayer() != null) {
             try {
@@ -36,6 +36,7 @@ public class MediaUtils {
             }
         }
     }
+    //开始
     public static void start() {
         if (getMediaPlayer() != null) {
             getMediaPlayer().start();

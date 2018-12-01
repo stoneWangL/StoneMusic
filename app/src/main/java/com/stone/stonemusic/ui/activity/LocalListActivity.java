@@ -2,7 +2,6 @@ package com.stone.stonemusic.ui.activity;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewCompat;
@@ -57,6 +56,7 @@ public class LocalListActivity extends AppCompatActivity{
 
 
         initViews();
+        initMusicPlayImg();
 
         //init音乐列表
         SongModel.getInstance().setSongList(new MusicUtil().getMusic(MusicAppUtils.getContext()));
@@ -80,12 +80,31 @@ public class LocalListActivity extends AppCompatActivity{
         tabAlbum = tabLayoutBar.getTabAt(PAGE_ALBUM);
         tabFolder = tabLayoutBar.getTabAt(PAGE_FOLDER);
 
+        mIvPlay = findViewById(R.id.iv_play);
 
+    }
 
+    private void initMusicPlayImg() {
+        if (MediaUtils.currentState == MediaStateCode.PLAY_CONTINUE ||
+                MediaUtils.currentState == MediaStateCode.PLAY_START) {
+            mIvPlay.setImageResource(R.drawable.ic_pause_black);
+            mIvPlay.setTag(false);
+            //mHandler.sendEmptyMessage(UPDATE_SEEKBAR);
+        } else {
+            mIvPlay.setImageResource(R.drawable.ic_play_black);
+            mIvPlay.setTag(true);
+        }
     }
 
     //播放键控制
     public void play(View view){
+        if (mIvPlay.getTag().equals(false)) {
+            mIvPlay.setImageResource(R.drawable.ic_play_black);
+            mIvPlay.setTag(true);
+        } else {
+            mIvPlay.setImageResource(R.drawable.ic_pause_black);
+            mIvPlay.setTag(false);
+        }
         switch (MediaUtils.currentState) {
             case MediaStateCode.PLAY_START:
                 BroadcastUtils.sendPauseMusicBroadcast();

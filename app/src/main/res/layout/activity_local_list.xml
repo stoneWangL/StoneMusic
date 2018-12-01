@@ -111,17 +111,18 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/iv_play_layout"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:padding="5dp"
-            android:gravity="center">
+            android:gravity="center"
+            android:onClick="play">
             <ImageView
                 android:id="@+id/iv_play"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/ic_play_black"
-                android:onClick="play"/>
+                android:src="@drawable/ic_play_black"/>
         </LinearLayout>
 
         <LinearLayout
