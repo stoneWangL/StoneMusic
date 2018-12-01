@@ -12,6 +12,8 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.stone.stonemusic.R;
 import com.stone.stonemusic.adapter.LocalMusicAdapter;
 import com.stone.stonemusic.bean.ItemViewChoose;
@@ -35,6 +37,7 @@ public class MusicListFragment extends Fragment {
     private TextView mBottomBarTitle;
     private TextView mBottomBarArtist;
     private ImageView mIvPlay;
+    private ImageView mIvBottomBarImage;
 
     public MusicListFragment() {
     }
@@ -49,6 +52,7 @@ public class MusicListFragment extends Fragment {
         mBottomBarTitle = getActivity().findViewById(R.id.bottom_bar_title);
         mBottomBarArtist = getActivity().findViewById(R.id.bottom_bar_artist);
         mIvPlay = getActivity().findViewById(R.id.iv_play);
+        mIvBottomBarImage = getActivity().findViewById(R.id.bottom_bar_image);
 
 
         readMusic();
@@ -59,6 +63,18 @@ public class MusicListFragment extends Fragment {
                 Log.d("stone1126", "位置："+position+"; 歌名："+musicList.get(position).getTitle());
                 mBottomBarTitle.setText(musicList.get(position).getTitle());
                 mBottomBarArtist.setText(musicList.get(position).getArtist());
+
+
+                String path = MusicUtil.getAlbumArt(new Long(musicList.get(position).getAlbum_id()).intValue());
+                Log.d("stone1201","path="+path);
+                if (null == path){
+                    mIvBottomBarImage.setImageResource(R.drawable.ic_log);
+                }else{
+                    Glide.with(MusicAppUtils.getContext()).load(path).into(mIvBottomBarImage);
+
+                    //背景图部分
+                }
+
                 MediaUtils.currentSongPosition = position;//设置播放音乐的id
                 BroadcastUtils.sendPlayMusicBroadcast();
                 if (mIvPlay.getTag().equals(true)){

@@ -47,6 +47,7 @@ public class LocalListActivity extends AppCompatActivity{
     private ImageView mIvPlay;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

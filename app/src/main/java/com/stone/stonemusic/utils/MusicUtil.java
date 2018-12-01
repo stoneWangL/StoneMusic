@@ -2,7 +2,10 @@ package com.stone.stonemusic.utils;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.net.Uri;
 import android.provider.MediaStore;
+import android.util.Log;
+
 import com.stone.stonemusic.bean.Music;
 
 import java.util.ArrayList;
@@ -61,7 +64,27 @@ public class MusicUtil {
         return musicList;
     }
 
-
+    /**
+     * 获取图片路径
+     * @param album_id
+     * @return
+     */
+    public static String getAlbumArt(int album_id) {
+        String mUriAlbums = "content://media/external/audio/albums";
+        String[] projection = new String[] { "album_art" };
+        Cursor cur = MusicAppUtils.getContext().getContentResolver().query(
+                Uri.parse(mUriAlbums + "/" + Integer.toString(album_id)),
+                projection, null, null, null);
+        String album_art = null;
+        if (cur.getCount() > 0 && cur.getColumnCount() > 0) {
+            cur.moveToNext();
+            album_art = cur.getString(0);
+        }
+        cur.close();
+//        cur = null;
+        Log.d(TAG,"album_art是="+album_art);
+        return album_art;
+    }
 
 
 
