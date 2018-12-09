@@ -27,8 +27,8 @@ public class FirstActivity extends BaseNoBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_first);
 
-        tv = findViewById(R.id.first_music_text);
-        iv = findViewById(R.id.first_music_log);
+        tv = (TextView) findViewById(R.id.first_music_text);
+        iv = (ImageView) findViewById(R.id.first_music_log);
 
         initAnim();
         initPermissions();

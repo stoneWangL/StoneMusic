@@ -6,6 +6,10 @@
     <string name="tab_menu_album">专辑</string>
     <string name="tab_menu_folder">文件夹</string>
 
+    <string name="notification_album_image">这是专辑图片</string>
+    <string name="first_music_name">默认歌名</string>
+    <string name="first_music_artist">默认歌手</string>
+
     <!--setTag的key-->
     <!--<item type="id" name="tag_ViewHold">ViewHold</item>-->
 

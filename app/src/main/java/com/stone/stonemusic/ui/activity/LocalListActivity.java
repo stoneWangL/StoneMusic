@@ -67,12 +67,12 @@ public class LocalListActivity extends AppCompatActivity{
     private void initViews() {
 
         /*使用适配器将ViewPager与Fragment绑定在一起*/
-        vpLocalMusic = findViewById(R.id.vp_local_music);
+        vpLocalMusic = (ViewPager) findViewById(R.id.vp_local_music);
         musicFragmentPagerAdapter = new LocalMusicFragmentPagerAdapter(getSupportFragmentManager());
         vpLocalMusic.setAdapter(musicFragmentPagerAdapter);
 
         //将TabLayout与ViewPager绑定在一起
-        tabLayoutBar = findViewById(R.id.tab_layout_bar);
+        tabLayoutBar = (TabLayout) findViewById(R.id.tab_layout_bar);
         tabLayoutBar.setupWithViewPager(vpLocalMusic);
 
         //指定Tab的位置
@@ -81,7 +81,7 @@ public class LocalListActivity extends AppCompatActivity{
         tabAlbum = tabLayoutBar.getTabAt(PAGE_ALBUM);
         tabFolder = tabLayoutBar.getTabAt(PAGE_FOLDER);
 
-        mIvPlay = findViewById(R.id.iv_play);
+        mIvPlay = (ImageView) findViewById(R.id.iv_play);
 
     }
 
@@ -154,7 +154,7 @@ public class LocalListActivity extends AppCompatActivity{
         /*设置系统状态栏处于可见状态 | 文字颜色及图标为深色*/
         window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         /*让view不根据系统窗口来调整自己的布局*/
-        ViewGroup mContentView = window.findViewById(Window.ID_ANDROID_CONTENT);
+        ViewGroup mContentView = (ViewGroup) window.findViewById(Window.ID_ANDROID_CONTENT);
         View mChildView = mContentView.getChildAt(0);
         if (mChildView != null) {
             ViewCompat.setFitsSystemWindows(mChildView, false);

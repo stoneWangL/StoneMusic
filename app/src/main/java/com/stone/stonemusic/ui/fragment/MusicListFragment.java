@@ -47,12 +47,12 @@ public class MusicListFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_music_list, container, false);
 
-        listView = view.findViewById(R.id.lv_music_list);
+        listView = (ListView) view.findViewById(R.id.lv_music_list);
 
-        mBottomBarTitle = getActivity().findViewById(R.id.bottom_bar_title);
-        mBottomBarArtist = getActivity().findViewById(R.id.bottom_bar_artist);
-        mIvPlay = getActivity().findViewById(R.id.iv_play);
-        mIvBottomBarImage = getActivity().findViewById(R.id.bottom_bar_image);
+        mBottomBarTitle = (TextView) getActivity().findViewById(R.id.bottom_bar_title);
+        mBottomBarArtist = (TextView) getActivity().findViewById(R.id.bottom_bar_artist);
+        mIvPlay = (ImageView) getActivity().findViewById(R.id.iv_play);
+        mIvBottomBarImage = (ImageView) getActivity().findViewById(R.id.bottom_bar_image);
 
 
         readMusic();

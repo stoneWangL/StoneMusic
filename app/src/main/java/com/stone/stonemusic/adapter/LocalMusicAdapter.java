@@ -39,9 +39,9 @@ public class LocalMusicAdapter extends ArrayAdapter<Music> {
             view = LayoutInflater.from(getContext()).inflate(resourceId,parent,false);
             viewHold = new ViewHold();
 
-            viewHold.ItemPlayOrPause = view.findViewById(R.id.item_playOrPause);
-            viewHold.musicName = view.findViewById(R.id.music_name);
-            viewHold.musicArtist = view.findViewById(R.id.music_artist);
+            viewHold.ItemPlayOrPause = (ImageView) view.findViewById(R.id.item_playOrPause);
+            viewHold.musicName = (TextView) view.findViewById(R.id.music_name);
+            viewHold.musicArtist = (TextView) view.findViewById(R.id.music_artist);
             view.setTag(viewHold);
 
         }else{

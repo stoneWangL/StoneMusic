@@ -7,8 +7,9 @@ import android.util.Log;
 import com.stone.stonemusic.R;
 
 public class BroadcastUtils {
+    private static final String TAG = "BroadcastUtils";
     public static void sendPlayMusicBroadcast(){
-        Log.d("stone1128","广播发送函数sendPlayMusicBroadcast");
+        Log.d(TAG,"广播发送函数sendPlayMusicBroadcast");
         Intent intent = new Intent();
         intent.setAction(MusicAppUtils.getContext().getResources().getString(R.string.app_name));
         intent.putExtra("state", MediaStateCode.PLAY_START);
