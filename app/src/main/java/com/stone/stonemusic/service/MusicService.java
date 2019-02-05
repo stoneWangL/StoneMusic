@@ -5,12 +5,16 @@ import android.app.NotificationManager;
 
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.BitmapFactory;
+import android.media.MediaPlayer;
 import android.os.Binder;
 import android.os.Handler;
 import android.os.IBinder;
+import android.provider.SyncStateContract;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.NotificationCompat;
 import android.util.Log;
@@ -21,6 +25,8 @@ import android.widget.RemoteViews;
 
 import com.stone.stonemusic.R;
 import com.stone.stonemusic.model.SongModel;
+import com.stone.stonemusic.receiver.MusicBroadCastReceiver;
+import com.stone.stonemusic.ui.activity.FirstActivity;
 import com.stone.stonemusic.ui.activity.LocalListActivity;
 import com.stone.stonemusic.utils.MediaStateCode;
 import com.stone.stonemusic.utils.MediaUtils;
@@ -43,6 +49,16 @@ public class MusicService extends Service {
         super.onCreate();
         Log.d(TAG,"音乐服务onCreate");
 
+        IntentFilter itFilter = new IntentFilter();
+        itFilter.addAction(MediaStateCode.ACTION_IMAGE);
+        itFilter.addAction(MediaStateCode.ACTION_CLOSE);
+        itFilter.addAction(MediaStateCode.ACTION_PLAY_OR_PAUSE);
+        itFilter.addAction(MediaStateCode.ACTION_LAST);
+        itFilter.addAction(MediaStateCode.ACTION_NEXT);
+        itFilter.addAction(MediaStateCode.ACTION_LOVE);
+
+        registerReceiver(playMusicReceiver, itFilter);
+
         initNotification();
     }
 
@@ -54,28 +70,44 @@ public class MusicService extends Service {
      * PendingIntent是一种特殊的intent，设置之后并不会马上使用，而是在真正点击后只会调用。
      */
     private void setNotification(){
-//        Intent intent = new Intent(this, LocalListActivity.class);
-//        // 点击跳转到主界面
-//        PendingIntent intent_go = PendingIntent.getActivity(this, 0, intent,
-//                PendingIntent.FLAG_UPDATE_CURRENT);
-//        remoteViews.setOnClickPendingIntent(R.id.notice, intent_go);
+        // 点击音乐image跳转到主界面
+        Intent intentGo = new Intent(this, LocalListActivity.class);
+        PendingIntent pendingIntentGo = PendingIntent.getActivity(
+                this, 0, intentGo, PendingIntent.FLAG_CANCEL_CURRENT);
+        remoteViews.setOnClickPendingIntent(R.id.notification_album, pendingIntentGo);
 
+        // 关闭
+        Intent intentClose = new Intent(MediaStateCode.ACTION_CLOSE);
+        PendingIntent pendingIntentClose = PendingIntent.getBroadcast(
+                this, 0, intentClose, PendingIntent.FLAG_CANCEL_CURRENT);
+        remoteViews.setOnClickPendingIntent(R.id.notification_close_this, pendingIntentClose);
 
-//        Intent intent2 = new Intent();
-//        intent2.setAction(MusicAppUtils.getContext().getResources().getString(R.string.app_name));
-//        intent2.putExtra("state", MediaStateCode.PLAY_PAUSE);
-//        PendingIntent intent_pause = PendingIntent.getBroadcast(this, 0, intent2,
-//                PendingIntent.FLAG_UPDATE_CURRENT);// 4个参数context, requestCode, intent, flags
-//        remoteViews.setOnClickPendingIntent(R.id.notification_play_pause, intent_pause);
+        // 设置上一曲
+        Intent intentLast = new Intent(MediaStateCode.ACTION_LAST);
+        PendingIntent pendingIntentLast = PendingIntent.getBroadcast(
+                this, 0, intentLast, PendingIntent.FLAG_CANCEL_CURRENT);
+        remoteViews.setOnClickPendingIntent(R.id.notification_last, pendingIntentLast);
 
-        // 设置收藏,测试是否能收到广播
-        Intent intent3 = new Intent();
-//        intent3.setAction(MusicAppUtils.getContext().getResources().getString(R.string.app_name));
-        intent3.putExtra("state", MediaStateCode.TEST);
-        PendingIntent intent_like = PendingIntent.getService(this, 0, intent3,
-                PendingIntent.FLAG_CANCEL_CURRENT);
-        remoteViews.setOnClickPendingIntent(R.id.notification_album, intent_like);
+        // 设置播放&暂停
+        Intent intentPlayOrPause = new Intent(MediaStateCode.ACTION_PLAY_OR_PAUSE);
+        PendingIntent pendingIntentPlayOrPause =
+                PendingIntent.getBroadcast(this, 0,
+                        intentPlayOrPause, PendingIntent.FLAG_CANCEL_CURRENT);
+        remoteViews.setOnClickPendingIntent(R.id.notification_play_pause, pendingIntentPlayOrPause);
+
+        // 下一曲
+        Intent intentNext = new Intent(MediaStateCode.ACTION_NEXT);
+        PendingIntent pendingIntentNext = PendingIntent.getBroadcast(
+                this, 0, intentNext, PendingIntent.FLAG_CANCEL_CURRENT);
+        remoteViews.setOnClickPendingIntent(R.id.notification_next, pendingIntentNext);
+
+        // 设置收藏
+        Intent intentLove = new Intent(MediaStateCode.ACTION_LOVE);
+        PendingIntent pendingIntentLove = PendingIntent.getBroadcast(
+                this, 0, intentLove, PendingIntent.FLAG_CANCEL_CURRENT);
+        remoteViews.setOnClickPendingIntent(R.id.notification_love, pendingIntentLove);
     }
+
     /**
      * 初始化通知
      */
@@ -89,7 +121,6 @@ public class MusicService extends Service {
         mBuilder.setSmallIcon(R.drawable.ic_log_white); // 设置顶部图标
         mBuilder.setOngoing(true);
 
-
         mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
         final Notification notification = mBuilder.build();//构建通知
@@ -98,61 +129,8 @@ public class MusicService extends Service {
         notification.flags = Notification.FLAG_ONGOING_EVENT;
         notification.icon = R.drawable.anim_log;
 
-
-
         mNotificationManager.notify(123, notification);//显示通知
         startForeground(123, notification);//启动为前台服务
-
-        /*
-        Intent intent = new Intent(this, LocalListActivity.class);
-        // 点击跳转到主界面
-        PendingIntent intent_go = PendingIntent.getActivity(this, 5, intent,
-                PendingIntent.FLAG_UPDATE_CURRENT);
-        remoteViews.setOnClickPendingIntent(R.id.notice, intent_go);
-
-        // 4个参数context, requestCode, intent, flags
-        PendingIntent intent_close = PendingIntent.getActivity(this, 0, intent,
-                PendingIntent.FLAG_UPDATE_CURRENT);
-        remoteViews.setOnClickPendingIntent(R.id.widget_close, intent_close);
-
-        // 设置上一曲
-        Intent prv = new Intent();
-        prv.setAction(SyncStateContract.Constants.ACTION_PRV);
-        PendingIntent intent_prev = PendingIntent.getBroadcast(this, 1, prv,
-                PendingIntent.FLAG_UPDATE_CURRENT);
-        remoteViews.setOnClickPendingIntent(R.id.widget_prev, intent_prev);
-
-        // 设置播放
-        if (Myapp.isPlay) {
-            Intent playorpause = new Intent();
-            playorpause.setAction(SyncStateContract.Constants.ACTION_PAUSE);
-            PendingIntent intent_play = PendingIntent.getBroadcast(this, 2,
-                    playorpause, PendingIntent.FLAG_UPDATE_CURRENT);
-            remoteViews.setOnClickPendingIntent(R.id.widget_play, intent_play);
-        }
-        if (!Myapp.isPlay) {
-            Intent playorpause = new Intent();
-            playorpause.setAction(SyncStateContract.Constants.ACTION_PLAY);
-            PendingIntent intent_play = PendingIntent.getBroadcast(this, 6,
-                    playorpause, PendingIntent.FLAG_UPDATE_CURRENT);
-            remoteViews.setOnClickPendingIntent(R.id.widget_play, intent_play);
-        }
-
-        // 下一曲
-        Intent next = new Intent();
-        next.setAction(SyncStateContract.Constants.ACTION_NEXT);
-        PendingIntent intent_next = PendingIntent.getBroadcast(this, 3, next,
-                PendingIntent.FLAG_UPDATE_CURRENT);
-        remoteViews.setOnClickPendingIntent(R.id.widget_next, intent_next);
-
-        // 设置收藏
-        PendingIntent intent_fav = PendingIntent.getBroadcast(this, 4, intent,
-                PendingIntent.FLAG_UPDATE_CURRENT);
-        remoteViews.setOnClickPendingIntent(R.id.widget_fav, intent_fav);
-        */
-
-
-
     }
 
     /*
@@ -213,6 +191,56 @@ public class MusicService extends Service {
 
         return super.onStartCommand(intent, flags, startId);
     }
+    private BroadcastReceiver playMusicReceiver = new BroadcastReceiver() {
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            Log.d(TAG, "action = " + action);
+            if (action.equals(MediaStateCode.ACTION_PLAY_OR_PAUSE)) {
+                if (MediaUtils.currentState == MediaStateCode.PLAY_PAUSE) {
+                    MediaUtils.continuePlay();
+                } else if (MediaUtils.currentState == MediaStateCode.PLAY_STOP) {
+                    MediaUtils.prepare(
+                            SongModel.getInstance().getSongList().
+                                    get(MediaUtils.currentSongPosition).getFileUrl());
+                    MediaUtils.start();
+                } else if (MediaUtils.currentState == MediaStateCode.PLAY_START) {
+                    MediaUtils.pause();
+                }
+            } else if (action.equals(MediaStateCode.ACTION_LAST)) {
+                MediaUtils.last();
+                MediaUtils.prepare(
+                        SongModel.getInstance().getSongList().
+                            get(MediaUtils.currentSongPosition).getFileUrl());
+                MediaUtils.start();
+            } else if (action.equals(MediaStateCode.ACTION_NEXT)) {
+                MediaUtils.next();
+                MediaUtils.prepare(
+                        SongModel.getInstance().getSongList().
+                                get(MediaUtils.currentSongPosition).getFileUrl());
+                MediaUtils.start();
+            } else if (action.equals(MediaStateCode.ACTION_LOVE)){
+                Log.d(TAG, "点击了Love");
+            } else if (action.equals(MediaStateCode.ACTION_CLOSE)) {
+                Log.d(TAG, "点击了Close");
+                MediaUtils.stop();
+                mNotificationManager.cancel(123);
+                onDestroy();
+            } else {
+                Log.d(TAG, "未知状态229");
+            }
+//                if (pause) {
+//                    continuePlaying();
+//                    pause = false;
+//                } else if (isPlaying) {
+//                    pauseMusic();
+//                } else {
+//                    playMusic(currentMusicPos);
+//                }
+//            }
+
+        }
+
+    };
 
     /**
      * 回调方法
@@ -234,6 +262,9 @@ public class MusicService extends Service {
     @Override
     public void onDestroy() {
         MediaUtils.release();
+        unregisterReceiver(playMusicReceiver);
+        LocalBroadcastManager.getInstance(MusicAppUtils.getContext()).unregisterReceiver(MusicBroadCastReceiver.getInstance());
+
         super.onDestroy();
         System.exit(0);
         Log.d(TAG,"音乐服务onDestroy");

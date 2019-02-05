@@ -16,12 +16,14 @@ public class MusicAppUtils extends Application{
         super.onCreate();
         sContext = this;
 
+        IntentFilter itFilter = new IntentFilter();
+        itFilter.addAction(sContext.getResources().getString(R.string.app_name));
+
         //动态注册广播接收器
         LocalBroadcastManager
                 .getInstance(sContext)
                 .registerReceiver(MusicBroadCastReceiver.getInstance(),
-                        new IntentFilter(
-                                sContext.getResources().getString(R.string.app_name)));
+                        new IntentFilter(itFilter));
     }
 
     public static Context getContext(){

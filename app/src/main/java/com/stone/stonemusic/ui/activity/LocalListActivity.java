@@ -134,8 +134,8 @@ public class LocalListActivity extends AppCompatActivity{
         super.onDestroy();
         Log.d(TAG,"onDestroy");
 
-        LocalBroadcastManager.getInstance(MusicAppUtils.getContext()).unregisterReceiver(MusicBroadCastReceiver.getInstance());
-        stopService(new Intent(this, MusicService.class));
+//        LocalBroadcastManager.getInstance(MusicAppUtils.getContext()).unregisterReceiver(MusicBroadCastReceiver.getInstance());
+//        stopService(new Intent(this, MusicService.class));
     }
 
     /**
