@@ -191,6 +191,10 @@ public class MusicService extends Service {
 
         return super.onStartCommand(intent, flags, startId);
     }
+
+    /**
+     * RemoteViews控制播放和销毁服务或者进入Activity
+     */
     private BroadcastReceiver playMusicReceiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
@@ -203,7 +207,8 @@ public class MusicService extends Service {
                             SongModel.getInstance().getSongList().
                                     get(MediaUtils.currentSongPosition).getFileUrl());
                     MediaUtils.start();
-                } else if (MediaUtils.currentState == MediaStateCode.PLAY_START) {
+                } else if (MediaUtils.currentState == MediaStateCode.PLAY_START ||
+                        MediaUtils.currentState == MediaStateCode.PLAY_CONTINUE) {
                     MediaUtils.pause();
                 }
             } else if (action.equals(MediaStateCode.ACTION_LAST)) {
@@ -221,23 +226,13 @@ public class MusicService extends Service {
             } else if (action.equals(MediaStateCode.ACTION_LOVE)){
                 Log.d(TAG, "点击了Love");
             } else if (action.equals(MediaStateCode.ACTION_CLOSE)) {
-                Log.d(TAG, "点击了Close");
+                Log.d(TAG, "clocked Close");
                 MediaUtils.stop();
                 mNotificationManager.cancel(123);
                 onDestroy();
             } else {
                 Log.d(TAG, "未知状态229");
             }
-//                if (pause) {
-//                    continuePlaying();
-//                    pause = false;
-//                } else if (isPlaying) {
-//                    pauseMusic();
-//                } else {
-//                    playMusic(currentMusicPos);
-//                }
-//            }
-
         }
 
     };
