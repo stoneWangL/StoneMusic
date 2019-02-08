@@ -36,6 +36,7 @@ public class MusicService extends Service {
     public static final String TAG = "MusicService";
     /*2018/12/8 stoneWang start */
     public NotificationManager mNotificationManager;
+    public Notification notification;
     private RemoteViews remoteViews;
     /*2018/12/8 stoneWang end */
 
@@ -62,14 +63,18 @@ public class MusicService extends Service {
         initNotification();
     }
 
-    /*2018/12/8 stoneWang start */
-
-
-
     /**
      * PendingIntent是一种特殊的intent，设置之后并不会马上使用，而是在真正点击后只会调用。
      */
     private void setNotification(){
+        Log.d(TAG, "MediaUtils.currentState == " + MediaUtils.currentState);
+        if (MediaUtils.currentState == MediaStateCode.PLAY_PAUSE ||
+                MediaUtils.currentState == MediaStateCode.PLAY_STOP) {
+            /*play -》 pause*/
+            remoteViews.setImageViewResource(R.id.notification_play_pause, R.drawable.ic_pause_black);
+        }else {
+            remoteViews.setImageViewResource(R.id.notification_play_pause, R.drawable.ic_play_black);
+        }
         // 点击音乐image跳转到主界面
         Intent intentGo = new Intent(this, LocalListActivity.class);
         PendingIntent pendingIntentGo = PendingIntent.getActivity(
@@ -113,59 +118,65 @@ public class MusicService extends Service {
      */
     private void initNotification() {
         remoteViews = new RemoteViews(getPackageName(), R.layout.view_remote);
+        initNotificationSon();
+    }
 
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this);
-
-        setNotification();
+    private void initNotificationSon() {
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(MusicAppUtils.getContext());
 
         mBuilder.setSmallIcon(R.drawable.ic_log_white); // 设置顶部图标
         mBuilder.setOngoing(true);
 
-        mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-
-        final Notification notification = mBuilder.build();//构建通知
+//        mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        notification = mBuilder.build();//构建通知
+        setNotification();
         notification.contentView = remoteViews; // 设置下拉图标
         notification.bigContentView = remoteViews; // 防止显示不完全,需要添加apisupport
         notification.flags = Notification.FLAG_ONGOING_EVENT;
         notification.icon = R.drawable.anim_log;
-
-        mNotificationManager.notify(123, notification);//显示通知
+//        mNotificationManager.notify(123, notification);//显示通知
         startForeground(123, notification);//启动为前台服务
     }
 
-    /*
-    public Handler handler = new Handler() {
+    public Handler remoteViewsHandler = new Handler() {
 
         public void handleMessage(android.os.Message msg) {
-            p3Info info = (Mp3Info) msg.obj;
-            Bitmap bitmap = MediaAppUtils.getArtwork(getApplicationContext(),
-                    info.getId(), info.getAlbumId(), true, false);
-            btm_album.setImageBitmap(bitmap);
-            btm_artist.setText(info.getArtist());
-            btm_title.setText(info.getTitle());
+            Log.d(TAG, "进入MusicService --> handlerMessage start");
+//            remoteViews = new RemoteViews(getPackageName(), R.layout.view_remote);
+//            p3Info info = (Mp3Info) msg.obj;
+//            Bitmap bitmap = MediaAppUtils.getArtwork(getApplicationContext(),
+//                    info.getId(), info.getAlbumId(), true, false);
+//            btm_album.setImageBitmap(bitmap);
+//            btm_artist.setText(info.getArtist());
+//            btm_title.setText(info.getTitle());
 
             // 播放歌曲
-            btm_state
-                    .setImageResource(R.drawable.player_btn_radio_pause_normal);
+//            btm_state.setImageResource(R.drawable.player_btn_radio_pause_normal);
 
             // 设置通知栏的图片文字
-            remoteViews = new RemoteViews(getPackageName(),
-                    R.layout.view_remote);
+//            remoteViews = new RemoteViews(getPackageName(),
+//                    R.layout.view_remote);
             //remoteViews.setImageViewBitmap(R.id.widget_album, );
-            remoteViews.setTextViewText(R.id.widget_title, "info.getTitle()");
-            remoteViews.setTextViewText(R.id.widget_artist, "info.getArtist()");
+            /*歌曲名称 & 歌手名*/
+            remoteViews.setTextViewText(R.id.notification_title, "title");
+            remoteViews.setTextViewText(R.id.notification_artist, "artist");
 
-            if (Myapp.isPlay) {
-                remoteViews.setImageViewResource(R.id.widget_play, R.drawable.widget_btn_pause_normal);
+            /*根据播放器状态码，设置播放暂按钮的图标*/
+            Log.d(TAG, "MediaUtils.currentState == " + MediaUtils.currentState);
+            if (MediaUtils.currentState == MediaStateCode.PLAY_PAUSE ||
+                    MediaUtils.currentState == MediaStateCode.PLAY_STOP) {
+                /*play -》 pause*/
+                remoteViews.setImageViewResource(R.id.notification_play_pause, R.drawable.ic_play_black);
             }else {
-                remoteViews.setImageViewResource(R.id.widget_play, R.drawable.widget_btn_play_normal);
+                remoteViews.setImageViewResource(R.id.notification_play_pause, R.drawable.ic_pause_black);
             }
 
-            showNotification();
-        };
+            notification.contentView = remoteViews; // 设置下拉图标
+            notification.bigContentView = remoteViews; // 防止显示不完全,需要添加apisupport
+            startForeground(123, notification);//启动为前台服务
+            Log.d(TAG, "进入MusicService --> handlerMessage end");
+        }
     };
-    */
-    /*2018/12/8 stoneWang end */
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -196,7 +207,7 @@ public class MusicService extends Service {
      * RemoteViews控制播放和销毁服务或者进入Activity
      */
     private BroadcastReceiver playMusicReceiver = new BroadcastReceiver() {
-        public void onReceive(Context context, Intent intent) {
+        public void onReceive(final Context context, final Intent intent) {
             String action = intent.getAction();
             Log.d(TAG, "action = " + action);
             if (action.equals(MediaStateCode.ACTION_PLAY_OR_PAUSE)) {
@@ -211,6 +222,7 @@ public class MusicService extends Service {
                         MediaUtils.currentState == MediaStateCode.PLAY_CONTINUE) {
                     MediaUtils.pause();
                 }
+                remoteViewsHandler.sendEmptyMessage(1);
             } else if (action.equals(MediaStateCode.ACTION_LAST)) {
                 MediaUtils.last();
                 MediaUtils.prepare(
@@ -227,9 +239,7 @@ public class MusicService extends Service {
                 Log.d(TAG, "点击了Love");
             } else if (action.equals(MediaStateCode.ACTION_CLOSE)) {
                 Log.d(TAG, "clocked Close");
-                MediaUtils.stop();
-                mNotificationManager.cancel(123);
-                onDestroy();
+                stopService(new Intent(context,MusicService.class));
             } else {
                 Log.d(TAG, "未知状态229");
             }
@@ -256,12 +266,14 @@ public class MusicService extends Service {
 
     @Override
     public void onDestroy() {
+        super.onDestroy();
+        Log.d(TAG,"音乐服务onDestroy");
+
         MediaUtils.release();
         unregisterReceiver(playMusicReceiver);
         LocalBroadcastManager.getInstance(MusicAppUtils.getContext()).unregisterReceiver(MusicBroadCastReceiver.getInstance());
 
-        super.onDestroy();
         System.exit(0);
-        Log.d(TAG,"音乐服务onDestroy");
+
     }
 }
