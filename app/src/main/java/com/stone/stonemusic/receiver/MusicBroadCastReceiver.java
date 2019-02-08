@@ -39,18 +39,5 @@ public class MusicBroadCastReceiver extends BroadcastReceiver {
             intent.setClass(context, MusicService.class);
             context.startService(intent);
         }
-//        else if (action.equals(MediaStateCode.ACTION_PLAY)) {
-//            MediaUtils.prepare(
-//                    SongModel.getInstance().getSongList().
-//                            get(MediaUtils.currentSongPosition).getFileUrl());
-//            MediaUtils.start();
-//        } else if (action.equals(MediaStateCode.ACTION_PAUSE)) {
-//            MediaUtils.pause();
-//        } else if (action.equals(MediaStateCode.ACTION_CONTINUE)) {
-//            MediaUtils.continuePlay();
-//        } else if (action.equals(MediaStateCode.ACTION_STOP)) {
-//            MediaUtils.stop();
-//        }
-
     }
 }

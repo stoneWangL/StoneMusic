@@ -9,6 +9,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.os.Binder;
@@ -23,7 +24,9 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RemoteViews;
 
+import com.bumptech.glide.Glide;
 import com.stone.stonemusic.R;
+import com.stone.stonemusic.bean.Music;
 import com.stone.stonemusic.model.SongModel;
 import com.stone.stonemusic.receiver.MusicBroadCastReceiver;
 import com.stone.stonemusic.ui.activity.FirstActivity;
@@ -31,6 +34,10 @@ import com.stone.stonemusic.ui.activity.LocalListActivity;
 import com.stone.stonemusic.utils.MediaStateCode;
 import com.stone.stonemusic.utils.MediaUtils;
 import com.stone.stonemusic.utils.MusicAppUtils;
+import com.stone.stonemusic.utils.MusicUtil;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MusicService extends Service {
     public static final String TAG = "MusicService";
@@ -38,6 +45,7 @@ public class MusicService extends Service {
     public NotificationManager mNotificationManager;
     public Notification notification;
     private RemoteViews remoteViews;
+    private List<Music> musicList = new ArrayList<>();
     /*2018/12/8 stoneWang end */
 
     public final IBinder binder = new MyBinder();
@@ -58,9 +66,11 @@ public class MusicService extends Service {
         itFilter.addAction(MediaStateCode.ACTION_NEXT);
         itFilter.addAction(MediaStateCode.ACTION_LOVE);
 
+
         registerReceiver(playMusicReceiver, itFilter);
 
         initNotification();
+        musicList = SongModel.getInstance().getSongList();
     }
 
     /**
@@ -142,24 +152,22 @@ public class MusicService extends Service {
 
         public void handleMessage(android.os.Message msg) {
             Log.d(TAG, "进入MusicService --> handlerMessage start");
-//            remoteViews = new RemoteViews(getPackageName(), R.layout.view_remote);
-//            p3Info info = (Mp3Info) msg.obj;
-//            Bitmap bitmap = MediaAppUtils.getArtwork(getApplicationContext(),
-//                    info.getId(), info.getAlbumId(), true, false);
-//            btm_album.setImageBitmap(bitmap);
-//            btm_artist.setText(info.getArtist());
-//            btm_title.setText(info.getTitle());
-
-            // 播放歌曲
-//            btm_state.setImageResource(R.drawable.player_btn_radio_pause_normal);
-
-            // 设置通知栏的图片文字
-//            remoteViews = new RemoteViews(getPackageName(),
-//                    R.layout.view_remote);
-            //remoteViews.setImageViewBitmap(R.id.widget_album, );
+            Log.d(TAG, "handle position == " + msg.what);
+            int position  = MediaUtils.currentSongPosition;
+            Log.d(TAG, "全局播放position == " + position);
+            /*专辑图片*/
+            String path = MusicUtil.getAlbumArt(new Long(musicList.get(position).getAlbum_id()).intValue());
+            Log.d(TAG,"path="+path);
+            Bitmap bitmap;
+            if (null == path){
+                bitmap = BitmapFactory.decodeResource(getResources(),R.drawable.anim_log);
+            }else{
+                bitmap = BitmapFactory.decodeFile(path);
+            }
+            remoteViews.setImageViewBitmap(R.id.notification_album, bitmap);
             /*歌曲名称 & 歌手名*/
-            remoteViews.setTextViewText(R.id.notification_title, "title");
-            remoteViews.setTextViewText(R.id.notification_artist, "artist");
+            remoteViews.setTextViewText(R.id.notification_title, musicList.get(position).getTitle());
+            remoteViews.setTextViewText(R.id.notification_artist, musicList.get(position).getArtist());
 
             /*根据播放器状态码，设置播放暂按钮的图标*/
             Log.d(TAG, "MediaUtils.currentState == " + MediaUtils.currentState);
@@ -198,6 +206,9 @@ public class MusicService extends Service {
             case MediaStateCode.PLAY_STOP:
                 MediaUtils.stop();
                 break;
+            case MediaStateCode.MUSIC_POSITION_CHANGED:
+                remoteViewsHandler.sendEmptyMessage(1);
+                break;
         }
 
         return super.onStartCommand(intent, flags, startId);
@@ -222,7 +233,6 @@ public class MusicService extends Service {
                         MediaUtils.currentState == MediaStateCode.PLAY_CONTINUE) {
                     MediaUtils.pause();
                 }
-                remoteViewsHandler.sendEmptyMessage(1);
             } else if (action.equals(MediaStateCode.ACTION_LAST)) {
                 MediaUtils.last();
                 MediaUtils.prepare(
@@ -243,6 +253,7 @@ public class MusicService extends Service {
             } else {
                 Log.d(TAG, "未知状态229");
             }
+            remoteViewsHandler.sendEmptyMessage(1);
         }
 
     };

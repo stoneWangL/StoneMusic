@@ -106,6 +106,7 @@ public class LocalListActivity extends AppCompatActivity{
             mIvPlay.setImageResource(R.drawable.ic_pause_black);
             mIvPlay.setTag(false);
         }
+        Log.d(TAG, "此时的状态=="+MediaUtils.currentState);
         switch (MediaUtils.currentState) {
             case MediaStateCode.PLAY_START:
                 BroadcastUtils.sendPauseMusicBroadcast();

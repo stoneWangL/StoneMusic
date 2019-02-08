@@ -18,7 +18,6 @@ public class MusicAppUtils extends Application{
 
         IntentFilter itFilter = new IntentFilter();
         itFilter.addAction(sContext.getResources().getString(R.string.app_name));
-
         //动态注册广播接收器
         LocalBroadcastManager
                 .getInstance(sContext)

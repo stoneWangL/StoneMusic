@@ -1,8 +1,10 @@
 package com.stone.stonemusic.ui.fragment;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -61,6 +63,10 @@ public class MusicListFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.d("stone1126", "位置："+position+"; 歌名："+musicList.get(position).getTitle());
+                /*发送广播，告知，音乐播放位置已改变*/
+                BroadcastUtils.sendNoticeMusicPositionChanged();
+
+
                 mBottomBarTitle.setText(musicList.get(position).getTitle());
                 mBottomBarArtist.setText(musicList.get(position).getArtist());
 

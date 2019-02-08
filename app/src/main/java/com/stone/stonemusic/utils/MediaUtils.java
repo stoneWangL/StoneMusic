@@ -6,10 +6,11 @@ import com.stone.stonemusic.model.SongModel;
 
 import java.io.IOException;
 
+/*问题播放结束时没有监听，修改播放器的状态*/
 public class MediaUtils {
     //当前播放歌曲postion
     public static int currentSongPosition = 0;
-    //当前播放状态
+    //当前播放状态,初始化默认为stop
     public static int currentState = MediaStateCode.PLAY_STOP;
 
     private static MediaPlayer sMediaPlayer;
@@ -20,8 +21,6 @@ public class MediaUtils {
         }
         return sMediaPlayer;
     }
-
-
 
 
     //准备

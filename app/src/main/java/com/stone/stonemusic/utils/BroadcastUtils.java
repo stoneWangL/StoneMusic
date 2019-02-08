@@ -33,4 +33,14 @@ public class BroadcastUtils {
                 .getInstance(MusicAppUtils.getContext())
                 .sendBroadcast(intent);
     }
+
+    public static void sendNoticeMusicPositionChanged(){
+        Log.d("MusicService", "sendNoticeMusicPositionChanged 已发送");
+        Intent intent = new Intent();
+        intent.setAction(MusicAppUtils.getContext().getResources().getString(R.string.app_name));
+        intent.putExtra("state", MediaStateCode.MUSIC_POSITION_CHANGED);
+        LocalBroadcastManager
+                .getInstance(MusicAppUtils.getContext())
+                .sendBroadcast(intent);
+    }
 }
