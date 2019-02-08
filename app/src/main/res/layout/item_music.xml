@@ -54,11 +54,13 @@
     </LinearLayout>
 
     <ImageView
+        android:id="@+id/iv_item_set"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="0.5"
         android:background="@drawable/ic_item_set"
-        android:layout_gravity="center"/>
+        android:layout_gravity="center"
+        android:onClick="Text"/>
     <View
         android:layout_width="0dp"
         android:layout_height="match_parent"

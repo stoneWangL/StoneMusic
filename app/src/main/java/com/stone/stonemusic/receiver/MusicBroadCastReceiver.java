@@ -6,11 +6,10 @@ import android.content.Intent;
 import android.util.Log;
 
 import com.stone.stonemusic.R;
-import com.stone.stonemusic.model.SongModel;
 import com.stone.stonemusic.service.MusicService;
-import com.stone.stonemusic.utils.MediaStateCode;
-import com.stone.stonemusic.utils.MediaUtils;
+import com.stone.stonemusic.ui.activity.LocalListActivity;
 import com.stone.stonemusic.utils.MusicAppUtils;
+
 
 public class MusicBroadCastReceiver extends BroadcastReceiver {
     private static final String TAG = "MusicBroadCastReceiver";
@@ -38,6 +37,8 @@ public class MusicBroadCastReceiver extends BroadcastReceiver {
                     intent.getIntExtra("state", 0));
             intent.setClass(context, MusicService.class);
             context.startService(intent);
+            intent.setClass(context, LocalListActivity.class);
         }
     }
+
 }

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,7 @@ import java.util.List;
 
 
 public class LocalMusicAdapter extends ArrayAdapter<Music> {
+    public static final String TAG = "LocalMusicAdapter";
     private int resourceId;
     private Bitmap pic;
 
@@ -31,7 +33,7 @@ public class LocalMusicAdapter extends ArrayAdapter<Music> {
 
     @NonNull
     @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+    public View getView(final int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         Music music = getItem(position);
         View view;
         ViewHold viewHold;
@@ -42,12 +44,20 @@ public class LocalMusicAdapter extends ArrayAdapter<Music> {
             viewHold.ItemPlayOrPause = (ImageView) view.findViewById(R.id.item_playOrPause);
             viewHold.musicName = (TextView) view.findViewById(R.id.music_name);
             viewHold.musicArtist = (TextView) view.findViewById(R.id.music_artist);
+            viewHold.ItemSet = (ImageView) view.findViewById(R.id.iv_item_set);
             view.setTag(viewHold);
 
         }else{
             view = convertView;
             viewHold = (ViewHold) view.getTag();
         }
+
+        viewHold.ItemSet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "position == " + position);
+            }
+        });
 
 //        pic = GetMusic.getMusicBitemp(getContext(),music.getId(),music.getAlbum_id(),0);
 //        viewHold.listMusicImage.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
@@ -72,6 +82,7 @@ public class LocalMusicAdapter extends ArrayAdapter<Music> {
         ImageView ItemPlayOrPause;
         TextView musicName;
         TextView musicArtist;
+        ImageView ItemSet;
 
     }
 

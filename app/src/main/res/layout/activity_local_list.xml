@@ -117,7 +117,7 @@
             android:layout_weight="1"
             android:padding="5dp"
             android:gravity="center"
-            android:onClick="play">
+            android:onClick="play" >
             <ImageView
                 android:id="@+id/iv_play"
                 android:layout_width="wrap_content"
@@ -130,8 +130,10 @@
             android:layout_weight="0.7"
             android:layout_height="match_parent"
             android:layout_marginStart="6dp"
-            android:gravity="center_vertical">
+            android:gravity="center_vertical"
+            android:onClick="playNext" >
             <ImageView
+                android:id="@+id/iv_play_next"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/ic_next_black"/>

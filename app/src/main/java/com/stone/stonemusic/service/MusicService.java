@@ -31,6 +31,7 @@ import com.stone.stonemusic.model.SongModel;
 import com.stone.stonemusic.receiver.MusicBroadCastReceiver;
 import com.stone.stonemusic.ui.activity.FirstActivity;
 import com.stone.stonemusic.ui.activity.LocalListActivity;
+import com.stone.stonemusic.utils.BroadcastUtils;
 import com.stone.stonemusic.utils.MediaStateCode;
 import com.stone.stonemusic.utils.MediaUtils;
 import com.stone.stonemusic.utils.MusicAppUtils;
@@ -173,7 +174,6 @@ public class MusicService extends Service {
             Log.d(TAG, "MediaUtils.currentState == " + MediaUtils.currentState);
             if (MediaUtils.currentState == MediaStateCode.PLAY_PAUSE ||
                     MediaUtils.currentState == MediaStateCode.PLAY_STOP) {
-                /*play -》 pause*/
                 remoteViews.setImageViewResource(R.id.notification_play_pause, R.drawable.ic_play_black);
             }else {
                 remoteViews.setImageViewResource(R.id.notification_play_pause, R.drawable.ic_pause_black);
@@ -233,18 +233,21 @@ public class MusicService extends Service {
                         MediaUtils.currentState == MediaStateCode.PLAY_CONTINUE) {
                     MediaUtils.pause();
                 }
+                BroadcastUtils.sendNoticeMusicPositionChanged();
             } else if (action.equals(MediaStateCode.ACTION_LAST)) {
                 MediaUtils.last();
                 MediaUtils.prepare(
                         SongModel.getInstance().getSongList().
                             get(MediaUtils.currentSongPosition).getFileUrl());
                 MediaUtils.start();
+                BroadcastUtils.sendNoticeMusicPositionChanged();
             } else if (action.equals(MediaStateCode.ACTION_NEXT)) {
                 MediaUtils.next();
                 MediaUtils.prepare(
                         SongModel.getInstance().getSongList().
                                 get(MediaUtils.currentSongPosition).getFileUrl());
                 MediaUtils.start();
+                BroadcastUtils.sendNoticeMusicPositionChanged();
             } else if (action.equals(MediaStateCode.ACTION_LOVE)){
                 Log.d(TAG, "点击了Love");
             } else if (action.equals(MediaStateCode.ACTION_CLOSE)) {

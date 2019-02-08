@@ -3,6 +3,8 @@ package com.stone.stonemusic.ui.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
@@ -32,6 +34,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MusicListFragment extends Fragment {
+    public static final String TAG = "MusicListFragment";
     private ListView listView;
     private List<Music> musicList = new ArrayList<>();
     private LocalMusicAdapter adapter;
@@ -47,6 +50,7 @@ public class MusicListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Log.d(TAG, "onCreateView");
         View view = inflater.inflate(R.layout.fragment_music_list, container, false);
 
         listView = (ListView) view.findViewById(R.id.lv_music_list);
@@ -56,7 +60,6 @@ public class MusicListFragment extends Fragment {
         mIvPlay = (ImageView) getActivity().findViewById(R.id.iv_play);
         mIvBottomBarImage = (ImageView) getActivity().findViewById(R.id.bottom_bar_image);
 
-
         readMusic();
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -64,7 +67,8 @@ public class MusicListFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.d("stone1126", "位置："+position+"; 歌名："+musicList.get(position).getTitle());
                 /*发送广播，告知，音乐播放位置已改变*/
-                BroadcastUtils.sendNoticeMusicPositionChanged();
+                BroadcastUtils.sendPlayMusicBroadcast();
+
 
 
                 mBottomBarTitle.setText(musicList.get(position).getTitle());
@@ -72,28 +76,39 @@ public class MusicListFragment extends Fragment {
 
 
                 String path = MusicUtil.getAlbumArt(new Long(musicList.get(position).getAlbum_id()).intValue());
-                Log.d("stone1201","path="+path);
+                Log.d(TAG,"path="+path);
                 if (null == path){
                     mIvBottomBarImage.setImageResource(R.drawable.ic_log);
                 }else{
                     Glide.with(MusicAppUtils.getContext()).load(path).into(mIvBottomBarImage);
-
-                    //背景图部分
                 }
 
                 MediaUtils.currentSongPosition = position;//设置播放音乐的id
-                BroadcastUtils.sendPlayMusicBroadcast();
-                if (mIvPlay.getTag().equals(true)){
+
+//                if (mIvPlay.getTag().equals(true)){
                     mIvPlay.setImageResource(R.drawable.ic_pause_black);
-                    mIvPlay.setTag(false);
-                }
+//                    mIvPlay.setTag(false);
+//                }
                 //设置选中的item的位置,然后更新adapter
                 ItemViewChoose.getInstance().setItemChoosePosition(position);
                 adapter.notifyDataSetChanged();
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try{
+                            wait(50);
+                        }catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        BroadcastUtils.sendNoticeMusicPositionChanged();
+                    }
+                });
+
 
             }
-        });
 
+
+        });
         return view;
     }
 
@@ -106,8 +121,66 @@ public class MusicListFragment extends Fragment {
             e.printStackTrace();
         }
     }
+    private Handler LocalListActivityHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            Log.d(TAG, "Handler 收到位置更新的通知");
+            int position = MediaUtils.currentSongPosition;
+            listView.setSelection(position);
+            adapter.notifyDataSetChanged();
+        }
+    };
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.d(TAG, "onResume");
+        /*通过MusicBroadcastReceiver发送的intent，更新UI*/
+        int state = getActivity().getIntent().getIntExtra("state", 0);
+        switch (state) {
+            case MediaStateCode.PLAY_START:
+                break;
+            case MediaStateCode.PLAY_PAUSE:
+                break;
+            case MediaStateCode.PLAY_CONTINUE:
+                break;
+            case MediaStateCode.PLAY_STOP:
+                break;
+            case MediaStateCode.MUSIC_POSITION_CHANGED:
+                LocalListActivityHandler.sendEmptyMessage(1);
+                Log.d(TAG, "收到位置更新的通知");
+                break;
+        }
+    }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        Log.d(TAG, "onPause");
+        /*通过MusicBroadcastReceiver发送的intent，更新UI*/
+        int state = getActivity().getIntent().getIntExtra("state", 0);
+        Log.d(TAG, "onPause 02 state == " + state);
+        switch (state) {
+            case MediaStateCode.PLAY_START:
+                break;
+            case MediaStateCode.PLAY_PAUSE:
+                break;
+            case MediaStateCode.PLAY_CONTINUE:
+                break;
+            case MediaStateCode.PLAY_STOP:
+                break;
+            case MediaStateCode.MUSIC_POSITION_CHANGED:
+                LocalListActivityHandler.sendEmptyMessage(1);
+                Log.d(TAG, "收到位置更新的通知");
+                break;
+        }
+        Log.d(TAG, "onPause 03");
+    }
 
-
+    @Override
+    public void onStop() {
+        super.onStop();
+        Log.d(TAG, "onStop");
+    }
 }
