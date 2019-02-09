@@ -37,7 +37,7 @@ public class MusicBroadCastReceiver extends BroadcastReceiver {
                     intent.getIntExtra("state", 0));
             intent.setClass(context, MusicService.class);
             context.startService(intent);
-            intent.setClass(context, LocalListActivity.class);
+//            intent.setClass(context, LocalListActivity.class);
         }
     }
 

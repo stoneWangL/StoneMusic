@@ -65,16 +65,16 @@ public class MusicListFragment extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.d("stone1126", "位置："+position+"; 歌名："+musicList.get(position).getTitle());
-                /*发送广播，告知，音乐播放位置已改变*/
-                BroadcastUtils.sendPlayMusicBroadcast();
+                Log.d(TAG, "位置："+position+"; 歌名："+musicList.get(position).getTitle());
+                adapter.notifyDataSetChanged(); //更新adapter
+                MediaUtils.currentSongPosition = position; //设置当前播放位置全局position
+                MediaUtils.currentState = MediaStateCode.PLAY_START; //设置当前播放器状态码为PLAY_START
 
+                BroadcastUtils.sendPlayMusicBroadcast(); //发送播放音乐的广播
 
-
-                mBottomBarTitle.setText(musicList.get(position).getTitle());
-                mBottomBarArtist.setText(musicList.get(position).getArtist());
-
-
+                mBottomBarTitle.setText(musicList.get(position).getTitle()); //更新音乐名
+                mBottomBarArtist.setText(musicList.get(position).getArtist()); //更新音乐作者
+                //更新音乐专辑图
                 String path = MusicUtil.getAlbumArt(new Long(musicList.get(position).getAlbum_id()).intValue());
                 Log.d(TAG,"path="+path);
                 if (null == path){
@@ -83,15 +83,15 @@ public class MusicListFragment extends Fragment {
                     Glide.with(MusicAppUtils.getContext()).load(path).into(mIvBottomBarImage);
                 }
 
-                MediaUtils.currentSongPosition = position;//设置播放音乐的id
+//                mIvPlay.setImageResource(R.drawable.ic_pause_black); //更新播放键图标
 
-//                if (mIvPlay.getTag().equals(true)){
-                    mIvPlay.setImageResource(R.drawable.ic_pause_black);
-//                    mIvPlay.setTag(false);
-//                }
-                //设置选中的item的位置,然后更新adapter
+                //设置选中的item的位置,这里的position设置与ListView中当前播放位置的标识有关
                 ItemViewChoose.getInstance().setItemChoosePosition(position);
-                adapter.notifyDataSetChanged();
+
+
+
+                /*发送广播，告知，音乐播放位置已改变*/
+                BroadcastUtils.sendNoticeMusicPositionChanged();
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
@@ -100,11 +100,9 @@ public class MusicListFragment extends Fragment {
                         }catch (Exception e) {
                             e.printStackTrace();
                         }
-                        BroadcastUtils.sendNoticeMusicPositionChanged();
+
                     }
                 });
-
-
             }
 
 
@@ -128,6 +126,8 @@ public class MusicListFragment extends Fragment {
             Log.d(TAG, "Handler 收到位置更新的通知");
             int position = MediaUtils.currentSongPosition;
             listView.setSelection(position);
+            //设置选中的item的位置,这里的position设置与ListView中当前播放位置的标识有关
+            ItemViewChoose.getInstance().setItemChoosePosition(position);
             adapter.notifyDataSetChanged();
         }
     };

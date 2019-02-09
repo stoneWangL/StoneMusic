@@ -24,6 +24,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.stone.stonemusic.R;
 import com.stone.stonemusic.adapter.LocalMusicFragmentPagerAdapter;
+import com.stone.stonemusic.bean.ItemViewChoose;
 import com.stone.stonemusic.bean.Music;
 import com.stone.stonemusic.model.SongModel;
 import com.stone.stonemusic.receiver.MusicBroadCastReceiver;
@@ -79,8 +80,6 @@ public class LocalListActivity extends AppCompatActivity {
 
         IntentFilter itFilter = new IntentFilter();
         itFilter.addAction(MusicAppUtils.getContext().getResources().getString(R.string.app_name));
-//        itFilter.addAction(MediaStateCode.ACTION_LAST);
-//        itFilter.addAction(MediaStateCode.ACTION_NEXT);
         //动态注册广播接收器
         LocalBroadcastManager
                 .getInstance(this)
@@ -112,7 +111,7 @@ public class LocalListActivity extends AppCompatActivity {
     }
 
     private void initMusicPlayImg() {
-        Log.d(TAG, "状态码 == " + MediaUtils.currentState);
+        Log.d(TAG, "113行 状态码 == " + MediaUtils.currentState);
         if (MediaUtils.currentState == MediaStateCode.PLAY_PAUSE ||
                 MediaUtils.currentState == MediaStateCode.PLAY_STOP) {
             mIvPlay.setImageResource(R.drawable.ic_play_black);
@@ -136,18 +135,6 @@ public class LocalListActivity extends AppCompatActivity {
                 BroadcastUtils.sendPlayMusicBroadcast();
                 break;
         }
-//        if (MediaUtils.currentState == MediaStateCode.PLAY_PAUSE) {
-//            MediaUtils.continuePlay();
-//        } else if (MediaUtils.currentState == MediaStateCode.PLAY_STOP) {
-//            MediaUtils.prepare(
-//                    SongModel.getInstance().getSongList().
-//                            get(MediaUtils.currentSongPosition).getFileUrl());
-//            MediaUtils.start();
-//        } else if (MediaUtils.currentState == MediaStateCode.PLAY_START ||
-//                MediaUtils.currentState == MediaStateCode.PLAY_CONTINUE) {
-//            MediaUtils.pause();
-//        }
-        initMusicPlayImg();
     }
 
     //播放键控制
@@ -159,7 +146,6 @@ public class LocalListActivity extends AppCompatActivity {
         MediaUtils.start();
 
         BroadcastUtils.sendNoticeMusicPositionChanged();
-        LocalListActivityHandler.sendEmptyMessage(1);
     }
 
     /*收到UI界面更新的通知后，在此刷新UI*/
@@ -188,10 +174,13 @@ public class LocalListActivity extends AppCompatActivity {
     private BroadcastReceiver LocalListActivityReceiver = new BroadcastReceiver() {
         public void onReceive(final Context context, final Intent intent) {
             String action = intent.getAction();
-            Log.d(TAG, "action = " + action);
-            LocalListActivityHandler.sendEmptyMessage(1);
+            int state = intent.getIntExtra("state", 0);
+            Log.d(TAG, "180行 action = " + action + "||其中 state == " + state + ";;");
+            if (state == MediaStateCode.MUSIC_POSITION_CHANGED) {
+                Log.d(TAG, "182行 action = " + action + "||其中 state == " + state + ";;");
+                LocalListActivityHandler.sendEmptyMessage(1);
+            }
         }
-
     };
 
     @Override

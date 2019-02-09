@@ -80,7 +80,7 @@ public class MediaUtils {
         MediaUtils.currentState = MediaStateCode.PLAY_START;
         if (MediaUtils.currentSongPosition == SongModel.getInstance().getSongListSize() - 1) {
             MediaUtils.currentSongPosition = 0;
-        }else {
+        } else {
             MediaUtils.currentSongPosition++;
         }
     }
