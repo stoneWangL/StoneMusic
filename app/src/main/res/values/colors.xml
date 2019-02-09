@@ -9,4 +9,15 @@
 
     <color name="stoneListTopColor">#898989</color>
     <color name="colorBarBottom">#e1e1e1</color>
+
+    <color name="color0">#2c4ba7</color>
+    <color name="color1">#5e113e</color>
+    <color name="color2">#d14306</color>
+    <color name="color3">#43b98e</color>
+    <color name="color4">#1b1454</color>
+    <color name="color5">#d8a2aa</color>
+    <color name="color6">#222234</color>
+    <color name="color7">#34dfce</color>
+    <color name="color8">#3d032b</color>
+    <color name="color9">#77170f</color>
 </resources>

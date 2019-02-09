@@ -29,6 +29,7 @@ import com.stone.stonemusic.bean.Music;
 import com.stone.stonemusic.model.SongModel;
 import com.stone.stonemusic.receiver.MusicBroadCastReceiver;
 import com.stone.stonemusic.service.MusicService;
+import com.stone.stonemusic.utils.ActivityUtils;
 import com.stone.stonemusic.utils.BroadcastUtils;
 import com.stone.stonemusic.utils.MediaStateCode;
 import com.stone.stonemusic.utils.MediaUtils;
@@ -69,7 +70,8 @@ public class LocalListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate");
-        setStatusBarColor(this, R.color.colorBarBottom);
+
+        ActivityUtils.setStatusBarColor(this, R.color.colorBarBottom, true);
 //        this.getWindow().setFlags(FLAG_HOMEKEY_DISPATCHED, FLAG_HOMEKEY_DISPATCHED);//关键代码
         setContentView(R.layout.activity_local_list);
 
@@ -191,6 +193,16 @@ public class LocalListActivity extends AppCompatActivity {
         }
     };
 
+    /*跳转到PlayActivity*/
+    public void GoToPlayActivity(View view){
+        Intent intent = new Intent(this, PlayActivity.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.push_up_in,R.anim.push_up_out);
+//        overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
+//        overridePendingTransition(android.R.anim.slide_in_left,android.R.anim.slide_out_right);
+    }
+
+    /*定义回调接口*/
     public interface CallLocalFragment{
         void ChangeUI();
     }
@@ -205,33 +217,6 @@ public class LocalListActivity extends AppCompatActivity {
                 LocalListActivityReceiver);
         mCallLocalFragment = null;
     }
-
-    /**
-     * 设置状态栏颜色
-     * @param activity
-     * @param statusColor
-     */
-    static void setStatusBarColor(Activity activity, int statusColor) {
-        Window window = activity.getWindow();
-        /*取消状态栏透明*/
-        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        /*添加Flag把状态栏设为可绘制模式*/
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        /*设置状态栏颜色*/
-        window.setStatusBarColor(MusicAppUtils.getContext().getResources().getColor(statusColor));
-        /*设置系统状态栏处于可见状态 | 文字颜色及图标为深色*/
-        window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-        /*让view不根据系统窗口来调整自己的布局*/
-        ViewGroup mContentView = (ViewGroup) window.findViewById(Window.ID_ANDROID_CONTENT);
-        View mChildView = mContentView.getChildAt(0);
-        if (mChildView != null) {
-            ViewCompat.setFitsSystemWindows(mChildView, false);
-            ViewCompat.requestApplyInsets(mChildView);
-        }
-    }
-
-
-
 
     //    @Override
 //    public boolean onKeyDown(int keyCode, KeyEvent event) {

@@ -26,6 +26,9 @@
             android:screenOrientation="portrait"
             android:launchMode="singleTask"
             android:theme="@style/TwoTheme" />
+        <activity android:name=".ui.activity.PlayActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/TwoTheme" />
 
         <service
             android:name=".service.MusicService"

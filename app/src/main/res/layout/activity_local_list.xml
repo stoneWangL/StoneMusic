@@ -65,7 +65,8 @@
         android:layout_weight="1"
         android:background="@color/colorBarBottom"
         android:orientation="horizontal"
-        android:gravity="center_vertical">
+        android:gravity="center_vertical"
+        android:onClick="GoToPlayActivity">
         <View
             android:layout_width="0dp"
             android:layout_height="match_parent"
