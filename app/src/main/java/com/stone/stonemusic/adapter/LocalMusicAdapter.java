@@ -34,6 +34,7 @@ public class LocalMusicAdapter extends ArrayAdapter<Music> {
     @NonNull
     @Override
     public View getView(final int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+//        Log.d(TAG, "当前位置-》" + position);
         Music music = getItem(position);
         View view;
         ViewHold viewHold;

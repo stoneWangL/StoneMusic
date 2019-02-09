@@ -1,6 +1,7 @@
 package com.stone.stonemusic.ui.fragment;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -24,6 +25,7 @@ import com.stone.stonemusic.bean.ItemViewChoose;
 import com.stone.stonemusic.bean.Music;
 import com.stone.stonemusic.model.SongModel;
 import com.stone.stonemusic.service.MusicService;
+import com.stone.stonemusic.ui.activity.LocalListActivity;
 import com.stone.stonemusic.utils.BroadcastUtils;
 import com.stone.stonemusic.utils.MediaStateCode;
 import com.stone.stonemusic.utils.MediaUtils;
@@ -33,7 +35,7 @@ import com.stone.stonemusic.utils.MusicUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MusicListFragment extends Fragment {
+public class MusicListFragment extends Fragment implements LocalListActivity.CallLocalFragment {
     public static final String TAG = "MusicListFragment";
     private ListView listView;
     private List<Music> musicList = new ArrayList<>();
@@ -46,6 +48,22 @@ public class MusicListFragment extends Fragment {
 
     public MusicListFragment() {
     }
+
+    private LocalListActivity.CallLocalFragment callLocalFragment = new LocalListActivity.CallLocalFragment() {
+        @Override
+        public void ChangeUI() {
+            Log.d(TAG, "这里是Fragment的ChangeUI()，这里被回调了");
+            LocalListActivityHandler.sendEmptyMessage(1);
+        }
+    };
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        ((LocalListActivity)context).setCallLocalFragment(callLocalFragment);
+    }
+    @Override
+    public void ChangeUI() {}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -83,29 +101,13 @@ public class MusicListFragment extends Fragment {
                     Glide.with(MusicAppUtils.getContext()).load(path).into(mIvBottomBarImage);
                 }
 
-//                mIvPlay.setImageResource(R.drawable.ic_pause_black); //更新播放键图标
-
                 //设置选中的item的位置,这里的position设置与ListView中当前播放位置的标识有关
                 ItemViewChoose.getInstance().setItemChoosePosition(position);
 
-
-
                 /*发送广播，告知，音乐播放位置已改变*/
                 BroadcastUtils.sendNoticeMusicPositionChanged();
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try{
-                            wait(50);
-                        }catch (Exception e) {
-                            e.printStackTrace();
-                        }
 
-                    }
-                });
             }
-
-
         });
         return view;
     }
@@ -125,34 +127,12 @@ public class MusicListFragment extends Fragment {
             super.handleMessage(msg);
             Log.d(TAG, "Handler 收到位置更新的通知");
             int position = MediaUtils.currentSongPosition;
-            listView.setSelection(position);
             //设置选中的item的位置,这里的position设置与ListView中当前播放位置的标识有关
             ItemViewChoose.getInstance().setItemChoosePosition(position);
             adapter.notifyDataSetChanged();
+            listView.smoothScrollToPosition(position);
         }
     };
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        Log.d(TAG, "onResume");
-        /*通过MusicBroadcastReceiver发送的intent，更新UI*/
-        int state = getActivity().getIntent().getIntExtra("state", 0);
-        switch (state) {
-            case MediaStateCode.PLAY_START:
-                break;
-            case MediaStateCode.PLAY_PAUSE:
-                break;
-            case MediaStateCode.PLAY_CONTINUE:
-                break;
-            case MediaStateCode.PLAY_STOP:
-                break;
-            case MediaStateCode.MUSIC_POSITION_CHANGED:
-                LocalListActivityHandler.sendEmptyMessage(1);
-                Log.d(TAG, "收到位置更新的通知");
-                break;
-        }
-    }
 
     @Override
     public void onPause() {
@@ -183,4 +163,7 @@ public class MusicListFragment extends Fragment {
         super.onStop();
         Log.d(TAG, "onStop");
     }
+
+
+
 }

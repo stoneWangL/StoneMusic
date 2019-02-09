@@ -60,7 +60,10 @@ public class LocalListActivity extends AppCompatActivity {
     private TextView mBottomBarTitle, mBottomBarArtist;
     private List<Music> musicList = new ArrayList<>();
 
-
+    private CallLocalFragment mCallLocalFragment;
+    public void setCallLocalFragment(CallLocalFragment myCallLocalFragment){
+        this.mCallLocalFragment = myCallLocalFragment;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,7 +114,7 @@ public class LocalListActivity extends AppCompatActivity {
     }
 
     private void initMusicPlayImg() {
-        Log.d(TAG, "113行 状态码 == " + MediaUtils.currentState);
+//        Log.d(TAG, "113行 状态码 == " + MediaUtils.currentState);
         if (MediaUtils.currentState == MediaStateCode.PLAY_PAUSE ||
                 MediaUtils.currentState == MediaStateCode.PLAY_STOP) {
             mIvPlay.setImageResource(R.drawable.ic_play_black);
@@ -122,7 +125,7 @@ public class LocalListActivity extends AppCompatActivity {
 
     //播放键控制
     public void play(View view){
-        Log.d(TAG, "此时的状态=="+MediaUtils.currentState);
+//        Log.d(TAG, "此时的状态=="+MediaUtils.currentState);
         switch (MediaUtils.currentState) {
             case MediaStateCode.PLAY_START:
             case MediaStateCode.PLAY_CONTINUE:
@@ -159,7 +162,7 @@ public class LocalListActivity extends AppCompatActivity {
             mBottomBarArtist.setText(musicList.get(position).getArtist());
 
             String path = MusicUtil.getAlbumArt(new Long(musicList.get(position).getAlbum_id()).intValue());
-            Log.d(TAG,"path="+path);
+//            Log.d(TAG,"path="+path);
             if (null == path){
                 mIvBottomBarImage.setImageResource(R.drawable.ic_log);
             }else{
@@ -170,30 +173,28 @@ public class LocalListActivity extends AppCompatActivity {
         }
     };
 
-
     private BroadcastReceiver LocalListActivityReceiver = new BroadcastReceiver() {
         public void onReceive(final Context context, final Intent intent) {
             String action = intent.getAction();
             int state = intent.getIntExtra("state", 0);
-            Log.d(TAG, "180行 action = " + action + "||其中 state == " + state + ";;");
+//            Log.d(TAG, "180行 action = " + action + "||其中 state == " + state + ";;");
             if (state == MediaStateCode.MUSIC_POSITION_CHANGED) {
                 Log.d(TAG, "182行 action = " + action + "||其中 state == " + state + ";;");
                 LocalListActivityHandler.sendEmptyMessage(1);
+
+                /*调用回调方法ChangeUI，调用后MusicListFragment重写的回调方法会被自动执行，从而在MusicListFragment回调方法中通知handler更新UI*/
+                if (null != mCallLocalFragment) {
+                    mCallLocalFragment.ChangeUI();
+                }
+
             }
         }
     };
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Log.d(TAG, "onPause");
+    public interface CallLocalFragment{
+        void ChangeUI();
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-        Log.d(TAG,"onStop");
-    }
 
     @Override
     protected void onDestroy() {
@@ -202,6 +203,7 @@ public class LocalListActivity extends AppCompatActivity {
         LocalBroadcastManager.getInstance(
                 MusicAppUtils.getContext()).unregisterReceiver(
                 LocalListActivityReceiver);
+        mCallLocalFragment = null;
     }
 
     /**
