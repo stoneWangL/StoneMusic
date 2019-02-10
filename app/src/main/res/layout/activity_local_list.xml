@@ -123,7 +123,9 @@
                 android:id="@+id/iv_play"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_play_black"/>
+                android:src="@drawable/ic_play_black"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                />
         </LinearLayout>
 
         <LinearLayout
@@ -137,7 +139,9 @@
                 android:id="@+id/iv_play_next"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/ic_next_black"/>
+                android:src="@drawable/ic_next_black"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                />
         </LinearLayout>
 
         <View

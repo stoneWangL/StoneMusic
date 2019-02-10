@@ -39,4 +39,7 @@ public class PlayActivity extends AppCompatActivity {
         finish();
         overridePendingTransition(R.anim.push_up_in,R.anim.push_up_out);
     }
+
+
+
 }

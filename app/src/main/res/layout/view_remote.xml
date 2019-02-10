@@ -72,7 +72,8 @@
                 android:layout_width="0dp"
                 android:layout_height="@dimen/dp_25dp"
                 android:layout_weight="1"
-                android:src="@drawable/ic_last_black" />
+                android:src="@drawable/ic_last_black"
+                android:background="?android:attr/selectableItemBackground" />
 
             <ImageView
                 android:id="@+id/notification_play_pause"
@@ -80,14 +81,15 @@
                 android:layout_height="@dimen/dp_37dp"
                 android:layout_weight="1.5"
                 android:src="@drawable/ic_play_black"
-                />
+                android:background="?android:attr/selectableItemBackground" />
 
             <ImageView
                 android:id="@+id/notification_next"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/dp_25dp"
                 android:layout_weight="1"
-                android:src="@drawable/ic_next_black" />
+                android:src="@drawable/ic_next_black"
+                android:background="?android:attr/selectableItemBackground" />
 
             <ImageView
                 android:id="@+id/notification_love"

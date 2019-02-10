@@ -157,18 +157,26 @@ public class MusicService extends Service {
             int position  = MediaUtils.currentSongPosition;
             Log.d(TAG, "全局播放position == " + position);
             /*专辑图片*/
-            String path = MusicUtil.getAlbumArt(new Long(musicList.get(position).getAlbum_id()).intValue());
-            Log.d(TAG,"path="+path);
-            Bitmap bitmap;
-            if (null == path){
-                bitmap = BitmapFactory.decodeResource(getResources(),R.drawable.anim_log);
-            }else{
-                bitmap = BitmapFactory.decodeFile(path);
+            try {
+                String path = MusicUtil.getAlbumArt(
+                        new Long(musicList.get(position).getAlbum_id()).intValue());
+                Log.d(TAG,"path="+path);
+                Bitmap bitmap;
+                if (null == path){
+                    bitmap = BitmapFactory.decodeResource(getResources(),R.drawable.anim_log);
+                }else{
+                    bitmap = BitmapFactory.decodeFile(path);
+                }
+                remoteViews.setImageViewBitmap(R.id.notification_album, bitmap);
+
+                /*歌曲名称 & 歌手名*/
+                remoteViews.setTextViewText(R.id.notification_title, musicList.get(position).getTitle());
+                remoteViews.setTextViewText(R.id.notification_artist, musicList.get(position).getArtist());
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-            remoteViews.setImageViewBitmap(R.id.notification_album, bitmap);
-            /*歌曲名称 & 歌手名*/
-            remoteViews.setTextViewText(R.id.notification_title, musicList.get(position).getTitle());
-            remoteViews.setTextViewText(R.id.notification_artist, musicList.get(position).getArtist());
+
+
 
             /*根据播放器状态码，设置播放暂按钮的图标*/
             Log.d(TAG, "MediaUtils.currentState == " + MediaUtils.currentState);
@@ -188,27 +196,29 @@ public class MusicService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.d(TAG,"音乐服务onStartCommand"+intent.getIntExtra("state", 0));
-        int state = intent.getIntExtra("state", 0);
-        switch (state) {
-            case MediaStateCode.PLAY_START:
-                MediaUtils.prepare(
-                        SongModel.getInstance().getSongList().
-                                get(MediaUtils.currentSongPosition).getFileUrl());
-                MediaUtils.start();
-                break;
-            case MediaStateCode.PLAY_PAUSE:
-                MediaUtils.pause();
-                break;
-            case MediaStateCode.PLAY_CONTINUE:
-                MediaUtils.continuePlay();
-                break;
-            case MediaStateCode.PLAY_STOP:
-                MediaUtils.stop();
-                break;
-            case MediaStateCode.MUSIC_POSITION_CHANGED:
-                remoteViewsHandler.sendEmptyMessage(1);
-                break;
+        if (null != intent) {
+            Log.d(TAG,"音乐服务onStartCommand"+intent.getIntExtra("state", 0));
+            int state = intent.getIntExtra("state", 0);
+            switch (state) {
+                case MediaStateCode.PLAY_START:
+                    MediaUtils.prepare(
+                            SongModel.getInstance().getSongList().
+                                    get(MediaUtils.currentSongPosition).getFileUrl());
+                    MediaUtils.start();
+                    break;
+                case MediaStateCode.PLAY_PAUSE:
+                    MediaUtils.pause();
+                    break;
+                case MediaStateCode.PLAY_CONTINUE:
+                    MediaUtils.continuePlay();
+                    break;
+                case MediaStateCode.PLAY_STOP:
+                    MediaUtils.stop();
+                    break;
+                case MediaStateCode.MUSIC_POSITION_CHANGED:
+                    remoteViewsHandler.sendEmptyMessage(1);
+                    break;
+            }
         }
 
         return super.onStartCommand(intent, flags, startId);
