@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.stone.stonemusic.R;
@@ -12,6 +13,7 @@ import com.stone.stonemusic.utils.ActivityUtils;
 public class PlayActivity extends AppCompatActivity {
     public static final String TAG = "PlayActivity";
     private Toolbar mToolbar;
+    private LinearLayout mlinearLayout;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -25,8 +27,10 @@ public class PlayActivity extends AppCompatActivity {
 
     private void initColor() {
         int statusColor = ActivityUtils.initColor(this);
-        mToolbar = (Toolbar) findViewById(R.id.toolBar);
-        mToolbar.setBackgroundColor(getResources().getColor(statusColor));
+        mlinearLayout = (LinearLayout) findViewById(R.id.play_activity_layout);
+        mlinearLayout.setBackgroundColor(getResources().getColor(statusColor));
+//        mToolbar = (Toolbar) findViewById(R.id.toolBar);
+//        mToolbar.setBackgroundColor(getResources().getColor(statusColor));
     }
 
     @Override

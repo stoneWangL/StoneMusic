@@ -1,104 +1,404 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/play_activity_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".ui.activity.LocalListActivity">
-    <!--顶部 本地音乐-->
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolBar"
+    android:orientation="vertical">
+    <!--顶部 导航栏-->
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        app:subtitleTextAppearance="@style/toolbar_subtitle"
-        app:titleTextAppearance="@style/toolbar_title"
-        android:layout_alignParentTop="true"
-        android:background="@color/color0">
-    </android.support.v7.widget.Toolbar>
-    <!--分割线-->
-    <View
-        android:id="@+id/line"
+        android:layout_height="0dp"
+        android:layout_weight="16"
+        android:orientation="vertical">
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="14"
+            android:orientation="horizontal">
+            <!--导航栏左侧-->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="14"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="7"
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/ic_like_white"/>
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="match_parent" />
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="7" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+            </LinearLayout>
+            <!--导航栏中部-->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="40"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="2" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="5"
+                    android:orientation="horizontal">
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="match_parent" />
+                    <TextView
+                        android:id="@+id/music_play_name"
+                        android:layout_width="0dp"
+                        android:layout_weight="38"
+                        android:layout_height="match_parent" />
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="match_parent" />
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+                <TextView
+                    android:id="@+id/music_play_artist"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="3"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="5" />
+            </LinearLayout>
+            <!--导航栏右侧-->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="14"
+                android:layout_height="match_parent">
+
+            </LinearLayout>
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+    </LinearLayout>
+
+    <!--分页提示-->
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:layout_below="@id/toolBar"
-        android:background="#33ffffff"/>
+        android:layout_height="0dp"
+        android:layout_weight="4"></LinearLayout>
 
     <!--中间旋转图片部分-->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_centerInParent="true"
-        android:paddingTop="50dp"
-        android:layout_below="@+id/line"
-        android:layout_above="@+id/musicTime"
+        android:layout_height="0dp"
+        android:layout_weight="80"
         android:orientation="vertical">
+    </LinearLayout>
+
+    <!--中部分享 下载 分享 设置 图标-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="7"
+        android:orientation="horizontal">
+        <View
+            android:layout_width="0dp"
+            android:layout_weight="15.5"
+            android:layout_height="match_parent" />
         <ImageView
-            android:id="@+id/music_image"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="7"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_like_white"/>
+        <View
+            android:layout_width="0dp"
+            android:layout_weight="3"
+            android:layout_height="match_parent" />
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_weight="7"
+            android:layout_height="match_parent" />
+        <View
+            android:layout_width="0dp"
+            android:layout_weight="3"
+            android:layout_height="match_parent" />
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_weight="7"
+            android:layout_height="match_parent" />
+        <View
+            android:layout_width="0dp"
+            android:layout_weight="3"
+            android:layout_height="match_parent" />
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_weight="7"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_item_set"/>
+        <View
+            android:layout_width="0dp"
+            android:layout_weight="15.5"
             android:layout_height="match_parent" />
     </LinearLayout>
 
-    <RelativeLayout
+    <!--中下部 seekBar的位置-->
+    <LinearLayout
         android:id="@+id/musicTime"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="15dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="60dp">
+        android:layout_height="0dp"
+        android:layout_weight="3"
+        android:orientation="horizontal">
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="10"
+            android:layout_height="match_parent">
+            <View
+                android:layout_width="0dp"
+                android:layout_weight="3"
+                android:layout_height="match_parent" />
+            <TextView
+                android:id="@+id/tvCurrentTime"
+                android:layout_width="0dp"
+                android:layout_weight="6"
+                android:layout_height="match_parent"
+                style="@style/music_time_text_style"
+                tools:text="01:34"/>
+            <View
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent" />
+        </LinearLayout>
 
-        <TextView
-            android:id="@+id/tvCurrentTime"
-            style="@style/music_time_text_style"
-            android:layout_alignLeft="@id/musicSeekBar"
-            android:layout_centerVertical="true"
-            tools:text="01:34"/>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="48"
+            android:layout_height="match_parent">
+            <SeekBar
+                android:id="@+id/musicSeekBar"
+                android:layout_width="match_parent"
+                style="@style/music_time_seek_bar_style" />
+        </LinearLayout>
 
-        <SeekBar
-            android:id="@+id/musicSeekBar"
-            style="@style/music_time_seek_bar_style"
-            android:layout_centerInParent="true"
-            android:paddingEnd="40dp"
-            android:paddingStart="40dp"
-            />
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="10"
+            android:layout_height="match_parent">
+            <View
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent" />
+            <TextView
+                android:id="@+id/tvTotalTime"
+                android:layout_width="0dp"
+                android:layout_weight="6"
+                android:layout_height="match_parent"
+                style="@style/music_time_text_style"
+                tools:text="05:34"/>
+            <View
+                android:layout_width="0dp"
+                android:layout_weight="3"
+                android:layout_height="match_parent" />
+        </LinearLayout>
 
-        <TextView
-            android:id="@+id/tvTotalTime"
-            style="@style/music_time_text_style"
-            android:layout_alignRight="@id/musicSeekBar"
-            android:layout_centerVertical="true"
-            tools:text="05:34"/>
-    </RelativeLayout>
+    </LinearLayout>
 
     <!--下部导航按钮-->
     <LinearLayout
         android:id="@+id/controlOption"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_height="0dp"
+        android:layout_weight="20"
         android:orientation="horizontal"
-        android:background="@color/colorPrimaryDark"
-        android:alpha="0.2"
-        android:gravity="center"
-        android:padding="@dimen/dp_20dp">
-        <ImageButton
-            android:id="@+id/button_last"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:background="@drawable/ic_last_black"
-            />
+        android:gravity="center">
+        <!--底部左侧-->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="9"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="6" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="7"
+                android:orientation="horizontal">
+                <View
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:layout_height="match_parent" />
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_weight="7"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_like_white"
+                    />
+            </LinearLayout>
 
-        <ImageButton
-            android:id="@+id/button_play"
-            android:layout_width="90dp"
-            android:layout_height="90dp"
-            />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="7" />
+        </LinearLayout>
+        <!--底部中间3个按钮-->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="50"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="2" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="14"
+                android:orientation="horizontal">
+                <View
+                    android:layout_width="0dp"
+                    android:layout_weight="6"
+                    android:layout_height="match_parent" />
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="7"
+                    android:layout_height="match_parent"
+                    android:gravity="center">
+                    <com.stone.stonemusic.ui.View.CircleView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center">
+                        <ImageView
+                            android:id="@+id/button_last"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/ic_last_white"
+                            />
+                    </LinearLayout>
+                </FrameLayout>
+                <View
+                    android:layout_width="0dp"
+                    android:layout_weight="6"
+                    android:layout_height="match_parent" />
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="12"
+                    android:layout_height="match_parent">
+                    <com.stone.stonemusic.ui.View.CircleView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center">
+                        <ImageView
+                            android:id="@+id/button_play"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_pause_white" />
+                    </LinearLayout>
 
-        <ImageButton
-            android:id="@+id/button_next"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:background="@drawable/ic_next_black"
-            />
+                </FrameLayout>
+                <View
+                    android:layout_width="0dp"
+                    android:layout_weight="6"
+                    android:layout_height="match_parent" />
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="7"
+                    android:layout_height="match_parent"
+                    android:gravity="center">
+                    <com.stone.stonemusic.ui.View.CircleView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center">
+                        <ImageView
+                            android:id="@+id/button_next"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/ic_next_white"
+                            />
+                    </LinearLayout>
+                </FrameLayout>
+                <View
+                    android:layout_width="0dp"
+                    android:layout_weight="6"
+                    android:layout_height="match_parent" />
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="4" />
+        </LinearLayout>
+
+
+        <!--底部右侧-->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="9"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="6" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="7"
+                android:orientation="horizontal">
+                <View
+                    android:layout_width="0dp"
+                    android:layout_weight="7"
+                    android:layout_height="match_parent" />
+                <View
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:layout_height="match_parent" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="7" />
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>
