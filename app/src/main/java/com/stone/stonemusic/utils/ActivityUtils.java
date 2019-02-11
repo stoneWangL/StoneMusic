@@ -45,34 +45,34 @@ public class ActivityUtils {
         int statusColor;
         switch (num) {
             case 0:
-                statusColor = R.color.color0;
+                statusColor = R.color.color0; //字体需要白色
                 break;
             case 1:
-                statusColor = R.color.color1;
+                statusColor = R.color.color1;//字体需要白色
                 break;
             case 2:
-                statusColor = R.color.color2;
+                statusColor = R.color.color2;//字体需要白色
                 break;
             case 3:
                 statusColor = R.color.color3;
                 break;
             case 4:
-                statusColor = R.color.color4;
+                statusColor = R.color.color4;//字体需要白色
                 break;
             case 5:
                 statusColor = R.color.color5;
                 break;
             case 6:
-                statusColor = R.color.color6;
+                statusColor = R.color.color6;//字体需要白色
                 break;
             case 7:
                 statusColor = R.color.color7;
                 break;
             case 8:
-                statusColor = R.color.color8;
+                statusColor = R.color.color8;//字体需要白色
                 break;
             case 9:
-                statusColor = R.color.color9;
+                statusColor = R.color.color9;//字体需要白色
                 break;
             default:
                 statusColor = R.color.red;

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="71"
+        android:gravity="center"
+        android:orientation="vertical">
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="12" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="47"
+            android:orientation="horizontal">
+            <View
+                android:layout_width="0dp"
+                android:layout_weight="11"
+                android:layout_height="match_parent" />
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_weight="45"
+                android:layout_height="match_parent">
+                <com.stone.stonemusic.ui.View.CircleImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/play_background02" />
+                <com.stone.stonemusic.ui.View.CircleImageView
+                    android:id="@+id/play_music_album_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_x"/>
+            </FrameLayout>
+            <View
+                android:layout_width="0dp"
+                android:layout_weight="11"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="12" />
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="9" />
+</LinearLayout>

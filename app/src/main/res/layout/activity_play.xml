@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/play_activity_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -35,11 +36,14 @@
                     android:layout_height="0dp"
                     android:layout_weight="7"
                     android:orientation="horizontal">
+                    <!--向下->返回-->
                     <ImageView
+                        android:id="@+id/play_down_back"
                         android:layout_width="0dp"
                         android:layout_weight="1"
                         android:layout_height="match_parent"
-                        android:src="@drawable/ic_like_white"/>
+                        android:src="@drawable/ic_down_black_24dp"
+                        android:onClick="downBack"/>
                     <View
                         android:layout_width="0dp"
                         android:layout_weight="1"
@@ -73,11 +77,17 @@
                         android:layout_width="0dp"
                         android:layout_weight="1"
                         android:layout_height="match_parent" />
+                    <!--音乐名称-->
                     <TextView
                         android:id="@+id/music_play_name"
                         android:layout_width="0dp"
                         android:layout_weight="38"
-                        android:layout_height="match_parent" />
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:singleLine="true"
+                        android:text="阿拉啦"
+                        android:textSize="@dimen/big_item_title"
+                        android:textColor="@color/white"/>
                     <View
                         android:layout_width="0dp"
                         android:layout_weight="1"
@@ -87,15 +97,21 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1" />
+                <!--音乐歌手-->
                 <TextView
                     android:id="@+id/music_play_artist"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="3"/>
+                    android:layout_weight="4"
+                    android:gravity="center"
+                    android:singleLine="true"
+                    android:text="慕寒-热门华宇242"
+                    android:textSize="@dimen/big_item_artist"
+                    android:textColor="@color/white"/>
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="5" />
+                    android:layout_weight="4" />
             </LinearLayout>
             <!--导航栏右侧-->
             <LinearLayout
@@ -115,15 +131,35 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="4"></LinearLayout>
+        android:layout_weight="4"
+        android:orientation="horizontal">
+        <View
+            android:layout_width="0dp"
+            android:layout_weight="4"
+            android:layout_height="match_parent"/>
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tab_layout_bar_play"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:layout_height="match_parent"
+            app:tabIndicatorColor="@color/red"
+            app:tabIndicatorHeight="0dp"
+            app:tabTextColor="@color/black"
+            app:tabSelectedTextColor="@color/red"
+            app:tabMode="fixed" />
+        <View
+            android:layout_width="0dp"
+            android:layout_weight="4"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
+
 
     <!--中间旋转图片部分-->
-    <LinearLayout
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_play"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="80"
-        android:orientation="vertical">
-    </LinearLayout>
+        android:layout_weight="80" />
 
     <!--中部分享 下载 分享 设置 图标-->
     <LinearLayout
@@ -139,23 +175,8 @@
             android:layout_width="0dp"
             android:layout_weight="7"
             android:layout_height="match_parent"
-            android:src="@drawable/ic_like_white"/>
-        <View
-            android:layout_width="0dp"
-            android:layout_weight="3"
-            android:layout_height="match_parent" />
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_weight="7"
-            android:layout_height="match_parent" />
-        <View
-            android:layout_width="0dp"
-            android:layout_weight="3"
-            android:layout_height="match_parent" />
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_weight="7"
-            android:layout_height="match_parent" />
+            android:src="@drawable/ic_love_white_24dp"
+            android:padding="@dimen/dp_6dp"/>
         <View
             android:layout_width="0dp"
             android:layout_weight="3"
@@ -164,7 +185,30 @@
             android:layout_width="0dp"
             android:layout_weight="7"
             android:layout_height="match_parent"
-            android:src="@drawable/ic_item_set"/>
+            android:src="@drawable/ic_love_red_24dp"
+            android:padding="@dimen/dp_6dp"/>
+        <View
+            android:layout_width="0dp"
+            android:layout_weight="3"
+            android:layout_height="match_parent" />
+        <ImageView
+            android:id="@+id/play_share"
+            android:layout_width="0dp"
+            android:layout_weight="7"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_share_white_24dp"
+            android:padding="@dimen/dp_6dp"/>
+        <View
+            android:layout_width="0dp"
+            android:layout_weight="3"
+            android:layout_height="match_parent" />
+        <ImageView
+            android:id="@+id/play_set"
+            android:layout_width="0dp"
+            android:layout_weight="7"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_item_set_white_24dp"
+            android:padding="@dimen/dp_6dp"/>
         <View
             android:layout_width="0dp"
             android:layout_weight="15.5"
@@ -260,11 +304,12 @@
                     android:layout_weight="2"
                     android:layout_height="match_parent" />
                 <ImageView
+                    android:id="@+id/play_order_mode"
                     android:layout_width="0dp"
                     android:layout_weight="7"
                     android:layout_height="match_parent"
-                    android:src="@drawable/ic_like_white"
-                    />
+                    android:src="@drawable/ic_play_loop_white_24dp"
+                    android:padding="@dimen/dp_9dp"/>
             </LinearLayout>
 
             <View
@@ -391,10 +436,13 @@
                 android:layout_height="0dp"
                 android:layout_weight="7"
                 android:orientation="horizontal">
-                <View
+                <ImageView
+                    android:id="@+id/play_order_list"
                     android:layout_width="0dp"
                     android:layout_weight="7"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_play_order_list_white_32dp"
+                    android:padding="@dimen/dp_9dp"/>
                 <View
                     android:layout_width="0dp"
                     android:layout_weight="2"
