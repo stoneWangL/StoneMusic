@@ -5,6 +5,7 @@ import android.media.MediaPlayer;
 import com.stone.stonemusic.model.SongModel;
 
 import java.io.IOException;
+import java.util.Random;
 
 /*问题播放结束时没有监听，修改播放器的状态*/
 public class MediaUtils {
@@ -12,6 +13,10 @@ public class MediaUtils {
     public static int currentSongPosition = 0;
     //当前播放状态,初始化默认为stop
     public static int currentState = MediaStateCode.PLAY_STOP;
+    //记录seekBar是否改变
+    public static boolean seekBarIsChanging = false;
+    //当前循环播放模式，默认列表循环
+    public static int currentLoopMode = MediaStateCode.LOOP_MODE_ORDER_LIST;
 
     private static MediaPlayer sMediaPlayer;
 
@@ -78,10 +83,26 @@ public class MediaUtils {
     //下一曲
     public static void next(){
         MediaUtils.currentState = MediaStateCode.PLAY_START;
+
         if (MediaUtils.currentSongPosition == SongModel.getInstance().getSongListSize() - 1) {
             MediaUtils.currentSongPosition = 0;
         } else {
-            MediaUtils.currentSongPosition++;
+            switch (currentLoopMode) {
+                case MediaStateCode.LOOP_MODE_ONLY_ONE:
+                    /*单曲循环*/
+                    break;
+                case MediaStateCode.LOOP_MODE_ORDER_LIST:
+                    /*循环循环*/
+                    MediaUtils.currentSongPosition++;
+                    break;
+                case MediaStateCode.LOOP_MODE_OUT_OF_ORDER:
+                    /*随机循环*/
+                    Random r = new Random();
+                    MediaUtils.currentSongPosition = r.nextInt(
+                            SongModel.getInstance().getSongList().size() - 1);
+                    break;
+            }
+
         }
     }
 

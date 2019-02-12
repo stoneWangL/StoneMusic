@@ -309,7 +309,9 @@
                     android:layout_width="0dp"
                     android:layout_weight="7"
                     android:layout_height="match_parent"
-                    android:src="@drawable/ic_play_loop_white_24dp"
+                    android:src="@drawable/ic_play_loop_one_white_24dp"
+                    android:background="?android:attr/selectableItemBackgroundBorderless"
+                    android:clickable="true"
                     android:padding="@dimen/dp_9dp"/>
             </LinearLayout>
 

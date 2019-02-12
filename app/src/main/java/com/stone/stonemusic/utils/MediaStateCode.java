@@ -7,6 +7,10 @@ public class MediaStateCode {
     public static final int PLAY_STOP = 0x0004;
     public static final int MUSIC_POSITION_CHANGED = 0x0010; /*通知-》播放位置改变*/
 
+    public static final int LOOP_MODE_ONLY_ONE = 0x0011; /*单曲循环*/
+    public static final int LOOP_MODE_ORDER_LIST = 0x0012; /*列表循环*/
+    public static final int LOOP_MODE_OUT_OF_ORDER = 0x0013; /*随机循环*/
+
     public static String ACTION_IMAGE = "Stone.Music.Action.Image";
     public static String ACTION_CLOSE = "Stone.Music.Action.Close";
     public static String ACTION_LAST = "Stone.Music.Action.Last";

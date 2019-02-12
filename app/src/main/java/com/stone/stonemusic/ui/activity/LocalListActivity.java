@@ -210,8 +210,6 @@ public class LocalListActivity extends AppCompatActivity {
                 MusicAppUtils.getContext()).unregisterReceiver(
                 LocalListActivityReceiver);
         mCallLocalFragment = null;
-
-        System.exit(0);
     }
 
     //    @Override

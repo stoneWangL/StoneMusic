@@ -24,6 +24,7 @@ import com.stone.stonemusic.bean.Music;
 import com.stone.stonemusic.model.SongModel;
 import com.stone.stonemusic.receiver.MusicBroadCastReceiver;
 import com.stone.stonemusic.ui.activity.LocalListActivity;
+import com.stone.stonemusic.ui.activity.PlayActivity;
 import com.stone.stonemusic.utils.BroadcastUtils;
 import com.stone.stonemusic.utils.MediaStateCode;
 import com.stone.stonemusic.utils.MediaUtils;
@@ -32,6 +33,7 @@ import com.stone.stonemusic.utils.MusicUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class MusicService extends Service {
     public static final String TAG = "MusicService";
@@ -43,6 +45,9 @@ public class MusicService extends Service {
     /*2018/12/8 stoneWang end */
 
     public final IBinder binder = new MyBinder();
+
+    private Thread mLoopModeThread;
+    private int nowMediaNum = 0, listMediaNum = 100, resultNum = 100, listSize, outOfOrderNum;
 
     public MusicService() {
     }
@@ -65,6 +70,9 @@ public class MusicService extends Service {
 
         initNotification();
         musicList = SongModel.getInstance().getSongList();
+
+        mLoopModeThread = new Thread(new LoopModeThread());
+        mLoopModeThread.start(); /*启动线程*/
     }
 
     /**
@@ -291,5 +299,43 @@ public class MusicService extends Service {
         unregisterReceiver(playMusicReceiver);
         LocalBroadcastManager.getInstance(MusicAppUtils.getContext()).unregisterReceiver(MusicBroadCastReceiver.getInstance());
         System.exit(0);
+    }
+
+    /*seekBar进度监听线程*/
+    class LoopModeThread implements Runnable {
+
+        @Override
+        public void run() {
+
+            /*死循环，监听音乐状态*/
+            for (;;) {
+                try {
+                    Thread.sleep(1000); /*每1000毫秒更新一次*/
+                    nowMediaNum = MediaUtils.getMediaPlayer().getCurrentPosition();
+                    listMediaNum = (int) musicList.get(MediaUtils.currentSongPosition).getDuration();
+                    resultNum = nowMediaNum - listMediaNum;
+                    Log.d(TAG, "播放器状态：" + MediaUtils.currentState +
+                    "//seekBar正在改变：" + MediaUtils.seekBarIsChanging +
+                    "//播放器中音乐长度：" + nowMediaNum +
+                    "//当前音乐长度：" + listMediaNum +
+                    "resultNum == " + resultNum);
+
+                    /*手离开了seekBar 而且 音乐播放完了（由于获取的数值有一定的差异，所以允许+-10bite的数值差异）*/
+                    if (!MediaUtils.seekBarIsChanging && (resultNum <= 10 && resultNum >= -10)) {
+                        /*下一曲*/
+                        MediaUtils.next();
+                        MediaUtils.prepare(
+                                SongModel.getInstance().getSongList().
+                                        get(MediaUtils.currentSongPosition).getFileUrl());
+                        MediaUtils.start();
+                        /*发送UI更新广播*/
+                        BroadcastUtils.sendNoticeMusicPositionChanged();
+                    }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }
     }
 }

@@ -5,6 +5,7 @@ import android.app.Application;
 import android.content.Context;
 import android.content.IntentFilter;
 import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 
 import com.stone.stonemusic.R;
 import com.stone.stonemusic.receiver.MusicBroadCastReceiver;
@@ -14,6 +15,7 @@ import java.util.Map;
 import java.util.Set;
 
 public class MusicAppUtils extends Application{
+    public static final String TAG = "MusicAppUtils";
     private static Context sContext;
     private static Map<String, Activity> destroyMap = new HashMap<>(); /*用于销毁活动*/
 
@@ -29,7 +31,11 @@ public class MusicAppUtils extends Application{
                 .getInstance(sContext)
                 .registerReceiver(MusicBroadCastReceiver.getInstance(),
                         new IntentFilter(itFilter));
+
+
     }
+
+
 
     public static Context getContext(){
         return sContext;

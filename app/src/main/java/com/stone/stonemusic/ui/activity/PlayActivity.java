@@ -12,7 +12,6 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -20,7 +19,6 @@ import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.stone.stonemusic.R;
 import com.stone.stonemusic.adapter.PlayFragmentPagerAdapter;
 import com.stone.stonemusic.bean.Music;
@@ -31,7 +29,6 @@ import com.stone.stonemusic.utils.BroadcastUtils;
 import com.stone.stonemusic.utils.MediaStateCode;
 import com.stone.stonemusic.utils.MediaUtils;
 import com.stone.stonemusic.utils.MusicAppUtils;
-import com.stone.stonemusic.utils.MusicUtil;
 import com.stone.stonemusic.utils.OtherUtils;
 
 import java.util.ArrayList;
@@ -54,10 +51,9 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
 
     private TextView tvMusicName, tvMusicArtist, tvCurrentTime, tvTotalTime;
     private SeekBar mSeekBar;
-    private boolean seekBarIsChanging = false;/*记录seekBar是否改变*/
     private Thread seekBarThread;
     private CircleView cvLast, cvPlayOrPause, cvNext;
-    private ImageView ivLast, ivPlayOrPause, ivNext;
+    private ImageView ivMode, ivLast, ivPlayOrPause, ivNext;
 
     /*辅助回调的set方法,供fragment调用*/
     private PlayActivity.CallPlaysFragment mCallPlaysFragment;
@@ -108,7 +104,12 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
         /*当前时长 进度条 全部时长*/
         tvCurrentTime = (TextView) findViewById(R.id.tvCurrentTime);
         mSeekBar = (SeekBar) findViewById(R.id.musicSeekBar);
+        MediaUtils.seekBarIsChanging = false; /*刚进入时，初始化是false*/
         tvTotalTime = (TextView) findViewById(R.id.tvTotalTime);
+
+        /*当前播放模式*/
+        ivMode = (ImageView) findViewById(R.id.play_order_mode);
+
         /*上一曲 播放暂停 下一曲*/
         cvLast = (CircleView) findViewById(R.id.circle_play_last);
         ivLast = (ImageView) findViewById(R.id.iv_play_last);
@@ -117,6 +118,7 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
         cvNext = (CircleView) findViewById(R.id.circle_play_next);
         ivNext = (ImageView) findViewById(R.id.iv_play_next);
 
+        ivMode.setOnClickListener(this);
         cvLast.setOnClickListener(this);
         cvPlayOrPause.setOnClickListener(this);
         cvNext.setOnClickListener(this);
@@ -136,14 +138,14 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
                 Log.d(TAG,"按住SeekBar");
-                seekBarIsChanging = true; /*seekBar改变*/
+                MediaUtils.seekBarIsChanging = true; /*seekBar改变*/
             }
 
             /*放开SeekBar时触发*/
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 Log.d(TAG,"放开SeekBar");
-                seekBarIsChanging = false; /*seekBar停止改变*/
+                MediaUtils.seekBarIsChanging = false; /*seekBar停止改变*/
                 /*将media进度设置为当前seekBar的进度*/
                 MediaUtils.getMediaPlayer().seekTo(seekBar.getProgress());
 
@@ -158,7 +160,7 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
 
         @Override
         public void run() {
-            while (!seekBarIsChanging && MediaUtils.getMediaPlayer().isPlaying()) {
+            while (!MediaUtils.seekBarIsChanging && MediaUtils.getMediaPlayer().isPlaying()) {
                 /*将SeekBar位置设置到当前播放位置*/
                 mSeekBar.setProgress(MediaUtils.getMediaPlayer().getCurrentPosition());
                 try {
@@ -167,7 +169,7 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
                     e.printStackTrace();
                 }
             }
-            if (!seekBarIsChanging && !MediaUtils.getMediaPlayer().isPlaying()){
+            if (!MediaUtils.seekBarIsChanging && !MediaUtils.getMediaPlayer().isPlaying()){
 //                mMusicInfoUtil.setIsPlay(false);//此时音乐停止播放了
             }
         }
@@ -195,6 +197,19 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
         }
         tvTotalTime.setText(OtherUtils.durationTime((int)musicList.get(position).getDuration()));
 
+        /*播放模式*/
+        switch (MediaUtils.currentLoopMode) {
+            case MediaStateCode.LOOP_MODE_ONLY_ONE:
+                ivMode.setImageResource(R.drawable.ic_play_loop_one_white_24dp);
+                break;
+            case MediaStateCode.LOOP_MODE_ORDER_LIST:
+                ivMode.setImageResource(R.drawable.ic_play_in_order_white_24dp);
+                break;
+            case MediaStateCode.LOOP_MODE_OUT_OF_ORDER:
+                ivMode.setImageResource(R.drawable.ic_play_out_of_order_white_24dp);
+                break;
+        }
+
         /*上一曲 播放暂停 下一曲*/
         if (MediaUtils.currentState == MediaStateCode.PLAY_PAUSE ||
                 MediaUtils.currentState == MediaStateCode.PLAY_STOP) {
@@ -202,8 +217,6 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
         }else {
             ivPlayOrPause.setImageResource(R.drawable.ic_pause_white);
         }
-
-
 
     }
 
@@ -222,8 +235,17 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.play_order_mode:
+                /*切换播放模式*/
+                if (MediaUtils.currentLoopMode == MediaStateCode.LOOP_MODE_ORDER_LIST)
+                    MediaUtils.currentLoopMode = MediaStateCode.LOOP_MODE_OUT_OF_ORDER;
+                else if (MediaUtils.currentLoopMode == MediaStateCode.LOOP_MODE_OUT_OF_ORDER)
+                    MediaUtils.currentLoopMode = MediaStateCode.LOOP_MODE_ONLY_ONE;
+                else
+                    MediaUtils.currentLoopMode = MediaStateCode.LOOP_MODE_ORDER_LIST;
+                break;
             case R.id.circle_play_last:
-                Log.d(TAG, "上一曲");
+                /*上一曲*/
                 MediaUtils.last();
                 MediaUtils.prepare(
                         SongModel.getInstance().getSongList().
@@ -231,7 +253,7 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
                 MediaUtils.start();
                 break;
             case R.id.circle_play_play_or_pause:
-                Log.d(TAG, "播放暂停");
+                /*播放暂停*/
                 switch (MediaUtils.currentState) {
                     case MediaStateCode.PLAY_START:
                     case MediaStateCode.PLAY_CONTINUE:
@@ -246,7 +268,7 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 break;
             case R.id.circle_play_next:
-                Log.d(TAG, "下一曲");
+                /*下一曲*/
                 MediaUtils.next();
                 MediaUtils.prepare(
                         SongModel.getInstance().getSongList().
@@ -262,17 +284,7 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-
             initControlPlayUI();
-
-//            String path = MusicUtil.getAlbumArt(new Long(musicList.get(position).getAlbum_id()).intValue());
-////            Log.d(TAG,"path="+path);
-//            if (null == path){
-//                mIvBottomBarImage.setImageResource(R.drawable.ic_log);
-//            }else{
-//                Glide.with(MusicAppUtils.getContext()).load(path).into(mIvBottomBarImage);
-//            }
-
         }
     };
     /*定义回调接口*/
