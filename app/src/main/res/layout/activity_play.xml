@@ -342,6 +342,7 @@
                     android:layout_height="match_parent"
                     android:gravity="center">
                     <com.stone.stonemusic.ui.View.CircleView
+                        android:id="@+id/circle_play_last"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="?android:attr/selectableItemBackgroundBorderless"
@@ -351,7 +352,7 @@
                         android:layout_height="match_parent"
                         android:gravity="center">
                         <ImageView
-                            android:id="@+id/button_last"
+                            android:id="@+id/iv_play_last"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:background="@drawable/ic_last_white"
@@ -367,6 +368,7 @@
                     android:layout_weight="12"
                     android:layout_height="match_parent">
                     <com.stone.stonemusic.ui.View.CircleView
+                        android:id="@+id/circle_play_play_or_pause"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="?android:attr/selectableItemBackgroundBorderless"
@@ -376,7 +378,7 @@
                         android:layout_height="match_parent"
                         android:gravity="center">
                         <ImageView
-                            android:id="@+id/button_play"
+                            android:id="@+id/iv_play_play_or_pause"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:src="@drawable/ic_pause_white" />
@@ -393,6 +395,7 @@
                     android:layout_height="match_parent"
                     android:gravity="center">
                     <com.stone.stonemusic.ui.View.CircleView
+                        android:id="@+id/circle_play_next"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="?android:attr/selectableItemBackgroundBorderless"
@@ -402,7 +405,7 @@
                         android:layout_height="match_parent"
                         android:gravity="center">
                         <ImageView
-                            android:id="@+id/button_next"
+                            android:id="@+id/iv_play_next"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:background="@drawable/ic_next_white"

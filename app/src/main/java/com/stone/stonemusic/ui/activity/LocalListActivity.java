@@ -1,6 +1,5 @@
 package com.stone.stonemusic.ui.activity;
 
-import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -9,26 +8,19 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.LocalBroadcastManager;
-import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.stone.stonemusic.R;
 import com.stone.stonemusic.adapter.LocalMusicFragmentPagerAdapter;
-import com.stone.stonemusic.bean.ItemViewChoose;
 import com.stone.stonemusic.bean.Music;
 import com.stone.stonemusic.model.SongModel;
-import com.stone.stonemusic.receiver.MusicBroadCastReceiver;
-import com.stone.stonemusic.service.MusicService;
 import com.stone.stonemusic.utils.ActivityUtils;
 import com.stone.stonemusic.utils.BroadcastUtils;
 import com.stone.stonemusic.utils.MediaStateCode;
@@ -61,6 +53,7 @@ public class LocalListActivity extends AppCompatActivity {
     private TextView mBottomBarTitle, mBottomBarArtist;
     private List<Music> musicList = new ArrayList<>();
 
+    /*辅助回调的set方法*/
     private CallLocalFragment mCallLocalFragment;
     public void setCallLocalFragment(CallLocalFragment myCallLocalFragment){
         this.mCallLocalFragment = myCallLocalFragment;
@@ -75,6 +68,7 @@ public class LocalListActivity extends AppCompatActivity {
 //        this.getWindow().setFlags(FLAG_HOMEKEY_DISPATCHED, FLAG_HOMEKEY_DISPATCHED);//关键代码
         setContentView(R.layout.activity_local_list);
 
+        MusicAppUtils.addDestroyActivity(this, TAG); /*添加到待销毁的队列*/
 
         initViews();
         initMusicPlayImg();
@@ -85,7 +79,7 @@ public class LocalListActivity extends AppCompatActivity {
 
         IntentFilter itFilter = new IntentFilter();
         itFilter.addAction(MusicAppUtils.getContext().getResources().getString(R.string.app_name));
-        //动态注册广播接收器
+        //动态注册广播接收器(本地广播)
         LocalBroadcastManager
                 .getInstance(this)
                 .registerReceiver(LocalListActivityReceiver, itFilter);
@@ -216,6 +210,8 @@ public class LocalListActivity extends AppCompatActivity {
                 MusicAppUtils.getContext()).unregisterReceiver(
                 LocalListActivityReceiver);
         mCallLocalFragment = null;
+
+        System.exit(0);
     }
 
     //    @Override

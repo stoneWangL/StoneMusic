@@ -255,6 +255,8 @@ public class MusicService extends Service {
                 Log.d(TAG, "点击了Love");
             } else if (action.equals(MediaStateCode.ACTION_CLOSE)) {
                 Log.d(TAG, "clocked Close");
+                MusicAppUtils.destroyActivity("PlayActivity");
+                MusicAppUtils.destroyActivity("LocalListActivity");
                 stopService(new Intent(context,MusicService.class));
             } else {
                 Log.d(TAG, "未知状态229");
@@ -285,12 +287,9 @@ public class MusicService extends Service {
     public void onDestroy() {
         super.onDestroy();
         Log.d(TAG,"音乐服务onDestroy");
-
         MediaUtils.release();
         unregisterReceiver(playMusicReceiver);
         LocalBroadcastManager.getInstance(MusicAppUtils.getContext()).unregisterReceiver(MusicBroadCastReceiver.getInstance());
-
         System.exit(0);
-
     }
 }
