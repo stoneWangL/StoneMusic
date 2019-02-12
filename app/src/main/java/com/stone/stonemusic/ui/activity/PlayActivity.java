@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -31,6 +32,7 @@ import com.stone.stonemusic.utils.MediaStateCode;
 import com.stone.stonemusic.utils.MediaUtils;
 import com.stone.stonemusic.utils.MusicAppUtils;
 import com.stone.stonemusic.utils.MusicUtil;
+import com.stone.stonemusic.utils.OtherUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,7 +52,10 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
     public static final int PLAY_PAGE_IMAGE = 0;
     public static final int PLAY_PAGE_LYRIC = 1;
 
-    private TextView tvMusicName, tvMusicArtist;
+    private TextView tvMusicName, tvMusicArtist, tvCurrentTime, tvTotalTime;
+    private SeekBar mSeekBar;
+    private boolean seekBarIsChanging = false;/*记录seekBar是否改变*/
+    private Thread seekBarThread;
     private CircleView cvLast, cvPlayOrPause, cvNext;
     private ImageView ivLast, ivPlayOrPause, ivNext;
 
@@ -100,6 +105,10 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
         /*标题 歌手*/
         tvMusicName = (TextView) findViewById(R.id.music_play_name);
         tvMusicArtist = (TextView) findViewById(R.id.music_play_artist);
+        /*当前时长 进度条 全部时长*/
+        tvCurrentTime = (TextView) findViewById(R.id.tvCurrentTime);
+        mSeekBar = (SeekBar) findViewById(R.id.musicSeekBar);
+        tvTotalTime = (TextView) findViewById(R.id.tvTotalTime);
         /*上一曲 播放暂停 下一曲*/
         cvLast = (CircleView) findViewById(R.id.circle_play_last);
         ivLast = (ImageView) findViewById(R.id.iv_play_last);
@@ -113,6 +122,55 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
         cvNext.setOnClickListener(this);
 
         initControlPlayUI(); /*需要跟新的模块的设置*/
+
+        mSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+
+            /*进度发生改变时会触发*/
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+//                Log.d(TAG,"进度发生改变,时间为="+durationTime(progress));
+                tvCurrentTime.setText(OtherUtils.durationTime(progress));
+            }
+
+            /*按住SeekBar时会触发*/
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                Log.d(TAG,"按住SeekBar");
+                seekBarIsChanging = true; /*seekBar改变*/
+            }
+
+            /*放开SeekBar时触发*/
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                Log.d(TAG,"放开SeekBar");
+                seekBarIsChanging = false; /*seekBar停止改变*/
+                /*将media进度设置为当前seekBar的进度*/
+                MediaUtils.getMediaPlayer().seekTo(seekBar.getProgress());
+
+                seekBarThread = new Thread(new PlayActivity.SeekBarThread());
+                seekBarThread.start(); /*启动线程*/
+            }
+        });
+    }
+
+    /*seekBar进度监听线程*/
+    class SeekBarThread implements Runnable {
+
+        @Override
+        public void run() {
+            while (!seekBarIsChanging && MediaUtils.getMediaPlayer().isPlaying()) {
+                /*将SeekBar位置设置到当前播放位置*/
+                mSeekBar.setProgress(MediaUtils.getMediaPlayer().getCurrentPosition());
+                try {
+                    Thread.sleep(500); /*每100毫秒更新一次位置*/
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (!seekBarIsChanging && !MediaUtils.getMediaPlayer().isPlaying()){
+//                mMusicInfoUtil.setIsPlay(false);//此时音乐停止播放了
+            }
+        }
     }
 
     /*跟新 带有控制的View的UI（eg:上一曲 下一曲 播放暂停 是否喜欢 循环模式图标）*/
@@ -126,6 +184,17 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
         tvMusicName.setText(musicList.get(position).getTitle());
         tvMusicArtist.setText(musicList.get(position).getArtist());
 
+        /*当前时长 seekBar 全部时长*/
+        tvCurrentTime.setText(OtherUtils.durationTime(0));
+        mSeekBar.setProgress(0);
+        mSeekBar.setMax((int)musicList.get(position).getDuration());
+        mSeekBar.setProgress(MediaUtils.getMediaPlayer().getCurrentPosition());
+        if (MediaUtils.getMediaPlayer().isPlaying()){
+            seekBarThread = new Thread(new PlayActivity.SeekBarThread());
+            seekBarThread.start(); /*启动seekBar监听线程*/
+        }
+        tvTotalTime.setText(OtherUtils.durationTime((int)musicList.get(position).getDuration()));
+
         /*上一曲 播放暂停 下一曲*/
         if (MediaUtils.currentState == MediaStateCode.PLAY_PAUSE ||
                 MediaUtils.currentState == MediaStateCode.PLAY_STOP) {
@@ -133,6 +202,9 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
         }else {
             ivPlayOrPause.setImageResource(R.drawable.ic_pause_white);
         }
+
+
+
     }
 
     @Override

@@ -217,7 +217,6 @@
 
     <!--中下部 seekBar的位置-->
     <LinearLayout
-        android:id="@+id/musicTime"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="3"
@@ -236,7 +235,8 @@
                 android:layout_weight="6"
                 android:layout_height="match_parent"
                 style="@style/music_time_text_style"
-                tools:text="01:34"/>
+                tools:text="01:34"
+                android:gravity="center"/>
             <View
                 android:layout_width="0dp"
                 android:layout_weight="1"
@@ -267,7 +267,8 @@
                 android:layout_weight="6"
                 android:layout_height="match_parent"
                 style="@style/music_time_text_style"
-                tools:text="05:34"/>
+                tools:text="05:34"
+                android:gravity="center"/>
             <View
                 android:layout_width="0dp"
                 android:layout_weight="3"

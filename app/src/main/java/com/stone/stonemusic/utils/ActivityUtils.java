@@ -80,4 +80,5 @@ public class ActivityUtils {
         ActivityUtils.setStatusBarColor(activity, statusColor, false);
         return statusColor;
     }
+
 }
