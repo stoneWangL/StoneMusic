@@ -69,13 +69,12 @@ public class LocalListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_local_list);
 
         MusicAppUtils.addDestroyActivity(this, TAG); /*添加到待销毁的队列*/
-
-        initViews();
-        initMusicPlayImg();
-
         //init音乐列表
         SongModel.getInstance().setSongList(new MusicUtil().getMusic(MusicAppUtils.getContext()));
         musicList = SongModel.getInstance().getSongList();
+
+        initViews();
+        initMusicPlayImg();
 
         IntentFilter itFilter = new IntentFilter();
         itFilter.addAction(MusicAppUtils.getContext().getResources().getString(R.string.app_name));
@@ -110,7 +109,20 @@ public class LocalListActivity extends AppCompatActivity {
     }
 
     private void initMusicPlayImg() {
-//        Log.d(TAG, "113行 状态码 == " + MediaUtils.currentState);
+
+        int position = MediaUtils.currentSongPosition;
+//        Log.d(TAG, "20190212 musicList = " + musicList.size());
+        mBottomBarTitle.setText(musicList.get(position).getTitle());
+        mBottomBarArtist.setText(musicList.get(position).getArtist());
+
+        String path = MusicUtil.getAlbumArt(new Long(musicList.get(position).getAlbum_id()).intValue());
+//            Log.d(TAG,"path="+path);
+        if (null == path){
+            mIvBottomBarImage.setImageResource(R.drawable.ic_log);
+        }else{
+            Glide.with(MusicAppUtils.getContext()).load(path).into(mIvBottomBarImage);
+        }
+
         if (MediaUtils.currentState == MediaStateCode.PLAY_PAUSE ||
                 MediaUtils.currentState == MediaStateCode.PLAY_STOP) {
             mIvPlay.setImageResource(R.drawable.ic_play_black);
@@ -152,18 +164,7 @@ public class LocalListActivity extends AppCompatActivity {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            int position = MediaUtils.currentSongPosition;
 
-            mBottomBarTitle.setText(musicList.get(position).getTitle());
-            mBottomBarArtist.setText(musicList.get(position).getArtist());
-
-            String path = MusicUtil.getAlbumArt(new Long(musicList.get(position).getAlbum_id()).intValue());
-//            Log.d(TAG,"path="+path);
-            if (null == path){
-                mIvBottomBarImage.setImageResource(R.drawable.ic_log);
-            }else{
-                Glide.with(MusicAppUtils.getContext()).load(path).into(mIvBottomBarImage);
-            }
 
             initMusicPlayImg();
         }
