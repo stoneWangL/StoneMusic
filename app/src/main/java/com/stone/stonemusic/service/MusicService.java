@@ -47,7 +47,7 @@ public class MusicService extends Service {
     public final IBinder binder = new MyBinder();
 
     private Thread mLoopModeThread;
-    private int nowMediaNum = 0, listMediaNum = 100, resultNum = 100, listSize, outOfOrderNum;
+    private int nowMediaNum = 0, listMediaNum = 1024, resultNum = 100, listSize, outOfOrderNum;
 
     public MusicService() {
     }
@@ -321,7 +321,7 @@ public class MusicService extends Service {
                     "resultNum == " + resultNum);
 
                     /*手离开了seekBar 而且 音乐播放完了（由于获取的数值有一定的差异，所以允许+-10bite的数值差异）*/
-                    if (!MediaUtils.seekBarIsChanging && (resultNum <= 10 && resultNum >= -10)) {
+                    if (!MediaUtils.seekBarIsChanging && (resultNum <= 1024 && resultNum >= -1024)) {
                         /*下一曲*/
                         MediaUtils.next();
                         MediaUtils.prepare(

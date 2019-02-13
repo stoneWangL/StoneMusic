@@ -110,25 +110,30 @@ public class LocalListActivity extends AppCompatActivity {
 
     private void initMusicPlayImg() {
 
-        int position = MediaUtils.currentSongPosition;
+        try{
+            int position = MediaUtils.currentSongPosition;
 //        Log.d(TAG, "20190212 musicList = " + musicList.size());
-        mBottomBarTitle.setText(musicList.get(position).getTitle());
-        mBottomBarArtist.setText(musicList.get(position).getArtist());
+            mBottomBarTitle.setText(musicList.get(position).getTitle());
+            mBottomBarArtist.setText(musicList.get(position).getArtist());
 
-        String path = MusicUtil.getAlbumArt(new Long(musicList.get(position).getAlbum_id()).intValue());
+            String path = MusicUtil.getAlbumArt(new Long(musicList.get(position).getAlbum_id()).intValue());
 //            Log.d(TAG,"path="+path);
-        if (null == path){
-            mIvBottomBarImage.setImageResource(R.drawable.ic_log);
-        }else{
-            Glide.with(MusicAppUtils.getContext()).load(path).into(mIvBottomBarImage);
+            if (null == path){
+                mIvBottomBarImage.setImageResource(R.drawable.ic_log);
+            }else{
+                Glide.with(MusicAppUtils.getContext()).load(path).into(mIvBottomBarImage);
+            }
+
+            if (MediaUtils.currentState == MediaStateCode.PLAY_PAUSE ||
+                    MediaUtils.currentState == MediaStateCode.PLAY_STOP) {
+                mIvPlay.setImageResource(R.drawable.ic_play_black);
+            }else {
+                mIvPlay.setImageResource(R.drawable.ic_pause_black);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
-        if (MediaUtils.currentState == MediaStateCode.PLAY_PAUSE ||
-                MediaUtils.currentState == MediaStateCode.PLAY_STOP) {
-            mIvPlay.setImageResource(R.drawable.ic_play_black);
-        }else {
-            mIvPlay.setImageResource(R.drawable.ic_pause_black);
-        }
     }
 
     //播放键控制

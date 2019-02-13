@@ -22,21 +22,26 @@
                 android:layout_width="0dp"
                 android:layout_weight="11"
                 android:layout_height="match_parent" />
-            <FrameLayout
+            <LinearLayout
                 android:layout_width="0dp"
                 android:layout_weight="45"
-                android:layout_height="match_parent">
-                <com.stone.stonemusic.ui.View.CircleImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:adjustViewBounds="true"
-                    android:src="@drawable/play_background02" />
-                <com.stone.stonemusic.ui.View.CircleImageView
-                    android:id="@+id/play_music_album_image"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/ic_x"/>
-            </FrameLayout>
+                android:layout_height="match_parent"
+                android:gravity="center">
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent">
+                    <com.stone.stonemusic.ui.View.CircleImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:adjustViewBounds="true"
+                        android:src="@drawable/play_background02" />
+                    <com.stone.stonemusic.ui.View.CircleImageView
+                        android:id="@+id/play_music_album_image"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/ic_x"/>
+                </FrameLayout>
+            </LinearLayout>
             <View
                 android:layout_width="0dp"
                 android:layout_weight="11"
