@@ -3,6 +3,7 @@ package com.stone.stonemusic.utils;
 import android.media.MediaPlayer;
 
 import com.stone.stonemusic.model.SongModel;
+import com.stone.stonemusic.present.MusicPositionObserverManager;
 
 import java.io.IOException;
 import java.util.Random;
@@ -46,6 +47,9 @@ public class MediaUtils {
             getMediaPlayer().start();
             MediaUtils.currentState = MediaStateCode.PLAY_START;
         }
+
+        //被观察者发生变化->PLAY_START
+        MusicPositionObserverManager.getInstance().notifyObserver(MediaStateCode.PLAY_START);
     }
 
     //暂停
@@ -54,6 +58,9 @@ public class MediaUtils {
             getMediaPlayer().pause();
             MediaUtils.currentState = MediaStateCode.PLAY_PAUSE;
         }
+
+        //被观察者发生变化->PLAY_PAUSE
+        MusicPositionObserverManager.getInstance().notifyObserver(MediaStateCode.PLAY_PAUSE);
     }
 
     //继续播放
@@ -62,6 +69,9 @@ public class MediaUtils {
             getMediaPlayer().start();
             MediaUtils.currentState = MediaStateCode.PLAY_CONTINUE;
         }
+
+        //被观察者发生变化->PLAY_CONTINUE
+        MusicPositionObserverManager.getInstance().notifyObserver(MediaStateCode.PLAY_CONTINUE);
     }
 
     //停止播放
@@ -70,6 +80,9 @@ public class MediaUtils {
             getMediaPlayer().stop();
             MediaUtils.currentState = MediaStateCode.PLAY_STOP;
         }
+
+        //被观察者发生变化->PLAY_STOP
+        MusicPositionObserverManager.getInstance().notifyObserver(MediaStateCode.PLAY_STOP);
     }
     //上一曲
     public static void last(){
@@ -79,6 +92,9 @@ public class MediaUtils {
         } else {
             MediaUtils.currentSongPosition--;
         }
+
+        //被观察者发生变化->播放位置发生改变
+        MusicPositionObserverManager.getInstance().notifyObserver(MediaStateCode.MUSIC_POSITION_CHANGED);
     }
     //下一曲
     public static void next(){
@@ -104,6 +120,9 @@ public class MediaUtils {
             }
 
         }
+
+        //被观察者发生变化->播放位置发生改变
+        MusicPositionObserverManager.getInstance().notifyObserver(MediaStateCode.MUSIC_POSITION_CHANGED);
     }
 
     //释放Media Player资源
@@ -116,4 +135,5 @@ public class MediaUtils {
             sMediaPlayer = null;
         }
     }
+
 }

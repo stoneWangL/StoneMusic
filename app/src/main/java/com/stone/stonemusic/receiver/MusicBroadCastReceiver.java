@@ -30,7 +30,7 @@ public class MusicBroadCastReceiver extends BroadcastReceiver {
         String action = intent.getAction();
         Log.d(TAG, "action = " + action);
 
-        if (action.equals(MusicAppUtils.getContext().
+        if (null != action && action.equals(MusicAppUtils.getContext().
                 getResources().getString(R.string.app_name))) {
             /*利用广播操作服务*/
             Log.d(TAG,"接收到的intent的state值为："+

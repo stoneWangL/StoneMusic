@@ -5,6 +5,7 @@
     <color name="colorAccent">#FF4081</color>
     <color name="black">#ff000000</color>
     <color name="white">#ffffffff</color>
+    <color name="lightWhite">#88ffffff</color>
     <color name="red">#ff0000</color>
 
     <color name="stoneListTopColor">#898989</color>
@@ -20,4 +21,6 @@
     <color name="color7">#34dfce</color>
     <color name="color8">#3d032b</color>
     <color name="color9">#77170f</color>
+
+    <color name="primary">#9C27B0</color>
 </resources>

@@ -34,6 +34,8 @@ import com.stone.stonemusic.utils.OtherUtils;
 import java.util.ArrayList;
 import java.util.List;
 
+//import static com.stone.stonemusic.utils.BroadcastUtils.sendLrcPositionChanged;
+
 public class PlayActivity extends AppCompatActivity implements View.OnClickListener{
     public static final String TAG = "PlayActivity";
     private List<Music> musicList = new ArrayList<>();
@@ -163,8 +165,11 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
             while (!MediaUtils.seekBarIsChanging && MediaUtils.getMediaPlayer().isPlaying()) {
                 /*将SeekBar位置设置到当前播放位置*/
                 mSeekBar.setProgress(MediaUtils.getMediaPlayer().getCurrentPosition());
+
+//                BroadcastUtils.sendLrcPositionChanged(); /*提醒Lrc更新*/
+
                 try {
-                    Thread.sleep(500); /*每100毫秒更新一次位置*/
+                    Thread.sleep(1000); /*每1秒更新一次位置*/
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -175,7 +180,7 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    /*跟新 带有控制的View的UI（eg:上一曲 下一曲 播放暂停 是否喜欢 循环模式图标）*/
+    /*更新 带有控制的View的UI（eg:上一曲 下一曲 播放暂停 是否喜欢 循环模式图标）*/
     private void initControlPlayUI() {
         /*整个layout*/
         int statusColor = ActivityUtils.initColor(this);
@@ -317,4 +322,5 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
                 MusicAppUtils.getContext()).unregisterReceiver(
                 PlayActivityReceiver);
     }
+
 }

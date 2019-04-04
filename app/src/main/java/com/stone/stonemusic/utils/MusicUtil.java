@@ -76,7 +76,7 @@ public class MusicUtil {
                 Uri.parse(mUriAlbums + "/" + Integer.toString(album_id)),
                 projection, null, null, null);
         String album_art = null;
-        if (cur.getCount() > 0 && cur.getColumnCount() > 0) {
+        if (null != cur && cur.getCount() > 0 && cur.getColumnCount() > 0) {
             cur.moveToNext();
             album_art = cur.getString(0);
         }

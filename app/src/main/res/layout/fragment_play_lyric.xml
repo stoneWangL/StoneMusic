@@ -2,8 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <TextView
+
+    <com.stone.stonemusic.ui.View.LrcView
+        android:id="@+id/playpage_lrcview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="歌词"/>
+        android:fillViewport="false"
+        android:text="歌词界面" />
+
 </LinearLayout>

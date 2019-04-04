@@ -20,9 +20,11 @@ import com.bumptech.glide.Glide;
 import com.stone.stonemusic.R;
 import com.stone.stonemusic.adapter.LocalMusicFragmentPagerAdapter;
 import com.stone.stonemusic.bean.Music;
+import com.stone.stonemusic.model.LrcContent;
 import com.stone.stonemusic.model.SongModel;
 import com.stone.stonemusic.utils.ActivityUtils;
 import com.stone.stonemusic.utils.BroadcastUtils;
+import com.stone.stonemusic.utils.LrcUtil;
 import com.stone.stonemusic.utils.MediaStateCode;
 import com.stone.stonemusic.utils.MediaUtils;
 import com.stone.stonemusic.utils.MusicAppUtils;
@@ -115,6 +117,20 @@ public class LocalListActivity extends AppCompatActivity {
 //        Log.d(TAG, "20190212 musicList = " + musicList.size());
             mBottomBarTitle.setText(musicList.get(position).getTitle());
             mBottomBarArtist.setText(musicList.get(position).getArtist());
+
+            /*0217 test start 解析歌词*/
+//            Music music = musicList.get(position);
+//            Log.d(TAG, "LrcUtil.loadLrc(music) == " + LrcUtil.loadLrc(music).size());
+//            List<LrcContent> lrclists = LrcUtil.loadLrc(music);
+//            LrcContent lrcContent = null;
+//            for (int i = 0; i < lrclists.size(); i++) {
+//                lrcContent = lrclists.get(i);
+////                Log.i(TAG, "TIME==" + lrcContent.getLrcTime()
+////                        + " String == " + lrcContent.getLrcStr());
+//
+//
+//            }
+            /*0217 test end*/
 
             String path = MusicUtil.getAlbumArt(new Long(musicList.get(position).getAlbum_id()).intValue());
 //            Log.d(TAG,"path="+path);

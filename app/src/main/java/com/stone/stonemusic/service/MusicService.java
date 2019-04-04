@@ -24,7 +24,6 @@ import com.stone.stonemusic.bean.Music;
 import com.stone.stonemusic.model.SongModel;
 import com.stone.stonemusic.receiver.MusicBroadCastReceiver;
 import com.stone.stonemusic.ui.activity.LocalListActivity;
-import com.stone.stonemusic.ui.activity.PlayActivity;
 import com.stone.stonemusic.utils.BroadcastUtils;
 import com.stone.stonemusic.utils.MediaStateCode;
 import com.stone.stonemusic.utils.MediaUtils;
@@ -33,7 +32,6 @@ import com.stone.stonemusic.utils.MusicUtil;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class MusicService extends Service {
     public static final String TAG = "MusicService";
@@ -48,6 +46,8 @@ public class MusicService extends Service {
 
     private Thread mLoopModeThread;
     private int nowMediaNum = 0, listMediaNum = 1024, resultNum = 100, listSize, outOfOrderNum;
+
+
 
     public MusicService() {
     }
@@ -169,10 +169,14 @@ public class MusicService extends Service {
                     bitmap = BitmapFactory.decodeFile(path);
                 }
                 remoteViews.setImageViewBitmap(R.id.notification_album, bitmap);
+                bitmap = null;
+
 
                 /*歌曲名称 & 歌手名*/
                 remoteViews.setTextViewText(R.id.notification_title, musicList.get(position).getTitle());
                 remoteViews.setTextViewText(R.id.notification_artist, musicList.get(position).getArtist());
+
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -232,7 +236,7 @@ public class MusicService extends Service {
         public void onReceive(final Context context, final Intent intent) {
             String action = intent.getAction();
             Log.d(TAG, "action = " + action);
-            if (action.equals(MediaStateCode.ACTION_PLAY_OR_PAUSE)) {
+            if (null != action && action.equals(MediaStateCode.ACTION_PLAY_OR_PAUSE)) {
                 if (MediaUtils.currentState == MediaStateCode.PLAY_PAUSE) {
                     MediaUtils.continuePlay();
                 } else if (MediaUtils.currentState == MediaStateCode.PLAY_STOP) {
@@ -314,11 +318,11 @@ public class MusicService extends Service {
                     nowMediaNum = MediaUtils.getMediaPlayer().getCurrentPosition();
                     listMediaNum = (int) musicList.get(MediaUtils.currentSongPosition).getDuration();
                     resultNum = nowMediaNum - listMediaNum;
-                    Log.d(TAG, "播放器状态：" + MediaUtils.currentState +
-                    "//seekBar正在改变：" + MediaUtils.seekBarIsChanging +
-                    "//播放器中音乐长度：" + nowMediaNum +
-                    "//当前音乐长度：" + listMediaNum +
-                    "resultNum == " + resultNum);
+//                    Log.d(TAG, "播放器状态：" + MediaUtils.currentState +
+//                    "//seekBar正在改变：" + MediaUtils.seekBarIsChanging +
+//                    "//播放器中音乐长度：" + nowMediaNum +
+//                    "//当前音乐长度：" + listMediaNum +
+//                    "resultNum == " + resultNum);
 
                     /*手离开了seekBar 而且 音乐播放完了（由于获取的数值有一定的差异，所以允许+-10bite的数值差异）*/
                     if (!MediaUtils.seekBarIsChanging && (resultNum <= 1024 && resultNum >= -1024)) {

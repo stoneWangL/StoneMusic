@@ -46,4 +46,13 @@ public class BroadcastUtils {
                 .getInstance(MusicAppUtils.getContext())
                 .sendBroadcast(intent);
     }
+
+//    public static void sendLrcPositionChanged(){
+//        Intent intent = new Intent();
+//        intent.setAction(MediaStateCode.ACTION_CURRENT_UPDATE);
+//        LocalBroadcastManager
+//                .getInstance(MusicAppUtils.getContext())
+//                .sendBroadcast(intent);
+//    }
+
 }

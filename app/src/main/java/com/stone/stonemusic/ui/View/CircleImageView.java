@@ -12,6 +12,7 @@ import android.graphics.RectF;
 import android.graphics.Xfermode;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
+import android.util.LruCache;
 import android.widget.ImageView;
 
 
