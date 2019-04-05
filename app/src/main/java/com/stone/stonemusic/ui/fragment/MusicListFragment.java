@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
@@ -24,6 +25,8 @@ import com.stone.stonemusic.adapter.LocalMusicAdapter;
 import com.stone.stonemusic.bean.ItemViewChoose;
 import com.stone.stonemusic.bean.Music;
 import com.stone.stonemusic.model.SongModel;
+import com.stone.stonemusic.present.MusicObserverListener;
+import com.stone.stonemusic.present.MusicObserverManager;
 import com.stone.stonemusic.service.MusicService;
 import com.stone.stonemusic.ui.activity.LocalListActivity;
 import com.stone.stonemusic.utils.BroadcastUtils;
@@ -35,7 +38,7 @@ import com.stone.stonemusic.utils.MusicUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MusicListFragment extends Fragment implements LocalListActivity.CallLocalFragment {
+public class MusicListFragment extends Fragment implements LocalListActivity.CallBackInterface {
     public static final String TAG = "MusicListFragment";
     private ListView listView;
     private List<Music> musicList = new ArrayList<>();
@@ -46,24 +49,19 @@ public class MusicListFragment extends Fragment implements LocalListActivity.Cal
     private ImageView mIvPlay;
     private ImageView mIvBottomBarImage;
 
-    public MusicListFragment() {
-    }
+    public MusicListFragment() {}
 
-    private LocalListActivity.CallLocalFragment callLocalFragment = new LocalListActivity.CallLocalFragment() {
-        @Override
-        public void ChangeUI() {
-            Log.d(TAG, "这里是Fragment的ChangeUI()，这里被回调了");
-            LocalListActivityHandler.sendEmptyMessage(1);
-        }
-    };
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        ((LocalListActivity)context).setCallLocalFragment(callLocalFragment);
+        ((LocalListActivity)context).setCallBackInterface(this);
     }
     @Override
-    public void ChangeUI() {}
+    public void ChangeUI() {
+        Log.d(TAG, "这里是Fragment的ChangeUI()，这里被回调了");
+        LocalListActivityHandler.sendEmptyMessage(1);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -163,7 +161,4 @@ public class MusicListFragment extends Fragment implements LocalListActivity.Cal
         super.onStop();
         Log.d(TAG, "onStop");
     }
-
-
-
 }

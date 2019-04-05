@@ -7,23 +7,23 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * date   : 2019/4/39:01
  * 观察者管理类
  */
-public class MusicPositionObserverManager implements MusicPositionSubjectListener {
+public class MusicObserverManager implements MusicSubjectListener {
     private static String TAG = "MusicPositionObserverManager";
-    private static MusicPositionObserverManager observerManager = null;
+    private static MusicObserverManager observerManager = null;
 
     //观察者接口集合(使用CopyOnWriteArrayList而不是List是为了线程安全)
-    private CopyOnWriteArrayList<MusicPositionObserverListener> list = new CopyOnWriteArrayList<>();
+    private CopyOnWriteArrayList<MusicObserverListener> list = new CopyOnWriteArrayList<>();
 
     /**
      * 静态内部类单例
      * @return 观察者管理类的实例
      */
-    public static MusicPositionObserverManager getInstance() {
+    public static MusicObserverManager getInstance() {
         return SingletonHolder.observerManager;
     }
 
     private static class SingletonHolder {
-        private static final MusicPositionObserverManager observerManager = new MusicPositionObserverManager();
+        private static final MusicObserverManager observerManager = new MusicObserverManager();
     }
 
 
@@ -33,7 +33,7 @@ public class MusicPositionObserverManager implements MusicPositionSubjectListene
      * @param observerListener
      */
     @Override
-    public void add(MusicPositionObserverListener observerListener) {
+    public void add(MusicObserverListener observerListener) {
         list.add(observerListener);
     }
 
@@ -43,7 +43,7 @@ public class MusicPositionObserverManager implements MusicPositionSubjectListene
      */
     @Override
     public void notifyObserver(int content) {
-        for (MusicPositionObserverListener observerListener : list) {
+        for (MusicObserverListener observerListener : list) {
             observerListener.observerUpData(content);
         }
     }
@@ -53,7 +53,7 @@ public class MusicPositionObserverManager implements MusicPositionSubjectListene
      * @param observerListener
      */
     @Override
-    public void remove(MusicPositionObserverListener observerListener) {
+    public void remove(MusicObserverListener observerListener) {
         if (list.contains(observerListener)) {
             list.remove(observerListener);
         }

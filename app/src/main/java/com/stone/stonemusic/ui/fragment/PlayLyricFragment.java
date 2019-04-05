@@ -16,8 +16,8 @@ import com.stone.stonemusic.R;
 import com.stone.stonemusic.bean.Music;
 import com.stone.stonemusic.model.LrcContent;
 import com.stone.stonemusic.model.SongModel;
-import com.stone.stonemusic.present.MusicPositionObserverListener;
-import com.stone.stonemusic.present.MusicPositionObserverManager;
+import com.stone.stonemusic.present.MusicObserverListener;
+import com.stone.stonemusic.present.MusicObserverManager;
 import com.stone.stonemusic.ui.Listeners.OnLrcSearchClickListener;
 import com.stone.stonemusic.ui.View.LrcView;
 import com.stone.stonemusic.utils.LrcUtil;
@@ -36,7 +36,7 @@ import static com.stone.stonemusic.data.LrcStateContants.QUERY_ONLINE_OK;
 import static com.stone.stonemusic.data.LrcStateContants.READ_LOC_OK;
 
 public class PlayLyricFragment extends Fragment implements OnLrcSearchClickListener
-        ,MusicPositionObserverListener{
+        ,MusicObserverListener {
     private static String TAG = "PlayLyricFragment";
 
     private List<Music> musicList = new ArrayList<>();
@@ -66,7 +66,7 @@ public class PlayLyricFragment extends Fragment implements OnLrcSearchClickListe
         Log.i(TAG, "回调 onCreate");
 
         //添加进观察者队列
-        MusicPositionObserverManager.getInstance().add(this);
+        MusicObserverManager.getInstance().add(this);
 
     }
 
@@ -355,7 +355,7 @@ public class PlayLyricFragment extends Fragment implements OnLrcSearchClickListe
         super.onDestroy();
         Log.i(TAG, "回调 onDestroy");
         //从观察者队列中移除
-        MusicPositionObserverManager.getInstance().remove(this);
+        MusicObserverManager.getInstance().remove(this);
         //停止LrcUpData轮询
         DclTimerTask.getInstance().destroyed();
     }

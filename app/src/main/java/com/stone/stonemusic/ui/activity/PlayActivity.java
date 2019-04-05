@@ -1,15 +1,10 @@
 package com.stone.stonemusic.ui.activity;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -23,6 +18,8 @@ import com.stone.stonemusic.R;
 import com.stone.stonemusic.adapter.PlayFragmentPagerAdapter;
 import com.stone.stonemusic.bean.Music;
 import com.stone.stonemusic.model.SongModel;
+import com.stone.stonemusic.present.MusicObserverListener;
+import com.stone.stonemusic.present.MusicObserverManager;
 import com.stone.stonemusic.ui.View.CircleView;
 import com.stone.stonemusic.utils.ActivityUtils;
 import com.stone.stonemusic.utils.BroadcastUtils;
@@ -34,9 +31,9 @@ import com.stone.stonemusic.utils.OtherUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-//import static com.stone.stonemusic.utils.BroadcastUtils.sendLrcPositionChanged;
 
-public class PlayActivity extends AppCompatActivity implements View.OnClickListener{
+public class PlayActivity extends AppCompatActivity implements View.OnClickListener
+    ,MusicObserverListener{
     public static final String TAG = "PlayActivity";
     private List<Music> musicList = new ArrayList<>();
     private LinearLayout mLinearLayout;
@@ -58,9 +55,9 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
     private ImageView ivMode, ivLast, ivPlayOrPause, ivNext;
 
     /*辅助回调的set方法,供fragment调用*/
-    private PlayActivity.CallPlaysFragment mCallPlaysFragment;
-    public void setCallPlaysFragment(PlayActivity.CallPlaysFragment fragment){
-        this.mCallPlaysFragment = fragment;
+    private CallBackInterface mCallBackInterface;
+    public void setCallBackInterface(CallBackInterface mCallBackInterface){
+        this.mCallBackInterface = mCallBackInterface;
     }
 
     @Override
@@ -68,14 +65,16 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play);
 
+        //添加进观察者队列
+        MusicObserverManager.getInstance().add(this);
         init();
 
-        IntentFilter itFilter = new IntentFilter();
-        itFilter.addAction(MusicAppUtils.getContext().getResources().getString(R.string.app_name));
-        //动态注册广播接收器
-        LocalBroadcastManager
-                .getInstance(this)
-                .registerReceiver(PlayActivityReceiver, itFilter);
+//        IntentFilter itFilter = new IntentFilter();
+//        itFilter.addAction(MusicAppUtils.getContext().getResources().getString(R.string.app_name));
+//        //动态注册广播接收器
+//        LocalBroadcastManager
+//                .getInstance(this)
+//                .registerReceiver(PlayActivityReceiver, itFilter);
 
     }
 
@@ -165,8 +164,6 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
             while (!MediaUtils.seekBarIsChanging && MediaUtils.getMediaPlayer().isPlaying()) {
                 /*将SeekBar位置设置到当前播放位置*/
                 mSeekBar.setProgress(MediaUtils.getMediaPlayer().getCurrentPosition());
-
-//                BroadcastUtils.sendLrcPositionChanged(); /*提醒Lrc更新*/
 
                 try {
                     Thread.sleep(1000); /*每1秒更新一次位置*/
@@ -293,34 +290,62 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
         }
     };
     /*定义回调接口*/
-    public interface CallPlaysFragment{
+    public interface CallBackInterface{
         void ChangeUI();
     }
 
-    private BroadcastReceiver PlayActivityReceiver = new BroadcastReceiver() {
-        public void onReceive(final Context context, final Intent intent) {
-            String action = intent.getAction();
-            int state = intent.getIntExtra("state", 0);
-            if (state == MediaStateCode.MUSIC_POSITION_CHANGED) {
-                Log.d(TAG, "182行 action = " + action + "||其中 state == " + state + ";;");
+//    private BroadcastReceiver PlayActivityReceiver = new BroadcastReceiver() {
+//        public void onReceive(final Context context, final Intent intent) {
+//            String action = intent.getAction();
+//            int state = intent.getIntExtra("state", 0);
+//            if (state == MediaStateCode.MUSIC_POSITION_CHANGED) {
+//                Log.d(TAG, "182行 action = " + action + "||其中 state == " + state + ";;");
+//                PlayActivityHandler.sendEmptyMessage(1);
+//
+//                /*调用回调方法ChangeUI，调用后Fragment重写的回调方法会被自动执行，从而在Fragment回调方法中通知handler更新UI*/
+//                if (null != mCallPlaysFragment) {
+//                    mCallPlaysFragment.ChangeUI();
+//                }
+//
+//            }
+//        }
+//    };
+
+    @Override
+    public void observerUpData(int content) {
+        switch (content) {
+            case MediaStateCode.MUSIC_POSITION_CHANGED:
                 PlayActivityHandler.sendEmptyMessage(1);
-
                 /*调用回调方法ChangeUI，调用后Fragment重写的回调方法会被自动执行，从而在Fragment回调方法中通知handler更新UI*/
-                if (null != mCallPlaysFragment) {
-                    mCallPlaysFragment.ChangeUI();
+                if (null != mCallBackInterface) {
+                    mCallBackInterface.ChangeUI();
                 }
+                break;
 
-            }
+            case MediaStateCode.PLAY_START:
+            case MediaStateCode.PLAY_CONTINUE:
+                break;
+
+            case MediaStateCode.PLAY_STOP:
+            case MediaStateCode.PLAY_PAUSE:
+                break;
+
+            default:
+                Log.i(TAG, "observerUpData->观察者类数据已刷新");
+                break;
         }
-    };
+    }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         /*注销广播接收器*/
-        LocalBroadcastManager.getInstance(
-                MusicAppUtils.getContext()).unregisterReceiver(
-                PlayActivityReceiver);
+//        LocalBroadcastManager.getInstance(
+//                MusicAppUtils.getContext()).unregisterReceiver(
+//                PlayActivityReceiver);
+        mCallBackInterface = null; //释放引用
+        //从观察者队列中移除
+        MusicObserverManager.getInstance().remove(this);
     }
 
 }

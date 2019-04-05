@@ -56,9 +56,9 @@ public class LocalListActivity extends AppCompatActivity {
     private List<Music> musicList = new ArrayList<>();
 
     /*辅助回调的set方法*/
-    private CallLocalFragment mCallLocalFragment;
-    public void setCallLocalFragment(CallLocalFragment myCallLocalFragment){
-        this.mCallLocalFragment = myCallLocalFragment;
+    private CallBackInterface mCallBackInterface;
+    public void setCallBackInterface(CallBackInterface myCallBackInterface){
+        this.mCallBackInterface = myCallBackInterface;
     }
 
     @Override
@@ -118,19 +118,6 @@ public class LocalListActivity extends AppCompatActivity {
             mBottomBarTitle.setText(musicList.get(position).getTitle());
             mBottomBarArtist.setText(musicList.get(position).getArtist());
 
-            /*0217 test start 解析歌词*/
-//            Music music = musicList.get(position);
-//            Log.d(TAG, "LrcUtil.loadLrc(music) == " + LrcUtil.loadLrc(music).size());
-//            List<LrcContent> lrclists = LrcUtil.loadLrc(music);
-//            LrcContent lrcContent = null;
-//            for (int i = 0; i < lrclists.size(); i++) {
-//                lrcContent = lrclists.get(i);
-////                Log.i(TAG, "TIME==" + lrcContent.getLrcTime()
-////                        + " String == " + lrcContent.getLrcStr());
-//
-//
-//            }
-            /*0217 test end*/
 
             String path = MusicUtil.getAlbumArt(new Long(musicList.get(position).getAlbum_id()).intValue());
 //            Log.d(TAG,"path="+path);
@@ -186,7 +173,6 @@ public class LocalListActivity extends AppCompatActivity {
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
 
-
             initMusicPlayImg();
         }
     };
@@ -201,8 +187,8 @@ public class LocalListActivity extends AppCompatActivity {
                 LocalListActivityHandler.sendEmptyMessage(1);
 
                 /*调用回调方法ChangeUI，调用后MusicListFragment重写的回调方法会被自动执行，从而在MusicListFragment回调方法中通知handler更新UI*/
-                if (null != mCallLocalFragment) {
-                    mCallLocalFragment.ChangeUI();
+                if (null != mCallBackInterface) {
+                    mCallBackInterface.ChangeUI();
                 }
 
             }
@@ -214,12 +200,10 @@ public class LocalListActivity extends AppCompatActivity {
         Intent intent = new Intent(this, PlayActivity.class);
         startActivity(intent);
         overridePendingTransition(R.anim.push_up_in,R.anim.push_up_out);
-//        overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
-//        overridePendingTransition(android.R.anim.slide_in_left,android.R.anim.slide_out_right);
     }
 
     /*定义回调接口*/
-    public interface CallLocalFragment{
+    public interface CallBackInterface{
         void ChangeUI();
     }
 
@@ -231,7 +215,7 @@ public class LocalListActivity extends AppCompatActivity {
         LocalBroadcastManager.getInstance(
                 MusicAppUtils.getContext()).unregisterReceiver(
                 LocalListActivityReceiver);
-        mCallLocalFragment = null;
+        mCallBackInterface = null;
     }
 
     //    @Override

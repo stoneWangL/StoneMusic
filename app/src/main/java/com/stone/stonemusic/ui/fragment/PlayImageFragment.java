@@ -26,26 +26,22 @@ import com.stone.stonemusic.utils.MusicUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PlayImageFragment extends Fragment implements PlayActivity.CallPlaysFragment{
+public class PlayImageFragment extends Fragment implements PlayActivity.CallBackInterface{
     public static final String TAG = "PlayImageFragment";
     private CircleImageView CIVAlbum;
     private List<Music> musicList = new ArrayList<>();
-    private PlayActivity.CallPlaysFragment mCallLocalFragment = new PlayActivity.CallPlaysFragment() {
-        @Override
-        public void ChangeUI() {
-            Log.d(TAG, "这里是Fragment的ChangeUI()，这里被回调了");
-            PlayImageFragmentHandler.sendEmptyMessage(1);
-        }
-    };
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        ((PlayActivity)context).setCallPlaysFragment(mCallLocalFragment);
+        ((PlayActivity)context).setCallBackInterface(this);
     }
 
     @Override
-    public void ChangeUI() {}
-    public PlayImageFragment() {}
+    public void ChangeUI() {
+        Log.i(TAG, "这里是PlayImageFragment的ChangeUI()，这里被回调了");
+        PlayImageFragmentHandler.sendEmptyMessage(1);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -77,7 +73,7 @@ public class PlayImageFragment extends Fragment implements PlayActivity.CallPlay
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            Log.d(TAG, "Handler 收到位置更新的通知");
+            Log.i(TAG, "Handler 收到位置更新的通知");
             initView();
         }
     };
