@@ -6,12 +6,24 @@
     android:id="@+id/notice"
     android:orientation="horizontal" >
 
-    <ImageView
-        android:id="@+id/notification_album"
+
+    <FrameLayout
         android:layout_width="@dimen/notification_height"
         android:layout_height="match_parent"
-        android:contentDescription="@string/notification_album_image"
-        android:src="@drawable/anim_log"/>
+        android:layout_gravity="center">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            android:contentDescription="@string/notification_album_image"
+            android:src="@drawable/play_background02" />
+        <ImageView
+            android:id="@+id/notification_album"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/notification_album_image"
+            android:src="@drawable/play_background02"/>
+    </FrameLayout>
 
     <LinearLayout
         android:layout_width="match_parent"

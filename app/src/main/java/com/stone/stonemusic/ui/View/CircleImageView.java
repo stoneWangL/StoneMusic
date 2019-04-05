@@ -72,10 +72,11 @@ public class CircleImageView extends android.support.v7.widget.AppCompatImageVie
             //获取图片宽高
 //            Drawable drawable = getResources().getDrawable(R.drawable.me);
             Drawable drawable = getDrawable();
-            int width = drawable.getIntrinsicWidth();
-            int height = drawable.getIntrinsicHeight();
 
             if (drawable != null) {
+                int width = drawable.getIntrinsicWidth();
+                int height = drawable.getIntrinsicHeight();
+
                 bitmap = Bitmap.createBitmap(getWidth(), getHeight(), Bitmap.Config.ARGB_8888);
                 Canvas drawCanvas = new Canvas(bitmap);
                 float scale = 1.0f;

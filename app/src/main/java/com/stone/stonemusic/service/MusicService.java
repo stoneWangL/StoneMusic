@@ -14,7 +14,6 @@ import android.graphics.BitmapFactory;
 import android.os.Binder;
 import android.os.Handler;
 import android.os.IBinder;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 import android.widget.RemoteViews;
@@ -25,9 +24,7 @@ import com.stone.stonemusic.model.SongModel;
 import com.stone.stonemusic.present.MusicObserverListener;
 import com.stone.stonemusic.present.MusicObserverManager;
 import com.stone.stonemusic.present.PlayControl;
-import com.stone.stonemusic.receiver.MusicBroadCastReceiver;
 import com.stone.stonemusic.ui.activity.LocalListActivity;
-import com.stone.stonemusic.utils.BroadcastUtils;
 import com.stone.stonemusic.utils.MediaStateCode;
 import com.stone.stonemusic.utils.MediaUtils;
 import com.stone.stonemusic.utils.MusicAppUtils;
@@ -140,7 +137,7 @@ public class MusicService extends Service implements MusicObserverListener{
     private void initNotificationSon() {
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(MusicAppUtils.getContext());
 
-        mBuilder.setSmallIcon(R.drawable.ic_log_white); // 设置顶部图标
+        mBuilder.setSmallIcon(R.drawable.play_background02); // 设置顶部图标
         mBuilder.setOngoing(true);
 
 //        mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);

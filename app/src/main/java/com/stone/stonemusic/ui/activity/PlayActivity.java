@@ -23,7 +23,6 @@ import com.stone.stonemusic.present.MusicObserverManager;
 import com.stone.stonemusic.present.PlayControl;
 import com.stone.stonemusic.ui.View.CircleView;
 import com.stone.stonemusic.utils.ActivityUtils;
-import com.stone.stonemusic.utils.BroadcastUtils;
 import com.stone.stonemusic.utils.MediaStateCode;
 import com.stone.stonemusic.utils.MediaUtils;
 import com.stone.stonemusic.utils.MusicAppUtils;
@@ -69,13 +68,6 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
         //添加进观察者队列
         MusicObserverManager.getInstance().add(this);
         init();
-
-//        IntentFilter itFilter = new IntentFilter();
-//        itFilter.addAction(MusicAppUtils.getContext().getResources().getString(R.string.app_name));
-//        //动态注册广播接收器
-//        LocalBroadcastManager
-//                .getInstance(this)
-//                .registerReceiver(PlayActivityReceiver, itFilter);
 
     }
 
@@ -249,40 +241,17 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.circle_play_last:
                 /*上一曲*/
-//                MediaUtils.last();
-//                MediaUtils.prepare(
-//                        SongModel.getInstance().getSongList().
-//                                get(MediaUtils.currentSongPosition).getFileUrl());
-//                MediaUtils.start();
                 PlayControl.controlBtnLast();
                 break;
             case R.id.circle_play_play_or_pause:
                 /*播放暂停*/
-//                switch (MediaUtils.currentState) {
-//                    case MediaStateCode.PLAY_START:
-//                    case MediaStateCode.PLAY_CONTINUE:
-//                        BroadcastUtils.sendPauseMusicBroadcast();
-//                        break;
-//                    case MediaStateCode.PLAY_PAUSE:
-//                        BroadcastUtils.sendContinueMusicBroadcast();
-//                        break;
-//                    case MediaStateCode.PLAY_STOP:
-//                        BroadcastUtils.sendPlayMusicBroadcast();
-//                        break;
-//                }
                 PlayControl.controlBtnPlaySameSong();
                 break;
             case R.id.circle_play_next:
                 /*下一曲*/
-//                MediaUtils.next();
-//                MediaUtils.prepare(
-//                        SongModel.getInstance().getSongList().
-//                                get(MediaUtils.currentSongPosition).getFileUrl());
-//                MediaUtils.start();
                 PlayControl.controlBtnNext();
                 break;
         }
-//        BroadcastUtils.sendNoticeMusicPositionChanged();
     }
 
     /*收到UI界面更新的通知后，在此刷新UI*/
@@ -297,23 +266,6 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
     public interface CallBackInterface{
         void ChangeUI();
     }
-
-//    private BroadcastReceiver PlayActivityReceiver = new BroadcastReceiver() {
-//        public void onReceive(final Context context, final Intent intent) {
-//            String action = intent.getAction();
-//            int state = intent.getIntExtra("state", 0);
-//            if (state == MediaStateCode.MUSIC_POSITION_CHANGED) {
-//                Log.d(TAG, "182行 action = " + action + "||其中 state == " + state + ";;");
-//                PlayActivityHandler.sendEmptyMessage(1);
-//
-//                /*调用回调方法ChangeUI，调用后Fragment重写的回调方法会被自动执行，从而在Fragment回调方法中通知handler更新UI*/
-//                if (null != mCallPlaysFragment) {
-//                    mCallPlaysFragment.ChangeUI();
-//                }
-//
-//            }
-//        }
-//    };
 
     @Override
     public void observerUpData(int content) {
@@ -341,10 +293,7 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        /*注销广播接收器*/
-//        LocalBroadcastManager.getInstance(
-//                MusicAppUtils.getContext()).unregisterReceiver(
-//                PlayActivityReceiver);
+
         mCallBackInterface = null; //释放引用
         //从观察者队列中移除
         MusicObserverManager.getInstance().remove(this);

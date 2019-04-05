@@ -1,13 +1,9 @@
 package com.stone.stonemusic.ui.activity;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Handler;
 import android.os.Message;
 import android.support.design.widget.TabLayout;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -20,14 +16,11 @@ import com.bumptech.glide.Glide;
 import com.stone.stonemusic.R;
 import com.stone.stonemusic.adapter.LocalMusicFragmentPagerAdapter;
 import com.stone.stonemusic.bean.Music;
-import com.stone.stonemusic.model.LrcContent;
 import com.stone.stonemusic.model.SongModel;
 import com.stone.stonemusic.present.MusicObserverListener;
 import com.stone.stonemusic.present.MusicObserverManager;
 import com.stone.stonemusic.present.PlayControl;
 import com.stone.stonemusic.utils.ActivityUtils;
-import com.stone.stonemusic.utils.BroadcastUtils;
-import com.stone.stonemusic.utils.LrcUtil;
 import com.stone.stonemusic.utils.MediaStateCode;
 import com.stone.stonemusic.utils.MediaUtils;
 import com.stone.stonemusic.utils.MusicAppUtils;
@@ -82,12 +75,6 @@ public class LocalListActivity extends AppCompatActivity implements
         initViews();
         initMusicPlayImg();
 
-//        IntentFilter itFilter = new IntentFilter();
-//        itFilter.addAction(MusicAppUtils.getContext().getResources().getString(R.string.app_name));
-//        //动态注册广播接收器(本地广播)
-//        LocalBroadcastManager
-//                .getInstance(this)
-//                .registerReceiver(LocalListActivityReceiver, itFilter);
         //添加进观察者队列
         MusicObserverManager.getInstance().add(this);
     }
@@ -128,7 +115,7 @@ public class LocalListActivity extends AppCompatActivity implements
             String path = MusicUtil.getAlbumArt(new Long(musicList.get(position).getAlbum_id()).intValue());
 //            Log.d(TAG,"path="+path);
             if (null == path){
-                mIvBottomBarImage.setImageResource(R.drawable.ic_log);
+                mIvBottomBarImage.setImageResource(R.drawable.play_background02);
             }else{
                 Glide.with(MusicAppUtils.getContext()).load(path).into(mIvBottomBarImage);
             }
@@ -147,32 +134,13 @@ public class LocalListActivity extends AppCompatActivity implements
 
     //播放键控制
     public void play(View view){
-        Log.e(TAG, "此时的状态=="+MediaUtils.currentState);
-//        switch (MediaUtils.currentState) {
-//            case MediaStateCode.PLAY_START:
-//            case MediaStateCode.PLAY_CONTINUE:
-//                BroadcastUtils.sendPauseMusicBroadcast();
-//                break;
-//            case MediaStateCode.PLAY_PAUSE:
-//                BroadcastUtils.sendContinueMusicBroadcast();
-//                break;
-//            case MediaStateCode.PLAY_STOP:
-//                BroadcastUtils.sendPlayMusicBroadcast();
-//                break;
-//        }
+        Log.i(TAG, "此时的状态=="+MediaUtils.currentState);
         PlayControl.controlBtnPlaySameSong();
     }
 
     //播放键控制
     public void playNext(View view){
-//        MediaUtils.next();
-//        MediaUtils.prepare(
-//                SongModel.getInstance().getSongList().
-//                        get(MediaUtils.currentSongPosition).getFileUrl());
-//        MediaUtils.start();
         PlayControl.controlBtnNext();
-
-//        BroadcastUtils.sendNoticeMusicPositionChanged();
     }
 
     /*收到UI界面更新的通知后，在此刷新UI*/
