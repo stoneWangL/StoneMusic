@@ -20,6 +20,7 @@ import com.stone.stonemusic.bean.Music;
 import com.stone.stonemusic.model.SongModel;
 import com.stone.stonemusic.present.MusicObserverListener;
 import com.stone.stonemusic.present.MusicObserverManager;
+import com.stone.stonemusic.present.PlayControl;
 import com.stone.stonemusic.ui.View.CircleView;
 import com.stone.stonemusic.utils.ActivityUtils;
 import com.stone.stonemusic.utils.BroadcastUtils;
@@ -248,37 +249,40 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.circle_play_last:
                 /*上一曲*/
-                MediaUtils.last();
-                MediaUtils.prepare(
-                        SongModel.getInstance().getSongList().
-                                get(MediaUtils.currentSongPosition).getFileUrl());
-                MediaUtils.start();
+//                MediaUtils.last();
+//                MediaUtils.prepare(
+//                        SongModel.getInstance().getSongList().
+//                                get(MediaUtils.currentSongPosition).getFileUrl());
+//                MediaUtils.start();
+                PlayControl.controlBtnLast();
                 break;
             case R.id.circle_play_play_or_pause:
                 /*播放暂停*/
-                switch (MediaUtils.currentState) {
-                    case MediaStateCode.PLAY_START:
-                    case MediaStateCode.PLAY_CONTINUE:
-                        BroadcastUtils.sendPauseMusicBroadcast();
-                        break;
-                    case MediaStateCode.PLAY_PAUSE:
-                        BroadcastUtils.sendContinueMusicBroadcast();
-                        break;
-                    case MediaStateCode.PLAY_STOP:
-                        BroadcastUtils.sendPlayMusicBroadcast();
-                        break;
-                }
+//                switch (MediaUtils.currentState) {
+//                    case MediaStateCode.PLAY_START:
+//                    case MediaStateCode.PLAY_CONTINUE:
+//                        BroadcastUtils.sendPauseMusicBroadcast();
+//                        break;
+//                    case MediaStateCode.PLAY_PAUSE:
+//                        BroadcastUtils.sendContinueMusicBroadcast();
+//                        break;
+//                    case MediaStateCode.PLAY_STOP:
+//                        BroadcastUtils.sendPlayMusicBroadcast();
+//                        break;
+//                }
+                PlayControl.controlBtnPlaySameSong();
                 break;
             case R.id.circle_play_next:
                 /*下一曲*/
-                MediaUtils.next();
-                MediaUtils.prepare(
-                        SongModel.getInstance().getSongList().
-                                get(MediaUtils.currentSongPosition).getFileUrl());
-                MediaUtils.start();
+//                MediaUtils.next();
+//                MediaUtils.prepare(
+//                        SongModel.getInstance().getSongList().
+//                                get(MediaUtils.currentSongPosition).getFileUrl());
+//                MediaUtils.start();
+                PlayControl.controlBtnNext();
                 break;
         }
-        BroadcastUtils.sendNoticeMusicPositionChanged();
+//        BroadcastUtils.sendNoticeMusicPositionChanged();
     }
 
     /*收到UI界面更新的通知后，在此刷新UI*/
@@ -322,12 +326,10 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 break;
 
-            case MediaStateCode.PLAY_START:
             case MediaStateCode.PLAY_CONTINUE:
-                break;
-
             case MediaStateCode.PLAY_STOP:
             case MediaStateCode.PLAY_PAUSE:
+                PlayActivityHandler.sendEmptyMessage(1);
                 break;
 
             default:

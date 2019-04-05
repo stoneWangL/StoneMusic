@@ -22,6 +22,9 @@ import com.stone.stonemusic.adapter.LocalMusicFragmentPagerAdapter;
 import com.stone.stonemusic.bean.Music;
 import com.stone.stonemusic.model.LrcContent;
 import com.stone.stonemusic.model.SongModel;
+import com.stone.stonemusic.present.MusicObserverListener;
+import com.stone.stonemusic.present.MusicObserverManager;
+import com.stone.stonemusic.present.PlayControl;
 import com.stone.stonemusic.utils.ActivityUtils;
 import com.stone.stonemusic.utils.BroadcastUtils;
 import com.stone.stonemusic.utils.LrcUtil;
@@ -33,7 +36,8 @@ import com.stone.stonemusic.utils.MusicUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LocalListActivity extends AppCompatActivity {
+public class LocalListActivity extends AppCompatActivity implements
+        MusicObserverListener{
     public static final String TAG = "LocalListActivity";
 
     private TabLayout.Tab tabMusic;
@@ -78,12 +82,14 @@ public class LocalListActivity extends AppCompatActivity {
         initViews();
         initMusicPlayImg();
 
-        IntentFilter itFilter = new IntentFilter();
-        itFilter.addAction(MusicAppUtils.getContext().getResources().getString(R.string.app_name));
-        //动态注册广播接收器(本地广播)
-        LocalBroadcastManager
-                .getInstance(this)
-                .registerReceiver(LocalListActivityReceiver, itFilter);
+//        IntentFilter itFilter = new IntentFilter();
+//        itFilter.addAction(MusicAppUtils.getContext().getResources().getString(R.string.app_name));
+//        //动态注册广播接收器(本地广播)
+//        LocalBroadcastManager
+//                .getInstance(this)
+//                .registerReceiver(LocalListActivityReceiver, itFilter);
+        //添加进观察者队列
+        MusicObserverManager.getInstance().add(this);
     }
 
     private void initViews() {
@@ -141,30 +147,32 @@ public class LocalListActivity extends AppCompatActivity {
 
     //播放键控制
     public void play(View view){
-//        Log.d(TAG, "此时的状态=="+MediaUtils.currentState);
-        switch (MediaUtils.currentState) {
-            case MediaStateCode.PLAY_START:
-            case MediaStateCode.PLAY_CONTINUE:
-                BroadcastUtils.sendPauseMusicBroadcast();
-                break;
-            case MediaStateCode.PLAY_PAUSE:
-                BroadcastUtils.sendContinueMusicBroadcast();
-                break;
-            case MediaStateCode.PLAY_STOP:
-                BroadcastUtils.sendPlayMusicBroadcast();
-                break;
-        }
+        Log.e(TAG, "此时的状态=="+MediaUtils.currentState);
+//        switch (MediaUtils.currentState) {
+//            case MediaStateCode.PLAY_START:
+//            case MediaStateCode.PLAY_CONTINUE:
+//                BroadcastUtils.sendPauseMusicBroadcast();
+//                break;
+//            case MediaStateCode.PLAY_PAUSE:
+//                BroadcastUtils.sendContinueMusicBroadcast();
+//                break;
+//            case MediaStateCode.PLAY_STOP:
+//                BroadcastUtils.sendPlayMusicBroadcast();
+//                break;
+//        }
+        PlayControl.controlBtnPlaySameSong();
     }
 
     //播放键控制
     public void playNext(View view){
-        MediaUtils.next();
-        MediaUtils.prepare(
-                SongModel.getInstance().getSongList().
-                        get(MediaUtils.currentSongPosition).getFileUrl());
-        MediaUtils.start();
+//        MediaUtils.next();
+//        MediaUtils.prepare(
+//                SongModel.getInstance().getSongList().
+//                        get(MediaUtils.currentSongPosition).getFileUrl());
+//        MediaUtils.start();
+        PlayControl.controlBtnNext();
 
-        BroadcastUtils.sendNoticeMusicPositionChanged();
+//        BroadcastUtils.sendNoticeMusicPositionChanged();
     }
 
     /*收到UI界面更新的通知后，在此刷新UI*/
@@ -174,24 +182,6 @@ public class LocalListActivity extends AppCompatActivity {
             super.handleMessage(msg);
 
             initMusicPlayImg();
-        }
-    };
-
-    private BroadcastReceiver LocalListActivityReceiver = new BroadcastReceiver() {
-        public void onReceive(final Context context, final Intent intent) {
-            String action = intent.getAction();
-            int state = intent.getIntExtra("state", 0);
-//            Log.d(TAG, "180行 action = " + action + "||其中 state == " + state + ";;");
-            if (state == MediaStateCode.MUSIC_POSITION_CHANGED) {
-                Log.d(TAG, "182行 action = " + action + "||其中 state == " + state + ";;");
-                LocalListActivityHandler.sendEmptyMessage(1);
-
-                /*调用回调方法ChangeUI，调用后MusicListFragment重写的回调方法会被自动执行，从而在MusicListFragment回调方法中通知handler更新UI*/
-                if (null != mCallBackInterface) {
-                    mCallBackInterface.ChangeUI();
-                }
-
-            }
         }
     };
 
@@ -207,14 +197,34 @@ public class LocalListActivity extends AppCompatActivity {
         void ChangeUI();
     }
 
+    @Override
+    public void observerUpData(int content) {
+        switch (content) {
+            case MediaStateCode.PLAY_START:
+            case MediaStateCode.MUSIC_POSITION_CHANGED:
+                LocalListActivityHandler.sendEmptyMessage(1);
+                /*调用回调方法ChangeUI，调用后MusicListFragment重写的回调方法会被自动执行，从而在MusicListFragment回调方法中通知handler更新UI*/
+                if (null != mCallBackInterface) {
+                    mCallBackInterface.ChangeUI();
+                }
+                break;
+
+            case MediaStateCode.PLAY_CONTINUE:
+            case MediaStateCode.PLAY_STOP:
+            case MediaStateCode.PLAY_PAUSE:
+                LocalListActivityHandler.sendEmptyMessage(1);
+                break;
+        }
+        Log.i(TAG, "observerUpData->观察者类数据已刷新");
+    }
+
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.d(TAG,"onDestroy");
-        LocalBroadcastManager.getInstance(
-                MusicAppUtils.getContext()).unregisterReceiver(
-                LocalListActivityReceiver);
+        //从观察者队列中移除
+        MusicObserverManager.getInstance().remove(this);
+        //回调接口引用指空
         mCallBackInterface = null;
     }
 

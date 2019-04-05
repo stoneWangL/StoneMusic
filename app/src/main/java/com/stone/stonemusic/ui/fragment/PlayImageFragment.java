@@ -11,16 +11,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.bumptech.glide.Glide;
 import com.stone.stonemusic.R;
-import com.stone.stonemusic.bean.ItemViewChoose;
 import com.stone.stonemusic.bean.Music;
 import com.stone.stonemusic.model.SongModel;
 import com.stone.stonemusic.ui.View.CircleImageView;
-import com.stone.stonemusic.ui.activity.LocalListActivity;
 import com.stone.stonemusic.ui.activity.PlayActivity;
 import com.stone.stonemusic.utils.MediaUtils;
-import com.stone.stonemusic.utils.MusicAppUtils;
 import com.stone.stonemusic.utils.MusicUtil;
 
 import java.util.ArrayList;

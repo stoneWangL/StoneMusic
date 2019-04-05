@@ -50,6 +50,8 @@ public class MediaUtils {
 
         //被观察者发生变化->PLAY_START
         MusicObserverManager.getInstance().notifyObserver(MediaStateCode.PLAY_START);
+        //被观察者发生变化->播放位置发生改变
+//        MusicObserverManager.getInstance().notifyObserver(MediaStateCode.MUSIC_POSITION_CHANGED);
     }
 
     //暂停

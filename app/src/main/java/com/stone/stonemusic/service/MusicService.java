@@ -22,6 +22,9 @@ import android.widget.RemoteViews;
 import com.stone.stonemusic.R;
 import com.stone.stonemusic.bean.Music;
 import com.stone.stonemusic.model.SongModel;
+import com.stone.stonemusic.present.MusicObserverListener;
+import com.stone.stonemusic.present.MusicObserverManager;
+import com.stone.stonemusic.present.PlayControl;
 import com.stone.stonemusic.receiver.MusicBroadCastReceiver;
 import com.stone.stonemusic.ui.activity.LocalListActivity;
 import com.stone.stonemusic.utils.BroadcastUtils;
@@ -33,7 +36,7 @@ import com.stone.stonemusic.utils.MusicUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MusicService extends Service {
+public class MusicService extends Service implements MusicObserverListener{
     public static final String TAG = "MusicService";
     /*2018/12/8 stoneWang start */
     public NotificationManager mNotificationManager;
@@ -55,17 +58,14 @@ public class MusicService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        Log.d(TAG,"音乐服务onCreate");
+        Log.i(TAG,"音乐服务onCreate");
 
         IntentFilter itFilter = new IntentFilter();
-        itFilter.addAction(MediaStateCode.ACTION_IMAGE);
         itFilter.addAction(MediaStateCode.ACTION_CLOSE);
         itFilter.addAction(MediaStateCode.ACTION_PLAY_OR_PAUSE);
         itFilter.addAction(MediaStateCode.ACTION_LAST);
         itFilter.addAction(MediaStateCode.ACTION_NEXT);
         itFilter.addAction(MediaStateCode.ACTION_LOVE);
-
-
         registerReceiver(playMusicReceiver, itFilter);
 
         initNotification();
@@ -73,6 +73,9 @@ public class MusicService extends Service {
 
         mLoopModeThread = new Thread(new LoopModeThread());
         mLoopModeThread.start(); /*启动线程*/
+
+        //添加进观察者队列
+        MusicObserverManager.getInstance().add(this);
     }
 
     /**
@@ -131,6 +134,7 @@ public class MusicService extends Service {
     private void initNotification() {
         remoteViews = new RemoteViews(getPackageName(), R.layout.view_remote);
         initNotificationSon();
+        remoteViewsHandler.sendEmptyMessage(1);
     }
 
     private void initNotificationSon() {
@@ -181,8 +185,6 @@ public class MusicService extends Service {
                 e.printStackTrace();
             }
 
-
-
             /*根据播放器状态码，设置播放暂按钮的图标*/
             Log.d(TAG, "MediaUtils.currentState == " + MediaUtils.currentState);
             if (MediaUtils.currentState == MediaStateCode.PLAY_PAUSE ||
@@ -200,69 +202,24 @@ public class MusicService extends Service {
     };
 
     @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        if (null != intent) {
-            Log.d(TAG,"音乐服务onStartCommand"+intent.getIntExtra("state", 0));
-            int state = intent.getIntExtra("state", 0);
-            switch (state) {
-                case MediaStateCode.PLAY_START:
-                    MediaUtils.prepare(
-                            SongModel.getInstance().getSongList().
-                                    get(MediaUtils.currentSongPosition).getFileUrl());
-                    MediaUtils.start();
-                    break;
-                case MediaStateCode.PLAY_PAUSE:
-                    MediaUtils.pause();
-                    break;
-                case MediaStateCode.PLAY_CONTINUE:
-                    MediaUtils.continuePlay();
-                    break;
-                case MediaStateCode.PLAY_STOP:
-                    MediaUtils.stop();
-                    break;
-                case MediaStateCode.MUSIC_POSITION_CHANGED:
-                    remoteViewsHandler.sendEmptyMessage(1);
-                    break;
-            }
-        }
-
-        return super.onStartCommand(intent, flags, startId);
+    public void observerUpData(int content) {
+        Log.i(TAG, "observerUpData->观察者类数据已刷新");
+        remoteViewsHandler.sendEmptyMessage(1);
     }
 
     /**
-     * RemoteViews控制播放和销毁服务或者进入Activity
+     * RemoteViews控制播放操作 && 销毁服务
      */
     private BroadcastReceiver playMusicReceiver = new BroadcastReceiver() {
         public void onReceive(final Context context, final Intent intent) {
             String action = intent.getAction();
             Log.d(TAG, "action = " + action);
             if (null != action && action.equals(MediaStateCode.ACTION_PLAY_OR_PAUSE)) {
-                if (MediaUtils.currentState == MediaStateCode.PLAY_PAUSE) {
-                    MediaUtils.continuePlay();
-                } else if (MediaUtils.currentState == MediaStateCode.PLAY_STOP) {
-                    MediaUtils.prepare(
-                            SongModel.getInstance().getSongList().
-                                    get(MediaUtils.currentSongPosition).getFileUrl());
-                    MediaUtils.start();
-                } else if (MediaUtils.currentState == MediaStateCode.PLAY_START ||
-                        MediaUtils.currentState == MediaStateCode.PLAY_CONTINUE) {
-                    MediaUtils.pause();
-                }
-                BroadcastUtils.sendNoticeMusicPositionChanged();
+                PlayControl.controlBtnPlaySameSong();
             } else if (action.equals(MediaStateCode.ACTION_LAST)) {
-                MediaUtils.last();
-                MediaUtils.prepare(
-                        SongModel.getInstance().getSongList().
-                            get(MediaUtils.currentSongPosition).getFileUrl());
-                MediaUtils.start();
-                BroadcastUtils.sendNoticeMusicPositionChanged();
+                PlayControl.controlBtnLast();
             } else if (action.equals(MediaStateCode.ACTION_NEXT)) {
-                MediaUtils.next();
-                MediaUtils.prepare(
-                        SongModel.getInstance().getSongList().
-                                get(MediaUtils.currentSongPosition).getFileUrl());
-                MediaUtils.start();
-                BroadcastUtils.sendNoticeMusicPositionChanged();
+                PlayControl.controlBtnNext();
             } else if (action.equals(MediaStateCode.ACTION_LOVE)){
                 Log.d(TAG, "点击了Love");
             } else if (action.equals(MediaStateCode.ACTION_CLOSE)) {
@@ -277,6 +234,8 @@ public class MusicService extends Service {
         }
 
     };
+
+
 
     /**
      * 回调方法
@@ -299,9 +258,11 @@ public class MusicService extends Service {
     public void onDestroy() {
         super.onDestroy();
         Log.d(TAG,"音乐服务onDestroy");
+        //从观察者队列中移除
+        MusicObserverManager.getInstance().remove(this);
+
         MediaUtils.release();
         unregisterReceiver(playMusicReceiver);
-        LocalBroadcastManager.getInstance(MusicAppUtils.getContext()).unregisterReceiver(MusicBroadCastReceiver.getInstance());
         System.exit(0);
     }
 
@@ -327,13 +288,7 @@ public class MusicService extends Service {
                     /*手离开了seekBar 而且 音乐播放完了（由于获取的数值有一定的差异，所以允许+-10bite的数值差异）*/
                     if (!MediaUtils.seekBarIsChanging && (resultNum <= 1024 && resultNum >= -1024)) {
                         /*下一曲*/
-                        MediaUtils.next();
-                        MediaUtils.prepare(
-                                SongModel.getInstance().getSongList().
-                                        get(MediaUtils.currentSongPosition).getFileUrl());
-                        MediaUtils.start();
-                        /*发送UI更新广播*/
-                        BroadcastUtils.sendNoticeMusicPositionChanged();
+                        PlayControl.controlBtnNext();
                     }
                 } catch (InterruptedException e) {
                     e.printStackTrace();

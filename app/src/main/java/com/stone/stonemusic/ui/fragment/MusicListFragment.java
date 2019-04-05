@@ -27,8 +27,10 @@ import com.stone.stonemusic.bean.Music;
 import com.stone.stonemusic.model.SongModel;
 import com.stone.stonemusic.present.MusicObserverListener;
 import com.stone.stonemusic.present.MusicObserverManager;
+import com.stone.stonemusic.present.PlayControl;
 import com.stone.stonemusic.service.MusicService;
 import com.stone.stonemusic.ui.activity.LocalListActivity;
+import com.stone.stonemusic.ui.activity.PlayActivity;
 import com.stone.stonemusic.utils.BroadcastUtils;
 import com.stone.stonemusic.utils.MediaStateCode;
 import com.stone.stonemusic.utils.MediaUtils;
@@ -48,6 +50,7 @@ public class MusicListFragment extends Fragment implements LocalListActivity.Cal
     private TextView mBottomBarArtist;
     private ImageView mIvPlay;
     private ImageView mIvBottomBarImage;
+    private LocalListActivity fatherActivity = null;
 
     public MusicListFragment() {}
 
@@ -55,7 +58,8 @@ public class MusicListFragment extends Fragment implements LocalListActivity.Cal
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        ((LocalListActivity)context).setCallBackInterface(this);
+        fatherActivity = ((LocalListActivity)context);
+        fatherActivity.setCallBackInterface(this);
     }
     @Override
     public void ChangeUI() {
@@ -84,26 +88,30 @@ public class MusicListFragment extends Fragment implements LocalListActivity.Cal
                 Log.d(TAG, "位置："+position+"; 歌名："+musicList.get(position).getTitle());
                 adapter.notifyDataSetChanged(); //更新adapter
                 MediaUtils.currentSongPosition = position; //设置当前播放位置全局position
-                MediaUtils.currentState = MediaStateCode.PLAY_START; //设置当前播放器状态码为PLAY_START
+                int lastPosition = ItemViewChoose.getInstance().getItemChoosePosition();
+                //点击的是正在播放的歌曲
+                if (position == lastPosition && null != fatherActivity)
+                    fatherActivity.GoToPlayActivity(view); //调用父类方法，跳转到播放Activity
+                //点击的不是当前播放的歌曲
+                else{
+                    PlayControl.controlBtnPlayDiffSong();
+                    mBottomBarTitle.setText(musicList.get(position).getTitle()); //更新音乐名
+                    mBottomBarArtist.setText(musicList.get(position).getArtist()); //更新音乐作者
+                    //更新音乐专辑图
+                    String path = MusicUtil.getAlbumArt(new Long(musicList.get(position).getAlbum_id()).intValue());
+                    Log.d(TAG,"path="+path);
+                    if (null == path){
+                        mIvBottomBarImage.setImageResource(R.drawable.ic_log);
+                    }else{
+                        Glide.with(MusicAppUtils.getContext()).load(path).into(mIvBottomBarImage);
+                    }
 
-                BroadcastUtils.sendPlayMusicBroadcast(); //发送播放音乐的广播
-
-                mBottomBarTitle.setText(musicList.get(position).getTitle()); //更新音乐名
-                mBottomBarArtist.setText(musicList.get(position).getArtist()); //更新音乐作者
-                //更新音乐专辑图
-                String path = MusicUtil.getAlbumArt(new Long(musicList.get(position).getAlbum_id()).intValue());
-                Log.d(TAG,"path="+path);
-                if (null == path){
-                    mIvBottomBarImage.setImageResource(R.drawable.ic_log);
-                }else{
-                    Glide.with(MusicAppUtils.getContext()).load(path).into(mIvBottomBarImage);
+                    //设置选中的item的位置,这里的position设置与ListView中当前播放位置的标识有关
+                    ItemViewChoose.getInstance().setItemChoosePosition(position);
                 }
 
-                //设置选中的item的位置,这里的position设置与ListView中当前播放位置的标识有关
-                ItemViewChoose.getInstance().setItemChoosePosition(position);
-
                 /*发送广播，告知，音乐播放位置已改变*/
-                BroadcastUtils.sendNoticeMusicPositionChanged();
+//                BroadcastUtils.sendNoticeMusicPositionChanged();
 
             }
         });

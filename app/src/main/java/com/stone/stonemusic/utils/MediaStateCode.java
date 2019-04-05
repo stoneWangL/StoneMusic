@@ -15,7 +15,6 @@ public class MediaStateCode {
     public static final int LOOP_MODE_OUT_OF_ORDER = 0x0013; /*随机循环*/
 
 
-    public static String ACTION_IMAGE = "Stone.Music.Action.Image";
     public static String ACTION_CLOSE = "Stone.Music.Action.Close";
     public static String ACTION_LAST = "Stone.Music.Action.Last";
     public static String ACTION_PLAY_OR_PAUSE = "Stone.Music.Action.PlayOrPause";
