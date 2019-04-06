@@ -30,6 +30,7 @@ import com.stone.stonemusic.utils.MediaStateCode;
 import com.stone.stonemusic.utils.MediaUtils;
 import com.stone.stonemusic.utils.MusicAppUtils;
 import com.stone.stonemusic.utils.MusicUtil;
+import com.stone.stonemusic.utils.MyTimerTask;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +46,7 @@ public class MusicService extends Service implements MusicObserverListener{
 
     public final IBinder binder = new MyBinder();
 
-    private Thread mLoopModeThread;
+    private ServiceTimerTask serviceTimerTask;
     private int nowMediaNum = 0, listMediaNum = 1024, resultNum = 100, listSize, outOfOrderNum;
 
 
@@ -70,8 +71,14 @@ public class MusicService extends Service implements MusicObserverListener{
         initNotification();
         musicList = SongModel.getInstance().getSongList();
 
-        mLoopModeThread = new Thread(new LoopModeThread());
-        mLoopModeThread.start(); /*启动线程*/
+        serviceTimerTask = new ServiceTimerTask();
+
+        //防止Service启动慢，而没有被添加到观察者队列中，而错过观察者管理类的回调，这里检查后，先关闭再开启监听任务
+        if (MediaUtils.getMediaPlayer().isPlaying()){
+            serviceTimerTask.destroyed();
+            serviceTimerTask.start(0, 1000);
+        }
+
 
         //添加进观察者队列
         MusicObserverManager.getInstance().add(this);
@@ -205,6 +212,25 @@ public class MusicService extends Service implements MusicObserverListener{
     public void observerUpData(int content) {
         Log.i(TAG, "observerUpData->观察者类数据已刷新");
         remoteViewsHandler.sendEmptyMessage(1);
+
+        switch (content) {
+            case MediaStateCode.PLAY_CONTINUE:
+                Log.i(TAG, "SeekBar轮询监听开始");
+                serviceTimerTask.start(0, 1000);
+                break;
+            case MediaStateCode.PLAY_START:
+            case MediaStateCode.MUSIC_POSITION_CHANGED:
+                Log.i(TAG, "SeekBar轮询监听注销");
+                serviceTimerTask.destroyed();
+                Log.i(TAG, "SeekBar轮询监听开始");
+                serviceTimerTask.start(0, 1000);
+                break;
+            case MediaStateCode.PLAY_PAUSE:
+            case MediaStateCode.PLAY_STOP:
+                Log.i(TAG, "SeekBar轮询监听注销");
+                serviceTimerTask.destroyed();
+                break;
+        }
     }
 
     /**
@@ -265,6 +291,8 @@ public class MusicService extends Service implements MusicObserverListener{
         //从观察者队列中移除
         MusicObserverManager.getInstance().remove(this);
 
+        serviceTimerTask = null; //seekBar轮询监听任务对象回收
+
         PlayControl.AbandonAudioFocus(); //放弃播放焦点
 
         MediaUtils.release();
@@ -272,33 +300,32 @@ public class MusicService extends Service implements MusicObserverListener{
         System.exit(0);
     }
 
-    /*seekBar进度监听线程*/
-    class LoopModeThread implements Runnable {
+
+    public class ServiceTimerTask extends MyTimerTask {
+        public static final String TAG = "MusicService";
 
         @Override
-        public void run() {
+        public void start(int delayTime, int pollTime) {
+            super.start(delayTime, pollTime);
+        }
 
-            /*死循环，监听音乐状态*/
-            for (;;) {
-                try {
-                    Thread.sleep(1000); /*每1000毫秒更新一次*/
-                    nowMediaNum = MediaUtils.getMediaPlayer().getCurrentPosition();
-                    listMediaNum = (int) musicList.get(MediaUtils.currentSongPosition).getDuration();
-                    resultNum = nowMediaNum - listMediaNum;
-//                    Log.d(TAG, "播放器状态：" + MediaUtils.currentState +
-//                    "//seekBar正在改变：" + MediaUtils.seekBarIsChanging +
-//                    "//播放器中音乐长度：" + nowMediaNum +
-//                    "//当前音乐长度：" + listMediaNum +
-//                    "resultNum == " + resultNum);
+        @Override
+        public void doSomething() {
+            super.doSomething();
 
-                    /*手离开了seekBar 而且 音乐播放完了（由于获取的数值有一定的差异，所以允许+-10bite的数值差异）*/
-                    if (!MediaUtils.seekBarIsChanging && (resultNum <= 1024 && resultNum >= -1024)) {
-                        /*下一曲*/
-                        PlayControl.controlBtnNext();
-                    }
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+            nowMediaNum = MediaUtils.getMediaPlayer().getCurrentPosition();
+            listMediaNum = (int) musicList.get(MediaUtils.currentSongPosition).getDuration();
+            resultNum = nowMediaNum - listMediaNum;
+//            Log.d(TAG, "播放器状态：" + MediaUtils.currentState +
+//            "//seekBar正在改变：" + MediaUtils.seekBarIsChanging +
+//            "//播放器中音乐长度：" + nowMediaNum +
+//            "//当前音乐长度：" + listMediaNum +
+//            "resultNum == " + resultNum);
+
+            /*手离开了seekBar 而且 音乐播放完了（由于获取的数值有一定的差异，所以允许+-10bite的数值差异）*/
+            if (!MediaUtils.seekBarIsChanging && (resultNum <= 1024 && resultNum >= -1024)) {
+                /*下一曲*/
+                PlayControl.controlBtnNext();
             }
 
         }

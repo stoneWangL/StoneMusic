@@ -229,10 +229,13 @@ public class PlayLyricFragment extends Fragment implements OnLrcSearchClickListe
         switch (content) {
             case MediaStateCode.MUSIC_POSITION_CHANGED:
                 DclTimerTask.getInstance().destroyed();
+                DclTimerTask.getInstance().start();
                 init();
                 break;
 
             case MediaStateCode.PLAY_START:
+                DclTimerTask.getInstance().destroyed();
+                DclTimerTask.getInstance().start();
             case MediaStateCode.PLAY_CONTINUE:
                 DclTimerTask.getInstance().start();
                 break;
@@ -241,11 +244,8 @@ public class PlayLyricFragment extends Fragment implements OnLrcSearchClickListe
             case MediaStateCode.PLAY_PAUSE:
                 DclTimerTask.getInstance().destroyed();
                 break;
-
-            default:
-                Log.i(TAG, "observerUpData->观察者类数据已刷新");
-                break;
         }
+        Log.i(TAG, "observerUpData->观察者类数据已刷新");
     }
 
     /**
