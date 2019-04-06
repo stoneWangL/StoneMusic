@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.AudioManager;
 import android.os.Binder;
 import android.os.Handler;
 import android.os.IBinder;
@@ -63,6 +64,7 @@ public class MusicService extends Service implements MusicObserverListener{
         itFilter.addAction(MediaStateCode.ACTION_LAST);
         itFilter.addAction(MediaStateCode.ACTION_NEXT);
         itFilter.addAction(MediaStateCode.ACTION_LOVE);
+        itFilter.addAction(AudioManager.ACTION_AUDIO_BECOMING_NOISY); //耳机拔出事件
         registerReceiver(playMusicReceiver, itFilter);
 
         initNotification();
@@ -73,6 +75,7 @@ public class MusicService extends Service implements MusicObserverListener{
 
         //添加进观察者队列
         MusicObserverManager.getInstance().add(this);
+
     }
 
     /**
@@ -224,6 +227,10 @@ public class MusicService extends Service implements MusicObserverListener{
                 MusicAppUtils.destroyActivity("PlayActivity");
                 MusicAppUtils.destroyActivity("LocalListActivity");
                 stopService(new Intent(context,MusicService.class));
+            } else if (AudioManager.ACTION_AUDIO_BECOMING_NOISY.equals(action)) {
+                Log.i(TAG, "检测到耳机拔出");
+                PlayControl.controlPauseSameSong();
+
             } else {
                 Log.d(TAG, "未知状态229");
             }
