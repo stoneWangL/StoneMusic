@@ -178,7 +178,7 @@ public class MusicService extends Service implements MusicObserverListener{
                 Log.d(TAG,"path="+path);
                 Bitmap bitmap;
                 if (null == path){
-                    bitmap = BitmapFactory.decodeResource(getResources(),R.drawable.anim_log);
+                    bitmap = BitmapFactory.decodeResource(getResources(),R.drawable.play_background02);
                 }else{
                     bitmap = BitmapFactory.decodeFile(path);
                 }

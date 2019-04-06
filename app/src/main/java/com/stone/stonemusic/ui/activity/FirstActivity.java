@@ -94,6 +94,6 @@ public class FirstActivity extends BaseNoBarActivity {
                 startActivity(intent2);//跳转界面
                 FirstActivity.this.finish();//关闭此界面
             }
-        }, 2600);
+        }, 2650);
     }
 }
