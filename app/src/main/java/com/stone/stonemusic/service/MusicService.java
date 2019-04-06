@@ -265,6 +265,8 @@ public class MusicService extends Service implements MusicObserverListener{
         //从观察者队列中移除
         MusicObserverManager.getInstance().remove(this);
 
+        PlayControl.AbandonAudioFocus(); //放弃播放焦点
+
         MediaUtils.release();
         unregisterReceiver(playMusicReceiver);
         System.exit(0);
@@ -301,4 +303,6 @@ public class MusicService extends Service implements MusicObserverListener{
 
         }
     }
+
+
 }

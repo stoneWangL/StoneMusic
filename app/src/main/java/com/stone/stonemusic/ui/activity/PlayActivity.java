@@ -27,6 +27,7 @@ import com.stone.stonemusic.utils.MediaStateCode;
 import com.stone.stonemusic.utils.MediaUtils;
 import com.stone.stonemusic.utils.MusicAppUtils;
 import com.stone.stonemusic.utils.OtherUtils;
+import com.stone.stonemusic.utils.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -232,12 +233,17 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
         switch (v.getId()) {
             case R.id.play_order_mode:
                 /*切换播放模式*/
-                if (MediaUtils.currentLoopMode == MediaStateCode.LOOP_MODE_ORDER_LIST)
+                if (MediaUtils.currentLoopMode == MediaStateCode.LOOP_MODE_ORDER_LIST) {
                     MediaUtils.currentLoopMode = MediaStateCode.LOOP_MODE_OUT_OF_ORDER;
-                else if (MediaUtils.currentLoopMode == MediaStateCode.LOOP_MODE_OUT_OF_ORDER)
+                    ToastUtils.getToastShort(this.getString(R.string.play_mode_out_of_order));
+                } else if (MediaUtils.currentLoopMode == MediaStateCode.LOOP_MODE_OUT_OF_ORDER) {
                     MediaUtils.currentLoopMode = MediaStateCode.LOOP_MODE_ONLY_ONE;
-                else
+                    ToastUtils.getToastShort(this.getString(R.string.play_mode_only_one));
+                } else {
                     MediaUtils.currentLoopMode = MediaStateCode.LOOP_MODE_ORDER_LIST;
+                    ToastUtils.getToastShort(this.getString(R.string.play_mode_order_list));
+                }
+                PlayActivityHandler.sendEmptyMessage(1);
                 break;
             case R.id.circle_play_last:
                 /*上一曲*/

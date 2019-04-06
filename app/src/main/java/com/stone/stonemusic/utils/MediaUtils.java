@@ -1,15 +1,20 @@
 package com.stone.stonemusic.utils;
 
+import android.content.Context;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.util.Log;
 
 import com.stone.stonemusic.model.SongModel;
 import com.stone.stonemusic.present.MusicObserverManager;
+import com.stone.stonemusic.present.PlayControl;
 
 import java.io.IOException;
 import java.util.Random;
 
 /*问题播放结束时没有监听，修改播放器的状态*/
 public class MediaUtils {
+
     //当前播放歌曲postion
     public static int currentSongPosition = 0;
     //当前播放状态,初始化默认为stop
@@ -135,6 +140,16 @@ public class MediaUtils {
             sMediaPlayer.reset();
             sMediaPlayer.release();
             sMediaPlayer = null;
+        }
+    }
+
+    /**
+     * 监听是否有其他音乐开始播放或者停止
+     */
+    public class MyOnAudioFocusChangeListener implements AudioManager.OnAudioFocusChangeListener {
+        @Override
+        public void onAudioFocusChange(int focusChange) {
+
         }
     }
 

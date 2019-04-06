@@ -11,6 +11,11 @@
     <string name="first_music_artist">默认歌手</string>
 
 
+    <!--提示类-->
+    <string name="play_mode_only_one">单曲循环</string>
+    <string name="play_mode_order_list">列表循环</string>
+    <string name="play_mode_out_of_order">随机播放</string>
+
     <!--setTag的key-->
     <!--<item type="id" name="tag_ViewHold">ViewHold</item>-->
 
