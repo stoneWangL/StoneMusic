@@ -127,7 +127,8 @@ public class MusicListFragment extends Fragment implements LocalListActivity.Cal
             //设置选中的item的位置,这里的position设置与ListView中当前播放位置的标识有关
             ItemViewChoose.getInstance().setItemChoosePosition(position);
             adapter.notifyDataSetChanged();
-            listView.smoothScrollToPosition(position);
+//            listView.smoothScrollToPosition(position); //滑动到当前位置
+//            listView.setSelection(position);
         }
     };
 
