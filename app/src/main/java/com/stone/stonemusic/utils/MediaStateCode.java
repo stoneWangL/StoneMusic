@@ -1,7 +1,7 @@
 package com.stone.stonemusic.utils;
 
 public class MediaStateCode {
-    public static final int MUSIC_POSITION_NO_CHANGED = 0x0000;
+    public static final int MUSIC_INIT_FINISHED = 0x0000;
     public static final int PLAY_START = 0x0001;
     public static final int PLAY_PAUSE = 0x0002;
     public static final int PLAY_CONTINUE = 0x0003;

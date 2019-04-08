@@ -1,4 +1,4 @@
-package com.stone.stonemusic.bean;
+package com.stone.stonemusic.model;
 
 import java.io.Serializable;
 

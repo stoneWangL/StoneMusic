@@ -16,13 +16,13 @@ import android.widget.TextView;
 
 import com.stone.stonemusic.R;
 import com.stone.stonemusic.adapter.PlayFragmentPagerAdapter;
-import com.stone.stonemusic.bean.Music;
+import com.stone.stonemusic.model.Music;
 import com.stone.stonemusic.model.SongModel;
 import com.stone.stonemusic.present.MusicObserverListener;
 import com.stone.stonemusic.present.MusicObserverManager;
 import com.stone.stonemusic.present.PlayControl;
 import com.stone.stonemusic.ui.View.CircleView;
-import com.stone.stonemusic.utils.ActivityUtils;
+import com.stone.stonemusic.ui.View.ActivityView;
 import com.stone.stonemusic.utils.MediaStateCode;
 import com.stone.stonemusic.utils.MediaUtils;
 import com.stone.stonemusic.utils.MusicAppUtils;
@@ -174,7 +174,7 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
     /*更新 带有控制的View的UI（eg:上一曲 下一曲 播放暂停 是否喜欢 循环模式图标）*/
     private void initControlPlayUI() {
         /*整个layout*/
-        int statusColor = ActivityUtils.initColor(this);
+        int statusColor = ActivityView.initColor(this);
         mLinearLayout.setBackgroundColor(getResources().getColor(statusColor));
 
         /*标题 歌手*/

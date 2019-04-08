@@ -1,4 +1,4 @@
-package com.stone.stonemusic.utils;
+package com.stone.stonemusic.ui.View;
 
 import android.app.Activity;
 import android.support.v4.view.ViewCompat;
@@ -8,8 +8,10 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.stone.stonemusic.R;
+import com.stone.stonemusic.utils.MediaUtils;
+import com.stone.stonemusic.utils.MusicAppUtils;
 
-public class ActivityUtils {
+public class ActivityView {
 
     /**
      * 设置状态栏颜色
@@ -77,7 +79,7 @@ public class ActivityUtils {
             default:
                 statusColor = R.color.red;
         }
-        ActivityUtils.setStatusBarColor(activity, statusColor, false);
+        ActivityView.setStatusBarColor(activity, statusColor, false);
         return statusColor;
     }
 

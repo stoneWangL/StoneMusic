@@ -20,16 +20,16 @@ import android.util.Log;
 import android.widget.RemoteViews;
 
 import com.stone.stonemusic.R;
-import com.stone.stonemusic.bean.Music;
+import com.stone.stonemusic.model.Music;
 import com.stone.stonemusic.model.SongModel;
 import com.stone.stonemusic.present.MusicObserverListener;
 import com.stone.stonemusic.present.MusicObserverManager;
+import com.stone.stonemusic.present.MusicResources;
 import com.stone.stonemusic.present.PlayControl;
 import com.stone.stonemusic.ui.activity.LocalListActivity;
 import com.stone.stonemusic.utils.MediaStateCode;
 import com.stone.stonemusic.utils.MediaUtils;
 import com.stone.stonemusic.utils.MusicAppUtils;
-import com.stone.stonemusic.utils.MusicUtil;
 import com.stone.stonemusic.utils.MyTimerTask;
 
 import java.util.ArrayList;
@@ -173,7 +173,7 @@ public class MusicService extends Service implements MusicObserverListener{
             Log.d(TAG, "全局播放position == " + position);
             /*专辑图片*/
             try {
-                String path = MusicUtil.getAlbumArt(
+                String path = MusicResources.getAlbumArt(
                         new Long(musicList.get(position).getAlbum_id()).intValue());
                 Log.d(TAG,"path="+path);
                 Bitmap bitmap;
@@ -310,8 +310,6 @@ public class MusicService extends Service implements MusicObserverListener{
 
         @Override
         public void run() {
-
-
             /*死循环，监听音乐状态*/
             for (;;) {
                 try {

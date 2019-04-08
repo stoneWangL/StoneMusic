@@ -2,7 +2,7 @@ package com.stone.stonemusic.utils;
 
 import android.util.Log;
 
-import com.stone.stonemusic.bean.Music;
+import com.stone.stonemusic.model.Music;
 import com.stone.stonemusic.data.LrcStateContants;
 import com.stone.stonemusic.model.LrcContent;
 import com.stone.stonemusic.present.LrcComparator;

@@ -12,42 +12,46 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.stone.stonemusic.R;
-import com.stone.stonemusic.bean.ItemViewChoose;
+import com.stone.stonemusic.model.ArtistModel;
 import com.stone.stonemusic.model.Music;
+import com.stone.stonemusic.utils.MusicAppUtils;
 
 import java.util.List;
 
-
-public class LocalMusicAdapter extends ArrayAdapter<Music> {
-    public static final String TAG = "LocalMusicAdapter";
+/**
+ * author : stoneWang
+ * date   : 2019/4/89:06
+ */
+public class LocalArtistAdapter extends ArrayAdapter<ArtistModel> {
+    public static final String TAG = "LocalArtistAdapter";
     private int resourceId;
     private Bitmap pic;
 
-
-    public LocalMusicAdapter(Context context, int textViewResourceId, List<Music> objects){
-        super(context, textViewResourceId, objects);
-        resourceId = textViewResourceId;
+    public LocalArtistAdapter(@NonNull Context context, int resource, List<ArtistModel> objects) {
+        super(context, resource, objects);
+        resourceId = resource;
     }
 
     @NonNull
     @Override
     public View getView(final int position, @Nullable View convertView, @NonNull ViewGroup parent) {
 //        Log.d(TAG, "当前位置-》" + position);
-        Music music = getItem(position);
+        ArtistModel artistModel = getItem(position);
         View view;
         ViewHold viewHold;
-        if (convertView == null){
+        if (convertView == null) {
             view = LayoutInflater.from(getContext()).inflate(resourceId,parent,false);
             viewHold = new ViewHold();
 
-            viewHold.ItemPlayOrPause = (ImageView) view.findViewById(R.id.item_playOrPause);
-            viewHold.musicName = (TextView) view.findViewById(R.id.music_name);
-            viewHold.musicArtist = (TextView) view.findViewById(R.id.music_artist);
-            viewHold.ItemSet = (ImageView) view.findViewById(R.id.iv_item_set);
+            viewHold.listArtistImage = (ImageView) view.findViewById(R.id.item_artist_image_of_artist);
+            viewHold.musicArtist = (TextView) view.findViewById(R.id.item_artist_name_of_artist);
+            viewHold.musicNum = (TextView) view.findViewById(R.id.item_artist_num_of_music);
+            viewHold.ItemSet = (ImageView) view.findViewById(R.id.item_artist_set);
             view.setTag(viewHold);
 
-        }else{
+        } else {
             view = convertView;
             viewHold = (ViewHold) view.getTag();
         }
@@ -55,7 +59,7 @@ public class LocalMusicAdapter extends ArrayAdapter<Music> {
         viewHold.ItemSet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(TAG, "position == " + position);
+                Log.i(TAG, "position == " + position);
             }
         });
 
@@ -64,28 +68,27 @@ public class LocalMusicAdapter extends ArrayAdapter<Music> {
 //        viewHold.listMusicImage.setImageBitmap(pic);
 //        viewHold.listMusicImage.setBackgroundResource(R.drawable.list_message3);
 //        Glide.with(MusicAppUtils.getContext()).load(R.drawable.list_message3).into(viewHold.listMusicImage);
-
-        //根据是否选中，显示对应position的item是否播放
-        if (ItemViewChoose.getInstance().getItemChoosePosition() == position){
-            viewHold.ItemPlayOrPause.setVisibility(View.VISIBLE);
-        } else {
-            viewHold.ItemPlayOrPause.setVisibility(View.GONE);
+        String path = null;
+        path = artistModel.getPath();
+//            Log.d(TAG,"path="+path);
+        if (null == path || path.equals("")){
+            Glide.with(MusicAppUtils.getContext()).load(R.drawable.ic_def_img_artist_24dp).into(viewHold.listArtistImage);
+//            viewHold.listArtistImage.setImageResource(R.drawable.ic_def_img_artist_24dp);
+        }else{
+            Glide.with(MusicAppUtils.getContext()).load(path).into(viewHold.listArtistImage);
         }
 
-        viewHold.musicName.setText(music.getTitle());
-        viewHold.musicArtist.setText(music.getArtist());
+        viewHold.musicArtist.setText(artistModel.getArtist());
+        viewHold.musicNum.setText(artistModel.getNum() + "首");
+
         return view;
     }
 
     class ViewHold{
-//        ImageView listMusicImage;
-        ImageView ItemPlayOrPause;
-        TextView musicName;
+        ImageView listArtistImage;
         TextView musicArtist;
+        TextView musicNum;
         ImageView ItemSet;
 
     }
-
-
-
 }

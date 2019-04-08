@@ -14,10 +14,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.stone.stonemusic.R;
+import com.stone.stonemusic.model.Music;
+import com.stone.stonemusic.model.SongModel;
+import com.stone.stonemusic.present.MusicResources;
 import com.stone.stonemusic.utils.MusicAppUtils;
 import com.stone.stonemusic.utils.ToastUtils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class FirstActivity extends BaseNoBarActivity {
+    private static String TAG = "FirstActivity";
     private TextView tv = null;
     private ImageView iv = null;
     private Animation animation1 = null, animation2 = null;
@@ -30,10 +37,37 @@ public class FirstActivity extends BaseNoBarActivity {
         tv = (TextView) findViewById(R.id.first_music_text);
         iv = (ImageView) findViewById(R.id.first_music_log);
 
+
+        initMusicResources();
         initAnim();
         initPermissions();
 
 //        initJump();
+    }
+
+    private void initMusicResources() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                //init音乐列表
+                List<Music> musicList = new ArrayList<>();
+                musicList = new MusicResources().getMusic(MusicAppUtils.getContext());
+                SongModel.getInstance().setSongList(musicList);
+                MusicResources.initArtistMode(); //初始化歌手列表
+            }
+        }).start();
+
+
+        //test artistMap的取值，OK
+//        Set<Map.Entry<String, ArrayList<Music>>> sAll = MusicResources.artistMap.entrySet();
+//        for (Map.Entry<String, ArrayList<Music>> mE : sAll) {
+//            Log.i(TAG, "artist = " + mE.getKey());
+//            for (Music music : mE.getValue()) {
+//                Log.i(TAG, "Music.Title=" + music.getTitle());
+//            }
+//            Log.i(TAG, "==========================");
+//        }
+
     }
 
     private void initPermissions() {

@@ -1,7 +1,5 @@
 package com.stone.stonemusic.model;
 
-import com.stone.stonemusic.bean.Music;
-
 import java.util.List;
 
 public class SongModel {

@@ -15,16 +15,16 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.stone.stonemusic.R;
 import com.stone.stonemusic.adapter.LocalMusicFragmentPagerAdapter;
-import com.stone.stonemusic.bean.Music;
+import com.stone.stonemusic.model.Music;
 import com.stone.stonemusic.model.SongModel;
 import com.stone.stonemusic.present.MusicObserverListener;
 import com.stone.stonemusic.present.MusicObserverManager;
 import com.stone.stonemusic.present.PlayControl;
-import com.stone.stonemusic.utils.ActivityUtils;
+import com.stone.stonemusic.ui.View.ActivityView;
 import com.stone.stonemusic.utils.MediaStateCode;
 import com.stone.stonemusic.utils.MediaUtils;
 import com.stone.stonemusic.utils.MusicAppUtils;
-import com.stone.stonemusic.utils.MusicUtil;
+import com.stone.stonemusic.present.MusicResources;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,13 +63,12 @@ public class LocalListActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate");
 
-        ActivityUtils.setStatusBarColor(this, R.color.colorBarBottom, true);
+        ActivityView.setStatusBarColor(this, R.color.colorBarBottom, true);
 //        this.getWindow().setFlags(FLAG_HOMEKEY_DISPATCHED, FLAG_HOMEKEY_DISPATCHED);//关键代码
         setContentView(R.layout.activity_local_list);
 
         MusicAppUtils.addDestroyActivity(this, TAG); /*添加到待销毁的队列*/
-        //init音乐列表
-        SongModel.getInstance().setSongList(new MusicUtil().getMusic(MusicAppUtils.getContext()));
+
         musicList = SongModel.getInstance().getSongList();
 
         initViews();
@@ -112,7 +111,7 @@ public class LocalListActivity extends AppCompatActivity implements
             mBottomBarArtist.setText(musicList.get(position).getArtist());
 
 
-            String path = MusicUtil.getAlbumArt(new Long(musicList.get(position).getAlbum_id()).intValue());
+            String path = MusicResources.getAlbumArt(new Long(musicList.get(position).getAlbum_id()).intValue());
 //            Log.d(TAG,"path="+path);
             if (null == path){
                 mIvBottomBarImage.setImageResource(R.drawable.play_background02);
@@ -168,6 +167,9 @@ public class LocalListActivity extends AppCompatActivity implements
     @Override
     public void observerUpData(int content) {
         switch (content) {
+            case MediaStateCode.MUSIC_INIT_FINISHED:
+                Log.e(TAG, "Artist更新完毕");
+                break;
             case MediaStateCode.PLAY_START:
             case MediaStateCode.MUSIC_POSITION_CHANGED:
                 LocalListActivityHandler.sendEmptyMessage(1);

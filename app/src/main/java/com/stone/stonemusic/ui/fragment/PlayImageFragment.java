@@ -12,12 +12,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.stone.stonemusic.R;
-import com.stone.stonemusic.bean.Music;
+import com.stone.stonemusic.model.Music;
 import com.stone.stonemusic.model.SongModel;
 import com.stone.stonemusic.ui.View.CircleImageView;
 import com.stone.stonemusic.ui.activity.PlayActivity;
 import com.stone.stonemusic.utils.MediaUtils;
-import com.stone.stonemusic.utils.MusicUtil;
+import com.stone.stonemusic.present.MusicResources;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,7 +57,7 @@ public class PlayImageFragment extends Fragment implements PlayActivity.CallBack
     private void initView(){
         /*设置专辑图*/
         int position = MediaUtils.currentSongPosition;
-        String path = MusicUtil.getAlbumArt(new Long(musicList.get(position).getAlbum_id()).intValue());
+        String path = MusicResources.getAlbumArt(new Long(musicList.get(position).getAlbum_id()).intValue());
         if (null == path){
             CIVAlbum.setImageResource(R.drawable.play_background02);
         }else{

@@ -1,6 +1,5 @@
 package com.stone.stonemusic.utils;
 
-import android.os.Environment;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -18,12 +17,10 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
-import java.util.Random;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;

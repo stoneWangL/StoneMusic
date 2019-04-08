@@ -19,14 +19,14 @@ import com.bumptech.glide.Glide;
 import com.stone.stonemusic.R;
 import com.stone.stonemusic.adapter.LocalMusicAdapter;
 import com.stone.stonemusic.bean.ItemViewChoose;
-import com.stone.stonemusic.bean.Music;
+import com.stone.stonemusic.model.Music;
 import com.stone.stonemusic.model.SongModel;
 import com.stone.stonemusic.present.PlayControl;
 import com.stone.stonemusic.ui.activity.LocalListActivity;
 import com.stone.stonemusic.utils.MediaStateCode;
 import com.stone.stonemusic.utils.MediaUtils;
 import com.stone.stonemusic.utils.MusicAppUtils;
-import com.stone.stonemusic.utils.MusicUtil;
+import com.stone.stonemusic.present.MusicResources;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -89,7 +89,7 @@ public class MusicListFragment extends Fragment implements LocalListActivity.Cal
                     mBottomBarTitle.setText(musicList.get(position).getTitle()); //更新音乐名
                     mBottomBarArtist.setText(musicList.get(position).getArtist()); //更新音乐作者
                     //更新音乐专辑图
-                    String path = MusicUtil.getAlbumArt(new Long(musicList.get(position).getAlbum_id()).intValue());
+                    String path = MusicResources.getAlbumArt(new Long(musicList.get(position).getAlbum_id()).intValue());
                     Log.d(TAG,"path="+path);
                     if (null == path){
                         mIvBottomBarImage.setImageResource(R.drawable.ic_log);
