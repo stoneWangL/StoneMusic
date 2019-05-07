@@ -8,4 +8,7 @@
 ![应用图标](https://github.com/stoneWangL/arithmetic/blob/master/stoneMusicPic/log.png)
 
 ### 应用演示效果截图：
+#### 应用动态演示效果截图：
 ![应用演示](https://github.com/stoneWangL/arithmetic/blob/master/stoneMusicPic/music01.gif)
+#### 应用静态演示效果截图：
+![图片1](https://github.com/stoneWangL/arithmetic/blob/master/stoneMusicPic/music01.jpg)
