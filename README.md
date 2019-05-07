@@ -14,4 +14,5 @@
 ![图片1](https://github.com/stoneWangL/arithmetic/blob/master/stoneMusicPic/music01.jpg)
 ![图片2](https://github.com/stoneWangL/arithmetic/blob/master/stoneMusicPic/music02.jpg)
 ![图片3](https://github.com/stoneWangL/arithmetic/blob/master/stoneMusicPic/music03.jpg)
+![图片4](https://github.com/stoneWangL/arithmetic/blob/master/stoneMusicPic/music05.jpg)
 ![图片4](https://github.com/stoneWangL/arithmetic/blob/master/stoneMusicPic/music04.jpg)
