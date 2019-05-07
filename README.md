@@ -6,3 +6,6 @@
 
 ### 应用图标：
 ![应用图标](https://github.com/stoneWangL/arithmetic/blob/master/stoneMusicPic/log.png)
+
+### 应用演示效果截图：
+![应用演示](https://github.com/stoneWangL/arithmetic/blob/master/stoneMusicPic/music01.gif)
