@@ -12,3 +12,6 @@
 ![应用演示](https://github.com/stoneWangL/arithmetic/blob/master/stoneMusicPic/music01.gif)
 #### 应用静态演示效果截图：
 ![图片1](https://github.com/stoneWangL/arithmetic/blob/master/stoneMusicPic/music01.jpg)
+![图片2](https://github.com/stoneWangL/arithmetic/blob/master/stoneMusicPic/music02.jpg)
+![图片3](https://github.com/stoneWangL/arithmetic/blob/master/stoneMusicPic/music03.jpg)
+![图片4](https://github.com/stoneWangL/arithmetic/blob/master/stoneMusicPic/music04.jpg)
