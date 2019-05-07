@@ -5,4 +5,4 @@
 - 该项目采用MVP拆分模式，减少代码耦合。
 
 ### 应用图标：
-![应用图标](https://github.com/stoneWangL/StoneMusic/blob/master/app/src/main/res/drawable/ic_log.xml)
+![应用图标](https://github.com/stoneWangL/StoneMusic/blob/master/app/src/main/res/drawable/anim_log.png)
