@@ -15,8 +15,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.stone.stonemusic.R;
 import com.stone.stonemusic.model.ArtistModel;
-import com.stone.stonemusic.model.Music;
-import com.stone.stonemusic.utils.MusicAppUtils;
+import com.stone.stonemusic.utils.MusicApplication;
 
 import java.util.List;
 
@@ -72,10 +71,10 @@ public class LocalArtistAdapter extends ArrayAdapter<ArtistModel> {
         path = artistModel.getPath();
 //            Log.d(TAG,"path="+path);
         if (null == path || path.equals("")){
-            Glide.with(MusicAppUtils.getContext()).load(R.drawable.ic_def_img_artist_24dp).into(viewHold.listArtistImage);
+            Glide.with(MusicApplication.getContext()).load(R.drawable.ic_def_img_artist_24dp).into(viewHold.listArtistImage);
 //            viewHold.listArtistImage.setImageResource(R.drawable.ic_def_img_artist_24dp);
         }else{
-            Glide.with(MusicAppUtils.getContext()).load(path).into(viewHold.listArtistImage);
+            Glide.with(MusicApplication.getContext()).load(path).into(viewHold.listArtistImage);
         }
 
         viewHold.musicArtist.setText(artistModel.getArtist());

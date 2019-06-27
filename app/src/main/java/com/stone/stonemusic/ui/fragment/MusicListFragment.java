@@ -25,7 +25,7 @@ import com.stone.stonemusic.present.PlayControl;
 import com.stone.stonemusic.ui.activity.LocalListActivity;
 import com.stone.stonemusic.utils.MediaStateCode;
 import com.stone.stonemusic.utils.MediaUtils;
-import com.stone.stonemusic.utils.MusicAppUtils;
+import com.stone.stonemusic.utils.MusicApplication;
 import com.stone.stonemusic.present.MusicResources;
 
 import java.util.ArrayList;
@@ -82,7 +82,7 @@ public class MusicListFragment extends Fragment implements LocalListActivity.Cal
                 int lastPosition = ItemViewChoose.getInstance().getItemChoosePosition();
                 //点击的是正在播放的歌曲
                 if (position == lastPosition && null != fatherActivity)
-                    fatherActivity.GoToPlayActivity(view); //调用父类方法，跳转到播放Activity
+                    fatherActivity.GoToPlayActivity(); //调用父类方法，跳转到播放Activity
                 //点击的不是当前播放的歌曲
                 else{
                     PlayControl.controlBtnPlayDiffSong();
@@ -94,7 +94,7 @@ public class MusicListFragment extends Fragment implements LocalListActivity.Cal
                     if (null == path){
                         mIvBottomBarImage.setImageResource(R.drawable.ic_log);
                     }else{
-                        Glide.with(MusicAppUtils.getContext()).load(path).into(mIvBottomBarImage);
+                        Glide.with(MusicApplication.getContext()).load(path).into(mIvBottomBarImage);
                     }
 
                     //设置选中的item的位置,这里的position设置与ListView中当前播放位置的标识有关
@@ -112,7 +112,7 @@ public class MusicListFragment extends Fragment implements LocalListActivity.Cal
     private void readMusic(){
         try{
             musicList = SongModel.getInstance().getSongList();
-            adapter = new LocalMusicAdapter(MusicAppUtils.getContext(),R.layout.item_music,musicList);
+            adapter = new LocalMusicAdapter(MusicApplication.getContext(),R.layout.item_music,musicList);
             listView.setAdapter(adapter);
         }catch(Exception e){
             e.printStackTrace();

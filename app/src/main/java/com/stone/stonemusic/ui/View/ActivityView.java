@@ -9,7 +9,7 @@ import android.view.WindowManager;
 
 import com.stone.stonemusic.R;
 import com.stone.stonemusic.utils.MediaUtils;
-import com.stone.stonemusic.utils.MusicAppUtils;
+import com.stone.stonemusic.utils.MusicApplication;
 
 public class ActivityView {
 
@@ -25,7 +25,7 @@ public class ActivityView {
         /*添加Flag把状态栏设为可绘制模式*/
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         /*设置状态栏颜色*/
-        window.setStatusBarColor(MusicAppUtils.getContext().getResources().getColor(statusColor));
+        window.setStatusBarColor(MusicApplication.getContext().getResources().getColor(statusColor));
         /*设置系统状态栏处于可见状态 | 文字颜色及图标为深色*/
         if (systemUiImageColorBlack) {
             window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);

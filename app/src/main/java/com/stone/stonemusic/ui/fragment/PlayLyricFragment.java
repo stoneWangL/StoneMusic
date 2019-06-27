@@ -114,7 +114,7 @@ public class PlayLyricFragment extends Fragment implements OnLrcSearchClickListe
             loadLrcView();
 
         //开启轮询监听
-        DclTimerTask.getInstance().start();
+        //DclTimerTask.getInstance().start();
     }
 
 
@@ -357,7 +357,7 @@ public class PlayLyricFragment extends Fragment implements OnLrcSearchClickListe
         //从观察者队列中移除
         MusicObserverManager.getInstance().remove(this);
         //停止LrcUpData轮询
-        DclTimerTask.getInstance().destroyed();
+        //DclTimerTask.getInstance().destroyed();
     }
 
     @Override

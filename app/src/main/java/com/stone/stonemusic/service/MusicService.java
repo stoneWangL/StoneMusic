@@ -29,7 +29,7 @@ import com.stone.stonemusic.present.PlayControl;
 import com.stone.stonemusic.ui.activity.LocalListActivity;
 import com.stone.stonemusic.utils.MediaStateCode;
 import com.stone.stonemusic.utils.MediaUtils;
-import com.stone.stonemusic.utils.MusicAppUtils;
+import com.stone.stonemusic.utils.MusicApplication;
 import com.stone.stonemusic.utils.MyTimerTask;
 
 import java.util.ArrayList;
@@ -148,7 +148,7 @@ public class MusicService extends Service implements MusicObserverListener{
     }
 
     private void initNotificationSon() {
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(MusicAppUtils.getContext());
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(MusicApplication.getContext());
 
         mBuilder.setSmallIcon(R.drawable.play_background02); // 设置顶部图标
         mBuilder.setOngoing(true);
@@ -253,8 +253,8 @@ public class MusicService extends Service implements MusicObserverListener{
                 Log.d(TAG, "点击了Love");
             } else if (action.equals(MediaStateCode.ACTION_CLOSE)) {
                 Log.d(TAG, "clocked Close");
-                MusicAppUtils.destroyActivity("PlayActivity");
-                MusicAppUtils.destroyActivity("LocalListActivity");
+                MusicApplication.destroyActivity("PlayActivity");
+                MusicApplication.destroyActivity("LocalListActivity");
                 stopService(new Intent(context,MusicService.class));
             } else if (AudioManager.ACTION_AUDIO_BECOMING_NOISY.equals(action)) {
                 Log.i(TAG, "检测到耳机拔出");
@@ -291,6 +291,9 @@ public class MusicService extends Service implements MusicObserverListener{
     public void onDestroy() {
         super.onDestroy();
         Log.d(TAG,"音乐服务onDestroy");
+
+        MusicApplication.getmRefWatcher().watch(this);
+
         //从观察者队列中移除
         MusicObserverManager.getInstance().remove(this);
 
@@ -329,6 +332,9 @@ public class MusicService extends Service implements MusicObserverListener{
                         /*下一曲*/
                         PlayControl.controlBtnNext();
                     }
+
+                    //使用观察者管理类通知，seekBar位置需要更新
+                    MusicObserverManager.getInstance().notifyObserver(MediaStateCode.MUSIC_SEEKBAR_CHANGED);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

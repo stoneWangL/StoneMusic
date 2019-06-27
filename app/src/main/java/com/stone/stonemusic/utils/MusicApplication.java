@@ -3,17 +3,18 @@ package com.stone.stonemusic.utils;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
-import android.content.IntentFilter;
-import android.support.v4.content.LocalBroadcastManager;
 
-import com.stone.stonemusic.R;
+import com.squareup.leakcanary.LeakCanary;
+import com.squareup.leakcanary.RefWatcher;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-public class MusicAppUtils extends Application{
+public class MusicApplication extends Application{
     public static final String TAG = "MusicAppUtils";
+    private static RefWatcher mRefWatcher;
+
     private static Context sContext;
     private static Map<String, Activity> destroyMap = new HashMap<>(); /*用于销毁活动*/
 
@@ -21,10 +22,18 @@ public class MusicAppUtils extends Application{
     public void onCreate() {
         super.onCreate();
         sContext = this;
+        mRefWatcher = LeakCanary.install(this);
     }
 
     public static Context getContext(){
         return sContext;
+    }
+
+    /**
+     * @return RefWatcher，用于监控、追踪应用中的对象引用
+     */
+    public static RefWatcher getmRefWatcher() {
+        return mRefWatcher;
     }
 
     /**
@@ -49,4 +58,6 @@ public class MusicAppUtils extends Application{
             }
         }
     }
+
+
 }

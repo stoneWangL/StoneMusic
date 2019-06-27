@@ -65,8 +65,7 @@
         android:layout_weight="1"
         android:background="@color/colorBarBottom"
         android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:onClick="GoToPlayActivity">
+        android:gravity="center_vertical">
         <View
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -91,7 +90,7 @@
                     android:id="@+id/bottom_bar_image"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/ic_x"/>
+                    android:src="@drawable/ic_o"/>
             </FrameLayout>
         </LinearLayout>
 
@@ -110,14 +109,14 @@
                 android:textSize="@dimen/small_item_title"
                 android:textStyle="bold"
                 android:singleLine="true"
-                android:text="君"/>
+                android:text="歌曲"/>
             <TextView
                 android:id="@+id/bottom_bar_artist"
                 android:layout_below="@+id/bottom_bar_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
-                android:text="secret base"
+                android:text="歌手"
                 android:textSize="@dimen/small_item_artist"/>
         </LinearLayout>
 

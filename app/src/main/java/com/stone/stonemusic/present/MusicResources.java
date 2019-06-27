@@ -9,8 +9,7 @@ import android.util.Log;
 import com.stone.stonemusic.model.ArtistModel;
 import com.stone.stonemusic.model.Music;
 import com.stone.stonemusic.utils.MediaStateCode;
-import com.stone.stonemusic.utils.MusicAppUtils;
-import com.stone.stonemusic.utils.SearchImageUtil;
+import com.stone.stonemusic.utils.MusicApplication;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -144,7 +143,7 @@ public class MusicResources {
     public static String getAlbumArt(int album_id) {
         String mUriAlbums = "content://media/external/audio/albums";
         String[] projection = new String[] { "album_art" };
-        Cursor cur = MusicAppUtils.getContext().getContentResolver().query(
+        Cursor cur = MusicApplication.getContext().getContentResolver().query(
                 Uri.parse(mUriAlbums + "/" + Integer.toString(album_id)),
                 projection, null, null, null);
         String album_art = null;

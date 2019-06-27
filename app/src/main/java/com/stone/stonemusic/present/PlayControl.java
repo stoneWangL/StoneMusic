@@ -8,7 +8,7 @@ import com.stone.stonemusic.model.SongModel;
 import com.stone.stonemusic.service.MusicService;
 import com.stone.stonemusic.utils.MediaStateCode;
 import com.stone.stonemusic.utils.MediaUtils;
-import com.stone.stonemusic.utils.MusicAppUtils;
+import com.stone.stonemusic.utils.MusicApplication;
 
 /**
  * author : stoneWang
@@ -17,9 +17,9 @@ import com.stone.stonemusic.utils.MusicAppUtils;
  */
 public class PlayControl {
     private static String TAG = "PlayControl";
-    static Intent startServiceIntent = new Intent( MusicAppUtils.getContext(), MusicService.class);
+    static Intent startServiceIntent = new Intent( MusicApplication.getContext(), MusicService.class);
 
-    private static AudioManager mAm = (AudioManager) MusicAppUtils.getContext().getSystemService(Context.AUDIO_SERVICE);
+    private static AudioManager mAm = (AudioManager) MusicApplication.getContext().getSystemService(Context.AUDIO_SERVICE);
 
     private static MyOnAudioFocusChangeListener mListener = new MyOnAudioFocusChangeListener();
 
@@ -45,7 +45,7 @@ public class PlayControl {
      * 开启服务
      */
     private static void startMusicService() {
-        MusicAppUtils.getContext().startService(startServiceIntent);
+        MusicApplication.getContext().startService(startServiceIntent);
     }
 
     /**

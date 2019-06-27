@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -23,14 +24,14 @@ import com.stone.stonemusic.present.PlayControl;
 import com.stone.stonemusic.ui.View.ActivityView;
 import com.stone.stonemusic.utils.MediaStateCode;
 import com.stone.stonemusic.utils.MediaUtils;
-import com.stone.stonemusic.utils.MusicAppUtils;
+import com.stone.stonemusic.utils.MusicApplication;
 import com.stone.stonemusic.present.MusicResources;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class LocalListActivity extends AppCompatActivity implements
-        MusicObserverListener{
+        MusicObserverListener, View.OnClickListener{
     public static final String TAG = "LocalListActivity";
 
     private TabLayout.Tab tabMusic;
@@ -48,6 +49,7 @@ public class LocalListActivity extends AppCompatActivity implements
     public static final int PAGE_FOLDER = 3;
 //    public static final int FLAG_HOMEKEY_DISPATCHED = 0x80000000;
 
+    private LinearLayout bottomLinearLayout;
     private ImageView mIvPlay, mIvPlayNext, mIvBottomBarImage;
     private TextView mBottomBarTitle, mBottomBarArtist;
     private List<Music> musicList = new ArrayList<>();
@@ -67,7 +69,7 @@ public class LocalListActivity extends AppCompatActivity implements
 //        this.getWindow().setFlags(FLAG_HOMEKEY_DISPATCHED, FLAG_HOMEKEY_DISPATCHED);//关键代码
         setContentView(R.layout.activity_local_list);
 
-        MusicAppUtils.addDestroyActivity(this, TAG); /*添加到待销毁的队列*/
+        MusicApplication.addDestroyActivity(this, TAG); /*添加到待销毁的队列*/
 
         musicList = SongModel.getInstance().getSongList();
 
@@ -79,6 +81,8 @@ public class LocalListActivity extends AppCompatActivity implements
     }
 
     private void initViews() {
+        bottomLinearLayout = (LinearLayout) findViewById(R.id.bottom_bar_layout);
+        bottomLinearLayout.setOnClickListener(this);
 
         /*使用适配器将ViewPager与Fragment绑定在一起*/
         vpLocalMusic = (ViewPager) findViewById(R.id.vp_local_music);
@@ -116,7 +120,7 @@ public class LocalListActivity extends AppCompatActivity implements
             if (null == path){
                 mIvBottomBarImage.setImageResource(R.drawable.play_background02);
             }else{
-                Glide.with(MusicAppUtils.getContext()).load(path).into(mIvBottomBarImage);
+                Glide.with(MusicApplication.getContext()).load(path).into(mIvBottomBarImage);
             }
 
             if (MediaUtils.currentState == MediaStateCode.PLAY_PAUSE ||
@@ -134,12 +138,17 @@ public class LocalListActivity extends AppCompatActivity implements
     //播放键控制
     public void play(View view){
         Log.i(TAG, "此时的状态=="+MediaUtils.currentState);
-        PlayControl.controlBtnPlaySameSong();
+        if (musicList.size() > 0){
+            PlayControl.controlBtnPlaySameSong();
+        }
+
     }
 
     //播放键控制
     public void playNext(View view){
-        PlayControl.controlBtnNext();
+        if (musicList.size() > 0){
+            PlayControl.controlBtnNext();
+        }
     }
 
     /*收到UI界面更新的通知后，在此刷新UI*/
@@ -153,11 +162,25 @@ public class LocalListActivity extends AppCompatActivity implements
     };
 
     /*跳转到PlayActivity*/
-    public void GoToPlayActivity(View view){
+    public void GoToPlayActivity(){
         Intent intent = new Intent(this, PlayActivity.class);
         startActivity(intent);
         overridePendingTransition(R.anim.push_up_in,R.anim.push_up_out);
     }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.bottom_bar_layout:
+                if (musicList.size() > 0){
+                    GoToPlayActivity();
+                }
+                break;
+        }
+
+    }
+
+
 
     /*定义回调接口*/
     public interface CallBackInterface{

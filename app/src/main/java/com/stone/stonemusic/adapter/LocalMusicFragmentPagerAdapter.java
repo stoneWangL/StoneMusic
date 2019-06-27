@@ -11,7 +11,7 @@ import com.stone.stonemusic.ui.fragment.AlbumListFragment;
 import com.stone.stonemusic.ui.fragment.ArtistListFragment;
 import com.stone.stonemusic.ui.fragment.FolderListFragment;
 import com.stone.stonemusic.ui.fragment.MusicListFragment;
-import com.stone.stonemusic.utils.MusicAppUtils;
+import com.stone.stonemusic.utils.MusicApplication;
 
 public class LocalMusicFragmentPagerAdapter extends FragmentPagerAdapter {
 
@@ -22,10 +22,10 @@ public class LocalMusicFragmentPagerAdapter extends FragmentPagerAdapter {
     private FolderListFragment folderListFragment = null;
 
     private String[] mTitles = new String[]{
-            MusicAppUtils.getContext().getResources().getString(R.string.tab_menu_music),
-            MusicAppUtils.getContext().getResources().getString(R.string.tab_menu_artist),
-            MusicAppUtils.getContext().getResources().getString(R.string.tab_menu_album),
-            MusicAppUtils.getContext().getResources().getString(R.string.tab_menu_folder) };
+            MusicApplication.getContext().getResources().getString(R.string.tab_menu_music),
+            MusicApplication.getContext().getResources().getString(R.string.tab_menu_artist),
+            MusicApplication.getContext().getResources().getString(R.string.tab_menu_album),
+            MusicApplication.getContext().getResources().getString(R.string.tab_menu_folder) };
 
     public LocalMusicFragmentPagerAdapter(FragmentManager fm) {
         super(fm);

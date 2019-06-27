@@ -16,17 +16,12 @@ import android.widget.TextView;
 
 import com.stone.stonemusic.R;
 import com.stone.stonemusic.adapter.LocalArtistAdapter;
-import com.stone.stonemusic.adapter.LocalMusicAdapter;
-import com.stone.stonemusic.bean.ItemViewChoose;
 import com.stone.stonemusic.model.ArtistModel;
-import com.stone.stonemusic.model.Music;
-import com.stone.stonemusic.model.SongModel;
 import com.stone.stonemusic.present.MusicObserverListener;
 import com.stone.stonemusic.present.MusicResources;
 import com.stone.stonemusic.ui.activity.LocalListActivity;
 import com.stone.stonemusic.utils.MediaStateCode;
-import com.stone.stonemusic.utils.MediaUtils;
-import com.stone.stonemusic.utils.MusicAppUtils;
+import com.stone.stonemusic.utils.MusicApplication;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,7 +68,7 @@ public class ArtistListFragment extends Fragment implements
     private void readMusic() {
         try{
             modelArrayList = MusicResources.artistModelList;
-            adapter = new LocalArtistAdapter(MusicAppUtils.getContext(), R.layout.item_artist, modelArrayList);
+            adapter = new LocalArtistAdapter(MusicApplication.getContext(), R.layout.item_artist, modelArrayList);
             listView.setAdapter(adapter);
         }catch(Exception e){
             e.printStackTrace();

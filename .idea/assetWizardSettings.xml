@@ -11,11 +11,28 @@
                   <entry key="vectorAssetStep">
                     <value>
                       <PersistentState>
+                        <option name="children">
+                          <map>
+                            <entry key="clipartAsset">
+                              <value>
+                                <PersistentState>
+                                  <option name="values">
+                                    <map>
+                                      <entry key="url" value="jar:file:/D:/AndroidStudio/plugins/android/lib/android.jar!/images/material_design_icons/toggle/ic_radio_button_unchecked_black_24dp.xml" />
+                                    </map>
+                                  </option>
+                                </PersistentState>
+                              </value>
+                            </entry>
+                          </map>
+                        </option>
                         <option name="values">
                           <map>
-                            <entry key="assetSourceType" value="FILE" />
-                            <entry key="outputName" value="ic_default_img_artist" />
-                            <entry key="sourceFile" value="C:\Users\Lenovo\Desktop\图标\icon_default_img_artist.svg" />
+                            <entry key="height" value="1" />
+                            <entry key="outputName" value="ic_o" />
+                            <entry key="overrideSize" value="true" />
+                            <entry key="sourceFile" value="C:\Users\Lenovo" />
+                            <entry key="width" value="1" />
                           </map>
                         </option>
                       </PersistentState>

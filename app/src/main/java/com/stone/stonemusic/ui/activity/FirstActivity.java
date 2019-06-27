@@ -17,7 +17,7 @@ import com.stone.stonemusic.R;
 import com.stone.stonemusic.model.Music;
 import com.stone.stonemusic.model.SongModel;
 import com.stone.stonemusic.present.MusicResources;
-import com.stone.stonemusic.utils.MusicAppUtils;
+import com.stone.stonemusic.utils.MusicApplication;
 import com.stone.stonemusic.utils.ToastUtils;
 
 import java.util.ArrayList;
@@ -51,7 +51,7 @@ public class FirstActivity extends BaseNoBarActivity {
             public void run() {
                 //init音乐列表
                 List<Music> musicList = new ArrayList<>();
-                musicList = new MusicResources().getMusic(MusicAppUtils.getContext());
+                musicList = new MusicResources().getMusic(MusicApplication.getContext());
                 SongModel.getInstance().setSongList(musicList);
                 MusicResources.initArtistMode(); //初始化歌手列表
             }
@@ -71,7 +71,7 @@ public class FirstActivity extends BaseNoBarActivity {
     }
 
     private void initPermissions() {
-        if (ContextCompat.checkSelfPermission(MusicAppUtils.getContext(), Manifest.permission.READ_EXTERNAL_STORAGE)
+        if (ContextCompat.checkSelfPermission(MusicApplication.getContext(), Manifest.permission.READ_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED){
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
         }else{

@@ -7,14 +7,14 @@ public class ToastUtils {
 
     public static void getToastShort(String str){
 //        Toast.makeText(MusicAppUtils.getContext(), str, Toast.LENGTH_SHORT).show();
-        mToast = Toast.makeText(MusicAppUtils.getContext(), null, Toast.LENGTH_SHORT);
+        mToast = Toast.makeText(MusicApplication.getContext(), null, Toast.LENGTH_SHORT);
         mToast.setText(str);
         mToast.show();
     }
 
     public static void getToastLong(String str){
 //        Toast.makeText(MusicAppUtils.getContext(), str, Toast.LENGTH_LONG).show();
-        mToast = Toast.makeText(MusicAppUtils.getContext(), null, Toast.LENGTH_LONG);
+        mToast = Toast.makeText(MusicApplication.getContext(), null, Toast.LENGTH_LONG);
         mToast.setText(str);
         mToast.show();
     }

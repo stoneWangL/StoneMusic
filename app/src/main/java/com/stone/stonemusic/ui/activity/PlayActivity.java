@@ -25,7 +25,7 @@ import com.stone.stonemusic.ui.View.CircleView;
 import com.stone.stonemusic.ui.View.ActivityView;
 import com.stone.stonemusic.utils.MediaStateCode;
 import com.stone.stonemusic.utils.MediaUtils;
-import com.stone.stonemusic.utils.MusicAppUtils;
+import com.stone.stonemusic.utils.MusicApplication;
 import com.stone.stonemusic.utils.OtherUtils;
 import com.stone.stonemusic.utils.ToastUtils;
 
@@ -74,7 +74,7 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
 
     private void init() {
         musicList = SongModel.getInstance().getSongList();
-        MusicAppUtils.addDestroyActivity(this, TAG); /*添加到待销毁的队列*/
+        MusicApplication.addDestroyActivity(this, TAG); /*添加到待销毁的队列*/
         initView();
     }
 
@@ -144,32 +144,32 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
                 /*将media进度设置为当前seekBar的进度*/
                 MediaUtils.getMediaPlayer().seekTo(seekBar.getProgress());
 
-                seekBarThread = new Thread(new PlayActivity.SeekBarThread());
-                seekBarThread.start(); /*启动线程*/
+//                seekBarThread = new Thread(new PlayActivity.SeekBarThread());
+//                seekBarThread.start(); /*启动线程*/
             }
         });
     }
 
     /*seekBar进度监听线程*/
-    class SeekBarThread implements Runnable {
-
-        @Override
-        public void run() {
-            while (!MediaUtils.seekBarIsChanging && MediaUtils.getMediaPlayer().isPlaying()) {
-                /*将SeekBar位置设置到当前播放位置*/
-                mSeekBar.setProgress(MediaUtils.getMediaPlayer().getCurrentPosition());
-
-                try {
-                    Thread.sleep(1000); /*每1秒更新一次位置*/
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-            if (!MediaUtils.seekBarIsChanging && !MediaUtils.getMediaPlayer().isPlaying()){
-//                mMusicInfoUtil.setIsPlay(false);//此时音乐停止播放了
-            }
-        }
-    }
+//    class SeekBarThread implements Runnable {
+//
+//        @Override
+//        public void run() {
+//            while (!MediaUtils.seekBarIsChanging && MediaUtils.getMediaPlayer().isPlaying()) {
+//                /*将SeekBar位置设置到当前播放位置*/
+//                mSeekBar.setProgress(MediaUtils.getMediaPlayer().getCurrentPosition());
+//
+//                try {
+//                    Thread.sleep(1000); /*每1秒更新一次位置*/
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//            if (!MediaUtils.seekBarIsChanging && !MediaUtils.getMediaPlayer().isPlaying()){
+////                mMusicInfoUtil.setIsPlay(false);//此时音乐停止播放了
+//            }
+//        }
+//    }
 
     /*更新 带有控制的View的UI（eg:上一曲 下一曲 播放暂停 是否喜欢 循环模式图标）*/
     private void initControlPlayUI() {
@@ -187,10 +187,10 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
         mSeekBar.setProgress(0);
         mSeekBar.setMax((int)musicList.get(position).getDuration());
         mSeekBar.setProgress(MediaUtils.getMediaPlayer().getCurrentPosition());
-        if (MediaUtils.getMediaPlayer().isPlaying()){
-            seekBarThread = new Thread(new PlayActivity.SeekBarThread());
-            seekBarThread.start(); /*启动seekBar监听线程*/
-        }
+//        if (MediaUtils.getMediaPlayer().isPlaying()){
+//            seekBarThread = new Thread(new PlayActivity.SeekBarThread());
+//            seekBarThread.start(); /*启动seekBar监听线程*/
+//        }
         tvTotalTime.setText(OtherUtils.durationTime((int)musicList.get(position).getDuration()));
 
         /*播放模式*/
@@ -265,7 +265,16 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            initControlPlayUI();
+            switch (msg.what){
+                case 0:
+                    /*将SeekBar位置设置到当前播放位置*/
+                    mSeekBar.setProgress(MediaUtils.getMediaPlayer().getCurrentPosition());
+                    break;
+                case 1:
+                    initControlPlayUI();
+                    break;
+            }
+
         }
     };
     /*定义回调接口*/
@@ -288,6 +297,9 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
             case MediaStateCode.PLAY_STOP:
             case MediaStateCode.PLAY_PAUSE:
                 PlayActivityHandler.sendEmptyMessage(1);
+                break;
+            case MediaStateCode.MUSIC_SEEKBAR_CHANGED:
+                PlayActivityHandler.sendEmptyMessage(0);
                 break;
 
             default:
