@@ -1,6 +1,8 @@
 package com.stone.stonemusic.ui.activity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Message;
 import android.support.design.widget.TabLayout;
@@ -34,6 +36,10 @@ public class LocalListActivity extends AppCompatActivity implements
         MusicObserverListener, View.OnClickListener{
     public static final String TAG = "LocalListActivity";
 
+    private ProgressDialog mDialog;
+    // 线程变量
+    MyTask mTask;
+
     private TabLayout.Tab tabMusic;
     private TabLayout.Tab tabArtist;
     private TabLayout.Tab tabAlbum;
@@ -60,6 +66,40 @@ public class LocalListActivity extends AppCompatActivity implements
         this.mCallBackInterface = myCallBackInterface;
     }
 
+    private class MyTask extends AsyncTask<String, Integer, String> {
+
+        @Override
+        protected void onPreExecute() {
+//            text.setText("加载中");
+            // 执行前显示提示
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            try {
+                musicList = new MusicResources().getMusic(MusicApplication.getContext());
+                SongModel.getInstance().setSongList(musicList);
+                MusicResources.initArtistMode(); //初始化歌手列表
+            }catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            // 执行完毕后，则更新UI
+//            text.setText("加载完毕");
+
+            initViews();
+            initMusicPlayImg();
+            mDialog.cancel();
+        }
+
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,8 +113,14 @@ public class LocalListActivity extends AppCompatActivity implements
 
         musicList = SongModel.getInstance().getSongList();
 
-        initViews();
-        initMusicPlayImg();
+
+        mDialog = new ProgressDialog(this);
+        mDialog.setMessage("正在加载音乐文件");
+        mDialog.show();
+
+        mTask = new MyTask();
+        mTask.execute();
+
 
         //添加进观察者队列
         MusicObserverManager.getInstance().add(this);
@@ -126,7 +172,7 @@ public class LocalListActivity extends AppCompatActivity implements
             if (MediaUtils.currentState == MediaStateCode.PLAY_PAUSE ||
                     MediaUtils.currentState == MediaStateCode.PLAY_STOP) {
                 mIvPlay.setImageResource(R.drawable.ic_play_black);
-            }else {
+            } else {
                 mIvPlay.setImageResource(R.drawable.ic_pause_black);
             }
         } catch (Exception e) {

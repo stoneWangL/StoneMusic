@@ -38,7 +38,7 @@ public class FirstActivity extends BaseNoBarActivity {
         iv = (ImageView) findViewById(R.id.first_music_log);
 
 
-        initMusicResources();
+        //initMusicResources();
         initAnim();
         initPermissions();
 
