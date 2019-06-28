@@ -42,5 +42,14 @@
         <item name="android:backgroundDimEnabled">true</item>
     </style>
 
+    <!--4个fragment，无本地音乐的TextView的文字样式-->
+    <style name="tv_no_music">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:text">@string/no_local_music</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">@dimen/sp20</item>
+    </style>
+
 
 </resources>

@@ -15,6 +15,7 @@
     <string name="play_mode_only_one">单曲循环</string>
     <string name="play_mode_order_list">列表循环</string>
     <string name="play_mode_out_of_order">随机播放</string>
+    <string name="no_local_music">暂无本地音乐</string>
 
     <!--setTag的key-->
     <!--<item type="id" name="tag_ViewHold">ViewHold</item>-->

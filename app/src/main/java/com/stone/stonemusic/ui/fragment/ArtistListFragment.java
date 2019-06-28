@@ -26,6 +26,9 @@ import com.stone.stonemusic.utils.MusicApplication;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+
 
 public class ArtistListFragment extends Fragment implements
         MusicObserverListener {
@@ -34,6 +37,7 @@ public class ArtistListFragment extends Fragment implements
     private List<ArtistModel> modelArrayList = new ArrayList<>();
     private LocalArtistAdapter adapter;
 
+    private TextView mNoMusic;
     private TextView mBottomBarTitle;
     private TextView mBottomBarArtist;
     private ImageView mIvPlay;
@@ -54,6 +58,7 @@ public class ArtistListFragment extends Fragment implements
 //        return inflater.inflate(R.layout.fragment_artist_list, container, false);
         View view = inflater.inflate(R.layout.fragment_artist_list, container, false);
 
+        mNoMusic = (TextView) view.findViewById(R.id.tv_no_music);
         listView = (ListView) view.findViewById(R.id.artist_list);
         mBottomBarTitle = (TextView) getActivity().findViewById(R.id.bottom_bar_title);
         mBottomBarArtist = (TextView) getActivity().findViewById(R.id.bottom_bar_artist);
@@ -68,6 +73,11 @@ public class ArtistListFragment extends Fragment implements
     private void readMusic() {
         try{
             modelArrayList = MusicResources.artistModelList;
+            if (null != modelArrayList && modelArrayList.size() > 0)
+                mNoMusic.setVisibility(GONE);
+            else
+                mNoMusic.setVisibility(VISIBLE);
+
             adapter = new LocalArtistAdapter(MusicApplication.getContext(), R.layout.item_artist, modelArrayList);
             listView.setAdapter(adapter);
         }catch(Exception e){

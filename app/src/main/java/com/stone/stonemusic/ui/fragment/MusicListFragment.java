@@ -31,12 +31,16 @@ import com.stone.stonemusic.present.MusicResources;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+
 public class MusicListFragment extends Fragment implements LocalListActivity.CallBackInterface {
     public static final String TAG = "MusicListFragment";
     private ListView listView;
     private List<Music> musicList = new ArrayList<>();
     private LocalMusicAdapter adapter;
 
+    private TextView mNoMusic;
     private TextView mBottomBarTitle;
     private TextView mBottomBarArtist;
     private ImageView mIvPlay;
@@ -64,6 +68,7 @@ public class MusicListFragment extends Fragment implements LocalListActivity.Cal
         Log.d(TAG, "onCreateView");
         View view = inflater.inflate(R.layout.fragment_music_list, container, false);
 
+        mNoMusic = (TextView) view.findViewById(R.id.tv_no_music);
         listView = (ListView) view.findViewById(R.id.lv_music_list);
 
         mBottomBarTitle = (TextView) getActivity().findViewById(R.id.bottom_bar_title);
@@ -112,6 +117,12 @@ public class MusicListFragment extends Fragment implements LocalListActivity.Cal
     private void readMusic(){
         try{
             musicList = SongModel.getInstance().getSongList();
+
+            if (null != musicList && musicList.size() > 0)
+                mNoMusic.setVisibility(GONE);
+            else
+                mNoMusic.setVisibility(VISIBLE);
+
             adapter = new LocalMusicAdapter(MusicApplication.getContext(),R.layout.item_music,musicList);
             listView.setAdapter(adapter);
         }catch(Exception e){
