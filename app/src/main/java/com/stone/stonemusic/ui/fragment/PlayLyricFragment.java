@@ -46,7 +46,8 @@ public class PlayLyricFragment extends Fragment implements OnLrcSearchClickListe
     private boolean DownloadLrcResult = false;
     List<LrcContent> lrcLists = null;
     private Music songCopy = null;
-
+    private boolean hasLyric = false; //是否有歌词
+    private boolean waitFirstClick = true; //还没有点击屏幕请求
 
 
 
@@ -130,29 +131,42 @@ public class PlayLyricFragment extends Fragment implements OnLrcSearchClickListe
 
         //本地有歌词
         if (null != lrcLists && lrcLists.size() != 0) {
+            hasLyric = true; //有歌词
             handler.sendEmptyMessage(1);
         //本地没有歌词
         } else {
+            hasLyric = false; //没歌词
             handler.sendEmptyMessage(2);
 
             //本地没有歌词，再查询网络（后期可修改为手动点击触发）
-            if(song instanceof Music){
-                new Thread(){
-                    public void run(){
-                        if(song != null) {
-                            //网络歌词下载地址
-                            String path =  LrcUtilOnline.getInstance().getLrcURL(song.getTitle(), song.getArtist());
-                            //目录+歌曲+歌手+.lrc
-                            String filePath = LrcUtilOnline.getInstance().getLrcPath(song.getTitle(), song.getArtist());
-                            DownloadLrcResult = LrcUtilOnline.getInstance().writeContentFromUrl(path, filePath, song.getTitle(), song.getArtist());
-                        }
-                        lrcLists = LrcUtil.loadLrc(song); /*加载本地歌词，获取歌词list*/
-                        handler.post(runnableUi);
-                    }
-                }.start();
-            }
+
 
         }
+    }
+
+    /**
+     * 从网络获取歌词
+     * @return false 没有获取到， true 获取到了。
+     */
+    private boolean getLrcOnline(final Music song){
+
+        if(song instanceof Music){
+            new Thread(){
+                public void run(){
+                    if(null != song) {
+                        //网络歌词下载地址
+                        String path =  LrcUtilOnline.getInstance().getLrcURL(song.getTitle(), song.getArtist());
+                        //目录+歌曲+歌手+.lrc
+                        String filePath = LrcUtilOnline.getInstance().getLrcPath(song.getTitle(), song.getArtist());
+                        DownloadLrcResult = LrcUtilOnline.getInstance().writeContentFromUrl(path, filePath, song.getTitle(), song.getArtist());
+                    }
+                    lrcLists = LrcUtil.loadLrc(song); /*加载本地歌词，获取歌词list*/
+                    handler.post(runnableUi);
+                }
+            }.start();
+        }
+
+        return false;
     }
 
     /**

@@ -8,6 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="false"
-        android:text="歌词界面" />
+        android:text="歌词界面"
+        android:background="@color/colorPrimaryDark"/>
 
 </LinearLayout>

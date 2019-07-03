@@ -118,13 +118,14 @@ public class MusicListFragment extends Fragment implements LocalListActivity.Cal
         try{
             musicList = SongModel.getInstance().getSongList();
 
-            if (null != musicList && musicList.size() > 0)
+            if (null != musicList && musicList.size() > 0){
                 mNoMusic.setVisibility(GONE);
+                adapter = new LocalMusicAdapter(MusicApplication.getContext(),R.layout.item_music,musicList);
+                listView.setAdapter(adapter);
+            }
             else
                 mNoMusic.setVisibility(VISIBLE);
 
-            adapter = new LocalMusicAdapter(MusicApplication.getContext(),R.layout.item_music,musicList);
-            listView.setAdapter(adapter);
         }catch(Exception e){
             e.printStackTrace();
         }
