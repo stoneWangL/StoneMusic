@@ -9,20 +9,26 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.stone.stonemusic.R;
-import com.stone.stonemusic.present.PresentOfFirstActivity;
+import com.stone.stonemusic.present.JumpToOtherWhere;
+import com.stone.stonemusic.present.GetPermission;
+import com.stone.stonemusic.present.interfaceOfPresent.JumpToOtherView;
 import com.stone.stonemusic.utils.ToastUtils;
 
-public class FirstActivity extends BaseNoBarActivity {
+public class FirstActivity extends BaseNoBarActivity implements JumpToOtherView{
     private static String TAG = "FirstActivity";
     private TextView tv = null;
     private ImageView iv = null;
     private Animation animation1 = null, animation2 = null;
-    private PresentOfFirstActivity present;
+    private GetPermission getPermission;
+    public JumpToOtherWhere jumpToOtherWhere;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_first);
+
+        getPermission = new GetPermission(this);
+        jumpToOtherWhere = new JumpToOtherWhere(this);
 
         tv = (TextView) findViewById(R.id.first_music_text);
         iv = (ImageView) findViewById(R.id.first_music_log);
@@ -37,15 +43,14 @@ public class FirstActivity extends BaseNoBarActivity {
      * 动态获取存储读权限
      */
     private void initPermissions() {
-        present = new PresentOfFirstActivity(this);
-        present.initPermission();
+        getPermission.initPermission();
     }
 
     /**
      * 根据用户是否同意APP具有存储读权限，跳转功能页面或者退出。
-     * @param requestCode
-     * @param permissions
-     * @param grantResults
+     * @param requestCode 返回值
+     * @param permissions permissions数组
+     * @param grantResults 结果数组
      */
     @Override
     public void onRequestPermissionsResult(
@@ -53,11 +58,11 @@ public class FirstActivity extends BaseNoBarActivity {
         switch (requestCode){
             case 1:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-                    present.jumpToLocalListActivity();
+                    jumpToOtherWhere.jumpToLocalListActivity();
                 }else{
                     /*没有得到许可，退出*/
                     ToastUtils.getToastShort("未许可权限，软件将自动退出");
-                    present.exitActivityTwoSecondLater();
+                    jumpToOtherWhere.exitActivityTwoSecondLater();
                 }
                 break;
             default:

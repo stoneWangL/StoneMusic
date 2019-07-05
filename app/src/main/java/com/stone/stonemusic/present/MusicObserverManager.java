@@ -1,5 +1,8 @@
 package com.stone.stonemusic.present;
 
+import com.stone.stonemusic.present.interfaceOfPresent.MusicObserverListener;
+import com.stone.stonemusic.present.interfaceOfPresent.MusicSubjectListener;
+
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
@@ -30,7 +33,7 @@ public class MusicObserverManager implements MusicSubjectListener {
 
     /**
      * 加入监听队列
-     * @param observerListener
+     * @param observerListener 监听者对象
      */
     @Override
     public void add(MusicObserverListener observerListener) {
@@ -39,7 +42,7 @@ public class MusicObserverManager implements MusicSubjectListener {
 
     /**
      * 通知观察者刷新数据
-     * @param content
+     * @param content 通知观察者的信号量
      */
     @Override
     public void notifyObserver(int content) {
@@ -50,7 +53,7 @@ public class MusicObserverManager implements MusicSubjectListener {
 
     /**
      * 监听队列中移除
-     * @param observerListener
+     * @param observerListener 观察者对象
      */
     @Override
     public void remove(MusicObserverListener observerListener) {

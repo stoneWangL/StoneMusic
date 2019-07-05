@@ -16,7 +16,7 @@ import com.stone.stonemusic.R;
 import com.stone.stonemusic.model.Music;
 import com.stone.stonemusic.model.LrcContent;
 import com.stone.stonemusic.model.SongModel;
-import com.stone.stonemusic.present.MusicObserverListener;
+import com.stone.stonemusic.present.interfaceOfPresent.MusicObserverListener;
 import com.stone.stonemusic.present.MusicObserverManager;
 import com.stone.stonemusic.ui.Listeners.OnLrcSearchClickListener;
 import com.stone.stonemusic.ui.View.LrcView;
@@ -42,7 +42,7 @@ public class PlayLyricFragment extends Fragment implements OnLrcSearchClickListe
     private List<Music> musicList = new ArrayList<>();
 
     private static LrcView playPageLrcView;
-    private static Handler handler=null;
+    private static Handler handler;
     private boolean DownloadLrcResult = false;
     List<LrcContent> lrcLists = null;
     private Music songCopy = null;
@@ -78,7 +78,7 @@ public class PlayLyricFragment extends Fragment implements OnLrcSearchClickListe
         View view = inflater.inflate(R.layout.fragment_play_lyric, container, false);
 
         //创建属于主线程的handler
-        handler=new Handler() {
+        handler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
@@ -150,16 +150,16 @@ public class PlayLyricFragment extends Fragment implements OnLrcSearchClickListe
      */
     private boolean getLrcOnline(final Music song){
 
-        if(song instanceof Music){
+        if(null != song){
             new Thread(){
                 public void run(){
-                    if(null != song) {
+
                         //网络歌词下载地址
                         String path =  LrcUtilOnline.getInstance().getLrcURL(song.getTitle(), song.getArtist());
                         //目录+歌曲+歌手+.lrc
                         String filePath = LrcUtilOnline.getInstance().getLrcPath(song.getTitle(), song.getArtist());
                         DownloadLrcResult = LrcUtilOnline.getInstance().writeContentFromUrl(path, filePath, song.getTitle(), song.getArtist());
-                    }
+
                     lrcLists = LrcUtil.loadLrc(song); /*加载本地歌词，获取歌词list*/
                     handler.post(runnableUi);
                 }
@@ -236,7 +236,7 @@ public class PlayLyricFragment extends Fragment implements OnLrcSearchClickListe
 
     /**
      * MusicPosition观察者刷新数据类
-     * @param content
+     * @param content 给观察者的信号值
      */
     @Override
     public void observerUpData(int content) {
@@ -318,7 +318,7 @@ public class PlayLyricFragment extends Fragment implements OnLrcSearchClickListe
             }, 0, time);
         }
 
-        public void destroyed(){
+        private void destroyed(){
             Log.i(TAG, "轮询任务销毁");
             if (null != timer)
                 timer.cancel();

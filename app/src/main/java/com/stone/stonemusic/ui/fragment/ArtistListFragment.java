@@ -17,7 +17,7 @@ import android.widget.TextView;
 import com.stone.stonemusic.R;
 import com.stone.stonemusic.adapter.LocalArtistAdapter;
 import com.stone.stonemusic.model.ArtistModel;
-import com.stone.stonemusic.present.MusicObserverListener;
+import com.stone.stonemusic.present.interfaceOfPresent.MusicObserverListener;
 import com.stone.stonemusic.present.MusicResources;
 import com.stone.stonemusic.ui.activity.LocalListActivity;
 import com.stone.stonemusic.utils.MediaStateCode;
@@ -35,7 +35,7 @@ public class ArtistListFragment extends Fragment implements
     public static final String TAG = "ArtistListFragment";
     private ListView listView;
     private List<ArtistModel> modelArrayList = new ArrayList<>();
-    private LocalArtistAdapter adapter;
+    private static LocalArtistAdapter adapter;
 
     private TextView mNoMusic;
     private TextView mBottomBarTitle;
@@ -96,7 +96,7 @@ public class ArtistListFragment extends Fragment implements
         Log.i(TAG, "observerUpData->观察者类数据已刷新");
     }
 
-    private Handler ArtistItemFragmentHandler = new Handler() {
+    private static Handler ArtistItemFragmentHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);

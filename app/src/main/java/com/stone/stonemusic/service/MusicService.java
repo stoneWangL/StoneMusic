@@ -22,7 +22,7 @@ import android.widget.RemoteViews;
 import com.stone.stonemusic.R;
 import com.stone.stonemusic.model.Music;
 import com.stone.stonemusic.model.SongModel;
-import com.stone.stonemusic.present.MusicObserverListener;
+import com.stone.stonemusic.present.interfaceOfPresent.MusicObserverListener;
 import com.stone.stonemusic.present.MusicObserverManager;
 import com.stone.stonemusic.present.MusicResources;
 import com.stone.stonemusic.present.PlayControl;
@@ -164,6 +164,7 @@ public class MusicService extends Service implements MusicObserverListener{
         startForeground(123, notification);//启动为前台服务
     }
 
+    /*Warning:(167, 41) This Handler class should be static or leaks might occur (anonymous android.os.Handler)*/
     public Handler remoteViewsHandler = new Handler() {
 
         public void handleMessage(android.os.Message msg) {
@@ -173,6 +174,7 @@ public class MusicService extends Service implements MusicObserverListener{
             Log.d(TAG, "全局播放position == " + position);
             /*专辑图片*/
             try {
+                /*Warning:(177, 25) Use `Long.valueOf(musicList.get(position).getAlbum_id())` instead*/
                 String path = MusicResources.getAlbumArt(
                         new Long(musicList.get(position).getAlbum_id()).intValue());
                 Log.d(TAG,"path="+path);
@@ -183,7 +185,6 @@ public class MusicService extends Service implements MusicObserverListener{
                     bitmap = BitmapFactory.decodeFile(path);
                 }
                 remoteViews.setImageViewBitmap(R.id.notification_album, bitmap);
-                bitmap = null;
 
 
                 /*歌曲名称 & 歌手名*/
@@ -245,18 +246,18 @@ public class MusicService extends Service implements MusicObserverListener{
             Log.d(TAG, "action = " + action);
             if (null != action && action.equals(MediaStateCode.ACTION_PLAY_OR_PAUSE)) {
                 PlayControl.controlBtnPlaySameSong();
-            } else if (action.equals(MediaStateCode.ACTION_LAST)) {
+            } else if (null != action && action.equals(MediaStateCode.ACTION_LAST)) {
                 PlayControl.controlBtnLast();
-            } else if (action.equals(MediaStateCode.ACTION_NEXT)) {
+            } else if (null != action && action.equals(MediaStateCode.ACTION_NEXT)) {
                 PlayControl.controlBtnNext();
-            } else if (action.equals(MediaStateCode.ACTION_LOVE)){
+            } else if (null != action && action.equals(MediaStateCode.ACTION_LOVE)){
                 Log.d(TAG, "点击了Love");
-            } else if (action.equals(MediaStateCode.ACTION_CLOSE)) {
+            } else if (null != action && action.equals(MediaStateCode.ACTION_CLOSE)) {
                 Log.d(TAG, "clocked Close");
                 MusicApplication.destroyActivity("PlayActivity");
                 MusicApplication.destroyActivity("LocalListActivity");
                 stopService(new Intent(context,MusicService.class));
-            } else if (AudioManager.ACTION_AUDIO_BECOMING_NOISY.equals(action)) {
+            } else if (null != action && AudioManager.ACTION_AUDIO_BECOMING_NOISY.equals(action)) {
                 Log.i(TAG, "检测到耳机拔出");
                 PlayControl.controlPauseSameSong();
 
@@ -272,7 +273,7 @@ public class MusicService extends Service implements MusicObserverListener{
 
     /**
      * 回调方法
-     * @param intent
+     * @param intent intent
      * @return 返回 IBinder 对象的实例 binder , 方便Activity与Service通信
      */
     @Override

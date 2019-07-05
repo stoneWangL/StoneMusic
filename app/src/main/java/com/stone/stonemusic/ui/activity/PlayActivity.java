@@ -18,7 +18,7 @@ import com.stone.stonemusic.R;
 import com.stone.stonemusic.adapter.PlayFragmentPagerAdapter;
 import com.stone.stonemusic.model.Music;
 import com.stone.stonemusic.model.SongModel;
-import com.stone.stonemusic.present.MusicObserverListener;
+import com.stone.stonemusic.present.interfaceOfPresent.MusicObserverListener;
 import com.stone.stonemusic.present.MusicObserverManager;
 import com.stone.stonemusic.present.PlayControl;
 import com.stone.stonemusic.ui.View.CircleView;

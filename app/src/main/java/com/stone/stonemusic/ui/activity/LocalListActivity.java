@@ -1,8 +1,6 @@
 package com.stone.stonemusic.ui.activity;
 
 import android.app.ProgressDialog;
-import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Message;
 import android.support.design.widget.TabLayout;
@@ -19,10 +17,10 @@ import com.bumptech.glide.Glide;
 import com.stone.stonemusic.R;
 import com.stone.stonemusic.adapter.LocalMusicFragmentPagerAdapter;
 import com.stone.stonemusic.model.Music;
-import com.stone.stonemusic.model.SongModel;
-import com.stone.stonemusic.present.JumpToOtherView;
+import com.stone.stonemusic.present.InitMusicModel;
+import com.stone.stonemusic.present.interfaceOfPresent.JumpToOtherView;
 import com.stone.stonemusic.present.JumpToOtherWhere;
-import com.stone.stonemusic.present.MusicObserverListener;
+import com.stone.stonemusic.present.interfaceOfPresent.MusicObserverListener;
 import com.stone.stonemusic.present.MusicObserverManager;
 import com.stone.stonemusic.present.PlayControl;
 import com.stone.stonemusic.ui.View.ActivityView;
@@ -38,9 +36,7 @@ public class LocalListActivity extends AppCompatActivity implements
         MusicObserverListener, View.OnClickListener, JumpToOtherView{
     public static final String TAG = "LocalListActivity";
 
-    private ProgressDialog mDialog;
-    // 线程变量
-    MyTask mTask;
+    public ProgressDialog mDialog;
 
     private TabLayout.Tab tabMusic;
     private TabLayout.Tab tabArtist;
@@ -59,9 +55,10 @@ public class LocalListActivity extends AppCompatActivity implements
     private LinearLayout bottomLinearLayout;
     private ImageView mIvPlay, mIvPlayNext, mIvBottomBarImage;
     private TextView mBottomBarTitle, mBottomBarArtist;
-    private List<Music> musicList = new ArrayList<>();
+    public List<Music> musicList = new ArrayList<>();
 
     private JumpToOtherWhere jumpToOtherWhere;
+    private InitMusicModel initMusicModel;
 
     /*辅助回调的set方法*/
     private CallBackInterface mCallBackInterface;
@@ -69,66 +66,44 @@ public class LocalListActivity extends AppCompatActivity implements
         this.mCallBackInterface = myCallBackInterface;
     }
 
-    private class MyTask extends AsyncTask<String, Integer, String> {
 
-        @Override
-        protected void onPreExecute() {
-//            text.setText("加载中");
-            // 执行前显示提示
-        }
-
-        @Override
-        protected String doInBackground(String... params) {
-
-            try {
-                musicList = new MusicResources().getMusic(MusicApplication.getContext());
-                SongModel.getInstance().setSongList(musicList);
-                MusicResources.initArtistMode(); //初始化歌手列表
-            }catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            initViews();
-            initMusicPlayImg();
-            mDialog.cancel();
-        }
-
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate");
-
-        ActivityView.setStatusBarColor(this, R.color.colorBarBottom, true);
-//        this.getWindow().setFlags(FLAG_HOMEKEY_DISPATCHED, FLAG_HOMEKEY_DISPATCHED);//关键代码
         setContentView(R.layout.activity_local_list);
 
-        jumpToOtherWhere = new JumpToOtherWhere(this);
+        //设置顶部状态栏颜色
+        ActivityView.setStatusBarColor(this, R.color.colorBarBottom, true);
 
-        MusicApplication.addDestroyActivity(this, TAG); /*添加到待销毁的队列*/
-
-        musicList = SongModel.getInstance().getSongList();
-
-
-        mDialog = new ProgressDialog(this);
-        mDialog.setMessage("正在加载音乐文件");
-        mDialog.show();
-
-        mTask = new MyTask();
-        mTask.execute();
-
+        //添加当前活动到待销毁队列
+        MusicApplication.addDestroyActivity(this, TAG);
 
         //添加进观察者队列
         MusicObserverManager.getInstance().add(this);
+
+        //初始化跳转类
+        jumpToOtherWhere = new JumpToOtherWhere(this);
+        //初始化初始化MusicModel类(AsyncTask)
+        initMusicModel = new InitMusicModel(this);
+
+        //展示Dialog
+        showDialog();
+        //执行任务在其中初始化歌手列表，初始结束后，结束Dialog
+        initMusicModel.execute();
     }
 
-    private void initViews() {
+    /**
+     *显示Dialog
+     */
+    private void showDialog() {
+        mDialog = new ProgressDialog(this);
+        mDialog.setMessage("正在加载音乐文件");
+        mDialog.show();
+    }
+
+    public void initViews() {
         bottomLinearLayout = (LinearLayout) findViewById(R.id.bottom_bar_layout);
         bottomLinearLayout.setOnClickListener(this);
 
@@ -154,20 +129,20 @@ public class LocalListActivity extends AppCompatActivity implements
         mBottomBarArtist = (TextView) findViewById(R.id.bottom_bar_artist);
     }
 
-    private void initMusicPlayImg() {
+    public void initMusicPlayImg() {
 
-        try{
+        try {
             int position = MediaUtils.currentSongPosition;
 //        Log.d(TAG, "20190212 musicList = " + musicList.size());
             mBottomBarTitle.setText(musicList.get(position).getTitle());
             mBottomBarArtist.setText(musicList.get(position).getArtist());
 
-
+            /*Warning:(140, 54) Use `Long.valueOf(musicList.get(position).getAlbum_id())` instead*/
             String path = MusicResources.getAlbumArt(new Long(musicList.get(position).getAlbum_id()).intValue());
 //            Log.d(TAG,"path="+path);
-            if (null == path){
+            if (null == path) {
                 mIvBottomBarImage.setImageResource(R.drawable.play_background02);
-            }else{
+            } else {
                 Glide.with(MusicApplication.getContext()).load(path).into(mIvBottomBarImage);
             }
 
@@ -184,22 +159,25 @@ public class LocalListActivity extends AppCompatActivity implements
     }
 
     //播放键控制
-    public void play(View view){
+    public void play(View view) {
         Log.i(TAG, "此时的状态=="+MediaUtils.currentState);
-        if (musicList.size() > 0){
+        if (musicList.size() > 0) {
             PlayControl.controlBtnPlaySameSong();
         }
 
     }
 
     //播放键控制
-    public void playNext(View view){
-        if (musicList.size() > 0){
+    public void playNext(View view) {
+        if (musicList.size() > 0) {
             PlayControl.controlBtnNext();
         }
     }
 
-    /*收到UI界面更新的通知后，在此刷新UI*/
+    /*
+    * 收到UI界面更新的通知后，在此刷新UI
+    * Warning:(177, 48) This Handler class should be static or leaks might occur (anonymous android.os.Handler)
+    * */
     private Handler LocalListActivityHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -209,26 +187,18 @@ public class LocalListActivity extends AppCompatActivity implements
         }
     };
 
-    /*跳转到PlayActivity*/
-//    public void GoToPlayActivity(){
-//        Intent intent = new Intent(this, PlayActivity.class);
-//        startActivity(intent);
-//        overridePendingTransition(R.anim.push_up_in,R.anim.push_up_out);
-//    }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
+            //点击底部歌曲信息显示栏，跳转到播放界面
             case R.id.bottom_bar_layout:
                 if (musicList.size() > 0){
                     jumpToOtherWhere.GoToPlayActivity();
                 }
                 break;
         }
-
     }
-
-
 
     /*定义回调接口*/
     public interface CallBackInterface{

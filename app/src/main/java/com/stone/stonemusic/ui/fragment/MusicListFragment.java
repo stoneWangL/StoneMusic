@@ -21,7 +21,7 @@ import com.stone.stonemusic.adapter.LocalMusicAdapter;
 import com.stone.stonemusic.bean.ItemViewChoose;
 import com.stone.stonemusic.model.Music;
 import com.stone.stonemusic.model.SongModel;
-import com.stone.stonemusic.present.JumpToOtherView;
+import com.stone.stonemusic.present.interfaceOfPresent.JumpToOtherView;
 import com.stone.stonemusic.present.JumpToOtherWhere;
 import com.stone.stonemusic.present.PlayControl;
 import com.stone.stonemusic.ui.activity.LocalListActivity;
@@ -41,7 +41,7 @@ public class MusicListFragment extends Fragment implements
     public static final String TAG = "MusicListFragment";
     private ListView listView;
     private List<Music> musicList = new ArrayList<>();
-    private LocalMusicAdapter adapter;
+    private static LocalMusicAdapter adapter;
 
     private TextView mNoMusic;
     private TextView mBottomBarTitle;
@@ -99,6 +99,7 @@ public class MusicListFragment extends Fragment implements
                     mBottomBarTitle.setText(musicList.get(position).getTitle()); //更新音乐名
                     mBottomBarArtist.setText(musicList.get(position).getArtist()); //更新音乐作者
                     //更新音乐专辑图
+                    /*Warning:(102, 62) Use `Long.valueOf(musicList.get(position).getAlbum_id())` instead*/
                     String path = MusicResources.getAlbumArt(new Long(musicList.get(position).getAlbum_id()).intValue());
                     Log.d(TAG,"path="+path);
                     if (null == path){
@@ -135,7 +136,7 @@ public class MusicListFragment extends Fragment implements
             e.printStackTrace();
         }
     }
-    private Handler LocalListActivityHandler = new Handler() {
+    private static Handler LocalListActivityHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
