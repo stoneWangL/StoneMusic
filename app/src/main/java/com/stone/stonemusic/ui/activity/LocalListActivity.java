@@ -20,6 +20,8 @@ import com.stone.stonemusic.R;
 import com.stone.stonemusic.adapter.LocalMusicFragmentPagerAdapter;
 import com.stone.stonemusic.model.Music;
 import com.stone.stonemusic.model.SongModel;
+import com.stone.stonemusic.present.JumpToOtherView;
+import com.stone.stonemusic.present.JumpToOtherWhere;
 import com.stone.stonemusic.present.MusicObserverListener;
 import com.stone.stonemusic.present.MusicObserverManager;
 import com.stone.stonemusic.present.PlayControl;
@@ -33,7 +35,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LocalListActivity extends AppCompatActivity implements
-        MusicObserverListener, View.OnClickListener{
+        MusicObserverListener, View.OnClickListener, JumpToOtherView{
     public static final String TAG = "LocalListActivity";
 
     private ProgressDialog mDialog;
@@ -53,12 +55,13 @@ public class LocalListActivity extends AppCompatActivity implements
     public static final int PAGE_ARTIST = 1;
     public static final int PAGE_ALBUM = 2;
     public static final int PAGE_FOLDER = 3;
-//    public static final int FLAG_HOMEKEY_DISPATCHED = 0x80000000;
 
     private LinearLayout bottomLinearLayout;
     private ImageView mIvPlay, mIvPlayNext, mIvBottomBarImage;
     private TextView mBottomBarTitle, mBottomBarArtist;
     private List<Music> musicList = new ArrayList<>();
+
+    private JumpToOtherWhere jumpToOtherWhere;
 
     /*辅助回调的set方法*/
     private CallBackInterface mCallBackInterface;
@@ -90,9 +93,6 @@ public class LocalListActivity extends AppCompatActivity implements
 
         @Override
         protected void onPostExecute(String result) {
-            // 执行完毕后，则更新UI
-//            text.setText("加载完毕");
-
             initViews();
             initMusicPlayImg();
             mDialog.cancel();
@@ -108,6 +108,8 @@ public class LocalListActivity extends AppCompatActivity implements
         ActivityView.setStatusBarColor(this, R.color.colorBarBottom, true);
 //        this.getWindow().setFlags(FLAG_HOMEKEY_DISPATCHED, FLAG_HOMEKEY_DISPATCHED);//关键代码
         setContentView(R.layout.activity_local_list);
+
+        jumpToOtherWhere = new JumpToOtherWhere(this);
 
         MusicApplication.addDestroyActivity(this, TAG); /*添加到待销毁的队列*/
 
@@ -208,18 +210,18 @@ public class LocalListActivity extends AppCompatActivity implements
     };
 
     /*跳转到PlayActivity*/
-    public void GoToPlayActivity(){
-        Intent intent = new Intent(this, PlayActivity.class);
-        startActivity(intent);
-        overridePendingTransition(R.anim.push_up_in,R.anim.push_up_out);
-    }
+//    public void GoToPlayActivity(){
+//        Intent intent = new Intent(this, PlayActivity.class);
+//        startActivity(intent);
+//        overridePendingTransition(R.anim.push_up_in,R.anim.push_up_out);
+//    }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.bottom_bar_layout:
                 if (musicList.size() > 0){
-                    GoToPlayActivity();
+                    jumpToOtherWhere.GoToPlayActivity();
                 }
                 break;
         }
@@ -266,26 +268,5 @@ public class LocalListActivity extends AppCompatActivity implements
         //回调接口引用指空
         mCallBackInterface = null;
     }
-
-    //    @Override
-//    public boolean onKeyDown(int keyCode, KeyEvent event) {
-////        return super.onKeyDown(keyCode, event);
-////        if (KeyEvent.KEYCODE_HOME == keyCode) {
-////            //点击Home键所执行的代码
-////        }
-//        if (keyCode == KeyEvent.KEYCODE_BACK){
-//            if ((System.currentTimeMillis()) > 2000) {
-//
-//            }
-//
-//        }
-//        return super.onKeyDown(keyCode, event); // 不会回到 home 页面
-//    }
-
-//    @Override
-//    public void onBackPressed() {
-////        super.onBackPressed();
-//        ToastUtils.getToastShort("返回键坏了");
-//    }
 
 }

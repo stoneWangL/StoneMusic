@@ -21,6 +21,8 @@ import com.stone.stonemusic.adapter.LocalMusicAdapter;
 import com.stone.stonemusic.bean.ItemViewChoose;
 import com.stone.stonemusic.model.Music;
 import com.stone.stonemusic.model.SongModel;
+import com.stone.stonemusic.present.JumpToOtherView;
+import com.stone.stonemusic.present.JumpToOtherWhere;
 import com.stone.stonemusic.present.PlayControl;
 import com.stone.stonemusic.ui.activity.LocalListActivity;
 import com.stone.stonemusic.utils.MediaStateCode;
@@ -34,7 +36,8 @@ import java.util.List;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
-public class MusicListFragment extends Fragment implements LocalListActivity.CallBackInterface {
+public class MusicListFragment extends Fragment implements
+        LocalListActivity.CallBackInterface, JumpToOtherView {
     public static final String TAG = "MusicListFragment";
     private ListView listView;
     private List<Music> musicList = new ArrayList<>();
@@ -46,6 +49,7 @@ public class MusicListFragment extends Fragment implements LocalListActivity.Cal
     private ImageView mIvPlay;
     private ImageView mIvBottomBarImage;
     private LocalListActivity fatherActivity = null;
+    private JumpToOtherWhere jumpToOtherWhere;
 
     public MusicListFragment() {}
 
@@ -55,6 +59,7 @@ public class MusicListFragment extends Fragment implements LocalListActivity.Cal
         super.onAttach(context);
         fatherActivity = ((LocalListActivity)context);
         fatherActivity.setCallBackInterface(this);
+        jumpToOtherWhere = new JumpToOtherWhere(fatherActivity);
     }
     @Override
     public void ChangeUI() {
@@ -86,8 +91,8 @@ public class MusicListFragment extends Fragment implements LocalListActivity.Cal
                 MediaUtils.currentSongPosition = position; //设置当前播放位置全局position
                 int lastPosition = ItemViewChoose.getInstance().getItemChoosePosition();
                 //点击的是正在播放的歌曲
-                if (position == lastPosition && null != fatherActivity)
-                    fatherActivity.GoToPlayActivity(); //调用父类方法，跳转到播放Activity
+                if (position == lastPosition && null != jumpToOtherWhere)
+                    jumpToOtherWhere.GoToPlayActivity(); //调用父类方法，跳转到播放Activity
                 //点击的不是当前播放的歌曲
                 else{
                     PlayControl.controlBtnPlayDiffSong();
