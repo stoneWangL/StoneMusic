@@ -111,10 +111,6 @@ public class MusicListFragment extends Fragment implements
                     //设置选中的item的位置,这里的position设置与ListView中当前播放位置的标识有关
                     ItemViewChoose.getInstance().setItemChoosePosition(position);
                 }
-
-                /*发送广播，告知，音乐播放位置已改变*/
-//                BroadcastUtils.sendNoticeMusicPositionChanged();
-
             }
         });
         return view;
@@ -142,6 +138,7 @@ public class MusicListFragment extends Fragment implements
             super.handleMessage(msg);
             Log.d(TAG, "Handler 收到位置更新的通知");
             int position = MediaUtils.currentSongPosition;
+
             //设置选中的item的位置,这里的position设置与ListView中当前播放位置的标识有关
             ItemViewChoose.getInstance().setItemChoosePosition(position);
             adapter.notifyDataSetChanged();
@@ -151,12 +148,12 @@ public class MusicListFragment extends Fragment implements
     };
 
     @Override
-    public void onPause() {
-        super.onPause();
-        Log.d(TAG, "onPause");
+    public void onResume() {
+        super.onResume();
+
         /*通过MusicBroadcastReceiver发送的intent，更新UI*/
         int state = getActivity().getIntent().getIntExtra("state", 0);
-        Log.d(TAG, "onPause 02 state == " + state);
+        Log.d(TAG, "onResume 02 state == " + state);
         switch (state) {
             case MediaStateCode.PLAY_START:
                 break;
@@ -168,10 +165,34 @@ public class MusicListFragment extends Fragment implements
                 break;
             case MediaStateCode.MUSIC_POSITION_CHANGED:
                 LocalListActivityHandler.sendEmptyMessage(1);
-                Log.d(TAG, "收到位置更新的通知");
+                Log.d(TAG, "onResume==" + "收到位置更新的通知");
                 break;
         }
-        Log.d(TAG, "onPause 03");
+
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Log.d(TAG, "onPause");
+        /*通过MusicBroadcastReceiver发送的intent，更新UI*/
+//        int state = getActivity().getIntent().getIntExtra("state", 0);
+//        Log.d(TAG, "onPause 02 state == " + state);
+//        switch (state) {
+//            case MediaStateCode.PLAY_START:
+//                break;
+//            case MediaStateCode.PLAY_PAUSE:
+//                break;
+//            case MediaStateCode.PLAY_CONTINUE:
+//                break;
+//            case MediaStateCode.PLAY_STOP:
+//                break;
+//            case MediaStateCode.MUSIC_POSITION_CHANGED:
+//                LocalListActivityHandler.sendEmptyMessage(1);
+//                Log.d(TAG, "收到位置更新的通知");
+//                break;
+//        }
+//        Log.d(TAG, "onPause 03");
     }
 
     @Override

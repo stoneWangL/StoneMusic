@@ -7,6 +7,12 @@ package com.stone.stonemusic.present.interfaceOfPresent;
  */
 public interface MusicObserverListener {
 
+    /**
+     * 传输MediaStateCode的值
+     * @param content MediaStateCode
+     *                MediaStateCode.MUSIC_POSITION_CHANGED 音乐播放位置改变
+     *                MediaStateCode.MUSIC_SEEKBAR_CHANGED 音乐SeekBar变化
+     */
     void observerUpData(int content);//刷新操作
 
 }
