@@ -1,18 +1,13 @@
 package com.stone.stonemusic.service;
 
 import android.app.Notification;
-import android.app.NotificationManager;
-
 import android.app.PendingIntent;
 import android.app.Service;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.AudioManager;
-import android.os.Binder;
 import android.os.Handler;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
@@ -33,7 +28,6 @@ import com.stone.stonemusic.ui.activity.LocalListActivity;
 import com.stone.stonemusic.utils.MediaStateCode;
 import com.stone.stonemusic.utils.MediaUtils;
 import com.stone.stonemusic.utils.MusicApplication;
-import com.stone.stonemusic.utils.MyTimerTask;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +38,6 @@ public class MusicService extends Service implements MusicObserverListener{
 
     public Notification notification;
     private RemoteViews remoteViews;
-    Bitmap reBitmap;
     public List<Music> musicList = new ArrayList<>();
     MusicListenerWorker musicListenerWorker;
 
@@ -61,7 +54,7 @@ public class MusicService extends Service implements MusicObserverListener{
         notification = mBuilder.build();//构建通知
         setNotification();
         notification.contentView = remoteViews; // 设置下拉图标
-        notification.bigContentView = remoteViews; // 防止显示不完全,需要添加apisupport
+        notification.bigContentView = remoteViews; // 防止显示不完全,需要添加apiSupport
         notification.flags = Notification.FLAG_ONGOING_EVENT;
         notification.icon = R.drawable.anim_log;
         startForeground(123, notification);//启动为前台服务
@@ -111,6 +104,8 @@ public class MusicService extends Service implements MusicObserverListener{
      * 更新 "专辑图片，歌曲名，歌手名"
      */
     private void RefreshAlbumPicTitleArtist(int position) {
+        remoteViews = new RemoteViews(getPackageName(), R.layout.view_remote);
+        setNotification();
         try {
             String path = MusicResources.getAlbumArt((int) musicList.get(position).getAlbum_id());
 
@@ -123,11 +118,6 @@ public class MusicService extends Service implements MusicObserverListener{
                 bitmap = BitmapFactory.decodeFile(path);
             }
             remoteViews.setImageViewBitmap(R.id.notification_album, bitmap);
-            if (reBitmap != null) {
-                reBitmap.recycle();
-            }
-            reBitmap = bitmap;
-
 
             /*歌曲名称 & 歌手名*/
             remoteViews.setTextViewText(R.id.notification_title, musicList.get(position).getTitle());
@@ -167,11 +157,6 @@ public class MusicService extends Service implements MusicObserverListener{
 
         musicList = SongModel.getInstance().getSongList();
 
-//        //防止Service启动慢，而没有被添加到观察者队列中，而错过观察者管理类的回调，这里检查后，先关闭再开启监听任务
-//        if (MediaUtils.getMediaPlayer().isPlaying()){
-//            serviceTimerTask.destroyed();
-//            serviceTimerTask.start(0, 1000);
-//        }
 
         //开启监听音乐播放进度的Worker
         musicListenerWorker = new MusicListenerWorker(this);
