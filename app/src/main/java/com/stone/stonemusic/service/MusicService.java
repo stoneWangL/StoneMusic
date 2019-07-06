@@ -124,9 +124,10 @@ public class MusicService extends Service implements MusicObserverListener{
             }
             remoteViews.setImageViewBitmap(R.id.notification_album, bitmap);
             if (reBitmap != null) {
-                //reBitmap.recycle();
+                reBitmap.recycle();
             }
             reBitmap = bitmap;
+
 
             /*歌曲名称 & 歌手名*/
             remoteViews.setTextViewText(R.id.notification_title, musicList.get(position).getTitle());
