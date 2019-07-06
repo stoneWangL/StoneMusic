@@ -3,11 +3,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.fragment.FolderListFragment">
+    tools:context=".ui.fragment.FolderListFragment3">
 
     <TextView
+        android:id="@+id/tv_no_music"
+        style="@style/tv_no_music" />
+
+    <!--网络歌单音乐列表-->
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_online_music_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="match_parent" />
 
 </FrameLayout>

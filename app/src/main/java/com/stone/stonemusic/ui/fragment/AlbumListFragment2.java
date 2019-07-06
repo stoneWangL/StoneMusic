@@ -9,9 +9,9 @@ import android.view.ViewGroup;
 import com.stone.stonemusic.R;
 
 
-public class AlbumListFragment extends Fragment {
+public class AlbumListFragment2 extends Fragment {
 
-    public AlbumListFragment() {
+    public AlbumListFragment2() {
         // Required empty public constructor
     }
 

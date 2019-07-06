@@ -8,6 +8,7 @@ import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.AudioManager;
+import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
@@ -48,8 +49,12 @@ public class MusicService extends Service implements MusicObserverListener{
     private void initNotificationSon() {
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(MusicApplication.getContext());
 
-        mBuilder.setSmallIcon(R.drawable.play_background02); // 设置顶部图标
+        //mBuilder.setSmallIcon(R.drawable.play_background02); // 设置顶部图标
+        Bitmap icBitmap = BitmapFactory.decodeResource(getResources(),R.drawable.play_background02);
+        mBuilder.setLargeIcon(icBitmap);
         mBuilder.setOngoing(true);
+        mBuilder.setPriority(Notification.PRIORITY_MAX);
+
 
         notification = mBuilder.build();//构建通知
         setNotification();
@@ -57,7 +62,8 @@ public class MusicService extends Service implements MusicObserverListener{
         notification.bigContentView = remoteViews; // 防止显示不完全,需要添加apiSupport
         notification.flags = Notification.FLAG_ONGOING_EVENT;
         notification.icon = R.drawable.anim_log;
-        startForeground(123, notification);//启动为前台服务
+
+        startForeground(1, notification);//启动为前台服务
     }
 
     /*Warning:(167, 41) This Handler class should be static or leaks might occur (anonymous android.os.Handler)*/
@@ -82,7 +88,7 @@ public class MusicService extends Service implements MusicObserverListener{
             }
             notification.contentView = remoteViews; // 设置下拉图标
             notification.bigContentView = remoteViews; // 防止显示不完全,需要添加apiSupport
-            startForeground(123, notification);//启动为前台服务
+            startForeground(1, notification);//启动为前台服务
             Log.d(TAG, "remoteViewsHandler end");
         }
     };

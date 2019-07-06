@@ -7,19 +7,19 @@ import android.view.ViewGroup;
 
 import com.stone.stonemusic.R;
 import com.stone.stonemusic.ui.activity.LocalListActivity;
-import com.stone.stonemusic.ui.fragment.AlbumListFragment;
-import com.stone.stonemusic.ui.fragment.ArtistListFragment;
-import com.stone.stonemusic.ui.fragment.FolderListFragment;
-import com.stone.stonemusic.ui.fragment.MusicListFragment;
+import com.stone.stonemusic.ui.fragment.AlbumListFragment2;
+import com.stone.stonemusic.ui.fragment.ArtistListFragment1;
+import com.stone.stonemusic.ui.fragment.FolderListFragment3;
+import com.stone.stonemusic.ui.fragment.MusicListFragment0;
 import com.stone.stonemusic.utils.MusicApplication;
 
 public class LocalMusicFragmentPagerAdapter extends FragmentPagerAdapter {
 
     private final int PAGER_COUNT = 4;
-    private MusicListFragment musicListFragment = null;
-    private ArtistListFragment artistListFragment = null;
-    private AlbumListFragment albumListFragment = null;
-    private FolderListFragment folderListFragment = null;
+    private MusicListFragment0 musicListFragment = null;
+    private ArtistListFragment1 artistListFragment = null;
+    private AlbumListFragment2 albumListFragment = null;
+    private FolderListFragment3 folderListFragment = null;
 
     private String[] mTitles = new String[]{
             MusicApplication.getContext().getResources().getString(R.string.tab_menu_music),
@@ -29,10 +29,10 @@ public class LocalMusicFragmentPagerAdapter extends FragmentPagerAdapter {
 
     public LocalMusicFragmentPagerAdapter(FragmentManager fm) {
         super(fm);
-        musicListFragment = new MusicListFragment();
-        artistListFragment = new ArtistListFragment();
-        albumListFragment = new AlbumListFragment();
-        folderListFragment = new FolderListFragment();
+        musicListFragment = new MusicListFragment0();
+        artistListFragment = new ArtistListFragment1();
+        albumListFragment = new AlbumListFragment2();
+        folderListFragment = new FolderListFragment3();
     }
 
     @Override

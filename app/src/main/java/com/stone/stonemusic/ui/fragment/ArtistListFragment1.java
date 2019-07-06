@@ -30,7 +30,7 @@ import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
 
-public class ArtistListFragment extends Fragment implements
+public class ArtistListFragment1 extends Fragment implements
         MusicObserverListener {
     public static final String TAG = "ArtistListFragment";
     private ListView listView;
@@ -44,7 +44,7 @@ public class ArtistListFragment extends Fragment implements
     private ImageView mIvBottomBarImage;
     private LocalListActivity fatherActivity = null;
 
-    public ArtistListFragment() {}
+    public ArtistListFragment1() {}
 
     @Override
     public void onAttach(Context context) {

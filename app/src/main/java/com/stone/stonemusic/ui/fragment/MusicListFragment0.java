@@ -36,7 +36,7 @@ import java.util.List;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
-public class MusicListFragment extends Fragment implements
+public class MusicListFragment0 extends Fragment implements
         LocalListActivity.CallBackInterface, JumpToOtherView {
     public static final String TAG = "MusicListFragment";
     private ListView listView;
@@ -51,7 +51,7 @@ public class MusicListFragment extends Fragment implements
     private LocalListActivity fatherActivity = null;
     private JumpToOtherWhere jumpToOtherWhere;
 
-    public MusicListFragment() {}
+    public MusicListFragment0() {}
 
 
     @Override

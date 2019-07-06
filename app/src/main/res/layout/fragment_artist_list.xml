@@ -3,11 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.fragment.ArtistListFragment">
+    tools:context=".ui.fragment.ArtistListFragment1">
 
     <TextView
         android:id="@+id/tv_no_music"
-        style="@style/tv_no_music"/>
+        style="@style/tv_no_music" />
 
     <!--本地音乐列表-->
     <ListView
