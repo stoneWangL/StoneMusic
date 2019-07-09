@@ -1,10 +1,10 @@
 <resources>
     <string name="app_name">StoneMusic</string>
-    <string name="local_music">本地音乐</string>
-    <string name="tab_menu_music">歌曲</string>
-    <string name="tab_menu_artist">歌手</string>
-    <string name="tab_menu_album">专辑</string>
-    <string name="tab_menu_folder">文件夹</string>
+
+    <string name="tab_menu_local_music">本地音乐</string>
+    <string name="tab_menu_local_artist">本地歌手</string>
+    <string name="tab_menu_recommend_song_sheet">推荐歌单</string>
+    <string name="tab_menu_recommend_mv">推荐视频</string>
 
     <string name="notification_album_image">这是专辑图片</string>
     <string name="first_music_name">默认歌名</string>

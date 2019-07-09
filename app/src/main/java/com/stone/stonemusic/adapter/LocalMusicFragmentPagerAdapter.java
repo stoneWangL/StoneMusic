@@ -21,11 +21,12 @@ public class LocalMusicFragmentPagerAdapter extends FragmentPagerAdapter {
     private AlbumListFragment2 albumListFragment = null;
     private FolderListFragment3 folderListFragment = null;
 
-    private String[] mTitles = new String[]{
-            MusicApplication.getContext().getResources().getString(R.string.tab_menu_music),
-            MusicApplication.getContext().getResources().getString(R.string.tab_menu_artist),
-            MusicApplication.getContext().getResources().getString(R.string.tab_menu_album),
-            MusicApplication.getContext().getResources().getString(R.string.tab_menu_folder) };
+    private String[] mTitles = new String[] {
+            MusicApplication.getContext().getResources().getString(R.string.tab_menu_local_music),
+            MusicApplication.getContext().getResources().getString(R.string.tab_menu_local_artist),
+            MusicApplication.getContext().getResources().getString(R.string.tab_menu_recommend_song_sheet),
+            MusicApplication.getContext().getResources().getString(R.string.tab_menu_recommend_mv)
+    };
 
     public LocalMusicFragmentPagerAdapter(FragmentManager fm) {
         super(fm);

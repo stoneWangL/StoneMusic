@@ -18,7 +18,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/D:/AndroidStudio/plugins/android/lib/android.jar!/images/material_design_icons/toggle/ic_radio_button_unchecked_black_24dp.xml" />
+                                      <entry key="url" value="jar:file:/D:/AndroidStudio/plugins/android/lib/android.jar!/images/material_design_icons/action/ic_reorder_black_24dp.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -28,11 +28,12 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="height" value="1" />
-                            <entry key="outputName" value="ic_o" />
+                            <entry key="assetSourceType" value="FILE" />
+                            <entry key="height" value="16" />
+                            <entry key="outputName" value="ic_icon_find" />
                             <entry key="overrideSize" value="true" />
-                            <entry key="sourceFile" value="C:\Users\Lenovo" />
-                            <entry key="width" value="1" />
+                            <entry key="sourceFile" value="F:\图标_F盘\icon_find.svg" />
+                            <entry key="width" value="16" />
                           </map>
                         </option>
                       </PersistentState>

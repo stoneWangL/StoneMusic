@@ -7,17 +7,17 @@
     android:orientation="vertical"
     tools:context=".ui.activity.LocalListActivity">
     <!--顶部 本地音乐-->
-    <TextView
-        android:id="@+id/bar_top"
-        android:background="@color/colorBarBottom"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:text="@string/local_music"
-        android:textSize="20sp"
-        android:textColor="@color/black"
-        android:gravity="center"
-        />
+    <!--<TextView-->
+        <!--android:id="@+id/bar_top"-->
+        <!--android:background="@color/colorBarBottom"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="0dp"-->
+        <!--android:layout_weight="1"-->
+        <!--android:text="@string/local_music"-->
+        <!--android:textSize="20sp"-->
+        <!--android:textColor="@color/black"-->
+        <!--android:gravity="center"-->
+        <!--/>-->
     <!--歌曲 歌手 专辑 文件夹-->
     <LinearLayout
         android:layout_width="match_parent"
@@ -29,7 +29,10 @@
         <View
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:background="@drawable/ic_tab_left_item"
+            android:onClick="clickLeftTabItem"
+            tools:ignore="OnClick" />
         <android.support.design.widget.TabLayout
             android:id="@+id/tab_layout_bar"
             android:layout_width="0dp"
@@ -44,7 +47,8 @@
         <View
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:background="@drawable/ic_icon_find"/>
     </LinearLayout>
 
 
