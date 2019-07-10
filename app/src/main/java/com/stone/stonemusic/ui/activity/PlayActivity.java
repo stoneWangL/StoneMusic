@@ -51,7 +51,6 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
 
     private TextView tvMusicName, tvMusicArtist, tvCurrentTime, tvTotalTime;
     private SeekBar mSeekBar;
-    private Thread seekBarThread;
     private CircleView cvLast, cvPlayOrPause, cvNext;
     private ImageView ivMode, ivLast, ivPlayOrPause, ivNext;
 
@@ -144,32 +143,9 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
                 /*将media进度设置为当前seekBar的进度*/
                 MediaUtils.getMediaPlayer().seekTo(seekBar.getProgress());
 
-//                seekBarThread = new Thread(new PlayActivity.SeekBarThread());
-//                seekBarThread.start(); /*启动线程*/
             }
         });
     }
-
-    /*seekBar进度监听线程*/
-//    class SeekBarThread implements Runnable {
-//
-//        @Override
-//        public void run() {
-//            while (!MediaUtils.seekBarIsChanging && MediaUtils.getMediaPlayer().isPlaying()) {
-//                /*将SeekBar位置设置到当前播放位置*/
-//                mSeekBar.setProgress(MediaUtils.getMediaPlayer().getCurrentPosition());
-//
-//                try {
-//                    Thread.sleep(1000); /*每1秒更新一次位置*/
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//            if (!MediaUtils.seekBarIsChanging && !MediaUtils.getMediaPlayer().isPlaying()){
-////                mMusicInfoUtil.setIsPlay(false);//此时音乐停止播放了
-//            }
-//        }
-//    }
 
     /*更新 带有控制的View的UI（eg:上一曲 下一曲 播放暂停 是否喜欢 循环模式图标）*/
     private void initControlPlayUI() {
@@ -187,10 +163,6 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
         mSeekBar.setProgress(0);
         mSeekBar.setMax((int)musicList.get(position).getDuration());
         mSeekBar.setProgress(MediaUtils.getMediaPlayer().getCurrentPosition());
-//        if (MediaUtils.getMediaPlayer().isPlaying()){
-//            seekBarThread = new Thread(new PlayActivity.SeekBarThread());
-//            seekBarThread.start(); /*启动seekBar监听线程*/
-//        }
         tvTotalTime.setText(OtherUtils.durationTime((int)musicList.get(position).getDuration()));
 
         /*播放模式*/

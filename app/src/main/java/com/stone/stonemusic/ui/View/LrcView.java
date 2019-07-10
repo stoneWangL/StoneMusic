@@ -15,7 +15,7 @@ import android.view.ViewTreeObserver;
 
 import com.stone.stonemusic.R;
 import com.stone.stonemusic.model.LrcContent;
-import com.stone.stonemusic.ui.Listeners.OnLrcSearchClickListener;
+import com.stone.stonemusic.present.interfaceOfPresent.OnLrcSearchClickListener;
 import com.stone.stonemusic.utils.DisplayUtil;
 import com.stone.stonemusic.utils.MediaUtils;
 import com.stone.stonemusic.utils.TimeUtil;
@@ -28,8 +28,6 @@ import static com.stone.stonemusic.data.LrcStateContants.QUERY_ONLINE_NULL;
 import static com.stone.stonemusic.data.LrcStateContants.QUERY_ONLINE_OK;
 import static com.stone.stonemusic.data.LrcStateContants.READ_LOC_FAIL;
 import static com.stone.stonemusic.data.LrcStateContants.READ_LOC_OK;
-
-import java.util.Observable;
 
 public class LrcView extends ScrollView implements
         ViewTreeObserver.OnScrollChangedListener,View.OnTouchListener {

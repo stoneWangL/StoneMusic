@@ -8,7 +8,7 @@ public class SongModel {
     private SongModel() {}
 
     //单例,获取实例
-    public static SongModel getInstance(){
+    public static SongModel getInstance() {
         if (sSongModel == null) {
             sSongModel = new SongModel();
         }
@@ -23,7 +23,7 @@ public class SongModel {
         return mSongList;
     }
 
-    public int getSongListSize(){
+    public int getSongListSize() {
         return mSongList.size();
     }
 }

@@ -175,24 +175,6 @@ public class MusicListFragment0 extends Fragment implements
     public void onPause() {
         super.onPause();
         Log.d(TAG, "onPause");
-        /*通过MusicBroadcastReceiver发送的intent，更新UI*/
-//        int state = getActivity().getIntent().getIntExtra("state", 0);
-//        Log.d(TAG, "onPause 02 state == " + state);
-//        switch (state) {
-//            case MediaStateCode.PLAY_START:
-//                break;
-//            case MediaStateCode.PLAY_PAUSE:
-//                break;
-//            case MediaStateCode.PLAY_CONTINUE:
-//                break;
-//            case MediaStateCode.PLAY_STOP:
-//                break;
-//            case MediaStateCode.MUSIC_POSITION_CHANGED:
-//                LocalListActivityHandler.sendEmptyMessage(1);
-//                Log.d(TAG, "收到位置更新的通知");
-//                break;
-//        }
-//        Log.d(TAG, "onPause 03");
     }
 
     @Override

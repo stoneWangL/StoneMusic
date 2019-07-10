@@ -11,6 +11,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.stone.stonemusic.R;
 import com.stone.stonemusic.model.Music;
@@ -18,7 +20,7 @@ import com.stone.stonemusic.model.LrcContent;
 import com.stone.stonemusic.model.SongModel;
 import com.stone.stonemusic.present.interfaceOfPresent.MusicObserverListener;
 import com.stone.stonemusic.present.MusicObserverManager;
-import com.stone.stonemusic.ui.Listeners.OnLrcSearchClickListener;
+import com.stone.stonemusic.present.interfaceOfPresent.OnLrcSearchClickListener;
 import com.stone.stonemusic.ui.View.LrcView;
 import com.stone.stonemusic.utils.LrcUtil;
 import com.stone.stonemusic.utils.LrcUtilOnline;
@@ -33,6 +35,7 @@ import java.util.TimerTask;
 import static com.stone.stonemusic.data.LrcStateContants.QUERY_ONLINE;
 import static com.stone.stonemusic.data.LrcStateContants.QUERY_ONLINE_NULL;
 import static com.stone.stonemusic.data.LrcStateContants.QUERY_ONLINE_OK;
+import static com.stone.stonemusic.data.LrcStateContants.READ_LOC_FAIL;
 import static com.stone.stonemusic.data.LrcStateContants.READ_LOC_OK;
 
 public class PlayLyricFragment extends Fragment implements OnLrcSearchClickListener
@@ -48,12 +51,7 @@ public class PlayLyricFragment extends Fragment implements OnLrcSearchClickListe
     private Music songCopy = null;
     private boolean hasLyric = false; //是否有歌词
     private boolean waitFirstClick = true; //还没有点击屏幕请求
-
-
-
-    public PlayLyricFragment() {
-        // Required empty public constructor
-    }
+    private LinearLayout linearLayout;
 
     @Override
     public void onAttach(Context context) {
@@ -83,12 +81,14 @@ public class PlayLyricFragment extends Fragment implements OnLrcSearchClickListe
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
                 switch (msg.what) {
+                    //有歌词
                     case 1:
                         playPageLrcView.setLrcLists(lrcLists);
                         playPageLrcView.setLrcState(READ_LOC_OK);
                         break;
+                    //没歌词
                     case 2:
-                        playPageLrcView.setLrcState(QUERY_ONLINE);
+                        playPageLrcView.setLrcState(READ_LOC_FAIL);
                         break;
                     case 3:
 
@@ -98,30 +98,29 @@ public class PlayLyricFragment extends Fragment implements OnLrcSearchClickListe
                 }
             }
         };
+        linearLayout = (LinearLayout) view.findViewById(R.id.layout_lrc_play);
+        linearLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "歌词Layout被点击");
+            }
+        });
         playPageLrcView = (LrcView) view.findViewById(R.id.playpage_lrcview);
-
         init();
-
-        initListener();
-
-
 
         return view;
     }
 
     private void init() {
         musicList = SongModel.getInstance().getSongList();
-        if (null != playPageLrcView)
+        if (null != playPageLrcView){
+            playPageLrcView.setOnLrcSearchClickListener(this);
             loadLrcView();
+
+        }
 
         //开启轮询监听
         //DclTimerTask.getInstance().start();
-    }
-
-
-
-    public void initListener() {
-        playPageLrcView.setOnLrcSearchClickListener(this);
     }
 
     void loadLrcView() {
@@ -133,15 +132,16 @@ public class PlayLyricFragment extends Fragment implements OnLrcSearchClickListe
         if (null != lrcLists && lrcLists.size() != 0) {
             hasLyric = true; //有歌词
             handler.sendEmptyMessage(1);
-        //本地没有歌词
-        } else {
-            hasLyric = false; //没歌词
-            handler.sendEmptyMessage(2);
-
-            //本地没有歌词，再查询网络（后期可修改为手动点击触发）
-
 
         }
+        //本地没有歌词
+        else {
+            hasLyric = false; //没歌词
+            handler.sendEmptyMessage(2);
+            //本地没有歌词，再查询网络（后期可修改为手动点击触发）
+        }
+
+        handler.post(runnableUi);
     }
 
     /**
@@ -170,7 +170,7 @@ public class PlayLyricFragment extends Fragment implements OnLrcSearchClickListe
     }
 
     /**
-     * 仅用于 网络下载歌词后的歌词更新
+     * 歌词更新
      */
     Runnable runnableUi=new Runnable() {
         @Override
@@ -200,7 +200,6 @@ public class PlayLyricFragment extends Fragment implements OnLrcSearchClickListe
                         Log.e(TAG, "在载失败后，null == playPageLrcView");
                     else
                         Log.e(TAG, "在载失败后，未知错误！！！");
-
                 }
             } catch (Exception e) {
                 Log.i(TAG, "runnableUi:抛异常了");
@@ -219,10 +218,11 @@ public class PlayLyricFragment extends Fragment implements OnLrcSearchClickListe
 
     private void showLrcSearchDialog() {
         final Dialog dialog = new Dialog(getActivity(), R.style.lrc_dialog);
+        dialog.show();
 //        View content = inflater.inflate(R.layout.dialog_lrc, null);
     }
 
-    /*更新歌词界面*/
+    /*更新歌词行*/
     static void updateLrcView(int currentTime) {
 
 //        if (SlidingPanel.mTracking) return;
