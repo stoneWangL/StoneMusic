@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -33,13 +34,14 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import static com.stone.stonemusic.data.LrcStateContants.QUERY_ONLINE;
+import static com.stone.stonemusic.data.LrcStateContants.QUERY_ONLINE_FAIL;
 import static com.stone.stonemusic.data.LrcStateContants.QUERY_ONLINE_NULL;
 import static com.stone.stonemusic.data.LrcStateContants.QUERY_ONLINE_OK;
 import static com.stone.stonemusic.data.LrcStateContants.READ_LOC_FAIL;
 import static com.stone.stonemusic.data.LrcStateContants.READ_LOC_OK;
 
 public class PlayLyricFragment extends Fragment implements OnLrcSearchClickListener
-        ,MusicObserverListener {
+        ,MusicObserverListener ,View.OnClickListener{
     private static String TAG = "PlayLyricFragment";
 
     private List<Music> musicList = new ArrayList<>();
@@ -67,6 +69,38 @@ public class PlayLyricFragment extends Fragment implements OnLrcSearchClickListe
         //添加进观察者队列
         MusicObserverManager.getInstance().add(this);
 
+    }
+
+//    @Override
+//    public boolean onTouch(View v, MotionEvent event) {
+//
+//        switch (event.getAction()) {
+//            case MotionEvent.ACTION_MOVE:
+////                scrollY = this.getScrollY();
+////                pos = (int) (this.getScrollY() / textHeight); /*当前视图顶点位置/文本高度 = 当前的歌词的下标*/
+////
+////                canDrawLine = true;
+////                this.invalidate();
+//
+//                Log.i(TAG, "LrcStateView=>handleTouchLrcOK=>ACTION_DOWN && MOVE");
+//                break;
+//            case MotionEvent.ACTION_UP:
+//                /*歌词已在手指移动下，位置变化, 改变歌曲位置到手指UP后的位置*/
+////                if(pos!=-1)
+////                    MediaUtils.getMediaPlayer().seekTo(lrcLists.get(pos).getLrcTime());
+////                canDrawLine = false;
+////                pos =-1; /*手指移动状态-》没有手指移动*/
+////                this.invalidate();
+//                break;
+//        }
+//
+//
+//        return false;
+//    }
+
+    @Override
+    public void onClick(View v) {
+        Log.d(TAG, "OnClick被点击");
     }
 
     @Override
@@ -106,7 +140,15 @@ public class PlayLyricFragment extends Fragment implements OnLrcSearchClickListe
             }
         });
         playPageLrcView = (LrcView) view.findViewById(R.id.playpage_lrcview);
+        playPageLrcView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "歌词PageLrcView被点击");
+            }
+        });
         init();
+
+        view.setOnClickListener(this);
 
         return view;
     }
@@ -148,7 +190,7 @@ public class PlayLyricFragment extends Fragment implements OnLrcSearchClickListe
      * 从网络获取歌词
      * @return false 没有获取到， true 获取到了。
      */
-    private boolean getLrcOnline(final Music song){
+    private boolean getLrcOnline(final Music song) {
 
         if(null != song){
             new Thread(){
@@ -240,26 +282,26 @@ public class PlayLyricFragment extends Fragment implements OnLrcSearchClickListe
      */
     @Override
     public void observerUpData(int content) {
-        switch (content) {
-            case MediaStateCode.MUSIC_POSITION_CHANGED:
-                DclTimerTask.getInstance().destroyed();
-                DclTimerTask.getInstance().start();
-                init();
-                break;
-
-            case MediaStateCode.PLAY_START:
-                DclTimerTask.getInstance().destroyed();
-                DclTimerTask.getInstance().start();
-            case MediaStateCode.PLAY_CONTINUE:
-                DclTimerTask.getInstance().start();
-                break;
-
-            case MediaStateCode.PLAY_STOP:
-            case MediaStateCode.PLAY_PAUSE:
-                DclTimerTask.getInstance().destroyed();
-                break;
-        }
-        Log.i(TAG, "observerUpData->观察者类数据已刷新");
+//        switch (content) {
+//            case MediaStateCode.MUSIC_POSITION_CHANGED:
+//                DclTimerTask.getInstance().destroyed();
+//                DclTimerTask.getInstance().start();
+//                init();
+//                break;
+//
+//            case MediaStateCode.PLAY_START:
+//                DclTimerTask.getInstance().destroyed();
+//                DclTimerTask.getInstance().start();
+//            case MediaStateCode.PLAY_CONTINUE:
+//                DclTimerTask.getInstance().start();
+//                break;
+//
+//            case MediaStateCode.PLAY_STOP:
+//            case MediaStateCode.PLAY_PAUSE:
+//                DclTimerTask.getInstance().destroyed();
+//                break;
+//        }
+//        Log.i(TAG, "observerUpData->观察者类数据已刷新");
     }
 
     /**
@@ -278,6 +320,8 @@ public class PlayLyricFragment extends Fragment implements OnLrcSearchClickListe
             }
         }
     };
+
+
 
     /**
      * 静态内部类
