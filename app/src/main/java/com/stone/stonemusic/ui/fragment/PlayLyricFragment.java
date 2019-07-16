@@ -187,6 +187,23 @@ public class PlayLyricFragment extends Fragment implements OnLrcSearchClickListe
     }
 
     /**
+     * 歌词View回调函数
+     * @param view
+     */
+    @Override
+    public void onLrcSearchClicked(View view) {
+        showLrcSearchDialog();
+        getLrcOnline(songCopy);
+    }
+
+    private void showLrcSearchDialog() {
+//        final Dialog dialog = new Dialog(getActivity(), R.style.lrc_dialog);
+//        dialog.show();
+        Toast.makeText(getActivity(), "开始下载歌词", Toast.LENGTH_SHORT).show();
+//        View content = inflater.inflate(R.layout.dialog_lrc, null);
+    }
+
+    /**
      * 从网络获取歌词
      * @return false 没有获取到， true 获取到了。
      */
@@ -253,16 +270,7 @@ public class PlayLyricFragment extends Fragment implements OnLrcSearchClickListe
     };
 
 
-    @Override
-    public void onLrcSearchClicked(View view) {
-        showLrcSearchDialog();
-    }
 
-    private void showLrcSearchDialog() {
-        final Dialog dialog = new Dialog(getActivity(), R.style.lrc_dialog);
-        dialog.show();
-//        View content = inflater.inflate(R.layout.dialog_lrc, null);
-    }
 
     /*更新歌词行*/
     static void updateLrcView(int currentTime) {
@@ -326,50 +334,50 @@ public class PlayLyricFragment extends Fragment implements OnLrcSearchClickListe
     /**
      * 静态内部类
      */
-    private static class SingletonHolder {
-        private static final DclTimerTask timerTask = new DclTimerTask();
-    }
+//    private static class SingletonHolder {
+//        private static final DclTimerTask timerTask = new DclTimerTask();
+//    }
 
     /**
      * 内部类轮询控制器类
       */
-    public static class DclTimerTask{
-        private static String TAG = "DclTimerTask";
-        private Timer timer = null;
-
-        public static DclTimerTask getInstance() {
-            return SingletonHolder.timerTask;
-        }
-
-        public void start() {
-            //毫秒
-            long time = 1000;
-            final int[] i = {1};
-
-            if (timer == null){
-                timer = new Timer();
-            }
-
-            timer.schedule(new TimerTask() {
-
-                @Override
-                public void run() {
-                    handler.post(runnableUi2);
-                    Log.i(TAG, "轮询第"+ i[0] + "次");
-                    i[0]++;
-
-                }
-            }, 0, time);
-        }
-
-        private void destroyed(){
-            Log.i(TAG, "轮询任务销毁");
-            if (null != timer)
-                timer.cancel();
-            timer = null;
-        }
-
-    }
+//    public static class DclTimerTask{
+//        private static String TAG = "DclTimerTask";
+//        private Timer timer = null;
+//
+//        public static DclTimerTask getInstance() {
+//            return SingletonHolder.timerTask;
+//        }
+//
+//        public void start() {
+//            //毫秒
+//            long time = 1000;
+//            final int[] i = {1};
+//
+//            if (timer == null){
+//                timer = new Timer();
+//            }
+//
+//            timer.schedule(new TimerTask() {
+//
+//                @Override
+//                public void run() {
+//                    handler.post(runnableUi2);
+//                    Log.i(TAG, "轮询第"+ i[0] + "次");
+//                    i[0]++;
+//
+//                }
+//            }, 0, time);
+//        }
+//
+//        private void destroyed(){
+//            Log.i(TAG, "轮询任务销毁");
+//            if (null != timer)
+//                timer.cancel();
+//            timer = null;
+//        }
+//
+//    }
 
 
     @Override

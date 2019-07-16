@@ -54,7 +54,7 @@ public class LrcView extends ScrollView implements
     private int pos = -1; //手指按下后歌词要到的位置
 
 
-    private boolean canTouchLrc = true;        //是否可以触摸并调整歌词
+    private boolean hasLrc = false; //是否有歌词，可以触摸并调整歌词
 
 
     private int count = 0;  //绘制加载点的次数
@@ -152,9 +152,12 @@ public class LrcView extends ScrollView implements
     public void setLrcLists(List<LrcContent> lrcLists) {
         this.lrcLists = lrcLists;
 
-        //判断歌词界面是否可以触摸
-		if(lrcLists==null||lrcLists.size()==0)	canTouchLrc=false;
-		else canTouchLrc=true;
+        //判断是否有歌词
+		if(lrcLists==null||lrcLists.size()==0)
+		    hasLrc = false;
+		else //有歌词
+            hasLrc = true;
+
         //设置index=-1
         this.index = -1;
 
@@ -305,7 +308,7 @@ public class LrcView extends ScrollView implements
                 case QUERY_ONLINE_NULL:
                     tipsPaint.setUnderlineText(false);
                     canvas.drawText("网络无匹配歌词", width / 2, tempY, tipsPaint);
-                    handler.sendEmptyMessageDelayed(1, 1000);
+//                    handler.sendEmptyMessageDelayed(1, 1000);
                     break;
             }
 
@@ -353,9 +356,13 @@ public class LrcView extends ScrollView implements
     @Override
     public boolean onTouch(View v, MotionEvent event) {
 
-        //界面不能被触摸
-        if (!canTouchLrc) return true;
+        //没有歌词
+        if (!hasLrc) {
+            Log.i(TAG, "LrcStateView=>onTouch=>没有歌词");
+            return handleTouchLrcFail(event.getAction());
+        }
 
+        //界面可以触摸
         switch (lrcState) {
             case READ_LOC_FAIL: /*读取本地歌词失败*/
             case QUERY_ONLINE_FAIL: /*查询网络歌词失败*/
@@ -366,8 +373,7 @@ public class LrcView extends ScrollView implements
 
         }
 
-
-        return false;
+        return true;
     }
 
     boolean handleTouchLrcOK(int action) {
@@ -388,10 +394,11 @@ public class LrcView extends ScrollView implements
                     MediaUtils.getMediaPlayer().seekTo(lrcLists.get(pos).getLrcTime());
                 canDrawLine = false;
                 pos =-1; /*手指移动状态-》没有手指移动*/
-                this.invalidate();
+                this.invalidate(); //触发OnDraw
+                Log.i(TAG, "LrcStateView=>handleTouchLrcOK=>ACTION_UP");
                 break;
         }
-        return false;
+        return true;
     }
 
     boolean handleTouchLrcFail(int action) {
@@ -401,9 +408,11 @@ public class LrcView extends ScrollView implements
                 if (onLrcSearchClickListener != null) {
                     onLrcSearchClickListener.onLrcSearchClicked(this);
                 }
+                this.invalidate(); //触发OnDraw
+                Log.i(TAG, "LrcStateView=>handleTouchLrcFail=>ACTION_UP");
                 break;
         }
-        /*返回的true没意义*/
+        /*返回的true，消费该事件，继续接受后续事件*/
         return true;
     }
 
