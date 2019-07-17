@@ -59,7 +59,7 @@ public class LrcUtilOnline {
      */
     public String getLrcURL(String title, String artist) {
         String queryLrcURLStr = getQueryLrcURL(title); /*查询的地址*/
-        Log.e(TAG, "stone queryLrcURLStr == " + queryLrcURLStr);
+        Log.e(TAG, "getLrcURL -> queryLrcURLStr == " + queryLrcURLStr);
 
         try {
 
@@ -77,6 +77,8 @@ public class LrcUtilOnline {
                 JSONArray lrcArray = AllData.getJSONArray("result");
 
                 Log.d(TAG, "stone JSONArray大小 ==" + lrcArray.length());
+                if (lrcArray.length() == 0)
+                    return "result==0";
 
                 for (int i=0; i<lrcArray.length(); i++){
                     JSONObject oneLrcObject = lrcArray.getJSONObject(i);

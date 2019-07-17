@@ -112,6 +112,7 @@ public class LrcUtil implements LrcStateContants{
             }
         } else {
             Log.i(TAG, "loadLrc->本地目录没有搜索到歌词文件！！！");
+            return null;
         }
 
 

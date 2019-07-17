@@ -190,10 +190,10 @@ public class LocalListActivity extends AppCompatActivity implements
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             //点击底部歌曲信息显示栏，跳转到播放界面
             case R.id.bottom_bar_layout:
-                if (musicList.size() > 0){
+                if (musicList.size() > 0) {
                     jumpToOtherWhere.GoToPlayActivity();
                 }
                 break;
@@ -201,7 +201,7 @@ public class LocalListActivity extends AppCompatActivity implements
     }
 
     /*定义回调接口*/
-    public interface CallBackInterface{
+    public interface CallBackInterface {
         void ChangeUI();
     }
 

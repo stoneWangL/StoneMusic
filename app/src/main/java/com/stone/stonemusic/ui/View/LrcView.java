@@ -22,12 +22,14 @@ import com.stone.stonemusic.utils.TimeUtil;
 
 import java.util.List;
 
-import static com.stone.stonemusic.data.LrcStateContants.QUERY_ONLINE;
-import static com.stone.stonemusic.data.LrcStateContants.QUERY_ONLINE_FAIL;
-import static com.stone.stonemusic.data.LrcStateContants.QUERY_ONLINE_NULL;
-import static com.stone.stonemusic.data.LrcStateContants.QUERY_ONLINE_OK;
-import static com.stone.stonemusic.data.LrcStateContants.READ_LOC_FAIL;
-import static com.stone.stonemusic.data.LrcStateContants.READ_LOC_OK;
+import static com.stone.stonemusic.data.LrcStateContants.LRC_INIT;
+import static com.stone.stonemusic.data.LrcStateContants.LRC_QUERY_ONLINE_FAIL;
+import static com.stone.stonemusic.data.LrcStateContants.LRC_QUERY_ONLINE_ING;
+import static com.stone.stonemusic.data.LrcStateContants.LRC_QUERY_ONLINE_NULL;
+import static com.stone.stonemusic.data.LrcStateContants.LRC_QUERY_ONLINE_OK;
+import static com.stone.stonemusic.data.LrcStateContants.LRC_READ_LOC_FAIL;
+import static com.stone.stonemusic.data.LrcStateContants.LRC_READ_LOC_OK;
+
 
 public class LrcView extends ScrollView implements
         ViewTreeObserver.OnScrollChangedListener,View.OnTouchListener {
@@ -45,7 +47,7 @@ public class LrcView extends ScrollView implements
     private float textHeight;    //文本高度
     private int index;    //歌词list集合下标
 
-    private int lrcState = -1;
+    private int lrcState = LRC_INIT; //歌词初始化
     private LrcTextView lrcTextView;
     private List<LrcContent> lrcLists;
 
@@ -222,6 +224,7 @@ public class LrcView extends ScrollView implements
     public void setLrcState(int lrcState) {
         this.lrcState = lrcState;
         invalidate();
+        Log.d(TAG, "setLrcState->invalidate()了");
     }
 
     public int getLrcState() {
@@ -265,32 +268,19 @@ public class LrcView extends ScrollView implements
             super.onDraw(canvas);
             Log.i(TAG, "LrcTextView onDraw");
 
-            if (canvas == null) return;
+            if (canvas == null) {
+                Log.e(TAG, "onDraw->canvas == null");
+                return;
+            }
+            Log.e(TAG, "onDraw->canvas 不为空； lrcState = " + lrcState);
 
             int tempY = (int) height / 2;
 
             switch (lrcState) {
-                case READ_LOC_FAIL:
-                    tipsPaint.setUnderlineText(true);
-                    canvas.drawText("暂无歌词,正在搜索...", width / 2, tempY, tipsPaint);
-                    break;
-                case QUERY_ONLINE: /*正在联网查找*/
-                    tipsPaint.setUnderlineText(false);
-                    String drawContentStr = "正在在线匹配歌词";
-                    for (int i = 0; i < count; i++) {
-                        drawContentStr += ".";
-                    }
-
-                    count++;
-                    if (count >= 6) count = 0;
-
-                    canvas.drawText(drawContentStr, width / 2, tempY, tipsPaint);
-
-//                    handler.sendEmptyMessageDelayed(1, 1000);
-                    break;
-                case QUERY_ONLINE_OK:
-                case READ_LOC_OK:
-                    //绘制歌词
+                //成功的几种情况
+                case LRC_QUERY_ONLINE_OK: //现在还没有设置该状态的场景，因为歌词都是先保存在本地再读取的，没有缓存到临时文件的场景
+                case LRC_READ_LOC_OK: //本地有歌词
+                    //绘制歌词，底部歌词没有显示完全就是这个地方的问题
                     for (int i = 0; i < lrcLists.size(); i++, tempY += textHeight) {
                         if (i == index) {
                             canvas.drawText(lrcLists.get(i).getLrcStr(), width / 2, tempY, currentPaint);
@@ -301,13 +291,34 @@ public class LrcView extends ScrollView implements
                         }
                     }
                     break;
-//                case QUERY_ONLINE_FAIL:
-//                    tipsPaint.setUnderlineText(true);
-//                    canvas.drawText("搜索失败，请重试", width / 2, tempY, tipsPaint);
-//                    break;
-                case QUERY_ONLINE_NULL:
+
+                //失败的几种情况
+                case LRC_READ_LOC_FAIL: //本地没有歌词
+                    Log.i(TAG, "onDraw -> LRC_READ_LOC_FAIL");
+                    tipsPaint.setUnderlineText(true); //给为文字添加下划线
+                    canvas.drawText("暂无歌词,单击屏幕搜索", width / 2, tempY, tipsPaint);
+                    break;
+
+                case LRC_QUERY_ONLINE_ING: //正在联网查找(放在耗时的情况下提示)
                     tipsPaint.setUnderlineText(false);
-                    canvas.drawText("网络无匹配歌词", width / 2, tempY, tipsPaint);
+                    String drawContentStr = "正在在线匹配歌词";
+                    for (int i = 0; i < count; i++)
+                        drawContentStr += ".";
+                    count++;
+                    if (count >= 6) count = 0;
+
+                    canvas.drawText(drawContentStr, width / 2, tempY, tipsPaint);
+
+//                    handler.sendEmptyMessageDelayed(1, 1000);
+                    break;
+
+                case LRC_QUERY_ONLINE_FAIL: //联网搜索失败
+                    tipsPaint.setUnderlineText(true); //给为文字添加下划线
+                    canvas.drawText("搜索失败，请重试", width / 2, tempY, tipsPaint);
+                    break;
+                case LRC_QUERY_ONLINE_NULL: //联网查找，歌词为空
+                    tipsPaint.setUnderlineText(false);
+                    canvas.drawText("网络查找无匹配歌词", width / 2, tempY, tipsPaint);
 //                    handler.sendEmptyMessageDelayed(1, 1000);
                     break;
             }
@@ -318,8 +329,12 @@ public class LrcView extends ScrollView implements
         protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
             super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
-            heightMeasureSpec = (int) (height + textHeight * (lrcLists.size() - 1));
+            if (null != lrcLists){
+                heightMeasureSpec = (int) (height + textHeight * (lrcLists.size() - 1));
+            }
             setMeasuredDimension(widthMeasureSpec, heightMeasureSpec);
+
+
         }
 
 
@@ -344,8 +359,13 @@ public class LrcView extends ScrollView implements
     public void invalidate() {
         super.invalidate();
 
-        if (null != lrcTextView)
+        if (null != lrcTextView){
+            Log.d(TAG, "invalidate()->lrcTextView不为null");
             lrcTextView.invalidate();
+        }
+        else{
+            Log.d(TAG, "invalidate()->lrcTextView为null");
+        }
     }
 
     @Override
@@ -364,11 +384,11 @@ public class LrcView extends ScrollView implements
 
         //界面可以触摸
         switch (lrcState) {
-            case READ_LOC_FAIL: /*读取本地歌词失败*/
-            case QUERY_ONLINE_FAIL: /*查询网络歌词失败*/
+            case LRC_READ_LOC_FAIL: //本地无歌词
+            case LRC_QUERY_ONLINE_FAIL: /*查询网络歌词失败*/
                 return handleTouchLrcFail(event.getAction());
-            case READ_LOC_OK: /*读取本地歌词成功*/
-            case QUERY_ONLINE_OK: /*查询网络歌词成功*/
+            case LRC_READ_LOC_OK: /*读取本地歌词成功*/
+            case LRC_QUERY_ONLINE_OK: /*查询网络歌词成功*/
                 return handleTouchLrcOK(event.getAction());
 
         }
