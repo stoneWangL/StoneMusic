@@ -1,6 +1,5 @@
 package com.stone.stonemusic.ui.fragment;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
@@ -9,7 +8,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -24,16 +22,13 @@ import com.stone.stonemusic.present.MusicObserverManager;
 import com.stone.stonemusic.present.interfaceOfPresent.OnLrcSearchClickListener;
 import com.stone.stonemusic.ui.View.LrcView;
 import com.stone.stonemusic.utils.LrcUtil;
-import com.stone.stonemusic.utils.LrcUtilOnline;
+import com.stone.stonemusic.present.SearchLrcUtilOnline;
 import com.stone.stonemusic.utils.MediaStateCode;
 import com.stone.stonemusic.utils.MediaUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
-import static com.stone.stonemusic.data.LrcStateContants.LRC_QUERY_ONLINE_FAIL;
 import static com.stone.stonemusic.data.LrcStateContants.LRC_QUERY_ONLINE_NULL;
 import static com.stone.stonemusic.data.LrcStateContants.LRC_READ_LOC_FAIL;
 import static com.stone.stonemusic.data.LrcStateContants.LRC_READ_LOC_OK;
@@ -208,10 +203,10 @@ public class PlayLyricFragment extends Fragment implements OnLrcSearchClickListe
                 public void run(){
 
                         //网络歌词下载地址
-                        QueryPath =  LrcUtilOnline.getInstance().getLrcURL(song.getTitle(), song.getArtist());
+                        QueryPath =  SearchLrcUtilOnline.getInstance().getLrcURL(song.getTitle(), song.getArtist());
                         //目录+歌曲+歌手+.lrc
-                        String filePath = LrcUtilOnline.getInstance().getLrcPath(song.getTitle(), song.getArtist());
-                        DownloadLrcResult = LrcUtilOnline.getInstance().writeContentFromUrl(QueryPath, filePath, song.getTitle(), song.getArtist());
+                        String filePath = SearchLrcUtilOnline.getInstance().getLrcPath(song.getTitle(), song.getArtist());
+                        DownloadLrcResult = SearchLrcUtilOnline.getInstance().writeContentFromUrl(QueryPath, filePath, song.getTitle(), song.getArtist());
 
                     lrcLists = LrcUtil.loadLrc(song); /*加载本地歌词，获取歌词list*/
                     handler.post(runnableUi);

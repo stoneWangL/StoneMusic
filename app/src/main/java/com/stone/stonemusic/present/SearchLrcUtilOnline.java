@@ -1,4 +1,4 @@
-package com.stone.stonemusic.utils;
+package com.stone.stonemusic.present;
 
 import android.text.TextUtils;
 import android.util.Log;
@@ -26,17 +26,19 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class LrcUtilOnline {
+public class SearchLrcUtilOnline {
     private static String TAG = "LrcUtilOnline";
-    private static LrcUtilOnline instance;
+    private static SearchLrcUtilOnline instance;
     public static final String lrcRootPath = android.os.Environment
             .getExternalStorageDirectory().toString()
             + "/StoneMusic/Lyrics/";
     public static final String queryLrcURLRoot = "http://geci.me/api/lyric/";
+    public static final String queryMusicID = "http://144.34.228.215:3000/search?keywords=";
+    public static final String queryLrc = "http://144.34.228.215:3000/lyric?id=";
 
-    public static LrcUtilOnline getInstance() {
+    public static SearchLrcUtilOnline getInstance() {
         if (null == instance) {
-            instance = new LrcUtilOnline();
+            instance = new SearchLrcUtilOnline();
         }
 
         return instance;
@@ -44,7 +46,30 @@ public class LrcUtilOnline {
 
     /* 拼接查询的URL */
     public String getQueryLrcURL(String title, String artist) {
-        return queryLrcURLRoot + Encode(title) + "/" + Encode(artist);
+        String queryUrl = queryLrcURLRoot + Encode(title) + "/" + Encode(artist);
+
+        return queryUrl;
+    }
+
+    /**
+     * 根据 音乐名称 && 歌手 查询歌曲ID
+     * @param title
+     * @param artist
+     * @return 返回查询的URL
+     */
+    public String getQueryMusicIDURL(String title, String artist) {
+        String queryURL = queryMusicID + Encode(title + " " +artist);
+        return queryURL;
+    }
+
+    /**
+     * 根据 歌曲ID 查询歌词
+     * @param id
+     * @return 返回查询的URL
+     */
+    public String getQueryLrcByIDURL(String id) {
+        String queryUrl = queryLrcURLRoot + Encode(id);
+        return queryUrl;
     }
 
     public String getQueryLrcURL(String title) {
