@@ -48,7 +48,8 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"
-            android:background="@drawable/ic_icon_find"/>
+            android:background="@drawable/ic_icon_find"
+            android:onClick="clickRightFind"/>
     </LinearLayout>
 
 

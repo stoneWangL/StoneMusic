@@ -28,6 +28,7 @@ import com.stone.stonemusic.utils.MediaStateCode;
 import com.stone.stonemusic.utils.MediaUtils;
 import com.stone.stonemusic.utils.MusicApplication;
 import com.stone.stonemusic.present.MusicResources;
+import com.stone.stonemusic.utils.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -158,6 +159,8 @@ public class LocalListActivity extends AppCompatActivity implements
 
     }
 
+
+
     //播放键控制
     public void play(View view) {
         Log.i(TAG, "此时的状态=="+MediaUtils.currentState);
@@ -198,6 +201,14 @@ public class LocalListActivity extends AppCompatActivity implements
                 }
                 break;
         }
+    }
+
+    public void clickLeftTabItem(View view) {
+        ToastUtils.getToastShort("点击了左侧抽屉按钮");
+    }
+
+    public void clickRightFind(View view) {
+        ToastUtils.getToastShort("点击了右侧搜索按钮");
     }
 
     /*定义回调接口*/

@@ -31,7 +31,7 @@ public class InitMusicModel extends AsyncTask<String, Integer, String> {
             view.musicList = new MusicResources().getMusic(MusicApplication.getContext());
             SongModel.getInstance().setSongList(view.musicList);
             MusicResources.initArtistMode(); //初始化歌手列表
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
