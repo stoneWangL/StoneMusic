@@ -1,4 +1,4 @@
-package com.stone.stonemusic.ui.View;
+package com.stone.stonemusic.View;
 
 import android.app.Activity;
 import android.support.v4.view.ViewCompat;

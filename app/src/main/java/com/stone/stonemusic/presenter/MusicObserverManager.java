@@ -1,7 +1,7 @@
-package com.stone.stonemusic.present;
+package com.stone.stonemusic.presenter;
 
-import com.stone.stonemusic.present.interfaceOfPresent.MusicObserverListener;
-import com.stone.stonemusic.present.interfaceOfPresent.MusicSubjectListener;
+import com.stone.stonemusic.presenter.interf.MusicObserverListener;
+import com.stone.stonemusic.presenter.interf.MusicSubjectListener;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 

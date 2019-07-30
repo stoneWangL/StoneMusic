@@ -344,7 +344,7 @@
                     android:layout_weight="7"
                     android:layout_height="match_parent"
                     android:gravity="center">
-                    <com.stone.stonemusic.ui.View.CircleView
+                    <com.stone.stonemusic.View.CircleView
                         android:id="@+id/circle_play_last"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -370,7 +370,7 @@
                     android:layout_width="0dp"
                     android:layout_weight="12"
                     android:layout_height="match_parent">
-                    <com.stone.stonemusic.ui.View.CircleView
+                    <com.stone.stonemusic.View.CircleView
                         android:id="@+id/circle_play_play_or_pause"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -397,7 +397,7 @@
                     android:layout_weight="7"
                     android:layout_height="match_parent"
                     android:gravity="center">
-                    <com.stone.stonemusic.ui.View.CircleView
+                    <com.stone.stonemusic.View.CircleView
                         android:id="@+id/circle_play_next"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"

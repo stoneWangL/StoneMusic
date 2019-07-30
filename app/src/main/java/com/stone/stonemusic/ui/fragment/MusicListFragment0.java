@@ -21,14 +21,14 @@ import com.stone.stonemusic.adapter.LocalMusicAdapter;
 import com.stone.stonemusic.bean.ItemViewChoose;
 import com.stone.stonemusic.model.Music;
 import com.stone.stonemusic.model.SongModel;
-import com.stone.stonemusic.present.interfaceOfPresent.JumpToOtherView;
-import com.stone.stonemusic.present.JumpToOtherWhere;
-import com.stone.stonemusic.present.PlayControl;
+import com.stone.stonemusic.presenter.interf.JumpToOtherView;
+import com.stone.stonemusic.presenter.JumpToOtherWhere;
+import com.stone.stonemusic.presenter.PlayControl;
 import com.stone.stonemusic.ui.activity.LocalListActivity;
 import com.stone.stonemusic.utils.MediaStateCode;
 import com.stone.stonemusic.utils.MediaUtils;
 import com.stone.stonemusic.utils.MusicApplication;
-import com.stone.stonemusic.present.MusicResources;
+import com.stone.stonemusic.presenter.MusicResources;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.stone.stonemusic.present.interfaceOfPresent;
+package com.stone.stonemusic.presenter.interf;
 
 /**
  * author : stoneWang

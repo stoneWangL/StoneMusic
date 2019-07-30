@@ -9,9 +9,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.stone.stonemusic.R;
-import com.stone.stonemusic.present.JumpToOtherWhere;
-import com.stone.stonemusic.present.GetPermission;
-import com.stone.stonemusic.present.interfaceOfPresent.JumpToOtherView;
+import com.stone.stonemusic.presenter.JumpToOtherWhere;
+import com.stone.stonemusic.presenter.GetPermission;
+import com.stone.stonemusic.presenter.interf.JumpToOtherView;
 import com.stone.stonemusic.utils.ToastUtils;
 
 public class FirstActivity extends BaseNoBarActivity implements JumpToOtherView{
@@ -25,7 +25,7 @@ public class FirstActivity extends BaseNoBarActivity implements JumpToOtherView{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_first);
+        setContentView(R.layout.activity_welcome);
 
         getPermission = new GetPermission(this);
         jumpToOtherWhere = new JumpToOtherWhere(this);
@@ -36,6 +36,7 @@ public class FirstActivity extends BaseNoBarActivity implements JumpToOtherView{
         initAnim();
         initPermissions();
     }
+
 
 
 

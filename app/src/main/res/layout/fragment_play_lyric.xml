@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.stone.stonemusic.ui.View.LrcView
+    <com.stone.stonemusic.View.LrcView
         android:id="@+id/playpage_lrcview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

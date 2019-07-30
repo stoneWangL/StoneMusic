@@ -4,16 +4,16 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 
-import com.squareup.leakcanary.LeakCanary;
-import com.squareup.leakcanary.RefWatcher;
+
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+
 public class MusicApplication extends Application{
     public static final String TAG = "MusicAppUtils";
-    private static RefWatcher mRefWatcher;
+//    private static RefWatcher mRefWatcher;
 
     private static Context sContext;
     private static Map<String, Activity> destroyMap = new HashMap<>(); /*用于销毁活动*/
@@ -22,7 +22,7 @@ public class MusicApplication extends Application{
     public void onCreate() {
         super.onCreate();
         sContext = this;
-        mRefWatcher = LeakCanary.install(this);
+//        mRefWatcher = LeakCanary.install(this);
     }
 
     public static Context getContext(){
@@ -32,9 +32,10 @@ public class MusicApplication extends Application{
     /**
      * @return RefWatcher，用于监控、追踪应用中的对象引用
      */
-    public static RefWatcher getmRefWatcher() {
-        return mRefWatcher;
-    }
+//    public static RefWatcher getmRefWatcher() {
+//        return null;
+////        return mRefWatcher;
+//    }
 
     /**
      * 添加到销毁队列

@@ -1,4 +1,4 @@
-package com.stone.stonemusic.present;
+package com.stone.stonemusic.presenter;
 
 import android.content.Context;
 import android.content.Intent;

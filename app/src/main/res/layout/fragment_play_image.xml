@@ -30,12 +30,12 @@
                 <FrameLayout
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent">
-                    <com.stone.stonemusic.ui.View.CircleImageView
+                    <com.stone.stonemusic.View.CircleImageView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:adjustViewBounds="true"
                         android:src="@drawable/play_background02" />
-                    <com.stone.stonemusic.ui.View.CircleImageView
+                    <com.stone.stonemusic.View.CircleImageView
                         android:id="@+id/play_music_album_image"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"

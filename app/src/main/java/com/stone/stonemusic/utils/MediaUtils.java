@@ -1,13 +1,10 @@
 package com.stone.stonemusic.utils;
 
-import android.content.Context;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.util.Log;
 
 import com.stone.stonemusic.model.SongModel;
-import com.stone.stonemusic.present.MusicObserverManager;
-import com.stone.stonemusic.present.PlayControl;
+import com.stone.stonemusic.presenter.MusicObserverManager;
 
 import java.io.IOException;
 import java.util.Random;

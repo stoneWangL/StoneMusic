@@ -1,6 +1,8 @@
 package com.stone.stonemusic.service;
 
 import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
@@ -12,19 +14,19 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
-import android.support.v7.app.NotificationCompat;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.widget.RemoteViews;
 
 import com.stone.stonemusic.R;
 import com.stone.stonemusic.model.Music;
 import com.stone.stonemusic.model.SongModel;
-import com.stone.stonemusic.present.MusicListenerWorker;
-import com.stone.stonemusic.present.broadcastReceiver.NotificationViewReceiver;
-import com.stone.stonemusic.present.interfaceOfPresent.MusicObserverListener;
-import com.stone.stonemusic.present.MusicObserverManager;
-import com.stone.stonemusic.present.MusicResources;
-import com.stone.stonemusic.present.PlayControl;
+import com.stone.stonemusic.presenter.MusicListenerWorker;
+import com.stone.stonemusic.presenter.broadcastReceiver.NotificationViewReceiver;
+import com.stone.stonemusic.presenter.interf.MusicObserverListener;
+import com.stone.stonemusic.presenter.MusicObserverManager;
+import com.stone.stonemusic.presenter.MusicResources;
+import com.stone.stonemusic.presenter.PlayControl;
 import com.stone.stonemusic.ui.activity.LocalListActivity;
 import com.stone.stonemusic.utils.MediaStateCode;
 import com.stone.stonemusic.utils.MediaUtils;
@@ -38,6 +40,7 @@ public class MusicService extends Service implements MusicObserverListener{
 
 
     public Notification notification;
+    public NotificationManager mNotificationManager;
     private RemoteViews remoteViews;
     public List<Music> musicList = new ArrayList<>();
     MusicListenerWorker musicListenerWorker;
@@ -47,26 +50,44 @@ public class MusicService extends Service implements MusicObserverListener{
 
 
     private void initNotificationSon() {
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(MusicApplication.getContext());
+        String id = "stoneMusic_channel";
+        String name="stoneMusic";
 
-        //mBuilder.setSmallIcon(R.drawable.play_background02); // 设置顶部图标
-        Bitmap icBitmap = BitmapFactory.decodeResource(getResources(),R.drawable.play_background02);
-        mBuilder.setLargeIcon(icBitmap);
-        mBuilder.setOngoing(true);
-        mBuilder.setPriority(Notification.PRIORITY_MAX);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+            NotificationChannel mChannel =
+                    new NotificationChannel(id, name, NotificationManager.IMPORTANCE_LOW);
+            mNotificationManager.createNotificationChannel(mChannel);
+            Notification.Builder builder = new Notification.Builder(this , id);
+            notification = builder.build(); //构建通知
+            setNotification();
+            notification.contentView = remoteViews; // 设置下拉图标
+            notification.bigContentView = remoteViews; // 防止显示不完全,需要添加apiSupport
+            notification.flags = Notification.FLAG_ONGOING_EVENT;
+            notification.icon = R.drawable.anim_log;
 
+            //mNotificationManager.notify(123, notification);//显示通知
+            startForeground(123, notification);//启动为前台服务
 
-        notification = mBuilder.build();//构建通知
-        setNotification();
-        notification.contentView = remoteViews; // 设置下拉图标
-        notification.bigContentView = remoteViews; // 防止显示不完全,需要添加apiSupport
-        notification.flags = Notification.FLAG_ONGOING_EVENT;
-        notification.icon = R.drawable.anim_log;
+        } else {
+            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(MusicApplication.getContext());
+            Bitmap icBitmap = BitmapFactory.decodeResource(getResources(),R.drawable.play_background02);
+            mBuilder.setLargeIcon(icBitmap);
+            mBuilder.setOngoing(true);
+            mBuilder.setPriority(Notification.PRIORITY_MAX);
 
-        startForeground(1, notification);//启动为前台服务
+            notification = mBuilder.build();//构建通知
+            setNotification();
+            notification.contentView = remoteViews; // 设置下拉图标
+            notification.bigContentView = remoteViews; // 防止显示不完全,需要添加apisupport
+            notification.flags = Notification.FLAG_ONGOING_EVENT;
+            notification.icon = R.drawable.anim_log;
+            //mNotificationManager.notify(123, notification);//显示通知
+            startForeground(123, notification);//启动为前台服务
+        }
+
     }
 
-    /*Warning:(167, 41) This Handler class should be static or leaks might occur (anonymous android.os.Handler)*/
     public Handler remoteViewsHandler = new Handler() {
 
         public void handleMessage(android.os.Message msg) {
@@ -88,7 +109,8 @@ public class MusicService extends Service implements MusicObserverListener{
             }
             notification.contentView = remoteViews; // 设置下拉图标
             notification.bigContentView = remoteViews; // 防止显示不完全,需要添加apiSupport
-            startForeground(1, notification);//启动为前台服务
+            //mNotificationManager.notify(123, notification);//显示通知
+            startForeground(123, notification);//启动为前台服务
             Log.d(TAG, "remoteViewsHandler end");
         }
     };
@@ -252,7 +274,7 @@ public class MusicService extends Service implements MusicObserverListener{
         super.onDestroy();
         Log.d(TAG,"音乐服务onDestroy");
 
-        MusicApplication.getmRefWatcher().watch(this);
+        //MusicApplication.getmRefWatcher().watch(this);
 
         //从观察者队列中移除
         MusicObserverManager.getInstance().remove(this);

@@ -1,4 +1,4 @@
-package com.stone.stonemusic.present;
+package com.stone.stonemusic.presenter;
 
 import android.text.TextUtils;
 import android.util.Log;

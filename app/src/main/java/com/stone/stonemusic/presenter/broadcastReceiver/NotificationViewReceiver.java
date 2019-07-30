@@ -1,4 +1,4 @@
-package com.stone.stonemusic.present.broadcastReceiver;
+package com.stone.stonemusic.presenter.broadcastReceiver;
 
 import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
@@ -7,7 +7,7 @@ import android.content.Intent;
 import android.media.AudioManager;
 import android.util.Log;
 
-import com.stone.stonemusic.present.PlayControl;
+import com.stone.stonemusic.presenter.PlayControl;
 import com.stone.stonemusic.service.MusicService;
 import com.stone.stonemusic.utils.MediaStateCode;
 import com.stone.stonemusic.utils.MusicApplication;

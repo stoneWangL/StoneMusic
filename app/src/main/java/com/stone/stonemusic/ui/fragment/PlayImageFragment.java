@@ -10,15 +10,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 
 import com.stone.stonemusic.R;
 import com.stone.stonemusic.model.Music;
 import com.stone.stonemusic.model.SongModel;
-import com.stone.stonemusic.ui.View.CircleImageView;
+import com.stone.stonemusic.View.CircleImageView;
 import com.stone.stonemusic.ui.activity.PlayActivity;
 import com.stone.stonemusic.utils.MediaUtils;
-import com.stone.stonemusic.present.MusicResources;
+import com.stone.stonemusic.presenter.MusicResources;
 
 import java.util.ArrayList;
 import java.util.List;

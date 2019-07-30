@@ -17,12 +17,12 @@ import com.stone.stonemusic.R;
 import com.stone.stonemusic.model.Music;
 import com.stone.stonemusic.model.LrcContent;
 import com.stone.stonemusic.model.SongModel;
-import com.stone.stonemusic.present.interfaceOfPresent.MusicObserverListener;
-import com.stone.stonemusic.present.MusicObserverManager;
-import com.stone.stonemusic.present.interfaceOfPresent.OnLrcSearchClickListener;
-import com.stone.stonemusic.ui.View.LrcView;
+import com.stone.stonemusic.presenter.interf.MusicObserverListener;
+import com.stone.stonemusic.presenter.MusicObserverManager;
+import com.stone.stonemusic.presenter.interf.OnLrcSearchClickListener;
+import com.stone.stonemusic.View.LrcView;
 import com.stone.stonemusic.utils.LrcUtil;
-import com.stone.stonemusic.present.SearchLrcUtilOnline;
+import com.stone.stonemusic.presenter.SearchLrcUtilOnline;
 import com.stone.stonemusic.utils.MediaStateCode;
 import com.stone.stonemusic.utils.MediaUtils;
 

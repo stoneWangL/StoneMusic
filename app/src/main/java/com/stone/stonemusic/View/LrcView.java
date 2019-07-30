@@ -1,4 +1,4 @@
-package com.stone.stonemusic.ui.View;
+package com.stone.stonemusic.View;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -15,7 +15,7 @@ import android.view.ViewTreeObserver;
 
 import com.stone.stonemusic.R;
 import com.stone.stonemusic.model.LrcContent;
-import com.stone.stonemusic.present.interfaceOfPresent.OnLrcSearchClickListener;
+import com.stone.stonemusic.presenter.interf.OnLrcSearchClickListener;
 import com.stone.stonemusic.utils.DisplayUtil;
 import com.stone.stonemusic.utils.MediaUtils;
 import com.stone.stonemusic.utils.TimeUtil;
