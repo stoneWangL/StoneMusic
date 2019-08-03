@@ -1,2 +1,2 @@
-*.java linguist-language=Scala
-*.kotlin linguist-language=Scala
+*.java linguist-language=java
+*.kotlin linguist-language=kotlin
