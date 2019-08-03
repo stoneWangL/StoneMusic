@@ -11,16 +11,14 @@
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:contentDescription="@string/app_name"
-        android:src="@drawable/anim_log"
-        android:translationY="-500dp"/>
+        android:src="@drawable/anim_log" />
     <TextView
         android:id="@+id/first_music_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/app_name"
         android:textSize="@dimen/log_size"
-        android:gravity="center"
-        android:alpha="0"/>
+        android:gravity="center" />
 
 
 

@@ -192,7 +192,8 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
     public void onBackPressed() {
         super.onBackPressed();
         finish();
-        overridePendingTransition(R.anim.push_up_in,R.anim.push_up_out);
+//        overridePendingTransition(R.anim.push_up_in,R.anim.push_up_out);
+        overridePendingTransition(R.anim.stop,R.anim.push_up_out);
     }
 
     public void downBack(View view){

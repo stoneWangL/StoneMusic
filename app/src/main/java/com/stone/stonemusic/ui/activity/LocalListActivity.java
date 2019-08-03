@@ -1,6 +1,7 @@
 package com.stone.stonemusic.ui.activity;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.support.design.widget.TabLayout;
@@ -205,6 +206,9 @@ public class LocalListActivity extends AppCompatActivity implements
 
     public void clickLeftTabItem(View view) {
         ToastUtils.getToastShort("点击了左侧抽屉按钮");
+        Intent intent = new Intent(this, SettingActivity.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.left_in,R.anim.stop);
     }
 
     public void clickRightFind(View view) {

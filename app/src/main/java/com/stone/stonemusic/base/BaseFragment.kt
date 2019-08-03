@@ -6,9 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import org.jetbrains.anko.AnkoLogger
-import org.jetbrains.anko.debug
 import org.jetbrains.anko.runOnUiThread
-import org.jetbrains.anko.support.v4.toast
 import org.jetbrains.anko.toast
 
 /**
@@ -44,20 +42,19 @@ abstract class BaseFragment : Fragment() , AnkoLogger{
         super.onActivityCreated(savedInstanceState)
         initListener()
         initData()
-        toast("hah")
     }
 
     /**
      * 数据的初始化
      */
-    protected fun initData() {
+    open protected fun initData() {
 
     }
 
     /**
      * adapter listener
      */
-    protected fun initListener() {
+    open protected fun initListener() {
 
     }
 

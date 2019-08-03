@@ -22,7 +22,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:contentDescription="@string/notification_album_image"
-            android:src="@drawable/play_background02"/>
+            android:src="@drawable/play_background02"
+            android:scaleType="centerCrop"/>
     </FrameLayout>
 
     <LinearLayout

@@ -27,7 +27,8 @@ public class JumpToOtherWhere {
     public void GoToPlayActivity(){
         Intent intent = new Intent(context, PlayActivity.class);
         context.startActivity(intent);
-        context.overridePendingTransition(R.anim.push_up_in,R.anim.push_up_out);
+//        context.overridePendingTransition(R.anim.push_up_in,R.anim.push_up_out);
+        context.overridePendingTransition(R.anim.push_up_in,R.anim.stop);
     }
 
     /**

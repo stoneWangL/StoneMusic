@@ -1,6 +1,8 @@
 package com.stone.stonemusic.ui.activity
 
 import android.support.v4.view.ViewCompat
+import android.support.v4.view.ViewPropertyAnimatorListener
+import android.view.View
 import com.stone.stonemusic.R
 import com.stone.stonemusic.base.BaseActivity
 
@@ -9,7 +11,18 @@ import com.stone.stonemusic.base.BaseActivity
  * @CreateDate: 2019/7/29 21:51
  * @Description:
  */
-class WelcomeActivity : BaseActivity() {
+class WelcomeActivity : BaseActivity() , ViewPropertyAnimatorListener {
+    override fun onAnimationEnd(view: View?) {
+        startActivityAndFinish<LocalMainActivity>()
+    }
+
+    override fun onAnimationCancel(view: View?) {
+
+    }
+
+    override fun onAnimationStart(view: View?) {
+
+    }
 
     override fun getLayoutId(): Int {
         return R.layout.activity_welcome

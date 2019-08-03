@@ -1,23 +1,35 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-    </style>
+    <!--<style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">-->
+        <!--&lt;!&ndash; Customize your theme here. &ndash;&gt;-->
+        <!--<item name="colorPrimary">@color/colorPrimary</item>-->
+        <!--<item name="colorPrimaryDark">@color/colorPrimaryDark</item>-->
+        <!--<item name="colorAccent">@color/colorAccent</item>-->
+    <!--</style>-->
 
-    <style name="TwoTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
-    <style name="TwoTheme.FullScreen">
+    <style name="AppTheme.FullScreen">
         <item name="windowNoTitle">true</item>
         <item name="android:windowFullscreen">true</item>
     </style>
 
+
+    <!-- 设置activity切换动画 -->
+    <style name="AppTheme.leftInLeftOut" >
+        <item name="android:windowAnimationStyle">@style/AnimationLeftInLeftOut</item>
+    </style>
+    <!-- animation 样式 -->  
+    <style name="AnimationLeftInLeftOut" parent="@android:style/Animation">  
+        <item name="android:activityOpenEnterAnimation">@anim/left_in</item>  
+        <item name="android:activityOpenExitAnimation">@anim/stop</item>  
+        <item name="android:activityCloseEnterAnimation">@anim/stop</item>  
+        <item name="android:activityCloseExitAnimation">@anim/left_out</item>  
+    </style>
 
     <style name="toolbar_subtitle" parent="@style/TextAppearance.Widget.AppCompat.Toolbar.Subtitle">
         <item name="android:textColor">#eeeeee</item>
@@ -57,6 +69,7 @@
         <item name="android:gravity">center</item>
         <item name="android:textSize">@dimen/sp20</item>
     </style>
+
 
 
 </resources>

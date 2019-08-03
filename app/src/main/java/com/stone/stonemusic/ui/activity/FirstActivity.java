@@ -1,5 +1,6 @@
 package com.stone.stonemusic.ui.activity;
 
+import android.animation.ObjectAnimator;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -76,8 +77,9 @@ public class FirstActivity extends BaseNoBarActivity implements JumpToOtherView{
      * 初始化动画
      */
     private void initAnim() {
-        animation1 = AnimationUtils.loadAnimation(this, R.anim.anim_alpha);
-        tv.startAnimation(animation1);
+        ObjectAnimator animator = ObjectAnimator.ofFloat(tv, "alpha", 0f, 1f);
+        animator.setDuration(2600);
+        animator.start();
 
         animation2 = AnimationUtils.loadAnimation(this, R.anim.anim_translate);
         iv.startAnimation(animation2);

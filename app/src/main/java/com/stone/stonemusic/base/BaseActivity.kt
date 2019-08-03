@@ -1,10 +1,8 @@
 package com.stone.stonemusic.base
 
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.support.v7.app.AppCompatActivity
-import org.jetbrains.anko.AnkoLogger
-import org.jetbrains.anko.debug
+import org.jetbrains.anko.*
 
 /**
  * @Author: stoneWang
@@ -30,7 +28,7 @@ abstract class BaseActivity: AppCompatActivity(), AnkoLogger {
     /**
      * adapter listener
      */
-    protected fun initListener() {
+    open protected fun initListener() {
 
     }
 
@@ -38,4 +36,19 @@ abstract class BaseActivity: AppCompatActivity(), AnkoLogger {
      * 获取布局id
      */
     abstract fun getLayoutId(): Int
+
+    /**
+     * 线程安全的toast
+     */
+    protected fun myToast(msg : String) {
+        runOnUiThread { toast(msg) }
+    }
+
+    /**
+     * 开启Activity并且finish当前界面
+     */
+    inline fun <reified T : BaseActivity>startActivityAndFinish() {
+        startActivity<T>()
+        finish()
+    }
 }

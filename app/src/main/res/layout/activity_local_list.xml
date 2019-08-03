@@ -6,18 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".ui.activity.LocalListActivity">
-    <!--顶部 本地音乐-->
-    <!--<TextView-->
-        <!--android:id="@+id/bar_top"-->
-        <!--android:background="@color/colorBarBottom"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="0dp"-->
-        <!--android:layout_weight="1"-->
-        <!--android:text="@string/local_music"-->
-        <!--android:textSize="20sp"-->
-        <!--android:textColor="@color/black"-->
-        <!--android:gravity="center"-->
-        <!--/>-->
+
     <!--歌曲 歌手 专辑 文件夹-->
     <LinearLayout
         android:layout_width="match_parent"
@@ -26,13 +15,19 @@
         android:background="@color/colorBarBottom"
         android:orientation="horizontal"
         android:paddingBottom="5dp">
-        <View
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"
-            android:background="@drawable/ic_tab_left_item"
-            android:onClick="clickLeftTabItem"
-            tools:ignore="OnClick" />
+            android:gravity="center">
+            <ImageView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:background="@drawable/ic_tab_left_item"
+                android:onClick="clickLeftTabItem"
+                tools:ignore="OnClick" />
+        </LinearLayout>
+
         <android.support.design.widget.TabLayout
             android:id="@+id/tab_layout_bar"
             android:layout_width="0dp"
@@ -44,12 +39,18 @@
             app:tabSelectedTextColor="@color/red"
             app:tabMode="fixed"
             app:tabBackground="@color/colorBarBottom" />
-        <View
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"
-            android:background="@drawable/ic_icon_find"
-            android:onClick="clickRightFind"/>
+            android:gravity="center">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ic_icon_find"
+                android:onClick="clickRightFind"/>
+        </LinearLayout>
+
     </LinearLayout>
 
 
