@@ -45,6 +45,7 @@
             android:enabled="true"
             android:exported="true" />
         <activity android:name=".ui.activity.SettingActivity" />
+        <activity android:name=".ui.activity.AboutActivity" />
     </application>
 
 </manifest>

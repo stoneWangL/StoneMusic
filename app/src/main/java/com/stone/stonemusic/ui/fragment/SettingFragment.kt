@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.stone.stonemusic.R
+import com.stone.stonemusic.ui.activity.AboutActivity
 
 /**
  * @Author: stoneWang
@@ -23,10 +24,10 @@ class SettingFragment: PreferenceFragment() {
 
     override fun onPreferenceTreeClick(preferenceScreen: PreferenceScreen?, preference: Preference?): Boolean {
         val key = preference?.key
-//        if ("about".equals(key)) {
-//            //点击了关于
-//            activity.startActivity(Intent(activity, AboutActivity::class.java))
-//        }
+        if ("about".equals(key)) {
+            //点击了关于
+            activity.startActivity(Intent(activity, AboutActivity::class.java))
+        }
         return super.onPreferenceTreeClick(preferenceScreen, preference)
     }
 }
