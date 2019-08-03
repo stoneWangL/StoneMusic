@@ -209,6 +209,7 @@ public class LocalListActivity extends AppCompatActivity implements
         Intent intent = new Intent(this, SettingActivity.class);
         startActivity(intent);
         overridePendingTransition(R.anim.left_in,R.anim.stop);
+        //overridePendingTransition(R.anim.left_in,R.anim.stop);
     }
 
     public void clickRightFind(View view) {
