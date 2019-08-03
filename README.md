@@ -13,13 +13,9 @@
 
 ### 应用静态演示效果截图：
 ![Alt](https://github.com/stoneWangL/arithmetic/blob/master/stoneMusicPic/music01.jpg)
-
 ![Alt](https://github.com/stoneWangL/arithmetic/blob/master/stoneMusicPic/music02.jpg)
-
-![Alt](img-O0KZ7y11-1564830197014)(https://github.com/stoneWangL/arithmetic/blob/master/stoneMusicPic/music03.jpg)
-
+![Alt](https://github.com/stoneWangL/arithmetic/blob/master/stoneMusicPic/music03.jpg)
 ![Alt](https://github.com/stoneWangL/arithmetic/blob/master/stoneMusicPic/music05.jpg)
-
 ![Alt](https://github.com/stoneWangL/arithmetic/blob/master/stoneMusicPic/music04.jpg)
 
 
