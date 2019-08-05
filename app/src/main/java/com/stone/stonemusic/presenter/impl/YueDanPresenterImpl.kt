@@ -23,7 +23,7 @@ class YueDanPresenterImpl(var yueDanView: YueDanView): YueDanPresenter, Response
     }
 
     override fun loadDatas() {
-//        YueDanRequest(YueDanPresenter.TYPE_INIT_OR_REFRESH, 0, this).excute()
+        YueDanRequest(YueDanPresenter.TYPE_INIT_OR_REFRESH, 0, this).excute()
     }
 
     override fun loadMore(offset: Int) {
