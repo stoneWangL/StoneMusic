@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Handler;
 
 import com.stone.stonemusic.R;
-import com.stone.stonemusic.presenter.interf.JumpToOtherView;
 import com.stone.stonemusic.ui.activity.LocalListActivity;
 import com.stone.stonemusic.ui.activity.PlayActivity;
 

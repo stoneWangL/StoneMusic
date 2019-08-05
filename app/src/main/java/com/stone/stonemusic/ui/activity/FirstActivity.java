@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.stone.stonemusic.R;
 import com.stone.stonemusic.presenter.JumpToOtherWhere;
 import com.stone.stonemusic.presenter.GetPermission;
-import com.stone.stonemusic.presenter.interf.JumpToOtherView;
+import com.stone.stonemusic.presenter.JumpToOtherView;
 import com.stone.stonemusic.utils.ToastUtils;
 
 public class FirstActivity extends BaseNoBarActivity implements JumpToOtherView{

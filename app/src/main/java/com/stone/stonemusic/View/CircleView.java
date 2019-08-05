@@ -30,7 +30,7 @@ public class CircleView extends View {
     private void init(){
         paint = new Paint();
         paint.setAntiAlias(true);   //设置抗锯齿
-        paint.setColor(getResources().getColor(R.color.stoneListTopColor));   //设置画笔颜射
+        paint.setColor(getResources().getColor(R.color.colorStoneThemeDark));   //设置画笔颜射
         paint.setStyle(Paint.Style.FILL);   //画笔风格
     }
 

@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="@color/colorBarBottom"
+        android:background="@color/colorStoneThemeShallow"
         android:orientation="horizontal"
         android:paddingBottom="5dp">
         <LinearLayout
@@ -38,7 +38,7 @@
             app:tabTextColor="@color/black"
             app:tabSelectedTextColor="@color/red"
             app:tabMode="fixed"
-            app:tabBackground="@color/colorBarBottom" />
+            app:tabBackground="@color/colorStoneThemeShallow" />
         <LinearLayout
             android:layout_width="0dp"
             android:layout_weight="1"
@@ -69,7 +69,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="@color/colorBarBottom"
+        android:background="@color/colorStoneThemeShallow"
         android:orientation="horizontal"
         android:gravity="center_vertical">
         <View

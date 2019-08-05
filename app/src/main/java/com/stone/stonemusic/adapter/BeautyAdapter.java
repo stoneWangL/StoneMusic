@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.stone.stonemusic.R;
-import com.stone.stonemusic.bean.Beauty;
+import com.stone.stonemusic.model.Beauty;
 
 import java.util.List;
 

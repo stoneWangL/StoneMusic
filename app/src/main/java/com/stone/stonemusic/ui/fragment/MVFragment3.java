@@ -10,17 +10,17 @@ import android.view.ViewGroup;
 
 import com.stone.stonemusic.R;
 import com.stone.stonemusic.adapter.BeautyAdapter;
-import com.stone.stonemusic.bean.Beauty;
+import com.stone.stonemusic.model.Beauty;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class FolderListFragment3 extends Fragment {
+public class MVFragment3 extends Fragment {
 
     private RecyclerView recyclerView;
     private List<Beauty> data = new ArrayList<>();
 
-    public FolderListFragment3() {
+    public MVFragment3() {
         // Required empty public constructor
     }
 

@@ -17,7 +17,7 @@ import android.widget.TextView;
 import com.stone.stonemusic.R;
 import com.stone.stonemusic.adapter.LocalArtistAdapter;
 import com.stone.stonemusic.model.ArtistModel;
-import com.stone.stonemusic.presenter.interf.MusicObserverListener;
+import com.stone.stonemusic.presenter.MusicObserverListener;
 import com.stone.stonemusic.presenter.MusicResources;
 import com.stone.stonemusic.ui.activity.LocalListActivity;
 import com.stone.stonemusic.utils.MediaStateCode;

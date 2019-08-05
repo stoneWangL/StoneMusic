@@ -8,8 +8,8 @@
     <color name="lightWhite">#88ffffff</color>
     <color name="red">#ff0000</color>
 
-    <color name="stoneListTopColor">#898989</color>
-    <color name="colorBarBottom">#fff</color>
+    <color name="colorStoneThemeDark">#898989</color>
+    <color name="colorStoneThemeShallow">#fff</color>
     <!--<color name="colorBarBottom">#e1e1e1</color>-->
 
     <color name="color0">#2c4ba7</color>

@@ -23,7 +23,7 @@ import com.stone.stonemusic.model.Music;
 import com.stone.stonemusic.model.SongModel;
 import com.stone.stonemusic.presenter.MusicListenerWorker;
 import com.stone.stonemusic.presenter.broadcastReceiver.NotificationViewReceiver;
-import com.stone.stonemusic.presenter.interf.MusicObserverListener;
+import com.stone.stonemusic.presenter.MusicObserverListener;
 import com.stone.stonemusic.presenter.MusicObserverManager;
 import com.stone.stonemusic.presenter.MusicResources;
 import com.stone.stonemusic.presenter.PlayControl;

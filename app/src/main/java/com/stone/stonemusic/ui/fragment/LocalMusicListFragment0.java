@@ -21,7 +21,7 @@ import com.stone.stonemusic.adapter.LocalMusicAdapter;
 import com.stone.stonemusic.bean.ItemViewChoose;
 import com.stone.stonemusic.model.Music;
 import com.stone.stonemusic.model.SongModel;
-import com.stone.stonemusic.presenter.interf.JumpToOtherView;
+import com.stone.stonemusic.presenter.JumpToOtherView;
 import com.stone.stonemusic.presenter.JumpToOtherWhere;
 import com.stone.stonemusic.presenter.PlayControl;
 import com.stone.stonemusic.ui.activity.LocalListActivity;
@@ -36,7 +36,7 @@ import java.util.List;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
-public class MusicListFragment0 extends Fragment implements
+public class LocalMusicListFragment0 extends Fragment implements
         LocalListActivity.CallBackInterface, JumpToOtherView {
     public static final String TAG = "MusicListFragment";
     private ListView listView;
@@ -51,7 +51,7 @@ public class MusicListFragment0 extends Fragment implements
     private LocalListActivity fatherActivity = null;
     private JumpToOtherWhere jumpToOtherWhere;
 
-    public MusicListFragment0() {}
+    public LocalMusicListFragment0() {}
 
 
     @Override

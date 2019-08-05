@@ -1,4 +1,4 @@
-package com.stone.stonemusic.presenter.interf;
+package com.stone.stonemusic.presenter;
 
 import android.view.View;
 

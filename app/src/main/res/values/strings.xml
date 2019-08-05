@@ -3,8 +3,8 @@
 
     <string name="tab_menu_local_music">本地音乐</string>
     <string name="tab_menu_local_artist">本地歌手</string>
-    <string name="tab_menu_recommend_song_sheet">推荐歌单</string>
-    <string name="tab_menu_recommend_mv">推荐视频</string>
+    <string name="tab_menu_yue_dan">悦单</string>
+    <string name="tab_menu_mv">MV</string>
 
     <string name="notification_album_image">这是专辑图片</string>
     <string name="first_music_name">默认歌名</string>

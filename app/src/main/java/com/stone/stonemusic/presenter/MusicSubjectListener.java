@@ -1,5 +1,4 @@
-package com.stone.stonemusic.presenter.interf;
-
+package com.stone.stonemusic.presenter;
 
 /**
  * author : stoneWang

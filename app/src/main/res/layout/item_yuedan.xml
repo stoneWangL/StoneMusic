@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardElevation="5dp"
+    app:cardUseCompatPadding="true"
+    app:cardCornerRadius="5dp"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:padding="10dp">
+        <ImageView
+            android:id="@+id/bg"
+            android:scaleType="centerCrop"
+            android:background="@color/colorStoneThemeDark"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+        <ImageView
+            android:id="@+id/author_image"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/count"
+            android:text="数量"
+            android:textColor="#fff"
+            android:textSize="20sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_toRightOf="@+id/author_image" />
+        <TextView
+            android:id="@+id/author_name"
+            android:text="作者"
+            android:textColor="#fff"
+            android:textSize="20sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/author_image"
+            android:layout_above="@+id/count"/>
+        <TextView
+            android:id="@+id/title"
+            android:text="作者"
+            android:textColor="#fff"
+            android:textSize="20sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/author_image"
+            android:layout_above="@+id/author_name"/>
+    </RelativeLayout>
+</android.support.v7.widget.CardView>

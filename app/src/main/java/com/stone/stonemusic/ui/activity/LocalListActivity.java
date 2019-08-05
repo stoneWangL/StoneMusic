@@ -16,12 +16,12 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.stone.stonemusic.R;
-import com.stone.stonemusic.adapter.LocalMusicFragmentPagerAdapter;
+import com.stone.stonemusic.adapter.HomeAdapter;
 import com.stone.stonemusic.model.Music;
 import com.stone.stonemusic.presenter.InitMusicModel;
-import com.stone.stonemusic.presenter.interf.JumpToOtherView;
+import com.stone.stonemusic.presenter.JumpToOtherView;
 import com.stone.stonemusic.presenter.JumpToOtherWhere;
-import com.stone.stonemusic.presenter.interf.MusicObserverListener;
+import com.stone.stonemusic.presenter.MusicObserverListener;
 import com.stone.stonemusic.presenter.MusicObserverManager;
 import com.stone.stonemusic.presenter.PlayControl;
 import com.stone.stonemusic.View.ActivityView;
@@ -45,14 +45,15 @@ public class LocalListActivity extends AppCompatActivity implements
     private TabLayout.Tab tabAlbum;
     private TabLayout.Tab tabFolder;
     private ViewPager vpLocalMusic;
-    private LocalMusicFragmentPagerAdapter musicFragmentPagerAdapter;
+//    private LocalMusicFragmentPagerAdapter musicFragmentPagerAdapter;
+    private HomeAdapter homeAdapter;
     private TabLayout tabLayoutBar;
 
     /*几个代表Fragment页面的常量*/
-    public static final int PAGE_MUSIC = 0;
-    public static final int PAGE_ARTIST = 1;
-    public static final int PAGE_ALBUM = 2;
-    public static final int PAGE_FOLDER = 3;
+    public static final int PAGE_LOCAL = 0;
+    public static final int PAGE_LOCAL_Author = 1;
+    public static final int PAGE_YUE_DAN = 2;
+    public static final int PAGE_MV = 3;
 
     private LinearLayout bottomLinearLayout;
     private ImageView mIvPlay, mIvPlayNext, mIvBottomBarImage;
@@ -77,7 +78,7 @@ public class LocalListActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_local_list);
 
         //设置顶部状态栏颜色
-        ActivityView.setStatusBarColor(this, R.color.colorBarBottom, true);
+        ActivityView.setStatusBarColor(this, R.color.colorStoneThemeShallow, true);
 
         //添加当前活动到待销毁队列
         MusicApplication.addDestroyActivity(this, TAG);
@@ -111,18 +112,21 @@ public class LocalListActivity extends AppCompatActivity implements
 
         /*使用适配器将ViewPager与Fragment绑定在一起*/
         vpLocalMusic = (ViewPager) findViewById(R.id.vp_local_music);
-        musicFragmentPagerAdapter = new LocalMusicFragmentPagerAdapter(getSupportFragmentManager());
-        vpLocalMusic.setAdapter(musicFragmentPagerAdapter);
+
+//        musicFragmentPagerAdapter = new LocalMusicFragmentPagerAdapter(getSupportFragmentManager());
+//        vpLocalMusic.setAdapter(musicFragmentPagerAdapter);
+        homeAdapter = new HomeAdapter(getSupportFragmentManager());
+        vpLocalMusic.setAdapter(homeAdapter);
 
         //将TabLayout与ViewPager绑定在一起
         tabLayoutBar = (TabLayout) findViewById(R.id.tab_layout_bar);
         tabLayoutBar.setupWithViewPager(vpLocalMusic);
 
         //指定Tab的位置
-        tabMusic = tabLayoutBar.getTabAt(PAGE_MUSIC);
-        tabArtist = tabLayoutBar.getTabAt(PAGE_ARTIST);
-        tabAlbum = tabLayoutBar.getTabAt(PAGE_ALBUM);
-        tabFolder = tabLayoutBar.getTabAt(PAGE_FOLDER);
+        tabMusic = tabLayoutBar.getTabAt(PAGE_LOCAL);
+        tabArtist = tabLayoutBar.getTabAt(PAGE_LOCAL_Author);
+        tabAlbum = tabLayoutBar.getTabAt(PAGE_YUE_DAN);
+        tabFolder = tabLayoutBar.getTabAt(PAGE_MV);
 
         mIvPlay = (ImageView) findViewById(R.id.iv_play);
         mIvPlayNext = (ImageView) findViewById(R.id.iv_play_next);

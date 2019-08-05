@@ -15,7 +15,7 @@ import android.view.ViewTreeObserver;
 
 import com.stone.stonemusic.R;
 import com.stone.stonemusic.model.LrcContent;
-import com.stone.stonemusic.presenter.interf.OnLrcSearchClickListener;
+import com.stone.stonemusic.presenter.OnLrcSearchClickListener;
 import com.stone.stonemusic.utils.DisplayUtil;
 import com.stone.stonemusic.utils.MediaUtils;
 import com.stone.stonemusic.utils.TimeUtil;
