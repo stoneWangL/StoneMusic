@@ -13,7 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.stone.stonemusic.R;
-import com.stone.stonemusic.bean.ItemViewChoose;
+import com.stone.stonemusic.model.bean.ItemViewChoose;
 import com.stone.stonemusic.model.Music;
 
 import java.util.List;

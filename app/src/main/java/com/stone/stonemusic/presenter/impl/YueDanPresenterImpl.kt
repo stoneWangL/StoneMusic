@@ -9,7 +9,7 @@ import com.stone.stonemusic.presenter.interf.YueDanPresenter
 /**
  * @Author: stoneWang
  * @CreateDate: 2019/8/5 9:50
- * @Description:
+ * @Description: Presenter和View层要绑定，所以传YueDanView
  */
 class YueDanPresenterImpl(var yueDanView: YueDanView): YueDanPresenter, ResponseHandler<YueDanBean> {
     override fun onError(type: Int, msg: String?) {

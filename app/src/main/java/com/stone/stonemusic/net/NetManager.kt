@@ -37,36 +37,21 @@ class NetManager private constructor(){
             override fun onFailure(call: Call, e: IOException) {
                 ThreadUtil.runOnMainThread(object : Runnable{
                     override fun run() {
-                        //隐藏刷新控件
-//                            refreshLayout.isRefreshing = false
-                        //回调到view层处理
-//                        homeView.onError(e.message)
                         req.handler.onError(req.type, e.message)
                     }
                 })
-//                    myToast("获取数据失败")
-
             }
 
             /**
              * 子线程调用
              */
             override fun onResponse(call: Call, response: Response) {
-//                    myToast("获取数据成功")
                 val result = response.body?.string()
                 val parseResult = req.parseResult(result)
-//                val gson = Gson()
-//                val list = gson.fromJson<List<HomeItemBean>>(result,object : TypeToken<List<HomeItemBean>>(){}.type)
 
                 //刷新列表
                 ThreadUtil.runOnMainThread(object : Runnable{
                     override fun run() {
-                        //隐藏刷新控件
-//                            refreshLayout.isRefreshing = false
-                        //刷新列表
-//                            adapter.updateList(list)
-                        //将正确的结果回调给view层
-//                        homeView.loadSuccess(list)
                         req.handler.onSuccess(req.type, parseResult)
 
                     }

@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 
 import com.stone.stonemusic.R;
 import com.stone.stonemusic.model.Music;
-import com.stone.stonemusic.model.SongModel;
+import com.stone.stonemusic.model.bean.SongModel;
 import com.stone.stonemusic.View.CircleImageView;
 import com.stone.stonemusic.ui.activity.PlayActivity;
 import com.stone.stonemusic.utils.MediaUtils;

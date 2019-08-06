@@ -20,7 +20,7 @@ import android.widget.RemoteViews;
 
 import com.stone.stonemusic.R;
 import com.stone.stonemusic.model.Music;
-import com.stone.stonemusic.model.SongModel;
+import com.stone.stonemusic.model.bean.SongModel;
 import com.stone.stonemusic.presenter.MusicListenerWorker;
 import com.stone.stonemusic.presenter.broadcastReceiver.NotificationViewReceiver;
 import com.stone.stonemusic.presenter.MusicObserverListener;

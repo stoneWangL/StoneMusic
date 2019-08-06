@@ -1,4 +1,6 @@
-package com.stone.stonemusic.model;
+package com.stone.stonemusic.model.bean;
+
+import com.stone.stonemusic.model.Music;
 
 import java.util.List;
 

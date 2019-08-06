@@ -16,7 +16,7 @@ import android.widget.Toast;
 import com.stone.stonemusic.R;
 import com.stone.stonemusic.model.Music;
 import com.stone.stonemusic.model.LrcContent;
-import com.stone.stonemusic.model.SongModel;
+import com.stone.stonemusic.model.bean.SongModel;
 import com.stone.stonemusic.presenter.MusicObserverListener;
 import com.stone.stonemusic.presenter.MusicObserverManager;
 import com.stone.stonemusic.presenter.OnLrcSearchClickListener;

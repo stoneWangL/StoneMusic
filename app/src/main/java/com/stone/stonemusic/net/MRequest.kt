@@ -20,9 +20,10 @@ open class MRequest<RESPONSE>(val type: Int, val url:String, val handler: Respon
      */
     fun parseResult(result: String?): RESPONSE {
         Log.i(TAG, "parseResult->result=$result")
-//        val gson = Gson()
-        val gson = GsonBuilder().registerTypeAdapterFactory(GsonTypeAdapterFactory()).create()
-        //获取泛型类型
+//        JsonToResult.getYueDanBean2FromJson(result)
+        val gson = Gson()
+////        val gson = GsonBuilder().registerTypeAdapterFactory(GsonTypeAdapterFactory()).create()
+//        //获取泛型类型
         val type = (this.javaClass
                 .genericSuperclass as ParameterizedType).actualTypeArguments[0]
         val list = gson.fromJson<RESPONSE>(result, type)

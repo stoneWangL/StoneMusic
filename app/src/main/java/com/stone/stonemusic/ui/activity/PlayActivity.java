@@ -17,7 +17,7 @@ import android.widget.TextView;
 import com.stone.stonemusic.R;
 import com.stone.stonemusic.adapter.PlayFragmentPagerAdapter;
 import com.stone.stonemusic.model.Music;
-import com.stone.stonemusic.model.SongModel;
+import com.stone.stonemusic.model.bean.SongModel;
 import com.stone.stonemusic.presenter.MusicObserverListener;
 import com.stone.stonemusic.presenter.MusicObserverManager;
 import com.stone.stonemusic.presenter.PlayControl;

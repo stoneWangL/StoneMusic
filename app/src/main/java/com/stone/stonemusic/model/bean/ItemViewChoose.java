@@ -1,4 +1,4 @@
-package com.stone.stonemusic.bean;
+package com.stone.stonemusic.model.bean;
 
 public class ItemViewChoose {
     private static ItemViewChoose sItemViewChoose = null;

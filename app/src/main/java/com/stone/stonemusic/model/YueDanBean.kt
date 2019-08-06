@@ -16,9 +16,9 @@ class YueDanBean {
      */
 
     var playLists: List<PlayListsBean>? = null
-    var total = 0
+    var total: Int = 0
     var code: Int = 400
-    var more = false
+    var more:Boolean = false
     var cat: String? = null
 
     class PlayListsBean {
@@ -54,7 +54,7 @@ class YueDanBean {
 
          */
 
-        var name: String = ""
+        var name:String? = null
         var id = 0
         var trackNumberUpdateTime = 0
         var status = 0

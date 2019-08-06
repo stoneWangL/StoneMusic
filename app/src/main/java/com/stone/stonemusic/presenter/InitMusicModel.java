@@ -2,7 +2,7 @@ package com.stone.stonemusic.presenter;
 
 import android.os.AsyncTask;
 
-import com.stone.stonemusic.model.SongModel;
+import com.stone.stonemusic.model.bean.SongModel;
 import com.stone.stonemusic.ui.activity.LocalListActivity;
 import com.stone.stonemusic.utils.MusicApplication;
 

@@ -1,6 +1,7 @@
 package com.stone.stonemusic.adapter
 
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import com.itheima.player.model.bean.YueDanBean
@@ -13,6 +14,7 @@ import java.util.ArrayList
  * @Description: 悦单界面适配器
  */
 class YueDanAdapter: RecyclerView.Adapter<YueDanAdapter.YueDanHolder>() {
+    val TAG = "YueDanAdapter"
     private var list = ArrayList<YueDanBean.PlayListsBean>()
     /**
      * 更新列表
@@ -22,6 +24,7 @@ class YueDanAdapter: RecyclerView.Adapter<YueDanAdapter.YueDanHolder>() {
             this.list.clear()
             this.list.addAll(list)
             notifyDataSetChanged()
+            Log.i(TAG, "upDateList->list.size=${list.size}")
         }
     }
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): YueDanHolder {
@@ -29,6 +32,7 @@ class YueDanAdapter: RecyclerView.Adapter<YueDanAdapter.YueDanHolder>() {
     }
 
     override fun getItemCount(): Int {
+        Log.i(TAG, "getItemCount->list.size=${list.size}")
         return list.size
     }
 
