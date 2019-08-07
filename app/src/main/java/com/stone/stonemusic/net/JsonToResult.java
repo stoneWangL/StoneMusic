@@ -48,32 +48,6 @@ public class JsonToResult {
                     }
                     return listBeans;
                 }
-
-
-//                for (int i=0; i<allNews.length(); i++){
-//
-//                    JSONObject NewsObject = allNews.getJSONObject(i);
-//
-//                    int newsid = NewsObject.getInt("id");
-//                    String title = NewsObject.getString("title");
-//                    String date = NewsObject.getString("date");
-//                    String category = NewsObject.getString("category");
-//                    String author_name = NewsObject.getString("author_name");
-//                    String url = NewsObject.getString("url");
-//                    String thumbnail_pic_s = NewsObject.getString("thumbnail_pic_s");
-//
-//                    GuojiNews News = new GuojiNews();
-//
-//                    News.setNewsid(newsid);
-//                    News.setTitle(title);
-//                    News.setDate(date);
-//                    News.setCategory(category);
-//                    News.setAuthor_name(author_name);
-//                    News.setUrl(url);
-//                    News.setThumbnail_pic_s(thumbnail_pic_s);
-//                    News.save();
-//                }
-//                return true;
             }
             catch (Exception e){
                 e.printStackTrace();

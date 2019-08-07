@@ -19,7 +19,6 @@ abstract class BaseFragment : Fragment() , AnkoLogger{
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         init()
-//        debug {  }
     }
 
     private fun init() {

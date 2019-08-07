@@ -33,8 +33,8 @@
             android:layout_alignParentBottom="true"
             android:layout_toRightOf="@+id/author_image" />
         <TextView
-            android:id="@+id/author_name"
-            android:text="作者"
+            android:id="@+id/title"
+            android:text="主题"
             android:textColor="#fff"
             android:textSize="20sp"
             android:layout_width="wrap_content"
@@ -42,13 +42,13 @@
             android:layout_toRightOf="@+id/author_image"
             android:layout_above="@+id/count"/>
         <TextView
-            android:id="@+id/title"
-            android:text="作者"
+            android:id="@+id/description"
+            android:text="描述"
             android:textColor="#fff"
-            android:textSize="20sp"
+            android:textSize="9sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/author_image"
-            android:layout_above="@+id/author_name"/>
+            android:layout_above="@+id/title"/>
     </RelativeLayout>
 </android.support.v7.widget.CardView>

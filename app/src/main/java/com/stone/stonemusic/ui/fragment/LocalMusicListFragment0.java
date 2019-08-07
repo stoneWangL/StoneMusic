@@ -94,7 +94,7 @@ public class LocalMusicListFragment0 extends Fragment implements
                 if (position == lastPosition && null != jumpToOtherWhere)
                     jumpToOtherWhere.GoToPlayActivity(); //调用父类方法，跳转到播放Activity
                 //点击的不是当前播放的歌曲
-                else{
+                else {
                     PlayControl.controlBtnPlayDiffSong();
                     mBottomBarTitle.setText(musicList.get(position).getTitle()); //更新音乐名
                     mBottomBarArtist.setText(musicList.get(position).getArtist()); //更新音乐作者

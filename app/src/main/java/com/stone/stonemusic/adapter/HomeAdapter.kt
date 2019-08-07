@@ -19,7 +19,7 @@ class HomeAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
     private val PAGER_COUNT = 4
     private var musicListFragment: LocalMusicListFragment0? = null
     private var artistListFragment: ArtistListFragment1? = null
-    private val albumListFragment by lazy { YueDanFragment() }
+    private val albumListFragment by lazy { GeDanFragment() }
     private var folderListFragment: MVFragment3? = null
 
     private val mTitles = arrayOf(MusicApplication.getContext().resources.getString(R.string.tab_menu_local_music), MusicApplication.getContext().resources.getString(R.string.tab_menu_local_artist), MusicApplication.getContext().resources.getString(R.string.tab_menu_yue_dan), MusicApplication.getContext().resources.getString(R.string.tab_menu_mv))
