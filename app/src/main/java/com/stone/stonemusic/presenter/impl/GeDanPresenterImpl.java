@@ -41,7 +41,7 @@ public class GeDanPresenterImpl implements GeDanPresenter {
     @Override
     public void loadDatas() {
         String path = URLProviderUtils.getWangYouPushAll(0,20);
-        Log.i(TAG, "path = " + path);
+        Log.i(TAG, "loadDatas->path = " + path);
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
                 .url(path)
@@ -80,6 +80,42 @@ public class GeDanPresenterImpl implements GeDanPresenter {
 
     @Override
     public void loadMore(int offset) {
+        String path = URLProviderUtils.getWangYouPushAll(offset,20);
+        Log.i(TAG, "loadMore->path = " + path);
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder()
+                .url(path)
+                .get()
+                .build();
+        client.newCall(request).enqueue(new Callback() {
+            /**
+             * 子线程调用
+             */
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                gedanView.onError(e.getMessage());
+            }
 
+            /**
+             * 子线程调用
+             */
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                Log.i(TAG, "loadMore -> 获取数据成功");
+                String result = response.body().string();
+                Log.i(TAG, "loadMore -> result = " + result);
+
+                final List<PlayListBean> list = JsonToResult.getYueDanBean2FromJson(result);
+
+                new ThreadUtil2().runOnMainThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        //将正确的结果回调给view层
+                        gedanView.loadMore(list);
+                    }
+                });
+            }
+        });
     }
+
 }

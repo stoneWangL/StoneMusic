@@ -36,6 +36,18 @@ public class GeDanAdapter extends RecyclerView.Adapter<GeDanAdapter.ViewHolder>{
         }
     }
 
+    /**
+     * 加载更多
+     * 只需要在集合里面进行添加就可以了
+     */
+    public void loadMore(List<PlayListBean> listBeans) {
+        if (null != list){
+            this.list.addAll(listBeans);
+            notifyDataSetChanged();
+            Log.i(TAG, "loadMore->list.size" + list.size());
+        }
+    }
+
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView;
