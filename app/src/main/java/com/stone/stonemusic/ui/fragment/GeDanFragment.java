@@ -15,6 +15,7 @@ import com.stone.stonemusic.base.BaseFragment;
 import com.stone.stonemusic.model.PlayListBean;
 import com.stone.stonemusic.model.bean.SignalSingletance;
 import com.stone.stonemusic.presenter.impl.GeDanPresenterImpl;
+import com.stone.stonemusic.utils.MusicApplication;
 import com.stone.stonemusic.utils.ThreadUtil2;
 import com.stone.stonemusic.utils.ToastUtils;
 
@@ -100,7 +101,16 @@ public class GeDanFragment extends BaseFragment implements GedanView {
     @Override
     public void onError(String message) {
         Log.i(TAG, "onError->加载数据失败");
-        ToastUtils.getToastShort("加载数据失败");
+        new ThreadUtil2().runOnMainThread(new Runnable() {
+            @Override
+            public void run() {
+                ToastUtils.getToastShort("加载数据失败");
+            }
+        });
+        //隐藏刷新控件
+        refreshLayout.setRefreshing(false);
+
+
     }
 
     @Override
