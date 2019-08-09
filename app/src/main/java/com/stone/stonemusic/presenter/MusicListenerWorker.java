@@ -1,5 +1,6 @@
 package com.stone.stonemusic.presenter;
 
+import com.stone.stonemusic.presenter.impl.MusicObserverManager;
 import com.stone.stonemusic.service.MusicService;
 import com.stone.stonemusic.utils.MediaStateCode;
 import com.stone.stonemusic.utils.MediaUtils;

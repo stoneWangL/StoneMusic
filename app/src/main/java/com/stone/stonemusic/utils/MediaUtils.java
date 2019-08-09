@@ -4,7 +4,7 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 
 import com.stone.stonemusic.model.bean.SongModel;
-import com.stone.stonemusic.presenter.MusicObserverManager;
+import com.stone.stonemusic.presenter.impl.MusicObserverManager;
 
 import java.io.IOException;
 import java.util.Random;

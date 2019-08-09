@@ -8,6 +8,7 @@ import android.util.Log;
 
 import com.stone.stonemusic.model.ArtistModel;
 import com.stone.stonemusic.model.Music;
+import com.stone.stonemusic.presenter.impl.MusicObserverManager;
 import com.stone.stonemusic.utils.MediaStateCode;
 import com.stone.stonemusic.utils.MusicApplication;
 
@@ -26,13 +27,13 @@ public class MusicResources {
     private ArrayList<Music> artistList;
 
 
-    public MusicResources() {
+    private MusicResources() {
     }
 
     /**
      * 获取音乐文件的各种路径
-     * @param context
-     * @return
+     * @param context 上下文
+     * @return List<Music> Music的list
      */
     public List<Music> getMusic(Context context){
         Cursor cursor = null;
