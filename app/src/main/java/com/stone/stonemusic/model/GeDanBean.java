@@ -8,7 +8,7 @@ import java.util.List;
  * @CreateDate: 2019/8/6 20:42
  * @Description:
  */
-public class YueDanBean2 {
+public class GeDanBean {
     List<PlayListsBean> playLists = new ArrayList<>();
     int code;
 

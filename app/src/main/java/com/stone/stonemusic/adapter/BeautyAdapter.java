@@ -16,6 +16,7 @@ import java.util.List;
 /**
  * author : stoneWang
  * date   : 2019/7/623:51
+ *
  */
 public class BeautyAdapter extends RecyclerView.Adapter<BeautyAdapter.BeautyViewHolder> {
     /**

@@ -1,10 +1,8 @@
 package com.stone.stonemusic.net;
 
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.stone.stonemusic.model.PlayListBean;
-import com.stone.stonemusic.model.YueDanBean2;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
