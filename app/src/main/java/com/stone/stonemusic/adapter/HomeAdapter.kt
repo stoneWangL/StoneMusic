@@ -19,10 +19,14 @@ class HomeAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
     private val PAGER_COUNT = 4
     private var musicListFragment: LocalMusicListFragment0? = null
     private var artistListFragment: ArtistListFragment1? = null
-    private val albumListFragment by lazy { GeDanFragment() }
+    private val geDanFragment by lazy { GeDanFragment() }
     private var folderListFragment: MVFragment3? = null
 
-    private val mTitles = arrayOf(MusicApplication.getContext().resources.getString(R.string.tab_menu_local_music), MusicApplication.getContext().resources.getString(R.string.tab_menu_local_artist), MusicApplication.getContext().resources.getString(R.string.tab_menu_yue_dan), MusicApplication.getContext().resources.getString(R.string.tab_menu_mv))
+    private val mTitles = arrayOf(
+            MusicApplication.getContext().resources.getString(R.string.tab_menu_local_music),
+            MusicApplication.getContext().resources.getString(R.string.tab_menu_local_artist),
+            MusicApplication.getContext().resources.getString(R.string.tab_menu_ge_dan),
+            MusicApplication.getContext().resources.getString(R.string.tab_menu_mv))
 
     init {
         musicListFragment = LocalMusicListFragment0()
@@ -48,7 +52,7 @@ class HomeAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
         when (position) {
             LocalListActivity.PAGE_LOCAL -> fragment = musicListFragment
             LocalListActivity.PAGE_LOCAL_Author -> fragment = artistListFragment
-            LocalListActivity.PAGE_YUE_DAN -> fragment = albumListFragment
+            LocalListActivity.PAGE_GE_DAN -> fragment = geDanFragment
             LocalListActivity.PAGE_MV -> fragment = folderListFragment
         }
         return fragment

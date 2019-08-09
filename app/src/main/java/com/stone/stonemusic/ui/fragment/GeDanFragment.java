@@ -6,7 +6,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
 import com.stone.stonemusic.R;
 import com.stone.stonemusic.View.GedanView;
@@ -15,7 +14,6 @@ import com.stone.stonemusic.base.BaseFragment;
 import com.stone.stonemusic.model.PlayListBean;
 import com.stone.stonemusic.model.bean.SignalSingletance;
 import com.stone.stonemusic.presenter.impl.GeDanPresenterImpl;
-import com.stone.stonemusic.utils.MusicApplication;
 import com.stone.stonemusic.utils.ThreadUtil2;
 import com.stone.stonemusic.utils.ToastUtils;
 
@@ -36,6 +34,7 @@ public class GeDanFragment extends BaseFragment implements GedanView {
     private GeDanAdapter adapter;
     private GeDanPresenterImpl geDanPresenter = new GeDanPresenterImpl(this);
     private SwipeRefreshLayout refreshLayout;
+
     @Nullable
     @Override
     public View initView() {
@@ -51,7 +50,7 @@ public class GeDanFragment extends BaseFragment implements GedanView {
 
     @Override
     protected void initListener() {
-        if (null != getContext()){
+        if (null != getContext()) {
             recyclerView = thisView.findViewById(R.id.recycle_view);
             adapter = new GeDanAdapter();
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -86,10 +85,7 @@ public class GeDanFragment extends BaseFragment implements GedanView {
                     }
                 }
             });
-
         }
-
-
     }
 
     @Override

@@ -52,7 +52,7 @@ public class LocalListActivity extends AppCompatActivity implements
     /*几个代表Fragment页面的常量*/
     public static final int PAGE_LOCAL = 0;
     public static final int PAGE_LOCAL_Author = 1;
-    public static final int PAGE_YUE_DAN = 2;
+    public static final int PAGE_GE_DAN = 2;
     public static final int PAGE_MV = 3;
 
     private LinearLayout bottomLinearLayout;
@@ -125,7 +125,7 @@ public class LocalListActivity extends AppCompatActivity implements
         //指定Tab的位置
         tabMusic = tabLayoutBar.getTabAt(PAGE_LOCAL);
         tabArtist = tabLayoutBar.getTabAt(PAGE_LOCAL_Author);
-        tabAlbum = tabLayoutBar.getTabAt(PAGE_YUE_DAN);
+        tabAlbum = tabLayoutBar.getTabAt(PAGE_GE_DAN);
         tabFolder = tabLayoutBar.getTabAt(PAGE_MV);
 
         mIvPlay = (ImageView) findViewById(R.id.iv_play);

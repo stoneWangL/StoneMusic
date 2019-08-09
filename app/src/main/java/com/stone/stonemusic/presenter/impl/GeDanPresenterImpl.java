@@ -1,18 +1,13 @@
 package com.stone.stonemusic.presenter.impl;
 
 import android.util.Log;
-
 import com.stone.stonemusic.View.GedanView;
-import com.stone.stonemusic.View.YueDanView;
 import com.stone.stonemusic.model.PlayListBean;
 import com.stone.stonemusic.net.JsonToResult;
 import com.stone.stonemusic.presenter.interf.GeDanPresenter;
-import com.stone.stonemusic.utils.ThreadUtil;
 import com.stone.stonemusic.utils.ThreadUtil2;
 import com.stone.stonemusic.utils.URLProviderUtils;
-
 import org.jetbrains.annotations.NotNull;
-
 import java.io.IOException;
 import java.util.List;
 

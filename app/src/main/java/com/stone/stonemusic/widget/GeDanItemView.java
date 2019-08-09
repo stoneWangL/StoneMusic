@@ -14,7 +14,7 @@ import com.stone.stonemusic.model.PlayListBean;
 /**
  * @Author: stoneWang
  * @CreateDate: 2019/8/7 11:29
- * @Description:
+ * @Description: 歌单界面每个条目的自定义view
  */
 public class GeDanItemView extends RelativeLayout {
     View view;
