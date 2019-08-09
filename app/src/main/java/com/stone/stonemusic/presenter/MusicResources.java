@@ -27,7 +27,7 @@ public class MusicResources {
     private ArrayList<Music> artistList;
 
 
-    private MusicResources() {
+    public MusicResources() {
     }
 
     /**

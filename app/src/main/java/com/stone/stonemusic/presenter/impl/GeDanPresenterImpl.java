@@ -113,4 +113,12 @@ public class GeDanPresenterImpl implements GeDanPresenter {
         });
     }
 
+    /**
+     * 解绑view 和 presenter
+     */
+    @Override
+    public void destoryView() {
+
+    }
+
 }
