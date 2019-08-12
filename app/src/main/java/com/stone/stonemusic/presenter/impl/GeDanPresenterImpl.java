@@ -121,7 +121,4 @@ public class GeDanPresenterImpl implements GeDanPresenter {
             }
         });
     }
-
-
-
 }
