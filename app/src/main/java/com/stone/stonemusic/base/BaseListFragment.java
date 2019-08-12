@@ -6,19 +6,12 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-
 import com.stone.stonemusic.R;
-import com.stone.stonemusic.View.GedanView;
-import com.stone.stonemusic.adapter.GeDanAdapter;
-import com.stone.stonemusic.model.PlayListBean;
 import com.stone.stonemusic.model.bean.SignalSingletance;
-import com.stone.stonemusic.presenter.impl.GeDanPresenterImpl;
 import com.stone.stonemusic.utils.ThreadUtil2;
 import com.stone.stonemusic.utils.ToastUtils;
-
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
 import java.util.List;
 
 /**
@@ -30,13 +23,17 @@ import java.util.List;
  * GeDanAdapter -> BaseListAdapter
  * GeDanPresenterImpl -> BaseListPresenter
  */
-public class BaseListFragment extends BaseFragment implements GedanView {
+public abstract class BaseListFragment<RESPONSE, ITEMBEAN, ITEMVIEW extends View>
+        extends BaseFragment
+        implements BaseView<RESPONSE> {
     private static final String TAG = "GeDanFragment";
     private View thisView;
     private RecyclerView recyclerView;
-    private GeDanAdapter adapter;
-    private GeDanPresenterImpl geDanPresenter = new GeDanPresenterImpl(this);
+    private BaseListAdapter adapter;
+    private BaseListPresenter geDanPresenter = getSpecialPresenter();
     private SwipeRefreshLayout refreshLayout;
+
+
 
     @Nullable
     @Override
@@ -55,7 +52,7 @@ public class BaseListFragment extends BaseFragment implements GedanView {
     protected void initListener() {
         if (null != getContext()) {
             recyclerView = thisView.findViewById(R.id.recycle_view);
-            adapter = new GeDanAdapter();
+            adapter = getSpecialAdapter();
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
             recyclerView.setAdapter(adapter);
 
@@ -91,11 +88,6 @@ public class BaseListFragment extends BaseFragment implements GedanView {
         }
     }
 
-    @Override
-    protected void initData() {
-        //加载数据
-        geDanPresenter.loadDatas();
-    }
 
     @Override
     public void onError(String message) {
@@ -108,21 +100,40 @@ public class BaseListFragment extends BaseFragment implements GedanView {
         });
         //隐藏刷新控件
         refreshLayout.setRefreshing(false);
-
-
     }
 
     @Override
-    public void loadSuccess(List<PlayListBean> response) {
+    public void loadSuccess(RESPONSE response) {
         //隐藏刷新控件
         refreshLayout.setRefreshing(false);
         //刷新adapter
-        adapter.upDateList(response);
+        adapter.upDateList(getList(response));
     }
 
     @Override
-    public void loadMore(List<PlayListBean> response) {
-        adapter.loadMore(response);
+    public void loadMore(RESPONSE response) {
+        adapter.loadMore(getList(response));
         SignalSingletance.getInstance().setCanLoadMore(true); //加载完毕，设置可以请求
     }
+
+    /**
+     * 从返回结果中获取列表数据集合
+     * @param response
+     * @return
+     */
+    public abstract List getList(RESPONSE response);
+
+    /**
+     * 获取适配器adapter
+     * @param <ITEMBEAN>
+     * @param <ITEMVIEW>
+     * @return
+     */
+    public abstract <ITEMBEAN, ITEMVIEW extends View> BaseListAdapter getSpecialAdapter();
+
+    /**
+     * 获取Presenter
+     * @return
+     */
+    public abstract BaseListPresenter getSpecialPresenter();
 }

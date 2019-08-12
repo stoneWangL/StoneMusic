@@ -5,12 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.stone.stonemusic.adapter.GeDanAdapter;
-import com.stone.stonemusic.model.PlayListBean;
-import com.stone.stonemusic.widget.GeDanItemView;
 import com.stone.stonemusic.widget.LoadMoreView;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,11 +14,10 @@ import java.util.List;
  * @CreateDate: 2019/8/9 23:03
  * @Description: 所有下拉刷新和上拉加载更多列表界面adapter界面adapter基类
  */
-public abstract class BaseListAdapter<ITEMBEAN, ITEMVIEW extends View> extends RecyclerView.Adapter<BaseListAdapter.BaseListHolder>{
-
+public abstract class BaseListAdapter<ITEMBEAN, ITEMVIEW extends View>
+        extends RecyclerView.Adapter<BaseListAdapter.BaseListHolder> {
     private static final String TAG = "GeDanAdapter";
     private List<ITEMBEAN> list = new ArrayList<>();
-
 
     /**
      * 更新列表
@@ -60,11 +54,7 @@ public abstract class BaseListAdapter<ITEMBEAN, ITEMVIEW extends View> extends R
             itemView = getItemView(parent.getContext());
         }
         return new BaseListAdapter.BaseListHolder(itemView);
-
-
     }
-
-
 
     @Override
     public void onBindViewHolder(BaseListAdapter.BaseListHolder holder, int position) {
@@ -88,7 +78,6 @@ public abstract class BaseListAdapter<ITEMBEAN, ITEMVIEW extends View> extends R
     }
 
     public class BaseListHolder extends RecyclerView.ViewHolder{
-
         public BaseListHolder(View itemView) {
             super(itemView);
         }
@@ -111,7 +100,6 @@ public abstract class BaseListAdapter<ITEMBEAN, ITEMVIEW extends View> extends R
      * @param data
      */
     public abstract void refreshItemView(ITEMVIEW itemView, ITEMBEAN data);
-
 
     /**
      * 获取条目的view

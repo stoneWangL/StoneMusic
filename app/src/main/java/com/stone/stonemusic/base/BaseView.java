@@ -1,9 +1,5 @@
 package com.stone.stonemusic.base;
 
-import com.stone.stonemusic.model.PlayListBean;
-
-import java.util.List;
-
 /**
  * @Author: stoneWang
  * @CreateDate: 2019/8/9 22:30

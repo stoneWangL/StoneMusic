@@ -3,10 +3,8 @@ package com.stone.stonemusic.net;
 import android.text.TextUtils;
 
 import com.stone.stonemusic.model.PlayListBean;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.List;
 
