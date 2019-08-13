@@ -44,7 +44,9 @@ public class MusicResources {
                 while (cursor.moveToNext()){
                     Music m = new Music();
                     long id = cursor.getLong(cursor.getColumnIndex(MediaStore.Audio.Media._ID));
-                    String title = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.TITLE));
+//                    String title = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.TITLE));
+                    String displayName = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.DISPLAY_NAME));
+//                    String title = displayName.substring(0, displayName.length() - 1);
                     String artist = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.ARTIST));
                     long duration = cursor.getLong(cursor.getColumnIndex(MediaStore.Audio.Media.DURATION));
                     long size = cursor.getLong(cursor.getColumnIndex(MediaStore.Audio.Media.SIZE));
@@ -55,7 +57,7 @@ public class MusicResources {
 
                     if (ismusic != 0 && duration / (1000 * 60) >= 1) {
                         m.setId(id);
-                        m.setTitle(title);
+                        m.setTitle(displayName);
                         m.setArtist(artist);
                         m.setDuration(duration);
                         m.setSize(size);
