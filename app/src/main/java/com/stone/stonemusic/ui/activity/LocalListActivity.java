@@ -53,7 +53,7 @@ public class LocalListActivity extends AppCompatActivity implements
     public static final int PAGE_LOCAL = 0;
     public static final int PAGE_LOCAL_Author = 1;
     public static final int PAGE_GE_DAN = 2;
-    public static final int PAGE_MV = 3;
+    public static final int PAGE_STYLE = 3;
 
     private LinearLayout bottomLinearLayout;
     private ImageView mIvPlay, mIvPlayNext, mIvBottomBarImage;
@@ -126,7 +126,7 @@ public class LocalListActivity extends AppCompatActivity implements
         tabMusic = tabLayoutBar.getTabAt(PAGE_LOCAL);
         tabArtist = tabLayoutBar.getTabAt(PAGE_LOCAL_Author);
         tabAlbum = tabLayoutBar.getTabAt(PAGE_GE_DAN);
-        tabFolder = tabLayoutBar.getTabAt(PAGE_MV);
+        tabFolder = tabLayoutBar.getTabAt(PAGE_STYLE);
 
         mIvPlay = (ImageView) findViewById(R.id.iv_play);
         mIvPlayNext = (ImageView) findViewById(R.id.iv_play_next);

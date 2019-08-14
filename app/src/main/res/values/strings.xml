@@ -4,7 +4,7 @@
     <string name="tab_menu_local_music">本地音乐</string>
     <string name="tab_menu_local_artist">本地歌手</string>
     <string name="tab_menu_ge_dan">推荐歌单</string>
-    <string name="tab_menu_mv">推荐MV</string>
+    <string name="tab_menu_style">推荐风格</string>
 
     <string name="notification_album_image">这是专辑图片</string>
     <string name="first_music_name">默认歌名</string>

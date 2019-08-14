@@ -5,12 +5,15 @@ import android.util.Log;
 import com.stone.stonemusic.base.BaseView;
 import com.stone.stonemusic.model.PlayListBean;
 import com.stone.stonemusic.net.JsonToResult;
-import com.stone.stonemusic.presenter.interf.GeDanPresenter;
+import com.stone.stonemusic.presenter.interf.HuaiJiuPresenter;
 import com.stone.stonemusic.utils.ThreadUtil2;
 import com.stone.stonemusic.utils.URLProviderUtils;
+
 import org.jetbrains.annotations.NotNull;
+
 import java.io.IOException;
 import java.util.List;
+
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -19,35 +22,20 @@ import okhttp3.Response;
 
 /**
  * @Author: stoneWang
- * @CreateDate: 2019/8/7 8:57
+ * @CreateDate: 2019/8/14 18:28
  * @Description:
  */
-public class GeDanPresenterImpl implements GeDanPresenter {
+public class HuaiJiuPresenterImpl implements HuaiJiuPresenter {
     private static final String TAG = "GeDanPresenterImpl";
-    private BaseView geDanView;
+    private BaseView huaiJiuView;
 
-    public GeDanPresenterImpl(BaseView<List<PlayListBean>> geDanView) {
-        this.geDanView = geDanView;
+    public HuaiJiuPresenterImpl(BaseView<List<PlayListBean>> huaiJiuView) {
+        this.huaiJiuView = huaiJiuView;
     }
 
-
-
-    /**
-     * 解绑view 和 presenter
-     * 但是解绑后会出现空指针问题
-     */
-    @Override
-    public void destoryView() {
-//        if (geDanView != null)
-//            geDanView = null;
-    }
-
-    /**
-     * 初始化数据或者刷新数据
-     */
     @Override
     public void loadDatas() {
-        String path = URLProviderUtils.getWangYouPushAll(0,20);
+        String path = URLProviderUtils.getRecommendAll(0,20, "怀旧");
         Log.i(TAG, "loadDatas->path = " + path);
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
@@ -78,8 +66,8 @@ public class GeDanPresenterImpl implements GeDanPresenter {
                     @Override
                     public void run() {
                         //将正确的结果回调给view层
-                        if(null != geDanView)
-                            geDanView.loadSuccess(list);
+                        if(null != huaiJiuView)
+                            huaiJiuView.loadSuccess(list);
                     }
                 });
             }
@@ -88,7 +76,7 @@ public class GeDanPresenterImpl implements GeDanPresenter {
 
     @Override
     public void loadMore(int offset) {
-        String path = URLProviderUtils.getWangYouPushAll(offset,20);
+        String path = URLProviderUtils.getRecommendAll(offset,20, "怀旧");
         Log.i(TAG, "loadMore->path = " + path);
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
@@ -101,7 +89,7 @@ public class GeDanPresenterImpl implements GeDanPresenter {
              */
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                geDanView.onError(e.getMessage());
+                huaiJiuView.onError(e.getMessage());
             }
 
             /**
@@ -119,11 +107,16 @@ public class GeDanPresenterImpl implements GeDanPresenter {
                     @Override
                     public void run() {
                         //将正确的结果回调给view层
-                        if(null != geDanView)
-                            geDanView.loadMore(list);
+                        if(null != huaiJiuView)
+                            huaiJiuView.loadMore(list);
                     }
                 });
             }
         });
+    }
+
+    @Override
+    public void destoryView() {
+
     }
 }

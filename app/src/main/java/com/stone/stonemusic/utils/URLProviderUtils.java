@@ -80,10 +80,28 @@ public class URLProviderUtils {
         return url;
     }
 
+    //网友推荐歌单
     public static String getWangYouPushAll(int offset, int size) {
         String url = "http://144.34.228.215:3000/top/playlist/catlist?limit="
                 + size
                 + "&offset=" + offset;
+        return url;
+    }
+    //网友推荐歌单-分类 http://144.34.228.215:3000/top/playlist/catlist?limit=2&offset=0&cat=怀旧
+    public static String getRecommendAll(int offset, int size, String cat) {
+        String url = "http://144.34.228.215:3000/top/playlist/catlist?limit="
+                + size
+                + "&offset=" + offset
+                + "&cat=" + cat;
+        return url;
+    }
+
+    //歌手推荐
+    public static String getArtistAll(int offset, int size, int cat) {
+        String url = "http://144.34.228.215:3000/artist/list?limit="
+                + size
+                + "&offset=" + offset
+                + "&cat=" + cat;
         return url;
     }
 

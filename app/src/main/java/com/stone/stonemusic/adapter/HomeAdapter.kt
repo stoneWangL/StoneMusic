@@ -20,19 +20,20 @@ class HomeAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
     private var musicListFragment: LocalMusicListFragment0? = null
     private var artistListFragment: ArtistListFragment1? = null
     private val geDanFragment by lazy { GeDanFragment() }
-    private var folderListFragment: MVFragment3? = null
+
+    private val styleFragment by lazy { StyleFragment() }
 
     private val mTitles = arrayOf(
             MusicApplication.getContext().resources.getString(R.string.tab_menu_local_music),
             MusicApplication.getContext().resources.getString(R.string.tab_menu_local_artist),
             MusicApplication.getContext().resources.getString(R.string.tab_menu_ge_dan),
-            MusicApplication.getContext().resources.getString(R.string.tab_menu_mv))
+            MusicApplication.getContext().resources.getString(R.string.tab_menu_style))
 
     init {
         musicListFragment = LocalMusicListFragment0()
         artistListFragment = ArtistListFragment1()
 //        albumListFragment =
-        folderListFragment = MVFragment3()
+//        folderListFragment = StyleFragment()
     }
 
     override fun getCount(): Int {
@@ -53,7 +54,7 @@ class HomeAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
             LocalListActivity.PAGE_LOCAL -> fragment = musicListFragment
             LocalListActivity.PAGE_LOCAL_Author -> fragment = artistListFragment
             LocalListActivity.PAGE_GE_DAN -> fragment = geDanFragment
-            LocalListActivity.PAGE_MV -> fragment = folderListFragment
+            LocalListActivity.PAGE_STYLE -> fragment = styleFragment
         }
         return fragment
     }
