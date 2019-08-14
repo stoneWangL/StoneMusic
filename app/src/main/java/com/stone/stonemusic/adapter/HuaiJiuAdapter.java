@@ -21,4 +21,5 @@ public class HuaiJiuAdapter extends BaseListAdapter<PlayListBean, GeDanItemView>
     protected GeDanItemView getItemView(Context context) {
         return new GeDanItemView(context);
     }
+
 }
