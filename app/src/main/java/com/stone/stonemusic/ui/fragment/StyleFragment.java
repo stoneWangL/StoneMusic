@@ -16,7 +16,13 @@ public class StyleFragment extends BaseFragment {
     private ViewPager viewPager;
     private StyleAdapter styleAdapter;
 
-    //怀旧| 清新| 浪漫| 性感| 伤感| 治愈| 放松| 孤独| 感动| 兴奋| 快乐| 安静| 思念|
+    /**
+     * 怀旧| 清新| 浪漫|
+     * 性感| 伤感| 治愈|
+     * 放松| 孤独| 感动|
+     * 兴奋| 快乐| 安静|
+     * 思念|
+     */
     private TabLayout.Tab
             tabHuaiJiu, tabQingXin, tabLangMan,
             tabXingGan, tabShangGan, tabZhiYu,
@@ -40,7 +46,7 @@ public class StyleFragment extends BaseFragment {
 
     @Override
     protected void initListener() {
-//        if (null != getContext() && null != getActivity()) {
+        if (null != getActivity()) {
             tabLayout = thisView.findViewById(R.id.tabLayout);
             viewPager = thisView.findViewById(R.id.viewPager);
             /*使用适配器将ViewPager与Fragment绑定在一起*/
@@ -51,13 +57,18 @@ public class StyleFragment extends BaseFragment {
             tabLayout.setupWithViewPager(viewPager);
 
             //指定Tab的位置
-            tabHuaiJiu = tabLayout.getTabAt(PAGE_HuaiJiu);
-            tabQingXin = tabLayout.getTabAt(PAGE_QingXin);
-            tabLangMan = tabLayout.getTabAt(PAGE_LangMan);
-            tabXingGan = tabLayout.getTabAt(PAGE_XingGan);
-            tabShangGan = tabLayout.getTabAt(PAGE_ShangGan);
-            tabZhiYu = tabLayout.getTabAt(PAGE_ZhiYu);
-//        }
+            tabHuaiJiu = tabLayout.getTabAt(PAGE_HuaiJiu); //怀旧
+            tabQingXin = tabLayout.getTabAt(PAGE_QingXin); //清新
+            tabLangMan = tabLayout.getTabAt(PAGE_LangMan); //浪漫
+
+            tabXingGan = tabLayout.getTabAt(PAGE_XingGan); //性感
+            tabShangGan = tabLayout.getTabAt(PAGE_ShangGan); //伤感
+            tabZhiYu = tabLayout.getTabAt(PAGE_ZhiYu); //治愈
+
+            tabFangSong = tabLayout.getTabAt(PAGE_FangSong); //放松
+            tabGuDu = tabLayout.getTabAt(PAGE_GuDu); //孤独
+            tabGanDong = tabLayout.getTabAt(PAGE_GanDong); //感动
+        }
     }
 
     @Override
@@ -70,60 +81,4 @@ public class StyleFragment extends BaseFragment {
     public String getLoggerTag() {
         return null;
     }
-
-//    private RecyclerView recyclerView;
-//    private List<Beauty> data = new ArrayList<>();
-
-
-
-//    @Override
-//    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-//                             Bundle savedInstanceState) {
-//        // Inflate the layout for this fragment
-//        View view = inflater.inflate(R.layout., container, false);
-//
-//        recyclerView = (RecyclerView) view.findViewById(R.id.rv_online_music_list);
-//        //使用瀑布流布局,第一个参数 spanCount 列数,第二个参数 orentation 排列方向
-//        StaggeredGridLayoutManager recyclerViewLayoutManager =
-//                new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-//        recyclerView.setLayoutManager(recyclerViewLayoutManager);
-//
-//        BeautyAdapter adapter = new BeautyAdapter(data, getActivity());
-//        //设置adapter
-//        recyclerView.setAdapter(adapter);
-//
-//        return view;
-//    }
-
-    /**
-     * 生成一些数据添加到集合中
-     * 怀旧| 清新| 浪漫| 性感| 伤感| 治愈| 放松| 孤独| 感动| 兴奋| 快乐| 安静| 思念|
-     */
-//    Beauty beauty;
-//    beauty = new Beauty("怀旧", R.mipmap.ic_launcher);
-//        data.add(beauty);
-//    beauty = new Beauty("清新", R.mipmap.ic_launcher);
-//        data.add(beauty);
-//    beauty = new Beauty("浪漫", R.mipmap.ic_launcher);
-//        data.add(beauty);
-//    beauty = new Beauty("性感", R.mipmap.ic_launcher);
-//        data.add(beauty);
-//    beauty = new Beauty("伤感", R.mipmap.ic_launcher);
-//        data.add(beauty);
-//    beauty = new Beauty("治愈", R.mipmap.ic_launcher);
-//        data.add(beauty);
-//    beauty = new Beauty("放松", R.mipmap.ic_launcher);
-//        data.add(beauty);
-//    beauty = new Beauty("孤独", R.mipmap.ic_launcher);
-//        data.add(beauty);
-//    beauty = new Beauty("感动", R.mipmap.ic_launcher);
-//        data.add(beauty);
-//    beauty = new Beauty("兴奋", R.mipmap.ic_launcher);
-//        data.add(beauty);
-//    beauty = new Beauty("快乐", R.mipmap.ic_launcher);
-//        data.add(beauty);
-//    beauty = new Beauty("安静", R.mipmap.ic_launcher);
-//        data.add(beauty);
-//    beauty = new Beauty("思念", R.mipmap.ic_launcher);
-//        data.add(beauty);
 }

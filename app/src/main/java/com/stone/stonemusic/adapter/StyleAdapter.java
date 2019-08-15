@@ -3,15 +3,18 @@ package com.stone.stonemusic.adapter;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.view.ViewGroup;
 
+import com.stone.stonemusic.ui.fragment.StyleFangSongFragment;
 import com.stone.stonemusic.ui.fragment.StyleFragment;
+import com.stone.stonemusic.ui.fragment.StyleGanDongFragment;
+import com.stone.stonemusic.ui.fragment.StyleGuDuFragment;
 import com.stone.stonemusic.ui.fragment.StyleHuaiJiuFragment;
 import com.stone.stonemusic.ui.fragment.StyleLangManFragment;
 import com.stone.stonemusic.ui.fragment.StyleQingXinFragment;
 import com.stone.stonemusic.ui.fragment.StyleShangGanFragment;
 import com.stone.stonemusic.ui.fragment.StyleXingGanFragment;
 import com.stone.stonemusic.ui.fragment.StyleZhiYuFragment;
+import com.stone.stonemusic.utils.GeDanCode;
 
 /**
  * @Author: stoneWang
@@ -19,27 +22,40 @@ import com.stone.stonemusic.ui.fragment.StyleZhiYuFragment;
  * @Description:
  */
 public class StyleAdapter extends FragmentPagerAdapter {
-    private StyleHuaiJiuFragment styleHuaiJiuFragment = null;
-    private StyleQingXinFragment styleQingXinFragment = null;
-    private StyleLangManFragment styleLangManFragment = null;
-    private StyleXingGanFragment styleXingGanFragment = null;
-    private StyleShangGanFragment styleShangGanFragment = null;
-    private StyleZhiYuFragment styleZhiYuFragment = null;
-    //怀旧| 清新| 浪漫| 性感| 伤感| 治愈| 放松| 孤独| 感动| 兴奋| 快乐| 安静| 思念|
+    private StyleHuaiJiuFragment huaiJiuFragment;
+    private StyleQingXinFragment qingXinFragment;
+    private StyleLangManFragment langManFragment;
+
+    private StyleXingGanFragment xingGanFragment;
+    private StyleShangGanFragment shangGanFragment;
+    private StyleZhiYuFragment zhiYuFragment;
+
+    private StyleFangSongFragment fangSongFragment;
+    /**
+     * 怀旧| 清新| 浪漫|
+     * 性感| 伤感| 治愈|
+     * 放松| 孤独| 感动|
+     * 兴奋| 快乐| 安静|
+     * 思念|
+     */
     private String[] mTitles = new String[] {
-            "怀旧", "清新", "浪漫",
-            "性感", "伤感", "治愈"
+            GeDanCode.HuaiJiu, GeDanCode.QingXin, GeDanCode.LangMan,
+            GeDanCode.XingGan,  GeDanCode.ShangGan,  GeDanCode.ZhiYu,
+            GeDanCode.FangSong,  GeDanCode.GuDu,  GeDanCode.GanDong
 
     };
 
     public StyleAdapter(FragmentManager fm) {
         super(fm);
-        styleHuaiJiuFragment = new StyleHuaiJiuFragment();
-        styleQingXinFragment = new StyleQingXinFragment();
-        styleLangManFragment = new StyleLangManFragment();
-        styleXingGanFragment = new StyleXingGanFragment();
-        styleShangGanFragment = new StyleShangGanFragment();
-        styleZhiYuFragment = new StyleZhiYuFragment();
+//        huaiJiuFragment = new StyleHuaiJiuFragment();
+//        qingXinFragment = new StyleQingXinFragment();
+//        langManFragment = new StyleLangManFragment();
+//
+//        xingGanFragment = new StyleXingGanFragment();
+//        shangGanFragment = new StyleShangGanFragment();
+//        zhiYuFragment = new StyleZhiYuFragment();
+//
+//        fangSongFragment = new StyleFangSongFragment();
     }
 
     @Override
@@ -47,22 +63,33 @@ public class StyleAdapter extends FragmentPagerAdapter {
         Fragment fragment = null;
         switch (position) {
             case StyleFragment.PAGE_HuaiJiu:
-                fragment = styleHuaiJiuFragment;
+                fragment = new StyleHuaiJiuFragment();
                 break;
             case StyleFragment.PAGE_QingXin:
-                fragment = styleQingXinFragment;
+                fragment = new StyleQingXinFragment();
                 break;
             case StyleFragment.PAGE_LangMan:
-                fragment = styleLangManFragment;
+                fragment = new StyleLangManFragment();
                 break;
+
             case StyleFragment.PAGE_XingGan:
-                fragment = styleXingGanFragment;
+                fragment = new StyleXingGanFragment();
                 break;
             case StyleFragment.PAGE_ShangGan:
-                fragment = styleShangGanFragment;
+                fragment = new StyleShangGanFragment();
                 break;
             case StyleFragment.PAGE_ZhiYu:
-                fragment = styleZhiYuFragment;
+                fragment = new StyleZhiYuFragment();
+                break;
+
+            case StyleFragment.PAGE_FangSong:
+                fragment = new StyleFangSongFragment();
+                break;
+            case StyleFragment.PAGE_GuDu:
+                fragment = new StyleGuDuFragment();
+                break;
+            case StyleFragment.PAGE_GanDong:
+                fragment = new StyleGanDongFragment();
                 break;
         }
         return fragment;

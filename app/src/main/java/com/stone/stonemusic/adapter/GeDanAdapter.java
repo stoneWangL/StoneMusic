@@ -1,19 +1,9 @@
 package com.stone.stonemusic.adapter;
 
-
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.View;
-import android.view.ViewGroup;
-
 import com.stone.stonemusic.base.BaseListAdapter;
 import com.stone.stonemusic.model.PlayListBean;
 import com.stone.stonemusic.widget.GeDanItemView;
-import com.stone.stonemusic.widget.LoadMoreView;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @Author: stoneWang

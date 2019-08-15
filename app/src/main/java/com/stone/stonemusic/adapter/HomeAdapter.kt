@@ -19,7 +19,7 @@ class HomeAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
     private val PAGER_COUNT = 4
     private var musicListFragment: LocalMusicListFragment0? = null
     private var artistListFragment: ArtistListFragment1? = null
-    private val geDanFragment by lazy { GeDanFragment() }
+    private val geDanAllFragment by lazy { GeDanAllFragment() }
 
     private val styleFragment by lazy { StyleFragment() }
 
@@ -53,7 +53,7 @@ class HomeAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
         when (position) {
             LocalListActivity.PAGE_LOCAL -> fragment = musicListFragment
             LocalListActivity.PAGE_LOCAL_Author -> fragment = artistListFragment
-            LocalListActivity.PAGE_GE_DAN -> fragment = geDanFragment
+            LocalListActivity.PAGE_GE_DAN -> fragment = geDanAllFragment
             LocalListActivity.PAGE_STYLE -> fragment = styleFragment
         }
         return fragment

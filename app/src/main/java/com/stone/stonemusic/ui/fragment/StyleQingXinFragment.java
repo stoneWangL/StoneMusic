@@ -3,6 +3,7 @@ package com.stone.stonemusic.ui.fragment;
 import com.stone.stonemusic.base.BaseListAdapter;
 import com.stone.stonemusic.base.BaseListFragment;
 import com.stone.stonemusic.base.BaseListPresenter;
+import com.stone.stonemusic.utils.GeDanCode;
 
 import java.util.List;
 
@@ -11,19 +12,10 @@ import java.util.List;
  * @CreateDate: 2019/8/14 11:29
  * @Description:
  */
-public class StyleQingXinFragment extends BaseListFragment {
-    @Override
-    public List getList(Object o) {
-        return null;
-    }
+public class StyleQingXinFragment extends GeDanFragment {
 
     @Override
-    public BaseListPresenter getSpecialPresenter() {
-        return null;
-    }
-
-    @Override
-    public BaseListAdapter getSpecialAdapter() {
-        return null;
+    protected String SetStyleName() {
+        return GeDanCode.QingXin;
     }
 }

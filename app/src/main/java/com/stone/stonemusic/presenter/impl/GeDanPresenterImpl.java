@@ -23,32 +23,21 @@ import okhttp3.Response;
  * @Description:
  */
 public class GeDanPresenterImpl implements GeDanPresenter {
-    private static final String TAG = "GeDanPresenterImpl";
+    private String TAG = "GeDanPresenterImpl";
     private BaseView geDanView;
 
     public GeDanPresenterImpl(BaseView<List<PlayListBean>> geDanView) {
         this.geDanView = geDanView;
     }
 
-
-
-    /**
-     * 解绑view 和 presenter
-     * 但是解绑后会出现空指针问题
-     */
-    @Override
-    public void destoryView() {
-//        if (geDanView != null)
-//            geDanView = null;
-    }
-
     /**
      * 初始化数据或者刷新数据
      */
     @Override
-    public void loadDatas() {
-        String path = URLProviderUtils.getWangYouPushAll(0,20);
+    public void loadDatas(String cat) {
+        String path = URLProviderUtils.getRecommendAll(0,20, cat);
         Log.i(TAG, "loadDatas->path = " + path);
+
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
                 .url(path)
@@ -87,9 +76,10 @@ public class GeDanPresenterImpl implements GeDanPresenter {
     }
 
     @Override
-    public void loadMore(int offset) {
-        String path = URLProviderUtils.getWangYouPushAll(offset,20);
+    public void loadMore(int offset, String cat) {
+        String path = URLProviderUtils.getRecommendAll(offset,20, cat);
         Log.i(TAG, "loadMore->path = " + path);
+
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
                 .url(path)
@@ -125,5 +115,15 @@ public class GeDanPresenterImpl implements GeDanPresenter {
                 });
             }
         });
+    }
+
+    /**
+     * 解绑view 和 presenter
+     * 但是解绑后会出现空指针问题
+     */
+    @Override
+    public void destoryView() {
+//        if (geDanView != null)
+//            geDanView = null;
     }
 }

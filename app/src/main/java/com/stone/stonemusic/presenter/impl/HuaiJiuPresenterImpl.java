@@ -1,19 +1,15 @@
 package com.stone.stonemusic.presenter.impl;
 
 import android.util.Log;
-
 import com.stone.stonemusic.base.BaseView;
 import com.stone.stonemusic.model.PlayListBean;
 import com.stone.stonemusic.net.JsonToResult;
-import com.stone.stonemusic.presenter.interf.HuaiJiuPresenter;
+import com.stone.stonemusic.presenter.interf.GeDanPresenter;
 import com.stone.stonemusic.utils.ThreadUtil2;
 import com.stone.stonemusic.utils.URLProviderUtils;
-
 import org.jetbrains.annotations.NotNull;
-
 import java.io.IOException;
 import java.util.List;
-
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -25,17 +21,17 @@ import okhttp3.Response;
  * @CreateDate: 2019/8/14 18:28
  * @Description:
  */
-public class HuaiJiuPresenterImpl implements HuaiJiuPresenter {
+public class HuaiJiuPresenterImpl implements GeDanPresenter {
     private static final String TAG = "GeDanPresenterImpl";
-    private BaseView huaiJiuView;
+    private BaseView geDanView;
 
-    public HuaiJiuPresenterImpl(BaseView<List<PlayListBean>> huaiJiuView) {
-        this.huaiJiuView = huaiJiuView;
+    public HuaiJiuPresenterImpl(BaseView<List<PlayListBean>> geDanView) {
+        this.geDanView = geDanView;
     }
 
     @Override
-    public void loadDatas() {
-        String path = URLProviderUtils.getRecommendAll(0,20, "怀旧");
+    public void loadDatas(String cat) {
+        String path = URLProviderUtils.getRecommendAll(0,20, cat);
         Log.i(TAG, "loadDatas->path = " + path);
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
@@ -66,8 +62,8 @@ public class HuaiJiuPresenterImpl implements HuaiJiuPresenter {
                     @Override
                     public void run() {
                         //将正确的结果回调给view层
-                        if(null != huaiJiuView)
-                            huaiJiuView.loadSuccess(list);
+                        if(null != geDanView)
+                            geDanView.loadSuccess(list);
                     }
                 });
             }
@@ -75,8 +71,8 @@ public class HuaiJiuPresenterImpl implements HuaiJiuPresenter {
     }
 
     @Override
-    public void loadMore(int offset) {
-        String path = URLProviderUtils.getRecommendAll(offset,20, "怀旧");
+    public void loadMore(int offset, String cat) {
+        String path = URLProviderUtils.getRecommendAll(offset,20, cat);
         Log.i(TAG, "loadMore->path = " + path);
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
@@ -89,7 +85,7 @@ public class HuaiJiuPresenterImpl implements HuaiJiuPresenter {
              */
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                huaiJiuView.onError(e.getMessage());
+                geDanView.onError(e.getMessage());
             }
 
             /**
@@ -107,8 +103,8 @@ public class HuaiJiuPresenterImpl implements HuaiJiuPresenter {
                     @Override
                     public void run() {
                         //将正确的结果回调给view层
-                        if(null != huaiJiuView)
-                            huaiJiuView.loadMore(list);
+                        if(null != geDanView)
+                            geDanView.loadMore(list);
                     }
                 });
             }

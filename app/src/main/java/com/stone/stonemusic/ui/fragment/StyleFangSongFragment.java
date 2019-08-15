@@ -4,13 +4,12 @@ import com.stone.stonemusic.utils.GeDanCode;
 
 /**
  * @Author: stoneWang
- * @CreateDate: 2019/8/14 11:29
+ * @CreateDate: 2019/8/15 17:24
  * @Description:
  */
-public class StyleZhiYuFragment extends GeDanFragment {
-
+public class StyleFangSongFragment extends GeDanFragment {
     @Override
     protected String SetStyleName() {
-        return GeDanCode.ZhiYu;
+        return GeDanCode.FangSong;
     }
 }

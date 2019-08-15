@@ -14,16 +14,40 @@ import java.util.List;
  * @Description:
  * <List<PlayListBean>, GeDanItemBean, GeDanItemView>
  */
-public class GeDanFragment extends BaseListFragment {
+public abstract class GeDanFragment extends BaseListFragment {
     private static final String TAG = "GeDanFragment";
     private GeDanAdapter adapter;
-    private GeDanPresenterImpl geDanPresenter;
+    protected GeDanPresenterImpl geDanPresenter;
 
+    /**
+     * 供具体的实现Fragment，返回对应主题
+     * @return 返回主题名
+     */
+    protected abstract String SetStyleName();
+
+
+    /**
+     * 实现抽象方法 PresenterLoadDatas()
+     * ->geDanPresenter.loadDatas("主题名")
+     */
+    @Override
+    protected void PresenterLoadDatas() {
+        geDanPresenter.loadDatas(SetStyleName());
+    }
+
+    /**
+     * 实现抽象方法 presenterLoadMore()
+     * ->geDanPresenter.loadMore(偏移位, "主题名");
+     */
+    @Override
+    protected void presenterLoadMore(int offset) {
+        geDanPresenter.loadMore(offset, SetStyleName());
+    }
 
     @Override
-    protected void initData() {
+    protected void initData(){
         //加载数据
-        geDanPresenter.loadDatas();
+        PresenterLoadDatas();
     }
 
     @Override

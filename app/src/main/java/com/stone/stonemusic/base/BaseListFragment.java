@@ -48,6 +48,11 @@ public abstract class BaseListFragment<RESPONSE, ITEMBEAN, ITEMVIEW extends View
         return null;
     }
 
+    //让子类去实现
+    protected abstract void PresenterLoadDatas();
+    //让子类去实现
+    protected abstract void presenterLoadMore(int offset);
+
     @Override
     protected void initListener() {
         if (null != getContext()) {
@@ -62,7 +67,9 @@ public abstract class BaseListFragment<RESPONSE, ITEMBEAN, ITEMVIEW extends View
             refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
                 @Override
                 public void onRefresh() {
-                    geDanPresenter.loadDatas(); //加载数据
+                    //加载数据
+//                    geDanPresenter.loadDatas();
+                    PresenterLoadDatas();
                 }
             });
 
@@ -79,7 +86,8 @@ public abstract class BaseListFragment<RESPONSE, ITEMBEAN, ITEMVIEW extends View
                                     && SignalSingletance.getInstance().isCanLoadMore()) {
                                 SignalSingletance.getInstance().setCanLoadMore(false); //正在请求加载更多，设置不能请求
                                 //最后一条已经显示了
-                                geDanPresenter.loadMore(adapter.getItemCount() - 1);
+//                                geDanPresenter.loadMore(adapter.getItemCount() - 1);
+                                presenterLoadMore(adapter.getItemCount() - 1);
                             }
                         }
                     }

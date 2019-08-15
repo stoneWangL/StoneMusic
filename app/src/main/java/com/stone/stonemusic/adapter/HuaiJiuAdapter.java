@@ -1,7 +1,6 @@
 package com.stone.stonemusic.adapter;
 
 import android.content.Context;
-
 import com.stone.stonemusic.base.BaseListAdapter;
 import com.stone.stonemusic.model.PlayListBean;
 import com.stone.stonemusic.widget.GeDanItemView;
@@ -12,6 +11,7 @@ import com.stone.stonemusic.widget.GeDanItemView;
  * @Description:
  */
 public class HuaiJiuAdapter extends BaseListAdapter<PlayListBean, GeDanItemView> {
+
     @Override
     public void refreshItemView(GeDanItemView itemView, PlayListBean data) {
         itemView.setData(data);

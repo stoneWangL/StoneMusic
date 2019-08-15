@@ -10,10 +10,10 @@ public interface BaseListPresenter {
     int TYPE_LOAD_MORE = 2;
 
     //初始化或者刷新
-    void loadDatas();
+    void loadDatas(String cat);
 
     //加载更多
-    void loadMore(int offset);
+    void loadMore(int offset, String cat);
 
     //解绑presenter和View
     void destoryView();
