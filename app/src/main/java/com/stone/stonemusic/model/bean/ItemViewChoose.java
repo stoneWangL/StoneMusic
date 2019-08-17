@@ -1,5 +1,8 @@
 package com.stone.stonemusic.model.bean;
 
+/**
+ * ItemViewChoose的懒汉式单例
+ */
 public class ItemViewChoose {
     private static ItemViewChoose sItemViewChoose = null;
     private int itemChoosePosition = -1;

@@ -9,7 +9,7 @@ import android.util.Log;
 import com.stone.stonemusic.model.ArtistModel;
 import com.stone.stonemusic.model.Music;
 import com.stone.stonemusic.presenter.impl.MusicObserverManager;
-import com.stone.stonemusic.utils.MediaStateCode;
+import com.stone.stonemusic.utils.code.MediaStateCode;
 import com.stone.stonemusic.utils.MusicApplication;
 
 import java.util.ArrayList;

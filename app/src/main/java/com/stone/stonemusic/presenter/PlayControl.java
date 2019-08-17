@@ -6,7 +6,7 @@ import android.media.AudioManager;
 import android.util.Log;
 import com.stone.stonemusic.model.bean.SongModel;
 import com.stone.stonemusic.service.MusicService;
-import com.stone.stonemusic.utils.MediaStateCode;
+import com.stone.stonemusic.utils.code.MediaStateCode;
 import com.stone.stonemusic.utils.MediaUtils;
 import com.stone.stonemusic.utils.MusicApplication;
 

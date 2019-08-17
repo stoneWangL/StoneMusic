@@ -1,4 +1,4 @@
-package com.stone.stonemusic.utils;
+package com.stone.stonemusic.utils.code;
 
 public class MediaStateCode {
     public static final int MUSIC_INIT_FINISHED = 0x0000;

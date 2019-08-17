@@ -4,10 +4,9 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import android.view.ViewGroup
-import com.stone.stonemusic.R
 import com.stone.stonemusic.ui.activity.LocalListActivity
 import com.stone.stonemusic.ui.fragment.*
-import com.stone.stonemusic.utils.MusicApplication
+import com.stone.stonemusic.utils.code.HomeCode
 
 /**
  * @Author: stoneWang
@@ -16,22 +15,23 @@ import com.stone.stonemusic.utils.MusicApplication
  */
 class HomeAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
 
-    private val PAGER_COUNT = 4
-    private var musicListFragment: LocalMusicListFragment0? = null
-    private var artistListFragment: ArtistListFragment1? = null
+    private val PAGER_COUNT = 3
+//    private var musicListFragment: LocalSingleSongFragment? = null
+//    private var artistListFragment: LocalArtistFragment? = null
+    private val localFragment by lazy { LocalFragment() }
     private val geDanAllFragment by lazy { GeDanAllFragment() }
 
     private val styleFragment by lazy { StyleFragment() }
 
     private val mTitles = arrayOf(
-            MusicApplication.getContext().resources.getString(R.string.tab_menu_local_music),
-            MusicApplication.getContext().resources.getString(R.string.tab_menu_local_artist),
-            MusicApplication.getContext().resources.getString(R.string.tab_menu_ge_dan),
-            MusicApplication.getContext().resources.getString(R.string.tab_menu_style))
+            HomeCode.LocalSong,
+            HomeCode.RecommendedSong,
+            HomeCode.RecommendedStyle
+    )
 
     init {
-        musicListFragment = LocalMusicListFragment0()
-        artistListFragment = ArtistListFragment1()
+//        musicListFragment = LocalSingleSongFragment()
+//        artistListFragment = LocalArtistFragment()
 //        albumListFragment =
 //        folderListFragment = StyleFragment()
     }
@@ -45,14 +45,13 @@ class HomeAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
     }
 
     override fun destroyItem(container: ViewGroup?, position: Int, `object`: Any) {
-        super.destroyItem(container, position, `object`)
+//        super.destroyItem(container, position, `object`)
     }
 
     override fun getItem(position: Int): Fragment? {
         var fragment: Fragment? = null
         when (position) {
-            LocalListActivity.PAGE_LOCAL -> fragment = musicListFragment
-            LocalListActivity.PAGE_LOCAL_Author -> fragment = artistListFragment
+            LocalListActivity.PAGE_LOCAL -> fragment = localFragment
             LocalListActivity.PAGE_GE_DAN -> fragment = geDanAllFragment
             LocalListActivity.PAGE_STYLE -> fragment = styleFragment
         }

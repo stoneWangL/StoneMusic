@@ -20,12 +20,13 @@ import com.stone.stonemusic.R;
 import com.stone.stonemusic.adapter.LocalMusicAdapter;
 import com.stone.stonemusic.model.bean.ItemViewChoose;
 import com.stone.stonemusic.model.Music;
+import com.stone.stonemusic.model.bean.SignalSingletance;
 import com.stone.stonemusic.model.bean.SongModel;
 import com.stone.stonemusic.presenter.JumpToOtherView;
 import com.stone.stonemusic.presenter.JumpToOtherWhere;
 import com.stone.stonemusic.presenter.PlayControl;
 import com.stone.stonemusic.ui.activity.LocalListActivity;
-import com.stone.stonemusic.utils.MediaStateCode;
+import com.stone.stonemusic.utils.code.MediaStateCode;
 import com.stone.stonemusic.utils.MediaUtils;
 import com.stone.stonemusic.utils.MusicApplication;
 import com.stone.stonemusic.presenter.MusicResources;
@@ -36,7 +37,7 @@ import java.util.List;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
-public class LocalMusicListFragment0 extends Fragment implements
+public class LocalSingleSongFragment extends Fragment implements
         LocalListActivity.CallBackInterface, JumpToOtherView {
     public static final String TAG = "MusicListFragment";
     private ListView listView;
@@ -51,8 +52,7 @@ public class LocalMusicListFragment0 extends Fragment implements
     private LocalListActivity fatherActivity = null;
     private JumpToOtherWhere jumpToOtherWhere;
 
-    public LocalMusicListFragment0() {}
-
+    public LocalSingleSongFragment() {}
 
     @Override
     public void onAttach(Context context) {

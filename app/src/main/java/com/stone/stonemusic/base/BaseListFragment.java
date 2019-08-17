@@ -104,16 +104,22 @@ public abstract class BaseListFragment<RESPONSE, ITEMBEAN, ITEMVIEW extends View
             @Override
             public void run() {
                 ToastUtils.getToastShort("加载数据失败");
+                //隐藏刷新控件
+                refreshLayout.setRefreshing(false);
             }
         });
-        //隐藏刷新控件
-        refreshLayout.setRefreshing(false);
+
     }
 
     @Override
     public void loadSuccess(RESPONSE response) {
-        //隐藏刷新控件
-        refreshLayout.setRefreshing(false);
+        new ThreadUtil2().runOnMainThread(new Runnable() {
+            @Override
+            public void run() {
+                //隐藏刷新控件
+                refreshLayout.setRefreshing(false);
+            }
+        });
         //刷新adapter
         adapter.upDateList(getList(response));
     }

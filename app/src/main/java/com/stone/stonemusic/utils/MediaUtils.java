@@ -5,6 +5,7 @@ import android.media.MediaPlayer;
 
 import com.stone.stonemusic.model.bean.SongModel;
 import com.stone.stonemusic.presenter.impl.MusicObserverManager;
+import com.stone.stonemusic.utils.code.MediaStateCode;
 
 import java.io.IOException;
 import java.util.Random;

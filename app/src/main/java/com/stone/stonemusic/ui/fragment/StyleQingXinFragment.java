@@ -1,11 +1,6 @@
 package com.stone.stonemusic.ui.fragment;
 
-import com.stone.stonemusic.base.BaseListAdapter;
-import com.stone.stonemusic.base.BaseListFragment;
-import com.stone.stonemusic.base.BaseListPresenter;
-import com.stone.stonemusic.utils.GeDanCode;
-
-import java.util.List;
+import com.stone.stonemusic.utils.code.GeDanCode;
 
 /**
  * @Author: stoneWang

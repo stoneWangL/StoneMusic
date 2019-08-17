@@ -20,7 +20,7 @@ import com.stone.stonemusic.model.ArtistModel;
 import com.stone.stonemusic.presenter.interf.MusicObserverListener;
 import com.stone.stonemusic.presenter.MusicResources;
 import com.stone.stonemusic.ui.activity.LocalListActivity;
-import com.stone.stonemusic.utils.MediaStateCode;
+import com.stone.stonemusic.utils.code.MediaStateCode;
 import com.stone.stonemusic.utils.MusicApplication;
 
 import java.util.ArrayList;
@@ -30,7 +30,7 @@ import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
 
-public class ArtistListFragment1 extends Fragment implements
+public class LocalArtistFragment extends Fragment implements
         MusicObserverListener {
     public static final String TAG = "ArtistListFragment";
     private ListView listView;
@@ -44,7 +44,7 @@ public class ArtistListFragment1 extends Fragment implements
     private ImageView mIvBottomBarImage;
     private LocalListActivity fatherActivity = null;
 
-    public ArtistListFragment1() {}
+    public LocalArtistFragment() {}
 
     @Override
     public void onAttach(Context context) {

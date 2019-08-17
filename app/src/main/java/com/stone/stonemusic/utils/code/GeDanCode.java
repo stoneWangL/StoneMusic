@@ -1,4 +1,4 @@
-package com.stone.stonemusic.utils;
+package com.stone.stonemusic.utils.code;
 
 /**
  * @Author: stoneWang

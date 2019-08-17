@@ -3,6 +3,7 @@ package com.stone.stonemusic.adapter;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.view.ViewGroup;
 
 import com.stone.stonemusic.ui.fragment.StyleFangSongFragment;
 import com.stone.stonemusic.ui.fragment.StyleFragment;
@@ -14,7 +15,7 @@ import com.stone.stonemusic.ui.fragment.StyleQingXinFragment;
 import com.stone.stonemusic.ui.fragment.StyleShangGanFragment;
 import com.stone.stonemusic.ui.fragment.StyleXingGanFragment;
 import com.stone.stonemusic.ui.fragment.StyleZhiYuFragment;
-import com.stone.stonemusic.utils.GeDanCode;
+import com.stone.stonemusic.utils.code.GeDanCode;
 
 /**
  * @Author: stoneWang
@@ -22,15 +23,15 @@ import com.stone.stonemusic.utils.GeDanCode;
  * @Description:
  */
 public class StyleAdapter extends FragmentPagerAdapter {
-    private StyleHuaiJiuFragment huaiJiuFragment;
-    private StyleQingXinFragment qingXinFragment;
-    private StyleLangManFragment langManFragment;
-
-    private StyleXingGanFragment xingGanFragment;
-    private StyleShangGanFragment shangGanFragment;
-    private StyleZhiYuFragment zhiYuFragment;
-
-    private StyleFangSongFragment fangSongFragment;
+//    private StyleHuaiJiuFragment huaiJiuFragment;
+//    private StyleQingXinFragment qingXinFragment;
+//    private StyleLangManFragment langManFragment;
+//
+//    private StyleXingGanFragment xingGanFragment;
+//    private StyleShangGanFragment shangGanFragment;
+//    private StyleZhiYuFragment zhiYuFragment;
+//
+//    private StyleFangSongFragment fangSongFragment;
     /**
      * 怀旧| 清新| 浪漫|
      * 性感| 伤感| 治愈|
@@ -47,15 +48,6 @@ public class StyleAdapter extends FragmentPagerAdapter {
 
     public StyleAdapter(FragmentManager fm) {
         super(fm);
-//        huaiJiuFragment = new StyleHuaiJiuFragment();
-//        qingXinFragment = new StyleQingXinFragment();
-//        langManFragment = new StyleLangManFragment();
-//
-//        xingGanFragment = new StyleXingGanFragment();
-//        shangGanFragment = new StyleShangGanFragment();
-//        zhiYuFragment = new StyleZhiYuFragment();
-//
-//        fangSongFragment = new StyleFangSongFragment();
     }
 
     @Override
@@ -105,4 +97,8 @@ public class StyleAdapter extends FragmentPagerAdapter {
         return mTitles[position];
     }
 
+    @Override
+    public void destroyItem(ViewGroup container, int position, Object object) {
+        super.destroyItem(container, position, object);
+    }
 }

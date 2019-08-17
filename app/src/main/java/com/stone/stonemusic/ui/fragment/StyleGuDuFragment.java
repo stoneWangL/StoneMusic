@@ -1,6 +1,6 @@
 package com.stone.stonemusic.ui.fragment;
 
-import com.stone.stonemusic.utils.GeDanCode;
+import com.stone.stonemusic.utils.code.GeDanCode;
 
 /**
  * @Author: stoneWang

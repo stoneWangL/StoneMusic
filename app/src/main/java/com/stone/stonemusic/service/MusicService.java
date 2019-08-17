@@ -28,7 +28,7 @@ import com.stone.stonemusic.presenter.impl.MusicObserverManager;
 import com.stone.stonemusic.presenter.MusicResources;
 import com.stone.stonemusic.presenter.PlayControl;
 import com.stone.stonemusic.ui.activity.LocalListActivity;
-import com.stone.stonemusic.utils.MediaStateCode;
+import com.stone.stonemusic.utils.code.MediaStateCode;
 import com.stone.stonemusic.utils.MediaUtils;
 import com.stone.stonemusic.utils.MusicApplication;
 
