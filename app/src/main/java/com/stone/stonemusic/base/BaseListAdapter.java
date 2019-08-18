@@ -1,10 +1,14 @@
 package com.stone.stonemusic.base;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Parcelable;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.stone.stonemusic.ui.activity.OnlineMusicListActivity;
 import com.stone.stonemusic.widget.LoadMoreView;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +22,7 @@ public abstract class BaseListAdapter<ITEMBEAN, ITEMVIEW extends View>
         extends RecyclerView.Adapter<BaseListAdapter.BaseListHolder> {
     private static final String TAG = "GeDanAdapter";
     private List<ITEMBEAN> list = new ArrayList<>();
+    private Context context;
 
     /**
      * 更新列表
@@ -46,6 +51,7 @@ public abstract class BaseListAdapter<ITEMBEAN, ITEMVIEW extends View>
     @Override
     public BaseListAdapter.BaseListHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView;
+        context = parent.getContext();
         if (viewType == 1) {
             //最后一条
             itemView= new LoadMoreView(parent.getContext());
@@ -68,6 +74,19 @@ public abstract class BaseListAdapter<ITEMBEAN, ITEMVIEW extends View>
         //条目刷新
 //        itemView.setData(data);
         refreshItemView(itemView, data);
+
+        itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (context != null){
+                    Intent intent=new Intent(context, OnlineMusicListActivity.class);
+                    intent.putExtra("obj", (Parcelable) list);
+                    context.startActivity(intent);
+                }
+
+            }
+        });
+
     }
 
 

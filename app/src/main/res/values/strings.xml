@@ -12,6 +12,9 @@
     <string name="play_mode_out_of_order">随机播放</string>
     <string name="no_local_music">暂无本地音乐</string>
 
+    <!--XML描述类-->
+    <string name="theme_image">主题图片</string>
+
     <!--setTag的key-->
     <!--<item type="id" name="tag_ViewHold">ViewHold</item>-->
 

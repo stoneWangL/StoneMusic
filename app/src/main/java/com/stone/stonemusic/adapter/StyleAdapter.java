@@ -20,7 +20,7 @@ import com.stone.stonemusic.utils.code.GeDanCode;
 /**
  * @Author: stoneWang
  * @CreateDate: 2019/8/14 10:44
- * @Description:
+ * @Description: 推荐风格下的多个fragment的页面的适配器
  */
 public class StyleAdapter extends FragmentPagerAdapter {
 //    private StyleHuaiJiuFragment huaiJiuFragment;
