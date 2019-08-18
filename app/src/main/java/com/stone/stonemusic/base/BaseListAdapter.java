@@ -2,6 +2,7 @@ package com.stone.stonemusic.base;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -63,12 +64,12 @@ public abstract class BaseListAdapter<ITEMBEAN, ITEMVIEW extends View>
     }
 
     @Override
-    public void onBindViewHolder(BaseListAdapter.BaseListHolder holder, int position) {
+    public void onBindViewHolder(BaseListAdapter.BaseListHolder holder, final int position) {
         //如果是最后一条 不需要进行刷新view
         if (position == list.size()) return;
 
         //条目数据
-        ITEMBEAN data = list.get(position);
+        final ITEMBEAN data = list.get(position);
         //条目view
         ITEMVIEW itemView = (ITEMVIEW)holder.itemView;//转为HomeItemView类型
         //条目刷新
@@ -80,7 +81,9 @@ public abstract class BaseListAdapter<ITEMBEAN, ITEMVIEW extends View>
             public void onClick(View v) {
                 if (context != null){
                     Intent intent=new Intent(context, OnlineMusicListActivity.class);
-                    intent.putExtra("obj", (Parcelable) list);
+                    Bundle mBundle = new Bundle();
+                    mBundle.putParcelable("obj", (Parcelable) data);
+                    intent.putExtras(mBundle);
                     context.startActivity(intent);
                 }
 

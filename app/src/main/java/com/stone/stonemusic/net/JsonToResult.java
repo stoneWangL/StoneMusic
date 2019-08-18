@@ -1,5 +1,6 @@
 package com.stone.stonemusic.net;
 
+import android.os.Parcel;
 import android.text.TextUtils;
 
 import com.stone.stonemusic.model.PlayListBean;
@@ -15,6 +16,7 @@ import java.util.List;
  */
 public class JsonToResult {
     private static final String TAG = "JsonToResult";
+
     /**
      *
      * @param jsonData 从接口返回的json字符串

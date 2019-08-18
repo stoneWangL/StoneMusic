@@ -2,7 +2,9 @@ package com.stone.stonemusic.ui.activity;
 
 import android.content.Intent;
 import android.support.v7.app.ActionBar;
+import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.stone.stonemusic.R;
 import com.stone.stonemusic.base.BaseActivity;
 import com.stone.stonemusic.model.PlayListBean;
@@ -17,8 +19,8 @@ import java.util.List;
  * @Description:
  */
 public class OnlineMusicListActivity extends BaseActivity {
-    List<PlayListBean> list;
-
+    PlayListBean data;
+    ImageView imageView;
     @Override
     public int getLayoutId() {
         return R.layout.activity_online_music_list;
@@ -31,18 +33,18 @@ public class OnlineMusicListActivity extends BaseActivity {
         if (actionBar != null){
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
+        imageView = findViewById(R.id.imageViewTheme);
+
     }
 
     @Override
     protected void initData() {
         //通过Intent获取传过来的内容,来填充
         Intent intent = getIntent();
-//        list = (List<PlayListBean>)intent.getExtras("obj");//武器名
-//        @Override
-//        public List getList(Object o) {
-//            List<PlayListBean> response = (List<PlayListBean>)o;
-//            return response;
-//        }
+        data = getIntent().getParcelableExtra("obj");
+
+        if (data.getCoverImgUrl() != null)
+            Glide.with(this).load(data.getCoverImgUrl()).into(imageView);
     }
 
     @NotNull
