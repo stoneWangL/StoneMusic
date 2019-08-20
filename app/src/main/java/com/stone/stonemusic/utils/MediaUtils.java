@@ -6,12 +6,15 @@ import android.media.MediaPlayer;
 import com.stone.stonemusic.model.bean.SongModel;
 import com.stone.stonemusic.presenter.impl.MusicObserverManager;
 import com.stone.stonemusic.utils.code.MediaStateCode;
+import com.stone.stonemusic.utils.code.PlayType;
 
 import java.io.IOException;
 import java.util.Random;
 
 /*问题播放结束时没有监听，修改播放器的状态*/
-public class MediaUtils {
+public class MediaUtils implements PlayType {
+    //当前播放列表类型 本地0，在线1
+    public static int musicType = LocalType;
 
     //当前播放歌曲postion
     public static int currentSongPosition = 0;
@@ -24,7 +27,7 @@ public class MediaUtils {
 
     private static MediaPlayer sMediaPlayer;
 
-    public static MediaPlayer getMediaPlayer(){
+    public static MediaPlayer getMediaPlayer() {
         if (sMediaPlayer == null) {
             sMediaPlayer = new MediaPlayer();
         }

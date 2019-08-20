@@ -80,13 +80,6 @@ public class URLProviderUtils {
         return url;
     }
 
-    //网友推荐歌单
-    public static String getWangYouPushAll(int offset, int size) {
-        String url = "http://144.34.228.215:3000/top/playlist/catlist?limit="
-                + size
-                + "&offset=" + offset;
-        return url;
-    }
     //网友推荐歌单-分类 http://144.34.228.215:3000/top/playlist/catlist?limit=2&offset=0&cat=怀旧
     public static String getRecommendAll(int offset, int size, String cat) {
         String url = "http://144.34.228.215:3000/top/playlist/catlist?limit="
@@ -94,6 +87,13 @@ public class URLProviderUtils {
                 + "&offset=" + offset
                 + "&cat=" + cat;
         return url;
+    }
+
+    //http://144.34.228.215:3000/playlist/detail?id=2900722591
+    public static String getOnLineList(String id) {
+        String url = "http://144.34.228.215:3000/playlist/detail?id="
+                + id;
+        return  url;
     }
 
     //歌手推荐

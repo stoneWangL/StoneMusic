@@ -7,7 +7,7 @@ import android.content.Intent;
 import android.media.AudioManager;
 import android.util.Log;
 
-import com.stone.stonemusic.presenter.PlayControl;
+import com.stone.stonemusic.utils.playControl.PlayControl;
 import com.stone.stonemusic.service.MusicService;
 import com.stone.stonemusic.utils.code.MediaStateCode;
 import com.stone.stonemusic.utils.MusicApplication;

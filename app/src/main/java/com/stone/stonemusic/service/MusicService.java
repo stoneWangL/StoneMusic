@@ -21,12 +21,12 @@ import android.widget.RemoteViews;
 import com.stone.stonemusic.R;
 import com.stone.stonemusic.model.Music;
 import com.stone.stonemusic.model.bean.SongModel;
-import com.stone.stonemusic.presenter.MusicListenerWorker;
+import com.stone.stonemusic.utils.playControl.MusicListenerWorker;
 import com.stone.stonemusic.presenter.broadcastReceiver.NotificationViewReceiver;
 import com.stone.stonemusic.presenter.interf.MusicObserverListener;
 import com.stone.stonemusic.presenter.impl.MusicObserverManager;
-import com.stone.stonemusic.presenter.MusicResources;
-import com.stone.stonemusic.presenter.PlayControl;
+import com.stone.stonemusic.utils.playControl.MusicResources;
+import com.stone.stonemusic.utils.playControl.PlayControl;
 import com.stone.stonemusic.ui.activity.LocalListActivity;
 import com.stone.stonemusic.utils.code.MediaStateCode;
 import com.stone.stonemusic.utils.MediaUtils;
@@ -85,7 +85,6 @@ public class MusicService extends Service implements MusicObserverListener{
             //mNotificationManager.notify(123, notification);//显示通知
             startForeground(123, notification);//启动为前台服务
         }
-
     }
 
     public Handler remoteViewsHandler = new Handler() {

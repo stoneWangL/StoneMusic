@@ -20,7 +20,7 @@ import com.stone.stonemusic.model.Music;
 import com.stone.stonemusic.model.bean.SongModel;
 import com.stone.stonemusic.presenter.interf.MusicObserverListener;
 import com.stone.stonemusic.presenter.impl.MusicObserverManager;
-import com.stone.stonemusic.presenter.PlayControl;
+import com.stone.stonemusic.utils.playControl.PlayControl;
 import com.stone.stonemusic.View.CircleView;
 import com.stone.stonemusic.View.ActivityView;
 import com.stone.stonemusic.utils.code.MediaStateCode;

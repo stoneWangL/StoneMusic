@@ -43,7 +43,8 @@
             android:exported="true" />
         <activity android:name=".ui.activity.SettingActivity" />
         <activity android:name=".ui.activity.AboutActivity" />
-        <activity android:name=".ui.activity.OnlineMusicListActivity" />
+        <activity android:name=".ui.activity.OnlineMusicListActivity"
+            android:theme="@style/AppTheme.FullScreen"/>
     </application>
 
 </manifest>

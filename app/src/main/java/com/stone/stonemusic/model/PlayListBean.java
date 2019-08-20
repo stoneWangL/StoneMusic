@@ -3,8 +3,6 @@ package com.stone.stonemusic.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.security.PublicKey;
-
 /**
  * @Author: stoneWang
  * @CreateDate: 2019/8/6 21:32

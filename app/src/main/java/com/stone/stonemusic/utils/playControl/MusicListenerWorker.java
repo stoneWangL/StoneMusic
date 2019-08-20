@@ -1,9 +1,10 @@
-package com.stone.stonemusic.presenter;
+package com.stone.stonemusic.utils.playControl;
 
 import com.stone.stonemusic.presenter.impl.MusicObserverManager;
 import com.stone.stonemusic.service.MusicService;
 import com.stone.stonemusic.utils.code.MediaStateCode;
 import com.stone.stonemusic.utils.MediaUtils;
+import com.stone.stonemusic.utils.playControl.PlayControl;
 
 /**
  * author : stoneWang
@@ -33,7 +34,6 @@ public class MusicListenerWorker implements Runnable {
 //                    "//播放器中音乐长度：" + nowMediaNum +
 //                    "//当前音乐长度：" + listMediaNum +
 //                    "resultNum == " + resultNum);
-
 
                 /*手离开了seekBar 而且 音乐播放完了（由于获取的数值有一定的差异，所以允许+-10bite的数值差异）*/
                 if (!MediaUtils.seekBarIsChanging && (resultNum <= 1024 && resultNum >= -1024)) {

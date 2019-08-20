@@ -17,7 +17,7 @@ import com.stone.stonemusic.model.bean.SongModel;
 import com.stone.stonemusic.View.CircleImageView;
 import com.stone.stonemusic.ui.activity.PlayActivity;
 import com.stone.stonemusic.utils.MediaUtils;
-import com.stone.stonemusic.presenter.MusicResources;
+import com.stone.stonemusic.utils.playControl.MusicResources;
 
 import java.util.ArrayList;
 import java.util.List;

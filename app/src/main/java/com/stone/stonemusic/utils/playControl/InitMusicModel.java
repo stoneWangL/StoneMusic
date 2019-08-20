@@ -1,10 +1,11 @@
-package com.stone.stonemusic.presenter;
+package com.stone.stonemusic.utils.playControl;
 
 import android.os.AsyncTask;
 
 import com.stone.stonemusic.model.bean.SongModel;
 import com.stone.stonemusic.ui.activity.LocalListActivity;
 import com.stone.stonemusic.utils.MusicApplication;
+import com.stone.stonemusic.utils.playControl.MusicResources;
 
 /**
  * author : stoneWang

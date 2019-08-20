@@ -1,4 +1,4 @@
-package com.stone.stonemusic.presenter;
+package com.stone.stonemusic.utils.playControl;
 
 import android.content.Context;
 import android.database.Cursor;

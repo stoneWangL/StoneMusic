@@ -20,16 +20,15 @@ import com.stone.stonemusic.R;
 import com.stone.stonemusic.adapter.LocalMusicAdapter;
 import com.stone.stonemusic.model.bean.ItemViewChoose;
 import com.stone.stonemusic.model.Music;
-import com.stone.stonemusic.model.bean.SignalSingletance;
 import com.stone.stonemusic.model.bean.SongModel;
 import com.stone.stonemusic.presenter.JumpToOtherView;
 import com.stone.stonemusic.presenter.JumpToOtherWhere;
-import com.stone.stonemusic.presenter.PlayControl;
+import com.stone.stonemusic.utils.playControl.PlayControl;
 import com.stone.stonemusic.ui.activity.LocalListActivity;
 import com.stone.stonemusic.utils.code.MediaStateCode;
 import com.stone.stonemusic.utils.MediaUtils;
 import com.stone.stonemusic.utils.MusicApplication;
-import com.stone.stonemusic.presenter.MusicResources;
+import com.stone.stonemusic.utils.playControl.MusicResources;
 
 import java.util.ArrayList;
 import java.util.List;

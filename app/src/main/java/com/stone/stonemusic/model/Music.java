@@ -1,10 +1,13 @@
 package com.stone.stonemusic.model;
 
+import com.stone.stonemusic.utils.code.PlayType;
+
 import java.io.Serializable;
 
-public class Music implements Serializable{
-
+public class Music implements Serializable, PlayType {
+    private int musicType = PlayType.LocalType;
     private long id;
+    private String musicId;
     private long album_id;
     private String title;
     private String artist;
@@ -13,8 +16,33 @@ public class Music implements Serializable{
     private int isMusic;
     private long duration;
     private String album;
+    private String picUrl; //在线歌曲图片
     //文件路径
     private String fileUrl;
+
+    public int getMusicType() {
+        return musicType;
+    }
+
+    public void setMusicType(int musicType) {
+        this.musicType = musicType;
+    }
+
+    public String getMusicId() {
+        return musicId;
+    }
+
+    public String getPicUrl() {
+        return picUrl;
+    }
+
+    public void setPicUrl(String picUrl) {
+        this.picUrl = picUrl;
+    }
+
+    public void setMusicId(String musicId) {
+        this.musicId = musicId;
+    }
 
     public long getId() {
         return id;
