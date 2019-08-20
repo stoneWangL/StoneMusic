@@ -7,6 +7,7 @@ import android.support.v4.view.NestedScrollingChildHelper;
 import android.util.AttributeSet;
 import android.widget.ListView;
 
+
 /**
  * @Author: stoneWang
  * @CreateDate: 2019/8/20 18:52
@@ -14,8 +15,7 @@ import android.widget.ListView;
  */
 public class MyListView extends ListView implements NestedScrollingChild {
 
-    private NestedScrollingChildHelper mScrollingChildHelper;
-
+    private final NestedScrollingChildHelper mScrollingChildHelper;
 
     public MyListView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -71,5 +71,6 @@ public class MyListView extends ListView implements NestedScrollingChild {
     public boolean dispatchNestedPreFling(float velocityX, float velocityY) {
         return mScrollingChildHelper.dispatchNestedPreFling(velocityX, velocityY);
     }
+
 
 }

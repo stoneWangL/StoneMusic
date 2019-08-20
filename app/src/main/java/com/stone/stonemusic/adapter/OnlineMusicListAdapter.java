@@ -1,20 +1,22 @@
 package com.stone.stonemusic.adapter;
 
+
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.stone.stonemusic.R;
+import com.stone.stonemusic.model.Beauty;
 import com.stone.stonemusic.model.Music;
 import com.stone.stonemusic.model.bean.ItemViewChoose;
+
+import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -23,75 +25,77 @@ import java.util.List;
  * @CreateDate: 2019/8/20 17:59
  * @Description:
  */
-public class OnlineMusicListAdapter extends ArrayAdapter<Music> {
+public class OnlineMusicListAdapter extends RecyclerView.Adapter<OnlineMusicListAdapter.ViewHolder> {
     public static final String TAG = "OnlineMusicListAdapter";
     private int resourceId;
     private Bitmap pic;
-    List<Music> list;
 
-    public OnlineMusicListAdapter(Context context, int textViewResourceId, List<Music> objects){
-        super(context, textViewResourceId, objects);
-        resourceId = textViewResourceId;
-        list = objects;
+    private List<Music> list; //数据集合
+    private Context mContext; //上下文
+
+    public OnlineMusicListAdapter(List<Music> list, Context context, int resourceId) {
+        this.list = list;
+        this.mContext = context;
+        this.resourceId = resourceId;
     }
 
-    @NonNull
+
     @Override
-    public View getView(final int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        //        Log.d(TAG, "当前位置-》" + position);
-        Music music = getItem(position);
-        View view;
-        OnlineMusicListAdapter.ViewHold viewHold;
-        if (convertView == null){
-            view = LayoutInflater.from(getContext()).inflate(resourceId,parent,false);
-            viewHold = new OnlineMusicListAdapter.ViewHold();
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        //加载item 布局文件
+        View view = LayoutInflater.from(parent.getContext()).inflate(resourceId, parent, false);
+        return new ViewHolder(view);
+    }
 
-            viewHold.ItemPlayOrPause = (ImageView) view.findViewById(R.id.item_playOrPause);
-            viewHold.musicName = (TextView) view.findViewById(R.id.music_name);
-            viewHold.musicArtist = (TextView) view.findViewById(R.id.music_artist);
-            viewHold.ItemSet = (ImageView) view.findViewById(R.id.iv_item_set);
-            view.setTag(viewHold);
+    @Override
+    public void onBindViewHolder(ViewHolder holder, final int position) {
+        //将数据设置到item上
 
-        }else{
-            view = convertView;
-            viewHold = (OnlineMusicListAdapter.ViewHold) view.getTag();
-        }
-
-        viewHold.ItemSet.setOnClickListener(new View.OnClickListener() {
+        //item中的设置按钮点击事件
+        holder.ItemSet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(TAG, "position == " + position);
+                Log.d(TAG, "ItemSet->position == " + position);
             }
         });
-
-//        pic = GetMusic.getMusicBitemp(getContext(),music.getId(),music.getAlbum_id(),0);
-//        viewHold.listMusicImage.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-//        viewHold.listMusicImage.setImageBitmap(pic);
-//        viewHold.listMusicImage.setBackgroundResource(R.drawable.list_message3);
-//        Glide.with(MusicAppUtils.getContext()).load(R.drawable.list_message3).into(viewHold.listMusicImage);
-
         //根据是否选中，显示对应position的item是否播放
         if (ItemViewChoose.getInstance().getItemChoosePosition() == position){
-            viewHold.ItemPlayOrPause.setVisibility(View.VISIBLE);
+            holder.ItemPlayOrPause.setVisibility(View.VISIBLE);
         } else {
-            viewHold.ItemPlayOrPause.setVisibility(View.GONE);
+            holder.ItemPlayOrPause.setVisibility(View.GONE);
         }
-
-        viewHold.musicName.setText(music.getTitle());
-        viewHold.musicArtist.setText(music.getArtist());
-        return view;
+        Music music = list.get(position);
+        holder.musicName.setText(music.getTitle());
+        holder.musicArtist.setText(music.getArtist());
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "itemView->position == " + position);
+            }
+        });
+        holder.textViewNum.setText("" + (position+1));
     }
 
-    class ViewHold{
+    @Override
+    public int getItemCount() {
+        return list.size();
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        View itemView;
+        TextView textViewNum;
         ImageView ItemPlayOrPause;
         TextView musicName;
         TextView musicArtist;
         ImageView ItemSet;
-
-    }
-
-    @Override
-    public int getCount() {
-        return list.size();
+        public ViewHolder(View itemView) {
+            super(itemView);
+            this.itemView = itemView;
+            textViewNum = (TextView) itemView.findViewById(R.id.textViewNum);
+            ItemPlayOrPause = (ImageView) itemView.findViewById(R.id.item_playOrPause);
+            musicName = (TextView) itemView.findViewById(R.id.music_name);
+            musicArtist = (TextView) itemView.findViewById(R.id.music_artist);
+            ItemSet = (ImageView) itemView.findViewById(R.id.iv_item_set);
+        }
     }
 }

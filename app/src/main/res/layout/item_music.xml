@@ -3,16 +3,23 @@
     android:layout_width="match_parent"
     android:layout_height="@dimen/item_height"
     android:orientation="horizontal">
-    <View
+    <LinearLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="0.3"
-        />
+        android:layout_weight="0.8"
+        android:gravity="center">
+        <TextView
+            android:id="@+id/textViewNum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:textSize="@dimen/big_item_title" />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="5.6"
+        android:layout_weight="5.4"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
@@ -35,7 +42,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
-                android:text="阿拉啦"
+                android:text="歌名歌名"
                 android:textSize="@dimen/big_item_title"
                 android:textColor="@color/black"
                 />
@@ -45,7 +52,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
-                android:text="慕寒-热门华宇242"
+                android:text="歌手"
                 android:textSize="@dimen/big_item_artist"/>
         </LinearLayout>
 
@@ -53,16 +60,22 @@
 
     </LinearLayout>
 
-    <ImageView
-        android:id="@+id/iv_item_set"
+    <LinearLayout
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_weight="0.5"
-        android:background="@drawable/ic_item_set"
-        android:layout_gravity="center"
-        android:onClick="Text"/>
+        android:gravity="center">
+        <ImageView
+            android:id="@+id/iv_item_set"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_item_set"
+            android:layout_gravity="center"
+            android:onClick="Text"/>
+    </LinearLayout>
+
     <View
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="0.5"/>
+        android:layout_weight="0.2"/>
 </LinearLayout>

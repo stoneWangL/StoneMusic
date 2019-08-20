@@ -4,6 +4,9 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
@@ -13,6 +16,7 @@ import android.widget.ListView;
 import com.bumptech.glide.Glide;
 import com.stone.stonemusic.R;
 import com.stone.stonemusic.View.OnLineView;
+import com.stone.stonemusic.adapter.BeautyAdapter;
 import com.stone.stonemusic.adapter.OnlineMusicListAdapter;
 import com.stone.stonemusic.base.BaseActivity;
 import com.stone.stonemusic.model.Music;
@@ -37,7 +41,7 @@ public class OnlineMusicListActivity extends BaseActivity implements OnLineView 
     ImageView imageView;
     Toolbar toolbar;
     CollapsingToolbarLayout collapsingToolbar;
-    private ListView listView;
+    private RecyclerView recyclerView;
     public ProgressDialog mDialog;
     OnLineListPresenterImpl onLineListPresenter;
     private OnlineMusicListAdapter listAdapter;
@@ -60,7 +64,15 @@ public class OnlineMusicListActivity extends BaseActivity implements OnLineView 
         }
         collapsingToolbar = findViewById(R.id.collapsing_toolbar_land_show);
         imageView = findViewById(R.id.imageViewTheme);
-        listView = findViewById(R.id.listView_onlineMusicList);
+        recyclerView = findViewById(R.id.recycleView_onlineMusicList);
+        //给rv设置线性布局
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        //添加分割线
+//        recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+        //为滑动顺畅的设置
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setNestedScrollingEnabled(false);
+
         onLineListPresenter = new OnLineListPresenterImpl(this);
 
     }
@@ -114,9 +126,8 @@ public class OnlineMusicListActivity extends BaseActivity implements OnLineView 
                 ToastUtils.getToastShort("获取列表成功");
                 musicList = SongModel.getInstance().getSongList();
                 Log.i(TAG, "musicList.size=" + musicList.size());
-                listAdapter = new OnlineMusicListAdapter(MusicApplication.getContext(),R.layout.item_music,musicList);
-                listView.setAdapter(listAdapter);
-                listAdapter.notifyDataSetChanged();
+                listAdapter = new OnlineMusicListAdapter(musicList,MusicApplication.getContext(),R.layout.item_music);
+                recyclerView.setAdapter(listAdapter);
             }
         });
     }

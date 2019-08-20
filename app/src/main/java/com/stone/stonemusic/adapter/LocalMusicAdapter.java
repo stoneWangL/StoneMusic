@@ -40,7 +40,7 @@ public class LocalMusicAdapter extends ArrayAdapter<Music> {
         if (convertView == null){
             view = LayoutInflater.from(getContext()).inflate(resourceId,parent,false);
             viewHold = new ViewHold();
-
+            viewHold.textViewNum = (TextView) view.findViewById(R.id.textViewNum);
             viewHold.ItemPlayOrPause = (ImageView) view.findViewById(R.id.item_playOrPause);
             viewHold.musicName = (TextView) view.findViewById(R.id.music_name);
             viewHold.musicArtist = (TextView) view.findViewById(R.id.music_artist);
@@ -52,6 +52,7 @@ public class LocalMusicAdapter extends ArrayAdapter<Music> {
             viewHold = (ViewHold) view.getTag();
         }
 
+        viewHold.textViewNum.setText(""+(position+1));
         viewHold.ItemSet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -79,6 +80,7 @@ public class LocalMusicAdapter extends ArrayAdapter<Music> {
 
     class ViewHold{
 //        ImageView listMusicImage;
+        TextView textViewNum;
         ImageView ItemPlayOrPause;
         TextView musicName;
         TextView musicArtist;
