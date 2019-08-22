@@ -1,4 +1,4 @@
-package com.stone.stonemusic.utils;
+package com.stone.stonemusic.utils.playControl;
 
 import android.media.AudioManager;
 import android.media.MediaPlayer;

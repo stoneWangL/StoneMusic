@@ -1,48 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <!--修改toolBar为个性toolBar -->
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/appBar_land_show"
-        android:layout_width="match_parent"
-        android:layout_height="250dp">
 
-        <android.support.design.widget.CollapsingToolbarLayout
-            android:id="@+id/collapsing_toolbar_land_show"
+    <android.support.design.widget.CoordinatorLayout
+        android:id="@+id/CoordinatorLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <!--修改toolBar为个性toolBar -->
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/appBar_land_show"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:contentScrim="@color/colorStoneThemeDark"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed">
-            <ImageView
-                android:id="@+id/imageViewTheme"
+            android:layout_height="250dp">
+
+            <android.support.design.widget.CollapsingToolbarLayout
+                android:id="@+id/collapsing_toolbar_land_show"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="centerCrop"
-                app:layout_collapseMode="parallax"
-                android:contentDescription="@string/theme_image"
-                />
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar_land_show"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:layout_collapseMode="pin" />
-        </android.support.design.widget.CollapsingToolbarLayout>
-    </android.support.design.widget.AppBarLayout>
+                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                app:contentScrim="@color/colorStoneThemeDark"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed">
+                <ImageView
+                    android:id="@+id/imageViewTheme"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    app:layout_collapseMode="parallax"
+                    android:contentDescription="@string/theme_image"
+                    />
+                <android.support.v7.widget.Toolbar
+                    android:id="@+id/toolbar_land_show"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    app:layout_collapseMode="pin" />
+            </android.support.design.widget.CollapsingToolbarLayout>
+        </android.support.design.widget.AppBarLayout>
 
-    <!--内容-->
-    <android.support.v4.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycleView_onlineMusicList"
+        <!--内容-->
+        <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </android.support.v4.widget.NestedScrollView>
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycleView_onlineMusicList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </android.support.v4.widget.NestedScrollView>
+    </android.support.design.widget.CoordinatorLayout>
 
-</android.support.design.widget.CoordinatorLayout>
+    <!--下方播放bar-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
+        <include layout="@layout/bottom_bar"
+            />
+    </LinearLayout>
+
+</RelativeLayout>

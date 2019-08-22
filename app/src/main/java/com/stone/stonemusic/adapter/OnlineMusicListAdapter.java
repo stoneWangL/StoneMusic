@@ -3,6 +3,7 @@ package com.stone.stonemusic.adapter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.provider.ContactsContract;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,9 +13,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.stone.stonemusic.R;
+import com.stone.stonemusic.View.OnLineView;
 import com.stone.stonemusic.model.Beauty;
 import com.stone.stonemusic.model.Music;
 import com.stone.stonemusic.model.bean.ItemViewChoose;
+import com.stone.stonemusic.utils.code.PlayType;
+import com.stone.stonemusic.utils.playControl.MediaUtils;
 
 import org.w3c.dom.Text;
 
@@ -31,13 +35,26 @@ public class OnlineMusicListAdapter extends RecyclerView.Adapter<OnlineMusicList
     private Bitmap pic;
 
     private List<Music> list; //数据集合
-    private Context mContext; //上下文
+    private OnLineView onLineView; //上下文
 
-    public OnlineMusicListAdapter(List<Music> list, Context context, int resourceId) {
+    public OnlineMusicListAdapter(List<Music> list, OnLineView onLineView, int resourceId) {
         this.list = list;
-        this.mContext = context;
+        this.onLineView = onLineView;
         this.resourceId = resourceId;
     }
+
+//    //回调接口私有属性
+//    private OnItemClickListener onItemClickListener = null;
+//
+//    //setter方法
+//    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+//        this.onItemClickListener = onItemClickListener;
+//    }
+//
+//    //回调接口
+//    public interface OnItemClickListener {
+//        void onItemClick(View v, ContactsContract.CommonDataKinds.Note note, int position);
+//    }
 
 
     @Override
@@ -49,7 +66,28 @@ public class OnlineMusicListAdapter extends RecyclerView.Adapter<OnlineMusicList
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
+
+
+        //点击回调
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onLineView.onItemClick(v, position);
+            }
+        });
         //将数据设置到item上
+        holder.textViewNum.setText("" + (position+1));
+        //根据是否选中，显示对应position的item是否播放
+//        Log.i(TAG, "ItemChoosePosition="+ ItemViewChoose.getInstance().getItemChoosePosition() + ";position="+ position);
+        if (MediaUtils.musicType == PlayType.OnlineType && ItemViewChoose.getInstance().getItemChoosePosition() == position){
+            holder.ItemPlayOrPause.setVisibility(View.VISIBLE);
+        } else {
+            holder.ItemPlayOrPause.setVisibility(View.GONE);
+        }
+        Music music = list.get(position);
+        holder.musicName.setText(music.getTitle());
+        holder.musicArtist.setText(music.getArtist());
+
 
         //item中的设置按钮点击事件
         holder.ItemSet.setOnClickListener(new View.OnClickListener() {
@@ -58,22 +96,6 @@ public class OnlineMusicListAdapter extends RecyclerView.Adapter<OnlineMusicList
                 Log.d(TAG, "ItemSet->position == " + position);
             }
         });
-        //根据是否选中，显示对应position的item是否播放
-        if (ItemViewChoose.getInstance().getItemChoosePosition() == position){
-            holder.ItemPlayOrPause.setVisibility(View.VISIBLE);
-        } else {
-            holder.ItemPlayOrPause.setVisibility(View.GONE);
-        }
-        Music music = list.get(position);
-        holder.musicName.setText(music.getTitle());
-        holder.musicArtist.setText(music.getArtist());
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d(TAG, "itemView->position == " + position);
-            }
-        });
-        holder.textViewNum.setText("" + (position+1));
     }
 
     @Override

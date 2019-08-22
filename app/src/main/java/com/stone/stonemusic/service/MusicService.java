@@ -21,15 +21,15 @@ import android.widget.RemoteViews;
 import com.stone.stonemusic.R;
 import com.stone.stonemusic.model.Music;
 import com.stone.stonemusic.model.bean.SongModel;
+import com.stone.stonemusic.ui.activity.HomeActivity;
 import com.stone.stonemusic.utils.playControl.MusicListenerWorker;
 import com.stone.stonemusic.presenter.broadcastReceiver.NotificationViewReceiver;
 import com.stone.stonemusic.presenter.interf.MusicObserverListener;
 import com.stone.stonemusic.presenter.impl.MusicObserverManager;
 import com.stone.stonemusic.utils.playControl.MusicResources;
 import com.stone.stonemusic.utils.playControl.PlayControl;
-import com.stone.stonemusic.ui.activity.LocalListActivity;
 import com.stone.stonemusic.utils.code.MediaStateCode;
-import com.stone.stonemusic.utils.MediaUtils;
+import com.stone.stonemusic.utils.playControl.MediaUtils;
 import com.stone.stonemusic.utils.MusicApplication;
 
 import java.util.ArrayList;
@@ -227,7 +227,7 @@ public class MusicService extends Service implements MusicObserverListener{
             remoteViews.setImageViewResource(R.id.notification_play_pause, R.drawable.ic_play_black);
         }
         // 点击音乐image跳转到主界面
-        Intent intentGo = new Intent(this, LocalListActivity.class);
+        Intent intentGo = new Intent(this, HomeActivity.class);
         PendingIntent pendingIntentGo = PendingIntent.getActivity(
                 this, 0, intentGo, PendingIntent.FLAG_CANCEL_CURRENT);
         remoteViews.setOnClickPendingIntent(R.id.notification_album, pendingIntentGo);

@@ -24,7 +24,7 @@ import com.stone.stonemusic.View.LrcView;
 import com.stone.stonemusic.utils.LrcUtil;
 import com.stone.stonemusic.net.SearchLrcUtilOnline;
 import com.stone.stonemusic.utils.code.MediaStateCode;
-import com.stone.stonemusic.utils.MediaUtils;
+import com.stone.stonemusic.utils.playControl.MediaUtils;
 
 import java.util.ArrayList;
 import java.util.List;

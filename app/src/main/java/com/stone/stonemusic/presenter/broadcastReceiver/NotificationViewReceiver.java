@@ -47,7 +47,7 @@ public class NotificationViewReceiver extends BroadcastReceiver {
         } else if (null != action && action.equals(MediaStateCode.ACTION_CLOSE)) {
             Log.d(TAG, "clocked Close");
             MusicApplication.destroyActivity("PlayActivity");
-            MusicApplication.destroyActivity("LocalListActivity");
+            MusicApplication.destroyActivity("HomeActivity");
             musicService.stopService(new Intent(context,MusicService.class));
         } else if (null != action && AudioManager.ACTION_AUDIO_BECOMING_NOISY.equals(action)) {
             Log.i(TAG, "检测到耳机拔出");

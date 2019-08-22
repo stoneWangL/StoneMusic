@@ -24,7 +24,7 @@ import com.stone.stonemusic.utils.playControl.PlayControl;
 import com.stone.stonemusic.View.CircleView;
 import com.stone.stonemusic.View.ActivityView;
 import com.stone.stonemusic.utils.code.MediaStateCode;
-import com.stone.stonemusic.utils.MediaUtils;
+import com.stone.stonemusic.utils.playControl.MediaUtils;
 import com.stone.stonemusic.utils.MusicApplication;
 import com.stone.stonemusic.utils.OtherUtils;
 import com.stone.stonemusic.utils.ToastUtils;

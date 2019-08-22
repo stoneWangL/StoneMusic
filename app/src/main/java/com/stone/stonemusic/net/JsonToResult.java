@@ -7,6 +7,7 @@ import android.util.Log;
 import com.stone.stonemusic.model.Music;
 import com.stone.stonemusic.model.OnLineListBean;
 import com.stone.stonemusic.model.PlayListBean;
+import com.stone.stonemusic.utils.URLProviderUtils;
 import com.stone.stonemusic.utils.code.PlayType;
 
 import org.json.JSONArray;
@@ -35,7 +36,7 @@ public class JsonToResult implements PlayType {
                 JSONObject allNews = new JSONObject(jsonData);
                 int code = allNews.getInt("code");
 
-                while(200 == code){
+                while(200 == code) {
                     String playLists = allNews.getString("playlists"); //playList数组的字符串
                     JSONArray playListsArray = new JSONArray(playLists);
 
@@ -127,11 +128,13 @@ public class JsonToResult implements PlayType {
             String ar_name,
             String al_picUrl) {
         Music music = new Music();
+        music.setId(0); //网络歌曲设置id为0
         music.setMusicType(PlayType.OnlineType); //设置歌曲类型->在线歌曲
         music.setTitle(name);
         music.setMusicId(id);
         music.setArtist(ar_name);
         music.setPicUrl(al_picUrl);
+        music.setFileUrl(URLProviderUtils.getSingleSong(id));
         return music;
     }
 

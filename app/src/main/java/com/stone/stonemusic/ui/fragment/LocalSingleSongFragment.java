@@ -21,12 +21,13 @@ import com.stone.stonemusic.adapter.LocalMusicAdapter;
 import com.stone.stonemusic.model.bean.ItemViewChoose;
 import com.stone.stonemusic.model.Music;
 import com.stone.stonemusic.model.bean.SongModel;
-import com.stone.stonemusic.presenter.JumpToOtherView;
-import com.stone.stonemusic.presenter.JumpToOtherWhere;
+import com.stone.stonemusic.presenter.interf.JumpToOtherView;
+import com.stone.stonemusic.presenter.impl.JumpToOtherWhere;
+import com.stone.stonemusic.ui.activity.HomeActivity;
+import com.stone.stonemusic.utils.code.PlayType;
 import com.stone.stonemusic.utils.playControl.PlayControl;
-import com.stone.stonemusic.ui.activity.LocalListActivity;
 import com.stone.stonemusic.utils.code.MediaStateCode;
-import com.stone.stonemusic.utils.MediaUtils;
+import com.stone.stonemusic.utils.playControl.MediaUtils;
 import com.stone.stonemusic.utils.MusicApplication;
 import com.stone.stonemusic.utils.playControl.MusicResources;
 
@@ -37,7 +38,7 @@ import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
 public class LocalSingleSongFragment extends Fragment implements
-        LocalListActivity.CallBackInterface, JumpToOtherView {
+        HomeActivity.CallBackInterface, JumpToOtherView {
     public static final String TAG = "MusicListFragment";
     private ListView listView;
     private List<Music> musicList = new ArrayList<>();
@@ -48,7 +49,7 @@ public class LocalSingleSongFragment extends Fragment implements
     private TextView mBottomBarArtist;
     private ImageView mIvPlay;
     private ImageView mIvBottomBarImage;
-    private LocalListActivity fatherActivity = null;
+    private HomeActivity fatherActivity = null;
     private JumpToOtherWhere jumpToOtherWhere;
 
     public LocalSingleSongFragment() {}
@@ -56,7 +57,7 @@ public class LocalSingleSongFragment extends Fragment implements
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        fatherActivity = ((LocalListActivity)context);
+        fatherActivity = ((HomeActivity)context);
         fatherActivity.setCallBackInterface(this);
         jumpToOtherWhere = new JumpToOtherWhere(fatherActivity);
     }
@@ -94,11 +95,10 @@ public class LocalSingleSongFragment extends Fragment implements
                     jumpToOtherWhere.GoToPlayActivity(); //调用父类方法，跳转到播放Activity
                 //点击的不是当前播放的歌曲
                 else {
-                    PlayControl.controlBtnPlayDiffSong();
+                    PlayControl.controlBtnPlayDiffSong(); //播放音乐
                     mBottomBarTitle.setText(musicList.get(position).getTitle()); //更新音乐名
                     mBottomBarArtist.setText(musicList.get(position).getArtist()); //更新音乐作者
                     //更新音乐专辑图
-                    /*Warning:(102, 62) Use `Long.valueOf(musicList.get(position).getAlbum_id())` instead*/
                     String path = MusicResources.getAlbumArt(new Long(musicList.get(position).getAlbum_id()).intValue());
                     Log.d(TAG,"path="+path);
                     if (null == path){
@@ -117,7 +117,7 @@ public class LocalSingleSongFragment extends Fragment implements
 
     private void readMusic(){
         try{
-            musicList = SongModel.getInstance().getSongList();
+            musicList = SongModel.getInstance().getmLocalSongList();
 
             if (null != musicList && musicList.size() > 0){
                 mNoMusic.setVisibility(GONE);
@@ -149,7 +149,8 @@ public class LocalSingleSongFragment extends Fragment implements
     @Override
     public void onResume() {
         super.onResume();
-
+        SongModel.getInstance().setSongList(musicList);
+        SongModel.getInstance().setMusicType(PlayType.LocalType);
         /*通过MusicBroadcastReceiver发送的intent，更新UI*/
         int state = getActivity().getIntent().getIntExtra("state", 0);
         Log.d(TAG, "onResume 02 state == " + state);

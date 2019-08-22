@@ -8,7 +8,7 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.stone.stonemusic.R;
-import com.stone.stonemusic.utils.MediaUtils;
+import com.stone.stonemusic.utils.playControl.MediaUtils;
 import com.stone.stonemusic.utils.MusicApplication;
 
 public class ActivityView {

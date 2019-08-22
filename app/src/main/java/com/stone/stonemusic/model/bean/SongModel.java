@@ -8,7 +8,7 @@ import java.util.List;
 public class SongModel implements PlayType {
     private int musicType = PlayType.LocalType; //默认为本地,不设置的话就是本地音乐
     private static SongModel sSongModel=null;
-    private List<Music> mSongList;
+    private List<Music> mSongList, mLocalSongList;
     private SongModel() {}
 
     //单例,获取实例
@@ -25,6 +25,14 @@ public class SongModel implements PlayType {
 
     public List<Music> getSongList() {
         return mSongList;
+    }
+
+    public List<Music> getmLocalSongList() {
+        return mLocalSongList;
+    }
+
+    public void setmLocalSongList(List<Music> mLocalSongList) {
+        this.mLocalSongList = mLocalSongList;
     }
 
     public int getSongListSize() {

@@ -1,11 +1,12 @@
-package com.stone.stonemusic.presenter;
+package com.stone.stonemusic.presenter.impl;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Handler;
 
 import com.stone.stonemusic.R;
-import com.stone.stonemusic.ui.activity.LocalListActivity;
+import com.stone.stonemusic.presenter.interf.JumpToOtherView;
+import com.stone.stonemusic.ui.activity.HomeActivity;
 import com.stone.stonemusic.ui.activity.PlayActivity;
 
 /**
@@ -39,7 +40,7 @@ public class JumpToOtherWhere {
         new Handler().postDelayed(new Runnable(){
             @Override
             public void run(){
-                Intent intent2 = new Intent (context,LocalListActivity.class);
+                Intent intent2 = new Intent (context, HomeActivity.class);
                 context.startActivity(intent2);//跳转界面
                 context.finish();//关闭此界面
             }

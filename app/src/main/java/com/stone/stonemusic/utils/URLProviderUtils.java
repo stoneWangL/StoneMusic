@@ -105,6 +105,13 @@ public class URLProviderUtils {
         return url;
     }
 
+    //单曲获取 https://music.163.com/song/media/outer/url?id=id.mp3
+    public static String getSingleSong(String id) {
+        String url = "https://music.163.com/song/media/outer/url?id="
+                + id + ".mp3";
+        return url;
+    }
+
     /**
      * <p>获取音乐节目列表</p>
      *

@@ -3,8 +3,6 @@ package com.stone.stonemusic.utils.playControl;
 import com.stone.stonemusic.presenter.impl.MusicObserverManager;
 import com.stone.stonemusic.service.MusicService;
 import com.stone.stonemusic.utils.code.MediaStateCode;
-import com.stone.stonemusic.utils.MediaUtils;
-import com.stone.stonemusic.utils.playControl.PlayControl;
 
 /**
  * author : stoneWang

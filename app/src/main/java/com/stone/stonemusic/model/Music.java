@@ -5,20 +5,18 @@ import com.stone.stonemusic.utils.code.PlayType;
 import java.io.Serializable;
 
 public class Music implements Serializable, PlayType {
-    private int musicType = PlayType.LocalType;
+    private int musicType;
     private long id;
     private String musicId;
     private long album_id;
     private String title;
     private String artist;
     private long size;//music的音乐长度
-
-    private int isMusic;
     private long duration;
     private String album;
+    private String fileUrl; //文件路径
+    private int isMusic;
     private String picUrl; //在线歌曲图片
-    //文件路径
-    private String fileUrl;
 
     public int getMusicType() {
         return musicType;

@@ -19,7 +19,6 @@ import com.stone.stonemusic.adapter.LocalArtistAdapter;
 import com.stone.stonemusic.model.ArtistModel;
 import com.stone.stonemusic.presenter.interf.MusicObserverListener;
 import com.stone.stonemusic.utils.playControl.MusicResources;
-import com.stone.stonemusic.ui.activity.LocalListActivity;
 import com.stone.stonemusic.utils.code.MediaStateCode;
 import com.stone.stonemusic.utils.MusicApplication;
 
@@ -42,7 +41,7 @@ public class LocalArtistFragment extends Fragment implements
     private TextView mBottomBarArtist;
     private ImageView mIvPlay;
     private ImageView mIvBottomBarImage;
-    private LocalListActivity fatherActivity = null;
+//    private HomeActivity fatherActivity = null;
 
     public LocalArtistFragment() {}
 

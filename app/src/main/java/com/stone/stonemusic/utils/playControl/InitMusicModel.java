@@ -3,9 +3,8 @@ package com.stone.stonemusic.utils.playControl;
 import android.os.AsyncTask;
 
 import com.stone.stonemusic.model.bean.SongModel;
-import com.stone.stonemusic.ui.activity.LocalListActivity;
+import com.stone.stonemusic.ui.activity.HomeActivity;
 import com.stone.stonemusic.utils.MusicApplication;
-import com.stone.stonemusic.utils.playControl.MusicResources;
 
 /**
  * author : stoneWang
@@ -13,16 +12,10 @@ import com.stone.stonemusic.utils.playControl.MusicResources;
  */
 public class InitMusicModel extends AsyncTask<String, Integer, String> {
 
-    private LocalListActivity view;
+    private HomeActivity view;
 
-    public InitMusicModel(LocalListActivity activity){
+    public InitMusicModel(HomeActivity activity){
         this.view = activity;
-    }
-
-    @Override
-    protected void onPreExecute() {
-//            text.setText("加载中");
-        // 执行前显示提示
     }
 
     @Override
@@ -30,7 +23,7 @@ public class InitMusicModel extends AsyncTask<String, Integer, String> {
 
         try {
             view.musicList = new MusicResources().getMusic(MusicApplication.getContext());
-            SongModel.getInstance().setSongList(view.musicList);
+            SongModel.getInstance().setmLocalSongList(view.musicList); //保存本地音乐列表
             MusicResources.initArtistMode(); //初始化歌手列表
         } catch (Exception e) {
             e.printStackTrace();

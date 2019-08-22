@@ -19,14 +19,14 @@ import com.stone.stonemusic.R;
 import com.stone.stonemusic.adapter.HomeAdapter;
 import com.stone.stonemusic.model.Music;
 import com.stone.stonemusic.utils.playControl.InitMusicModel;
-import com.stone.stonemusic.presenter.JumpToOtherView;
-import com.stone.stonemusic.presenter.JumpToOtherWhere;
+import com.stone.stonemusic.presenter.interf.JumpToOtherView;
+import com.stone.stonemusic.presenter.impl.JumpToOtherWhere;
 import com.stone.stonemusic.presenter.interf.MusicObserverListener;
 import com.stone.stonemusic.presenter.impl.MusicObserverManager;
 import com.stone.stonemusic.utils.playControl.PlayControl;
 import com.stone.stonemusic.View.ActivityView;
 import com.stone.stonemusic.utils.code.MediaStateCode;
-import com.stone.stonemusic.utils.MediaUtils;
+import com.stone.stonemusic.utils.playControl.MediaUtils;
 import com.stone.stonemusic.utils.MusicApplication;
 import com.stone.stonemusic.utils.playControl.MusicResources;
 import com.stone.stonemusic.utils.ToastUtils;
@@ -34,9 +34,9 @@ import com.stone.stonemusic.utils.ToastUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LocalListActivity extends AppCompatActivity implements
+public class HomeActivity extends AppCompatActivity implements
         MusicObserverListener, View.OnClickListener, JumpToOtherView{
-    public static final String TAG = "LocalListActivity";
+    public static final String TAG = "HomeActivity";
 
     public ProgressDialog mDialog;
 

@@ -11,6 +11,7 @@ import com.stone.stonemusic.model.Music;
 import com.stone.stonemusic.presenter.impl.MusicObserverManager;
 import com.stone.stonemusic.utils.code.MediaStateCode;
 import com.stone.stonemusic.utils.MusicApplication;
+import com.stone.stonemusic.utils.code.PlayType;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -41,7 +42,7 @@ public class MusicResources {
             cursor = context.getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
                     null, null, null, MediaStore.Audio.Media.DEFAULT_SORT_ORDER);
             if (cursor != null){
-                while (cursor.moveToNext()){
+                while (cursor.moveToNext()) {
                     Music m = new Music();
                     long id = cursor.getLong(cursor.getColumnIndex(MediaStore.Audio.Media._ID));
 //                    String title = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.TITLE));
@@ -57,6 +58,8 @@ public class MusicResources {
 
                     if (ismusic != 0 && duration / (1000 * 60) >= 1) {
                         m.setId(id);
+                        m.setMusicId(""); //本地音乐设置MusicId为""
+                        m.setMusicType(PlayType.LocalType);
                         m.setTitle(displayName);
                         m.setArtist(artist);
                         m.setDuration(duration);

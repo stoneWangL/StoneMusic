@@ -4,7 +4,7 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import android.view.ViewGroup
-import com.stone.stonemusic.ui.activity.LocalListActivity
+import com.stone.stonemusic.ui.activity.HomeActivity
 import com.stone.stonemusic.ui.fragment.*
 import com.stone.stonemusic.utils.code.HomeCode
 
@@ -51,9 +51,9 @@ class HomeAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
     override fun getItem(position: Int): Fragment? {
         var fragment: Fragment? = null
         when (position) {
-            LocalListActivity.PAGE_LOCAL -> fragment = localFragment
-            LocalListActivity.PAGE_GE_DAN -> fragment = geDanAllFragment
-            LocalListActivity.PAGE_STYLE -> fragment = styleFragment
+            HomeActivity.PAGE_LOCAL -> fragment = localFragment
+            HomeActivity.PAGE_GE_DAN -> fragment = geDanAllFragment
+            HomeActivity.PAGE_STYLE -> fragment = styleFragment
         }
         return fragment
     }
