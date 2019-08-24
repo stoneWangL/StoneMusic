@@ -88,8 +88,9 @@ public class OnLineListPresenterImpl implements OnLineListPresenter {
                         loadFalse(); //提示失败
                         return; //list为空就不继续下面的事情
                     }
-                    SongModel.getInstance().setSongList(list);
+//                    SongModel.getInstance().setChooseSongList(list);
 //                    SongModel.getInstance().setMusicType(PlayType.OnlineType);
+                    SongModel.getInstance().setOnLineSongList(list); //设置网络歌曲list
                     loadSuccess(); //提示成功
                 }
             });

@@ -112,6 +112,13 @@ public class URLProviderUtils {
         return url;
     }
 
+    //查看单曲是否可以播放
+    public static String checkMusic(String id) {
+        String url = "http://144.34.228.215:3000/check/music?id="
+                + id;
+        return url;
+    }
+
     /**
      * <p>获取音乐节目列表</p>
      *

@@ -136,7 +136,7 @@ public class PlayLyricFragment extends Fragment implements OnLrcSearchClickListe
 
     private void init() {
 
-        musicList = SongModel.getInstance().getSongList(); //重新获取歌曲list
+        musicList = SongModel.getInstance().getChooseSongList(); //重新获取歌曲list
         if (null != playPageLrcView){
             Log.i(TAG, "init()->playPageLrcView 不为 null");
             playPageLrcView.setOnLrcSearchClickListener(this);

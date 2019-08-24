@@ -182,7 +182,7 @@ public class MusicService extends Service implements MusicObserverListener{
 
         remoteViewsHandler.sendEmptyMessage(1);
 
-        musicList = SongModel.getInstance().getSongList();
+        musicList = SongModel.getInstance().getChooseSongList();
 
 
         //开启监听音乐播放进度的Worker

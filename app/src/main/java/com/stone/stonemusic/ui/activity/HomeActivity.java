@@ -18,7 +18,9 @@ import com.bumptech.glide.Glide;
 import com.stone.stonemusic.R;
 import com.stone.stonemusic.adapter.HomeAdapter;
 import com.stone.stonemusic.model.Music;
-import com.stone.stonemusic.utils.playControl.InitMusicModel;
+import com.stone.stonemusic.model.bean.SongModel;
+import com.stone.stonemusic.utils.code.PlayType;
+import com.stone.stonemusic.utils.playControl.InitMusicModelTask;
 import com.stone.stonemusic.presenter.interf.JumpToOtherView;
 import com.stone.stonemusic.presenter.impl.JumpToOtherWhere;
 import com.stone.stonemusic.presenter.interf.MusicObserverListener;
@@ -59,7 +61,7 @@ public class HomeActivity extends AppCompatActivity implements
     public List<Music> musicList = new ArrayList<>();
 
     private JumpToOtherWhere jumpToOtherWhere;
-    private InitMusicModel initMusicModel;
+    private InitMusicModelTask initMusicModelTask;
 
     /*辅助回调的set方法*/
     private CallBackInterface mCallBackInterface;
@@ -87,12 +89,12 @@ public class HomeActivity extends AppCompatActivity implements
         //初始化跳转类
         jumpToOtherWhere = new JumpToOtherWhere(this);
         //初始化初始化MusicModel类(AsyncTask)
-        initMusicModel = new InitMusicModel(this);
+        initMusicModelTask = new InitMusicModelTask(this);
 
         //展示Dialog
         showDialog();
         //执行任务在其中初始化歌手列表，初始结束后，结束Dialog
-        initMusicModel.execute();
+        initMusicModelTask.execute();
     }
 
     /**
@@ -133,19 +135,27 @@ public class HomeActivity extends AppCompatActivity implements
     public void initMusicPlayImg() {
 
         try {
+            musicList = SongModel.getInstance().getChooseSongList();
             int position = MediaUtils.currentSongPosition;
-//        Log.d(TAG, "20190212 musicList = " + musicList.size());
+
             mBottomBarTitle.setText(musicList.get(position).getTitle());
             mBottomBarArtist.setText(musicList.get(position).getArtist());
 
-            String path = MusicResources.getAlbumArt(new Long(musicList.get(position).getAlbum_id()).intValue());
-//            Log.d(TAG,"path="+path);
-            if (null == path) {
+            //歌曲图片
+            String imagePath; //歌曲图片路径
+            if (musicList.get(position).getMusicType() == PlayType.OnlineType) { //当前为播放在线歌曲状态
+                imagePath = musicList.get(position).getPicUrl();
+            } else { //当前为播放本地歌曲状态
+                imagePath = MusicResources.getAlbumArt(new Long(musicList.get(position).getAlbum_id()).intValue());
+            }
+            //            Log.d(TAG,"imagePath="+imagePath);
+            if (null == imagePath || imagePath.equals("")) {
                 mIvBottomBarImage.setImageResource(R.drawable.play_background02);
             } else {
-                Glide.with(MusicApplication.getContext()).load(path).into(mIvBottomBarImage);
+                Glide.with(MusicApplication.getContext()).load(imagePath).into(mIvBottomBarImage);
             }
 
+            //播放控制按钮
             if (MediaUtils.currentState == MediaStateCode.PLAY_PAUSE ||
                     MediaUtils.currentState == MediaStateCode.PLAY_STOP) {
                 mIvPlay.setImageResource(R.drawable.ic_play_black);

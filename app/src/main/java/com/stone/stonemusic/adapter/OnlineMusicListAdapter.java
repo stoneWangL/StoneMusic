@@ -17,6 +17,7 @@ import com.stone.stonemusic.View.OnLineView;
 import com.stone.stonemusic.model.Beauty;
 import com.stone.stonemusic.model.Music;
 import com.stone.stonemusic.model.bean.ItemViewChoose;
+import com.stone.stonemusic.model.bean.SongModel;
 import com.stone.stonemusic.utils.code.PlayType;
 import com.stone.stonemusic.utils.playControl.MediaUtils;
 
@@ -79,7 +80,7 @@ public class OnlineMusicListAdapter extends RecyclerView.Adapter<OnlineMusicList
         holder.textViewNum.setText("" + (position+1));
         //根据是否选中，显示对应position的item是否播放
 //        Log.i(TAG, "ItemChoosePosition="+ ItemViewChoose.getInstance().getItemChoosePosition() + ";position="+ position);
-        if (MediaUtils.musicType == PlayType.OnlineType && ItemViewChoose.getInstance().getItemChoosePosition() == position){
+        if (SongModel.getInstance().getMusicType() == PlayType.OnlineType && ItemViewChoose.getInstance().getItemChoosePosition() == position){
             holder.ItemPlayOrPause.setVisibility(View.VISIBLE);
         } else {
             holder.ItemPlayOrPause.setVisibility(View.GONE);

@@ -2,19 +2,23 @@ package com.stone.stonemusic.utils.playControl;
 
 import android.os.AsyncTask;
 
+import com.stone.stonemusic.model.Music;
 import com.stone.stonemusic.model.bean.SongModel;
 import com.stone.stonemusic.ui.activity.HomeActivity;
 import com.stone.stonemusic.utils.MusicApplication;
+
+import java.util.List;
 
 /**
  * author : stoneWang
  * date   : 2019/7/522:37
  */
-public class InitMusicModel extends AsyncTask<String, Integer, String> {
+public class InitMusicModelTask extends AsyncTask<String, Integer, String> {
 
     private HomeActivity view;
+    private List<Music> musicList;
 
-    public InitMusicModel(HomeActivity activity){
+    public InitMusicModelTask(HomeActivity activity){
         this.view = activity;
     }
 
@@ -22,9 +26,10 @@ public class InitMusicModel extends AsyncTask<String, Integer, String> {
     protected String doInBackground(String... params) {
 
         try {
-            view.musicList = new MusicResources().getMusic(MusicApplication.getContext());
-            SongModel.getInstance().setmLocalSongList(view.musicList); //保存本地音乐列表
-            MusicResources.initArtistMode(); //初始化歌手列表
+            musicList = new MusicResources().getMusic(MusicApplication.getContext()); //初始化本地歌曲列表
+            SongModel.getInstance().setLocalSongList(musicList); //保存本地音乐列表
+
+            MusicResources.initArtistMode(); //初始化本地歌手列表
         } catch (Exception e) {
             e.printStackTrace();
         }

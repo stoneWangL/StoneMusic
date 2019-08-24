@@ -71,7 +71,7 @@ public class PlayControl {
                 MediaUtils.continuePlay();
             } else if (MediaUtils.currentState == MediaStateCode.PLAY_STOP) {
                 MediaUtils.prepare(
-                        SongModel.getInstance().getSongList().
+                        SongModel.getInstance().getChooseSongList().
                                 get(MediaUtils.currentSongPosition).getFileUrl());
                 MediaUtils.start();
             } else if (MediaUtils.currentState == MediaStateCode.PLAY_START ||
@@ -98,7 +98,7 @@ public class PlayControl {
             Log.i(TAG, "requestAudioFocus successfully.");
 
             MediaUtils.prepare(
-                    SongModel.getInstance().getSongList().
+                    SongModel.getInstance().getChooseSongList().
                             get(MediaUtils.currentSongPosition).getFileUrl());
             MediaUtils.start();
         } else {
@@ -120,7 +120,7 @@ public class PlayControl {
 
             MediaUtils.last();
             MediaUtils.prepare(
-                    SongModel.getInstance().getSongList().
+                    SongModel.getInstance().getChooseSongList().
                             get(MediaUtils.currentSongPosition).getFileUrl());
             MediaUtils.start();
         } else {
@@ -141,7 +141,7 @@ public class PlayControl {
 
             MediaUtils.next();
             MediaUtils.prepare(
-                    SongModel.getInstance().getSongList().
+                    SongModel.getInstance().getChooseSongList().
                             get(MediaUtils.currentSongPosition).getFileUrl());
             MediaUtils.start();
         } else {

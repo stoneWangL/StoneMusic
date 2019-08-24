@@ -1,5 +1,6 @@
 package com.stone.stonemusic.utils.playControl;
 
+import android.util.Log;
 import com.stone.stonemusic.presenter.impl.MusicObserverManager;
 import com.stone.stonemusic.service.MusicService;
 import com.stone.stonemusic.utils.code.MediaStateCode;
@@ -10,6 +11,7 @@ import com.stone.stonemusic.utils.code.MediaStateCode;
  * 音乐播放监听器
  */
 public class MusicListenerWorker implements Runnable {
+    private static final String TAG = "MusicListenerWorker";
     private int nowMediaNum = 0, listMediaNum = 1024, resultNum = 100, listSize, outOfOrderNum;
 
     private MusicService musicService;
@@ -25,6 +27,9 @@ public class MusicListenerWorker implements Runnable {
             try {
                 Thread.sleep(1000); /*每1000毫秒更新一次*/
                 nowMediaNum = MediaUtils.getMediaPlayer().getCurrentPosition();
+                //listMediaNum = MediaUtils.getMediaPlayer().getDuration(); //播放器获取的时常是真实的,但是
+                Log.i(TAG, "listMediaNum=" + listMediaNum);
+                //内容提供器和网络提供的都不准确，但是可以作为seekBar的显示
                 listMediaNum = (int) musicService.musicList.get(MediaUtils.currentSongPosition).getDuration();
                 resultNum = nowMediaNum - listMediaNum;
 //                    Log.d(TAG, "播放器状态：" + MediaUtils.currentState +

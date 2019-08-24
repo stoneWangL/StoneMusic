@@ -15,6 +15,8 @@ import android.widget.TextView;
 import com.stone.stonemusic.R;
 import com.stone.stonemusic.model.bean.ItemViewChoose;
 import com.stone.stonemusic.model.Music;
+import com.stone.stonemusic.model.bean.SongModel;
+import com.stone.stonemusic.utils.code.PlayType;
 
 import java.util.List;
 
@@ -67,7 +69,7 @@ public class LocalMusicAdapter extends ArrayAdapter<Music> {
 //        Glide.with(MusicAppUtils.getContext()).load(R.drawable.list_message3).into(viewHold.listMusicImage);
 
         //根据是否选中，显示对应position的item是否播放
-        if (ItemViewChoose.getInstance().getItemChoosePosition() == position){
+        if (SongModel.getInstance().getMusicType() == PlayType.LocalType && ItemViewChoose.getInstance().getItemChoosePosition() == position){
             viewHold.ItemPlayOrPause.setVisibility(View.VISIBLE);
         } else {
             viewHold.ItemPlayOrPause.setVisibility(View.GONE);

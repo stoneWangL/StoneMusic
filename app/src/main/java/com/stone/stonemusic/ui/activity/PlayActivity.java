@@ -72,7 +72,7 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void init() {
-        musicList = SongModel.getInstance().getSongList();
+        musicList = SongModel.getInstance().getChooseSongList();
         MusicApplication.addDestroyActivity(this, TAG); /*添加到待销毁的队列*/
         initView();
     }
@@ -229,6 +229,8 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.circle_play_next:
                 /*下一曲*/
                 PlayControl.controlBtnNext();
+                //使用观察者管理类通知，音乐源已改变需要更新
+//                MusicObserverManager.getInstance().notifyObserver(MediaStateCode.MUSIC_POSITION_CHANGED);
                 break;
         }
     }

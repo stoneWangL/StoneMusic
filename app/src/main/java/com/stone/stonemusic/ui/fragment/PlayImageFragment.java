@@ -52,7 +52,7 @@ public class PlayImageFragment extends Fragment implements PlayActivity.CallBack
     }
 
     private void init(View view) {
-        musicList = SongModel.getInstance().getSongList();
+        musicList = SongModel.getInstance().getChooseSongList();
         CIVAlbum = (CircleImageView) view.findViewById(R.id.play_music_album_image);
         initView();
     }

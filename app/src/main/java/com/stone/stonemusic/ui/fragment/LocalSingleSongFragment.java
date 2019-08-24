@@ -86,6 +86,11 @@ public class LocalSingleSongFragment extends Fragment implements
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //本地item被点击，说明当前需要播放的歌曲需要切换到本地
+                SongModel.getInstance().setMusicType(PlayType.LocalType); //将播放类型切换为LocalType
+                //设置当前播放的歌曲类型为本地歌曲
+                SongModel.getInstance().setChooseSongList(SongModel.getInstance().getLocalSongList());
+
                 Log.d(TAG, "位置："+position+"; 歌名："+musicList.get(position).getTitle());
                 adapter.notifyDataSetChanged(); //更新adapter
                 MediaUtils.currentSongPosition = position; //设置当前播放位置全局position
@@ -117,7 +122,7 @@ public class LocalSingleSongFragment extends Fragment implements
 
     private void readMusic(){
         try{
-            musicList = SongModel.getInstance().getmLocalSongList();
+            musicList = SongModel.getInstance().getLocalSongList();
 
             if (null != musicList && musicList.size() > 0){
                 mNoMusic.setVisibility(GONE);
@@ -149,8 +154,6 @@ public class LocalSingleSongFragment extends Fragment implements
     @Override
     public void onResume() {
         super.onResume();
-        SongModel.getInstance().setSongList(musicList);
-        SongModel.getInstance().setMusicType(PlayType.LocalType);
         /*通过MusicBroadcastReceiver发送的intent，更新UI*/
         int state = getActivity().getIntent().getIntExtra("state", 0);
         Log.d(TAG, "onResume 02 state == " + state);

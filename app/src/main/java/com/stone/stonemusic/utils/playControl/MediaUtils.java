@@ -2,19 +2,17 @@ package com.stone.stonemusic.utils.playControl;
 
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.util.Log;
 
 import com.stone.stonemusic.model.bean.SongModel;
 import com.stone.stonemusic.presenter.impl.MusicObserverManager;
 import com.stone.stonemusic.utils.code.MediaStateCode;
 import com.stone.stonemusic.utils.code.PlayType;
-
-import java.io.IOException;
 import java.util.Random;
 
 /*问题播放结束时没有监听，修改播放器的状态*/
 public class MediaUtils implements PlayType {
-    //当前播放列表类型 本地0，在线1
-    public static int musicType = LocalType;
+    private static final String TAG = "MediaUtils";
 
     //当前播放歌曲postion
     public static int currentSongPosition = 0;
@@ -25,24 +23,37 @@ public class MediaUtils implements PlayType {
     //当前循环播放模式，默认列表循环
     public static int currentLoopMode = MediaStateCode.LOOP_MODE_ORDER_LIST;
 
-    private static MediaPlayer sMediaPlayer;
+    private static volatile MediaPlayer sMediaPlayer;
 
     public static MediaPlayer getMediaPlayer() {
+        //避免不必要的同步
         if (sMediaPlayer == null) {
-            sMediaPlayer = new MediaPlayer();
+            //同步
+            synchronized (MediaUtils.class) {
+                if (sMediaPlayer == null) {
+                    sMediaPlayer = new MediaPlayer();
+                }
+            }
         }
         return sMediaPlayer;
     }
 
+    //设置MediaPlayer为空
+    private static void setMediaPlayerNew(){
+        sMediaPlayer = null;
+    }
 
     //准备
     public static void prepare(String path) {
         if (getMediaPlayer() != null) {
+
             try {
+
                 getMediaPlayer().reset();
                 getMediaPlayer().setDataSource(path);
                 getMediaPlayer().prepare();
-            } catch (IOException e) {
+            }catch (Exception e) {
+                Log.e(TAG, "prepare()->catch (Exception e)");
                 e.printStackTrace();
             }
         }
@@ -123,7 +134,7 @@ public class MediaUtils implements PlayType {
                     /*随机循环*/
                     Random r = new Random();
                     MediaUtils.currentSongPosition = r.nextInt(
-                            SongModel.getInstance().getSongList().size() - 1);
+                            SongModel.getInstance().getChooseSongList().size() - 1);
                     break;
             }
 
@@ -140,7 +151,7 @@ public class MediaUtils implements PlayType {
             sMediaPlayer.stop();
             sMediaPlayer.reset();
             sMediaPlayer.release();
-            sMediaPlayer = null;
+            sMediaPlayer = null; //懒汉线程不安全需要
         }
     }
 
