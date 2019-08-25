@@ -119,6 +119,13 @@ public class URLProviderUtils {
         return url;
     }
 
+    //根据歌曲id查询歌词
+    public static String findLrc(String id) {
+        String url = "http://144.34.228.215:3000/lyric?id="
+                + id;
+        return url;
+    }
+
     /**
      * <p>获取音乐节目列表</p>
      *

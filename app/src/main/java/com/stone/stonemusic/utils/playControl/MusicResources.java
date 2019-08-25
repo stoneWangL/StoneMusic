@@ -85,8 +85,6 @@ public class MusicResources {
 
                 }
             }
-            //统计艺术家/歌手栏一级Mode 初始化
-//            initArtistMode();
         }catch (Exception e){
             e.printStackTrace();
         }finally {
@@ -162,8 +160,5 @@ public class MusicResources {
         Log.d(TAG,"album_art是="+album_art);
         return album_art;
     }
-
-
-
 
 }

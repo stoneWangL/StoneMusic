@@ -17,17 +17,30 @@ import com.stone.stonemusic.R;
 import com.stone.stonemusic.model.Music;
 import com.stone.stonemusic.model.LrcContent;
 import com.stone.stonemusic.model.bean.SongModel;
+import com.stone.stonemusic.model.bean.ThreadPoolBean;
+import com.stone.stonemusic.net.JsonToResult;
 import com.stone.stonemusic.presenter.interf.MusicObserverListener;
 import com.stone.stonemusic.presenter.impl.MusicObserverManager;
 import com.stone.stonemusic.presenter.OnLrcSearchClickListener;
 import com.stone.stonemusic.View.LrcView;
 import com.stone.stonemusic.utils.LrcUtil;
-import com.stone.stonemusic.net.SearchLrcUtilOnline;
+import com.stone.stonemusic.net.DownLoadLrcFile;
+import com.stone.stonemusic.utils.ThreadUtil2;
+import com.stone.stonemusic.utils.URLProviderUtils;
 import com.stone.stonemusic.utils.code.MediaStateCode;
 import com.stone.stonemusic.utils.playControl.MediaUtils;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 import static com.stone.stonemusic.data.LrcStateContants.LRC_QUERY_ONLINE_NULL;
 import static com.stone.stonemusic.data.LrcStateContants.LRC_READ_LOC_FAIL;
@@ -39,10 +52,9 @@ public class PlayLyricFragment extends Fragment implements OnLrcSearchClickListe
     private static String TAG = "PlayLyricFragment";
 
     private List<Music> musicList = new ArrayList<>();
-
+    String QueryPath = ""; //查询歌词的URL
     private static LrcView playPageLrcView;
-    private static Handler handler;
-    private String QueryPath = "";
+    private static Handler thisFragmentHandler;
     private boolean DownloadLrcResult = false;
     List<LrcContent> lrcLists = null;
     private Music songCopy = null;
@@ -101,7 +113,7 @@ public class PlayLyricFragment extends Fragment implements OnLrcSearchClickListe
         View view = inflater.inflate(R.layout.fragment_play_lyric, container, false);
 
         //创建属于主线程的handler
-        handler = new Handler() {
+        thisFragmentHandler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
@@ -140,8 +152,27 @@ public class PlayLyricFragment extends Fragment implements OnLrcSearchClickListe
         if (null != playPageLrcView){
             Log.i(TAG, "init()->playPageLrcView 不为 null");
             playPageLrcView.setOnLrcSearchClickListener(this);
-            loadLrcView();
+//            loadLrcView();
+            final Music song = musicList.get(MediaUtils.currentSongPosition);
+            songCopy = song;
+            lrcLists = LrcUtil.loadLrcFromLocalFile(song); /*加载本地歌词，获取歌词list*/
 
+            //本地有歌词
+            if (null != lrcLists && lrcLists.size() > 0) {
+                Log.i(TAG, "loadLrcView()->本地有歌词了");
+                hasLyric = true; //有歌词
+                thisFragmentHandler.sendEmptyMessage(1);
+
+            }
+            //本地没有歌词
+            else {
+                Log.i(TAG, "loadLrcView()->本地没有歌词");
+                hasLyric = false; //没歌词
+                thisFragmentHandler.sendEmptyMessage(2);
+                //本地没有歌词，再查询网络（后期可修改为手动点击触发）
+            }
+
+            thisFragmentHandler.post(runnableUi);
         } else {
             Log.i(TAG, "init()->playPageLrcView == null");
         }
@@ -150,45 +181,17 @@ public class PlayLyricFragment extends Fragment implements OnLrcSearchClickListe
         //DclTimerTask.getInstance().start();
     }
 
-    void loadLrcView() {
-
-        final Music song = musicList.get(MediaUtils.currentSongPosition);
-        songCopy = song;
-        lrcLists = LrcUtil.loadLrc(song); /*加载本地歌词，获取歌词list*/
-
-        //本地有歌词
-        if (null != lrcLists && lrcLists.size() > 0) {
-            Log.i(TAG, "loadLrcView()->本地有歌词了");
-            hasLyric = true; //有歌词
-            handler.sendEmptyMessage(1);
-
-        }
-        //本地没有歌词
-        else {
-            Log.i(TAG, "loadLrcView()->本地没有歌词");
-            hasLyric = false; //没歌词
-            handler.sendEmptyMessage(2);
-            //本地没有歌词，再查询网络（后期可修改为手动点击触发）
-        }
-
-        handler.post(runnableUi);
-    }
-
     /**
      * 歌词View回调函数
      * @param view
      */
     @Override
     public void onLrcSearchClicked(View view) {
-        showLrcSearchDialog();
-        getLrcOnline(songCopy);
-    }
-
-    private void showLrcSearchDialog() {
 //        final Dialog dialog = new Dialog(getActivity(), R.style.lrc_dialog);
 //        dialog.show();
         Toast.makeText(getActivity(), "开始下载歌词", Toast.LENGTH_SHORT).show();
 //        View content = inflater.inflate(R.layout.dialog_lrc, null);
+        getLrcOnline(songCopy);
     }
 
     /**
@@ -198,20 +201,72 @@ public class PlayLyricFragment extends Fragment implements OnLrcSearchClickListe
     private boolean getLrcOnline(final Music song) {
 
         if(null != song){
+            //网络歌词下载地址
+//            QueryPath =  DownLoadLrcFile.getInstance().getLrcURL(song.getTitle(), song.getArtist());
+            String id = song.getMusicId();
+            if (!id.equals("")) {
+                QueryPath = URLProviderUtils.findLrc(id);
+                Log.i(TAG, "getLrcOnline -> QueryPath = " + QueryPath);
 
-            new Thread(){
-                public void run(){
+                ThreadPoolBean.getInstance().execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        OkHttpClient client = new OkHttpClient();
+                        Request request = new Request.Builder()
+                                .url(QueryPath)
+                                .get()
+                                .build();
+                        client.newCall(request).enqueue(new Callback() {
+                            /**
+                             * 子线程调用
+                             */
+                            @Override
+                            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                                Log.i(TAG, "查询歌词 -> 获取数据失败");
+                            }
 
-                        //网络歌词下载地址
-                        QueryPath =  SearchLrcUtilOnline.getInstance().getLrcURL(song.getTitle(), song.getArtist());
-                        //目录+歌曲+歌手+.lrc
-                        String filePath = SearchLrcUtilOnline.getInstance().getLrcPath(song.getTitle(), song.getArtist());
-                        DownloadLrcResult = SearchLrcUtilOnline.getInstance().writeContentFromUrl(QueryPath, filePath, song.getTitle(), song.getArtist());
+                            /**
+                             * 子线程调用
+                             */
+                            @Override
+                            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                                Log.i(TAG, "查询歌词 -> 获取数据成功");
+                                String result = response.body().string();
+                                Log.i(TAG, "歌词result = " + result);
 
-                    lrcLists = LrcUtil.loadLrc(song); /*加载本地歌词，获取歌词list*/
-                    handler.post(runnableUi);
-                }
-            }.start();
+                                final String lrcString = JsonToResult.getOnlineLyricFromJson(result);
+                                //将LrcString保存为文件
+                                DownloadLrcResult = DownLoadLrcFile.getInstance().
+                                        writeLrcFromStringToFile(lrcString, song.getTitle(), song.getArtist());
+
+//                                new ThreadUtil2().runOnMainThread(new Runnable() {
+//                                    @Override
+//                                    public void run() {
+//                                        //将正确的结果回调给view层
+////                                        if(null != geDanView)
+////                                            geDanView.loadSuccess(list);
+//                                    }
+//                                });
+
+                                lrcLists = LrcUtil.loadLrcFromLocalFile(song); //加载本地歌词，获取歌词list
+                                thisFragmentHandler.post(runnableUi);
+//                                thisFragmentHandler.sendEmptyMessage(1);
+                            }
+                        });
+                    }
+                });
+            } else {
+                Log.i(TAG, "没有musicID");
+            }
+
+
+//            new Thread(){
+//                public void run() {
+//                    //目录+歌曲+歌手+.lrc
+//                    String filePath = DownLoadLrcFile.getInstance().getLrcPath(song.getTitle(), song.getArtist());
+//                    DownloadLrcResult = DownLoadLrcFile.getInstance().writeContentFromUrl(QueryPath, filePath, song.getTitle(), song.getArtist());
+//                }
+//            }.start();
         }
 
         return false;
@@ -226,13 +281,13 @@ public class PlayLyricFragment extends Fragment implements OnLrcSearchClickListe
             //更新界面
             try {
                 if (null != lrcLists && lrcLists.size() > 0 && null != playPageLrcView) {
-                    Log.e(TAG, "runnableUi->lrcLists不为空，且size大于0");
+                    Log.i(TAG, "runnableUi->lrcLists不为空，且size大于0");
                     if (DownloadLrcResult) {
                         Log.e(TAG, "歌曲下载成功，走入设置刚下载好的流程");
                         playPageLrcView.setLrcLists(lrcLists);
                         playPageLrcView.setLrcState(LRC_READ_LOC_OK);
                     } else {
-                        Log.e(TAG, "歌曲下载成功，但是DownloadLrcResult==false");
+                        Log.e(TAG, "歌曲下载失败，DownloadLrcResult==false");
                     }
                 } else {
                     Log.e(TAG, "runnableUi->lrcLists为空/size等于0/playPageLrcView为空");

@@ -2,7 +2,6 @@ package com.stone.stonemusic.utils.playControl;
 
 import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.util.Log;
 
 import com.stone.stonemusic.model.bean.SongModel;
 import com.stone.stonemusic.presenter.impl.MusicObserverManager;
@@ -46,17 +45,19 @@ public class MediaUtils implements PlayType {
     //准备
     public static void prepare(String path) {
         if (getMediaPlayer() != null) {
-
             try {
 
                 getMediaPlayer().reset();
                 getMediaPlayer().setDataSource(path);
                 getMediaPlayer().prepare();
             }catch (Exception e) {
-                Log.e(TAG, "prepare()->catch (Exception e)");
                 e.printStackTrace();
             }
         }
+
+        //这个地方加上position——changed 原因：不管是点击一首新歌，或者next 或者 last 都需要调用prepare方法
+        //被观察者发生变化->播放位置发生改变
+        MusicObserverManager.getInstance().notifyObserver(MediaStateCode.MUSIC_POSITION_CHANGED);
     }
     //开始
     public static void start() {
@@ -112,8 +113,8 @@ public class MediaUtils implements PlayType {
             MediaUtils.currentSongPosition--;
         }
 
-        //被观察者发生变化->播放位置发生改变
-        MusicObserverManager.getInstance().notifyObserver(MediaStateCode.MUSIC_POSITION_CHANGED);
+//        //被观察者发生变化->播放位置发生改变
+//        MusicObserverManager.getInstance().notifyObserver(MediaStateCode.MUSIC_POSITION_CHANGED);
     }
     //下一曲
     public static void next(){
@@ -140,8 +141,8 @@ public class MediaUtils implements PlayType {
 
         }
 
-        //被观察者发生变化->播放位置发生改变
-        MusicObserverManager.getInstance().notifyObserver(MediaStateCode.MUSIC_POSITION_CHANGED);
+//        //被观察者发生变化->播放位置发生改变
+//        MusicObserverManager.getInstance().notifyObserver(MediaStateCode.MUSIC_POSITION_CHANGED);
     }
 
     //释放Media Player资源

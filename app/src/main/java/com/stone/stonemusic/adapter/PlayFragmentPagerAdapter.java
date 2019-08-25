@@ -10,7 +10,7 @@ import com.stone.stonemusic.ui.fragment.PlayImageFragment;
 import com.stone.stonemusic.ui.fragment.PlayLyricFragment;
 
 public class PlayFragmentPagerAdapter extends FragmentPagerAdapter {
-    private final int PAGER_COUNT = 2;
+//    private final int PAGER_COUNT = 2;
     private PlayImageFragment playImageFragment = null;
     private PlayLyricFragment playLyricFragment = null;
     private String[] mTitles = new String[]{
@@ -24,7 +24,7 @@ public class PlayFragmentPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return PAGER_COUNT;
+        return mTitles.length;
     }
     @Override
     public Object instantiateItem(ViewGroup container, int position) {

@@ -11,11 +11,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bumptech.glide.Glide;
 import com.stone.stonemusic.R;
 import com.stone.stonemusic.model.Music;
 import com.stone.stonemusic.model.bean.SongModel;
 import com.stone.stonemusic.View.CircleImageView;
 import com.stone.stonemusic.ui.activity.PlayActivity;
+import com.stone.stonemusic.utils.MusicApplication;
+import com.stone.stonemusic.utils.code.PlayType;
 import com.stone.stonemusic.utils.playControl.MediaUtils;
 import com.stone.stonemusic.utils.playControl.MusicResources;
 
@@ -59,11 +62,24 @@ public class PlayImageFragment extends Fragment implements PlayActivity.CallBack
     private void initView(){
         /*设置专辑图*/
         int position = MediaUtils.currentSongPosition;
-        String path = MusicResources.getAlbumArt(new Long(musicList.get(position).getAlbum_id()).intValue());
-        if (null == path){
+//        String path = MusicResources.getAlbumArt(new Long(musicList.get(position).getAlbum_id()).intValue());
+//        if (null == path){
+//            CIVAlbum.setImageResource(R.drawable.play_background02);
+//        }else{
+//            CIVAlbum.setImageBitmap(BitmapFactory.decodeFile(path));
+//        }
+
+        String imagePath; //歌曲图片路径
+        if (SongModel.getInstance().getMusicType() == PlayType.OnlineType) { //当前为播放在线歌曲状态
+            imagePath = musicList.get(position).getPicUrl();
+        } else { //当前为播放本地歌曲状态
+            imagePath = MusicResources.getAlbumArt(new Long(musicList.get(position).getAlbum_id()).intValue());
+        }
+        if (null == imagePath || imagePath.equals("")) {
             CIVAlbum.setImageResource(R.drawable.play_background02);
-        }else{
-            CIVAlbum.setImageBitmap(BitmapFactory.decodeFile(path));
+        } else {
+
+            Glide.with(MusicApplication.getContext()).load(imagePath).into(CIVAlbum);
         }
     }
 

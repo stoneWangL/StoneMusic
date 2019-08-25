@@ -170,21 +170,7 @@ public class HomeActivity extends AppCompatActivity implements
 
 
 
-    //播放键控制
-    public void play(View view) {
-        Log.i(TAG, "此时的状态=="+MediaUtils.currentState);
-        if (musicList.size() > 0) {
-            PlayControl.controlBtnPlaySameSong();
-        }
 
-    }
-
-    //播放键控制
-    public void playNext(View view) {
-        if (musicList.size() > 0) {
-            PlayControl.controlBtnNext();
-        }
-    }
 
     /*
     * 收到UI界面更新的通知后，在此刷新UI
@@ -199,6 +185,22 @@ public class HomeActivity extends AppCompatActivity implements
     };
 
 
+    //播放键控制
+    public void play(View view) {
+//        Log.i(TAG, "此时的状态=="+MediaUtils.currentState);
+        if (musicList.size() > 0) {
+            PlayControl.controlBtnPlaySameSong();
+        }
+
+    }
+
+    //播放键控制
+    public void playNext(View view) {
+        if (musicList.size() > 0) {
+            PlayControl.controlBtnNext();
+        }
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -208,6 +210,7 @@ public class HomeActivity extends AppCompatActivity implements
                     jumpToOtherWhere.GoToPlayActivity();
                 }
                 break;
+
         }
     }
 
@@ -227,6 +230,7 @@ public class HomeActivity extends AppCompatActivity implements
         void ChangeUI();
     }
 
+    //观察者更新数据方法
     @Override
     public void observerUpData(int content) {
         switch (content) {
@@ -248,7 +252,7 @@ public class HomeActivity extends AppCompatActivity implements
                 LocalListActivityHandler.sendEmptyMessage(1);
                 break;
         }
-        Log.i(TAG, "observerUpData->观察者类数据已刷新");
+//        Log.i(TAG, "observerUpData->观察者类数据已刷新");
     }
 
 

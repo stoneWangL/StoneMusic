@@ -141,4 +141,28 @@ public class JsonToResult implements PlayType {
         return music;
     }
 
+    /**
+     * 传入返回的歌词JSON数据，解析出需要的歌词部分，返回这部分的String
+     * @param jsonData 传入返回的歌词JSON数据，原始数据
+     * @return null,表示获取歌词失败; String,代表正常歌词
+     */
+    public static String getOnlineLyricFromJson(String jsonData) {
+        if (!TextUtils.isEmpty(jsonData)) { //返回数据非空
+            try {
+                JSONObject allNews = new JSONObject(jsonData);
+                int code = allNews.getInt("code");
+
+                //200,成功码
+                while (200 == code) {
+                    String lrcObjectString = allNews.getString("lrc"); //lrc object 的字符串
+                    JSONObject lrcObject = new JSONObject(lrcObjectString);
+                    String lrcString = lrcObject.getString("lyric");
+                    return lrcString;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
 }

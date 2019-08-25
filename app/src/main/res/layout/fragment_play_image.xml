@@ -25,7 +25,7 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_weight="45"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:gravity="center">
                 <FrameLayout
                     android:layout_width="wrap_content"
@@ -33,13 +33,12 @@
                     <com.stone.stonemusic.View.CircleImageView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:adjustViewBounds="true"
                         android:src="@drawable/play_background02" />
                     <com.stone.stonemusic.View.CircleImageView
                         android:id="@+id/play_music_album_image"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:src="@drawable/ic_x"/>
+                        android:src="@drawable/play_background02"/>
                 </FrameLayout>
             </LinearLayout>
             <View

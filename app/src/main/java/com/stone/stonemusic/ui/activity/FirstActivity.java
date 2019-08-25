@@ -59,7 +59,9 @@ public class FirstActivity extends BaseNoBarActivity implements JumpToOtherView{
             int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         switch (requestCode){
             case 1:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED
+                        && grantResults[1] == PackageManager.PERMISSION_GRANTED ){
                     jumpToOtherWhere.jumpToLocalListActivity();
                 }else{
                     /*没有得到许可，退出*/

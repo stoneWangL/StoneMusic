@@ -2,6 +2,8 @@ package com.stone.stonemusic.ui.activity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.Handler;
+import android.os.Message;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
@@ -24,8 +26,10 @@ import com.stone.stonemusic.model.PlayListBean;
 import com.stone.stonemusic.model.bean.ItemViewChoose;
 import com.stone.stonemusic.model.bean.SongModel;
 import com.stone.stonemusic.presenter.impl.JumpToOtherWhere;
+import com.stone.stonemusic.presenter.impl.MusicObserverManager;
 import com.stone.stonemusic.presenter.impl.OnLineListPresenterImpl;
 import com.stone.stonemusic.presenter.interf.JumpToOtherView;
+import com.stone.stonemusic.presenter.interf.MusicObserverListener;
 import com.stone.stonemusic.utils.MusicApplication;
 import com.stone.stonemusic.utils.ToastUtils;
 import com.stone.stonemusic.utils.code.MediaStateCode;
@@ -42,10 +46,10 @@ import java.util.List;
 /**
  * @Author: stoneWang
  * @CreateDate: 2019/8/18 21:38
- * @Description:
+ * @Description: 在线歌曲列表界面
  */
 public class OnlineMusicListActivity extends BaseActivity
-        implements OnLineView, View.OnClickListener, JumpToOtherView {
+        implements OnLineView, View.OnClickListener, JumpToOtherView, MusicObserverListener {
     private static final String TAG = "OnlineMusicListActivity";
     PlayListBean data;
     ImageView imageView;
@@ -103,28 +107,9 @@ public class OnlineMusicListActivity extends BaseActivity
         //P层实例化
         onLineListPresenter = new OnLineListPresenterImpl(this);
 
-    }
+        //添加进观察者队列
+        MusicObserverManager.getInstance().add(this);
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.bottom_bar_layout: //点击底部歌曲信息显示栏，跳转到播放界面
-                //跳转到播放界面
-                jumpToOtherWhere.GoToPlayActivity();
-                break;
-            case R.id.play_layout: //播放键控制
-                Log.i(TAG, "此时的状态=="+MediaUtils.currentState);
-                if (chooseMusicList.size() > 0) {
-                    PlayControl.controlBtnPlaySameSong();
-                }
-                break;
-            case R.id.play_next_layout: //播放键控制
-                Log.i(TAG, "此时的状态=="+MediaUtils.currentState);
-                if (chooseMusicList.size() > 0) {
-                    PlayControl.controlBtnPlaySameSong();
-                }
-                break;
-        }
     }
 
     @Override
@@ -155,6 +140,7 @@ public class OnlineMusicListActivity extends BaseActivity
         try {
             chooseMusicList = SongModel.getInstance().getChooseSongList(); //初始化选中歌曲列表
             int position = MediaUtils.currentSongPosition;
+            Log.i(TAG, "initMusicPlayImg() -> MediaUtils.currentSongPosition = " + MediaUtils.currentSongPosition);
 
             mBottomBarTitle.setText(chooseMusicList.get(position).getTitle());
             mBottomBarArtist.setText(chooseMusicList.get(position).getArtist());
@@ -178,6 +164,8 @@ public class OnlineMusicListActivity extends BaseActivity
             } else {
                 mIvPlay.setImageResource(R.drawable.ic_pause_black);
             }
+
+            listAdapter.notifyDataSetChanged();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -203,6 +191,31 @@ public class OnlineMusicListActivity extends BaseActivity
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    //播放键控制
+    public void play(View view) {
+        if (chooseMusicList.size() > 0) {
+            PlayControl.controlBtnPlaySameSong();
+        }
+
+    }
+
+    //播放键控制
+    public void playNext(View view) {
+        if (chooseMusicList.size() > 0) {
+            PlayControl.controlBtnNext();
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.bottom_bar_layout: //点击底部歌曲信息显示栏，跳转到播放界面
+                //跳转到播放界面
+                jumpToOtherWhere.GoToPlayActivity();
+                break;
+        }
     }
 
     @Override
@@ -233,6 +246,11 @@ public class OnlineMusicListActivity extends BaseActivity
         });
     }
 
+    /**
+     * item点击的回调方法
+     * @param v 当前点击的View 但是没用到
+     * @param position 点击list的position位置
+     */
     @Override
     public void onItemClick(View v, int position) {
         //本地item被点击，说明当前需要播放的歌曲需要切换到在线
@@ -265,7 +283,7 @@ public class OnlineMusicListActivity extends BaseActivity
 
             //设置选中的item的位置,这里的position设置与ListView中当前播放位置的标识有关
             ItemViewChoose.getInstance().setItemChoosePosition(position); //设置当前选中的位置
-            listAdapter.notifyDataSetChanged();
+            listAdapter.notifyDataSetChanged(); //刷新list item列表
         }
 
 
@@ -282,4 +300,34 @@ public class OnlineMusicListActivity extends BaseActivity
     }
 
 
+    //观察者更新数据方法
+    @Override
+    public void observerUpData(int content) {
+        switch (content) {
+            case MediaStateCode.PLAY_START:
+            case MediaStateCode.MUSIC_POSITION_CHANGED:
+                Log.i(TAG, "MUSIC_POSITION_CHANGED");
+                ThisActivityHandler.sendEmptyMessage(1);
+                break;
+
+            case MediaStateCode.PLAY_CONTINUE:
+            case MediaStateCode.PLAY_STOP:
+            case MediaStateCode.PLAY_PAUSE:
+                ThisActivityHandler.sendEmptyMessage(1);
+                break;
+        }
+        Log.i(TAG, "observerUpData->观察者类数据已刷新");
+    }
+
+    /*
+     * 收到UI界面更新的通知后，在此刷新UI
+     * */
+    private Handler ThisActivityHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+
+            initMusicPlayImg();
+        }
+    };
 }

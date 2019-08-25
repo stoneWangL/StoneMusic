@@ -142,10 +142,10 @@
             android:layout_width="0dp"
             android:layout_weight="2"
             android:layout_height="match_parent"
-            app:tabIndicatorColor="@color/red"
+            app:tabIndicatorColor="@color/white"
             app:tabIndicatorHeight="0dp"
             app:tabTextColor="@color/black"
-            app:tabSelectedTextColor="@color/red"
+            app:tabSelectedTextColor="@color/white"
             app:tabMode="fixed" />
         <View
             android:layout_width="0dp"

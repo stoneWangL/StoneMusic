@@ -11,6 +11,7 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -26,19 +27,19 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class SearchLrcUtilOnline {
-    private static String TAG = "LrcUtilOnline";
-    private static SearchLrcUtilOnline instance;
+public class DownLoadLrcFile {
+    private static String TAG = "DownLoadLrcFile";
+    private static DownLoadLrcFile instance;
     public static final String lrcRootPath = android.os.Environment
             .getExternalStorageDirectory().toString()
-            + "/StoneMusic/Lyrics/";
+            + "/StoneMusic/Lyrics/"; //
     public static final String queryLrcURLRoot = "http://geci.me/api/lyric/";
     public static final String queryMusicID = "http://144.34.228.215:3000/search?keywords=";
     public static final String queryLrc = "http://144.34.228.215:3000/lyric?id=";
 
-    public static SearchLrcUtilOnline getInstance() {
+    public static DownLoadLrcFile getInstance() {
         if (null == instance) {
-            instance = new SearchLrcUtilOnline();
+            instance = new DownLoadLrcFile();
         }
 
         return instance;
@@ -82,49 +83,88 @@ public class SearchLrcUtilOnline {
      * @param artist 歌手
      * @return 歌词下载地址
      */
-    public String getLrcURL(String title, String artist) {
-        String queryLrcURLStr = getQueryLrcURL(title); /*查询的地址*/
-        Log.e(TAG, "getLrcURL -> queryLrcURLStr == " + queryLrcURLStr);
+//    public String getLrcURL(String title, String artist) {
+//        String queryLrcURLStr = getQueryLrcURL(title); /*查询的地址*/
+//        Log.e(TAG, "getLrcURL -> queryLrcURLStr == " + queryLrcURLStr);
+//
+//        try {
+//
+//            OkHttpClient client = new OkHttpClient();
+//            Request request = new Request.Builder()
+//                    .url(queryLrcURLStr)
+//                    .build();
+//
+//            Response response = client.newCall(request).execute();
+//            String responseData = response.body().string();
+//
+//            if (!TextUtils.isEmpty(responseData)) {
+//
+//                JSONObject AllData = new JSONObject(responseData);
+//                JSONArray lrcArray = AllData.getJSONArray("result");
+//
+//                Log.d(TAG, "stone JSONArray大小 ==" + lrcArray.length());
+//                if (lrcArray.length() == 0)
+//                    return "result==0";
+//
+//                for (int i=0; i<lrcArray.length(); i++){
+//                    JSONObject oneLrcObject = lrcArray.getJSONObject(i);
+//                    String lrcUrl = oneLrcObject.getString("lrc");
+//                    Log.d(TAG, "第" + i + "行：：" + lrcUrl);
+//                    return lrcUrl; /*当前只返回一个测试*/
+//                }
+//
+//            }
+//
+//        } catch (MalformedURLException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//        return null;
+//    }
 
-        try {
+    /**
+     * 将String类型的歌词，保存为文件到本地
+     * @param lrcString String类型的歌词
+     * @param title 歌名
+     * @param artist 歌手
+     * @return false:保存失败， true:保存成功
+     */
+    public boolean writeLrcFromStringToFile(String lrcString, String title, String artist) {
+        //需要保存的文件名
+        String fileName = getLrcPath(title, artist);
 
-            OkHttpClient client = new OkHttpClient();
-            Request request = new Request.Builder()
-                    .url(queryLrcURLStr)
-                    .build();
+        try{
+            //创建关联文件的对象
+            File file = new File(fileName);
 
-            Response response = client.newCall(request).execute();
-            String responseData = response.body().string();
+            if (file.exists()) { //如果文件已经存在就结束
+                Log.e(TAG, "writeLrcFromStringToFile:文件已经存在！");
+                return true;
+            } else { //文件不存在，就保存吧
+                FileWriter fileWriter;
 
-            if (!TextUtils.isEmpty(responseData)) {
-
-                JSONObject AllData = new JSONObject(responseData);
-                JSONArray lrcArray = AllData.getJSONArray("result");
-
-                Log.d(TAG, "stone JSONArray大小 ==" + lrcArray.length());
-                if (lrcArray.length() == 0)
-                    return "result==0";
-
-                for (int i=0; i<lrcArray.length(); i++){
-                    JSONObject oneLrcObject = lrcArray.getJSONObject(i);
-                    String lrcUrl = oneLrcObject.getString("lrc");
-                    Log.d(TAG, "第" + i + "行：：" + lrcUrl);
-                    return lrcUrl; /*当前只返回一个测试*/
+                if (!file.exists()) {
+                    // 先得到文件的上级目录，并创建上级目录，在创建文件
+                    file.getParentFile().mkdirs();
+                    file.createNewFile();
                 }
+                fileWriter = new FileWriter(fileName);
+                fileWriter.write(lrcString);
+                fileWriter.flush();
+                fileWriter.close();
 
+                Log.e(TAG, "writeLrcFromStringToFile:文件写入成功！");
+                return true;
             }
-
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        catch (JSONException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
-
-        return null;
+        return false;
     }
 
     /**
@@ -209,4 +249,5 @@ public class SearchLrcUtilOnline {
         return str;
 
     }
+
 }
