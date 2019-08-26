@@ -1,4 +1,4 @@
-package com.stone.stonemusic.utils;
+package com.stone.stonemusic.utils.lyric;
 
 import android.util.Log;
 
@@ -150,9 +150,9 @@ public class LrcUtil implements LrcStateContants{
     /**
      * 将传入的String类型的字符串歌词，数据设置入LrcContent对象，然后add 到其list中，返回这个list
      * @param line 传入的是单行歌词String 例如：[00:12.570]难以忘记初次见你
-     * @param lrclists List<LrcContent>
+     * @param lrcLists List<LrcContent>
      */
-    static void handleOneLine(String line, List<LrcContent> lrclists) {
+    static void handleOneLine(String line, List<LrcContent> lrcLists) {
         String s = line.replace("[", ""); // 去掉左边括号
         String lrcData[] = s.split("]");
 
@@ -171,25 +171,10 @@ public class LrcUtil implements LrcStateContants{
                 else
                     lrcContent.setLrcStr(lrcData[len - 1]);
 
-                lrclists.add(lrcContent);
+                lrcLists.add(lrcContent);
             }
 
         }
-    }
-
-    /**
-     * 获取空的LrcContentList
-     * @return
-     */
-    public static List<LrcContent> getNullLrclist() {
-        List<LrcContent> lrcList = new ArrayList<LrcContent>();
-        try {
-            String s = "空";
-            handleOneLine(s, lrcList);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return lrcList;
     }
 
 }

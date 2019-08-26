@@ -18,7 +18,7 @@ import com.stone.stonemusic.model.LrcContent;
 import com.stone.stonemusic.presenter.OnLrcSearchClickListener;
 import com.stone.stonemusic.utils.DisplayUtil;
 import com.stone.stonemusic.utils.playControl.MediaUtils;
-import com.stone.stonemusic.utils.TimeUtil;
+import com.stone.stonemusic.utils.lyric.TimeUtil;
 
 import java.util.List;
 
@@ -123,9 +123,9 @@ public class LrcView extends ScrollView implements
 
         //设置画笔颜色
         currentPaint.setColor(getResources().getColor(R.color.white));
-        notCurrentPaint.setColor(getResources().getColor(R.color.lightWhite));
+        notCurrentPaint.setColor(getResources().getColor(R.color.halfWhite));
         tipsPaint.setColor(getResources().getColor(R.color.white));
-        linePaint.setColor(getResources().getColor(R.color.lightWhite));
+        linePaint.setColor(getResources().getColor(R.color.halfWhite));
 
 
         //设置字体

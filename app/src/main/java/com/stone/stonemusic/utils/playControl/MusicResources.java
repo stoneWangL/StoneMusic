@@ -62,7 +62,7 @@ public class MusicResources {
                         m.setMusicType(PlayType.LocalType);
                         m.setTitle(displayName);
                         m.setArtist(artist);
-                        m.setDuration(duration);
+                        m.setDuration((int)duration);
                         m.setSize(size);
                         m.setFileUrl(url);
                         m.setAlbum(album);

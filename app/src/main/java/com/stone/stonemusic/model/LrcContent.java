@@ -7,7 +7,7 @@ package com.stone.stonemusic.model;
 
 public class LrcContent {
     private String lrcStr; /*歌词内容*/
-    private int lrcTime; /*当前歌词时间*/
+    private int lrcTime; /*歌词开始时间*/
 
     public String getLrcStr() {
         return lrcStr;

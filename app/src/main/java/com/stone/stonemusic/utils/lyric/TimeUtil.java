@@ -1,7 +1,12 @@
-package com.stone.stonemusic.utils;
+package com.stone.stonemusic.utils.lyric;
 
 public class TimeUtil {
 
+    /**
+     * 将毫秒时长，转化为 分:秒 的String
+     * @param duration
+     * @return 例如00:23 的String
+     */
     public static String mill2mmss(long duration){
 
         int m,s;
@@ -29,8 +34,6 @@ public class TimeUtil {
         int millTime=0;
         time=time.replace(".", ":");
 
-
-
         String timedata[]=time.split(":");
 
         //Log.i("min,second,mill", timedata[0]+","+timedata[1]+","+timedata[2]);
@@ -43,14 +46,11 @@ public class TimeUtil {
             mill = Integer.parseInt(timedata[2]);
         } catch (Exception e) {
             e.printStackTrace();
-
-
             return -1;
-
         }
 
-
-        millTime=(min*60+second)*1000+mill*10;
+        //millTime=(min*60+second)*1000+mill*10;
+        millTime=(min*60+second)*1000+mill; //00:12.570 最后是3位，最高999我觉得没必要乘以10了
         return millTime;
     }
 }

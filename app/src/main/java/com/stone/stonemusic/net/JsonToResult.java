@@ -108,7 +108,7 @@ public class JsonToResult implements PlayType {
                                 OnLineListObject.getString("id"),
                                 ar_name,
                                 al_picUrl,
-                                OnLineListObject.getLong("dt")
+                                OnLineListObject.getInt("dt")
                         );
                         listBeans.add(music);
                     }
@@ -128,7 +128,7 @@ public class JsonToResult implements PlayType {
             String id,
             String ar_name,
             String al_picUrl,
-            long dt) {
+            int dt) {
         Music music = new Music();
         music.setId(0); //网络歌曲设置id为0
         music.setMusicType(PlayType.OnlineType); //设置歌曲类型->在线歌曲

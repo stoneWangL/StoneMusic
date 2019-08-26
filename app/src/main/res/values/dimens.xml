@@ -20,4 +20,9 @@
     <dimen name="dp_20dp">20dp</dimen>
     <dimen name="dp_9dp">9dp</dimen>
     <dimen name="dp_6dp">6dp</dimen>
+
+
+    <dimen name="bigSize">16sp</dimen>
+    <dimen name="smallSize">14sp</dimen>
+    <dimen name="lineHeight">45dp</dimen>
 </resources>

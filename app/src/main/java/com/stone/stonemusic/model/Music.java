@@ -12,7 +12,7 @@ public class Music implements Serializable, PlayType {
     private String title;
     private String artist;
     private long size;//music的音乐长度
-    private long duration;
+    private int duration;
     private String album;
     private String fileUrl; //文件路径
     private int isMusic;
@@ -90,11 +90,11 @@ public class Music implements Serializable, PlayType {
         this.isMusic = isMusic;
     }
 
-    public long getDuration() {
+    public int getDuration() {
         return duration;
     }
 
-    public void setDuration(long duration) {
+    public void setDuration(int duration) {
         this.duration = duration;
     }
 
