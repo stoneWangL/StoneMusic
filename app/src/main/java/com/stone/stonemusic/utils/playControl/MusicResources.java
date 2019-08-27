@@ -104,8 +104,8 @@ public class MusicResources {
     public static void initArtistMode() {
         Set<Map.Entry<String, ArrayList<Music>>> sAll = artistMap.entrySet();
         for (Map.Entry<String, ArrayList<Music>> mE : sAll) {
-            Log.e(TAG, "artist = " + mE.getKey() +
-                "\n num = " + mE.getValue().size());
+//            Log.i(TAG, "artist = " + mE.getKey() +
+//                "\n num = " + mE.getValue().size());
             artistModel = new ArtistModel();
             artistModel.setArtist(mE.getKey());
             artistModel.setNum(mE.getValue().size());
@@ -131,8 +131,8 @@ public class MusicResources {
     public static ArrayList<Music> getSameArtistMusicList(String artist) {
         Set<Map.Entry<String, ArrayList<Music>>> sAll = artistMap.entrySet();
         for (Map.Entry<String, ArrayList<Music>> mE : sAll) {
-            Log.i(TAG, "artist = " + mE.getKey() +
-                    "\n num = " + mE.getValue().size());
+//            Log.i(TAG, "artist = " + mE.getKey() +
+//                    "\n num = " + mE.getValue().size());
             if (artist.equals(mE.getKey()))
                 return mE.getValue();
         }
@@ -157,7 +157,7 @@ public class MusicResources {
         }
         cur.close();
 //        cur = null;
-        Log.d(TAG,"album_art是="+album_art);
+//        Log.d(TAG,"album_art是="+album_art);
         return album_art;
     }
 

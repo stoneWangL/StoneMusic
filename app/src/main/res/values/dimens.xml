@@ -22,7 +22,7 @@
     <dimen name="dp_6dp">6dp</dimen>
 
 
-    <dimen name="bigSize">16sp</dimen>
-    <dimen name="smallSize">14sp</dimen>
-    <dimen name="lineHeight">45dp</dimen>
+    <dimen name="bigSize">20sp</dimen>
+    <dimen name="smallSize">18sp</dimen>
+    <dimen name="lineHeight">40dp</dimen>
 </resources>

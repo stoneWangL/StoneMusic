@@ -8,6 +8,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -56,6 +57,7 @@ public class HomeActivity extends AppCompatActivity implements
     public static final int PAGE_STYLE = 2;
 
     private LinearLayout bottomLinearLayout;
+    CardView cardView;
     private ImageView mIvPlay, mIvPlayNext, mIvBottomBarImage;
     private TextView mBottomBarTitle, mBottomBarArtist;
     public List<Music> musicList = new ArrayList<>();
@@ -107,6 +109,7 @@ public class HomeActivity extends AppCompatActivity implements
     }
 
     public void initViews() {
+        cardView = findViewById(R.id.cardView_bottom_bar_layout);
         bottomLinearLayout = findViewById(R.id.bottom_bar_layout);
         bottomLinearLayout.setOnClickListener(this);
 
@@ -136,31 +139,36 @@ public class HomeActivity extends AppCompatActivity implements
 
         try {
             musicList = SongModel.getInstance().getChooseSongList();
-            int position = MediaUtils.currentSongPosition;
+            if (null != musicList) {
+                int position = MediaUtils.currentSongPosition;
 
-            mBottomBarTitle.setText(musicList.get(position).getTitle());
-            mBottomBarArtist.setText(musicList.get(position).getArtist());
+                mBottomBarTitle.setText(musicList.get(position).getTitle());
+                mBottomBarArtist.setText(musicList.get(position).getArtist());
 
-            //歌曲图片
-            String imagePath; //歌曲图片路径
-            if (musicList.get(position).getMusicType() == PlayType.OnlineType) { //当前为播放在线歌曲状态
-                imagePath = musicList.get(position).getPicUrl();
-            } else { //当前为播放本地歌曲状态
-                imagePath = MusicResources.getAlbumArt(new Long(musicList.get(position).getAlbum_id()).intValue());
-            }
-            //            Log.d(TAG,"imagePath="+imagePath);
-            if (null == imagePath || imagePath.equals("")) {
-                mIvBottomBarImage.setImageResource(R.drawable.play_background02);
+                //歌曲图片
+                String imagePath; //歌曲图片路径
+                if (musicList.get(position).getMusicType() == PlayType.OnlineType) { //当前为播放在线歌曲状态
+                    imagePath = musicList.get(position).getPicUrl();
+                } else { //当前为播放本地歌曲状态
+                    imagePath = MusicResources.getAlbumArt(new Long(musicList.get(position).getAlbum_id()).intValue());
+                }
+                //            Log.d(TAG,"imagePath="+imagePath);
+                if (null == imagePath || imagePath.equals("")) {
+                    mIvBottomBarImage.setImageResource(R.drawable.play_background02);
+                } else {
+                    Glide.with(MusicApplication.getContext()).load(imagePath).into(mIvBottomBarImage);
+                }
+                //播放控制按钮
+                if (MediaUtils.currentState == MediaStateCode.PLAY_PAUSE ||
+                        MediaUtils.currentState == MediaStateCode.PLAY_STOP) {
+                    mIvPlay.setImageResource(R.drawable.ic_play_black);
+                } else {
+                    mIvPlay.setImageResource(R.drawable.ic_pause_black);
+                }
+                cardView.setVisibility(View.VISIBLE);
             } else {
-                Glide.with(MusicApplication.getContext()).load(imagePath).into(mIvBottomBarImage);
-            }
-
-            //播放控制按钮
-            if (MediaUtils.currentState == MediaStateCode.PLAY_PAUSE ||
-                    MediaUtils.currentState == MediaStateCode.PLAY_STOP) {
-                mIvPlay.setImageResource(R.drawable.ic_play_black);
-            } else {
-                mIvPlay.setImageResource(R.drawable.ic_pause_black);
+                //list为空，底部控制栏隐藏
+                cardView.setVisibility(View.GONE);
             }
         } catch (Exception e) {
             e.printStackTrace();

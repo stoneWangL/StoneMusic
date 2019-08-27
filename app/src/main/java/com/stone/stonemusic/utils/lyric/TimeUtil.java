@@ -43,13 +43,21 @@ public class TimeUtil {
         try {
             min = Integer.parseInt(timedata[0]);
             second = Integer.parseInt(timedata[1]);
-            mill = Integer.parseInt(timedata[2]);
+            String millStr = timedata[2];
+            int len = millStr.length();
+            if (len == 0)
+                millStr += "000";
+            if (len == 1)
+                millStr += "00";
+            else if (len == 2)
+                millStr += "0";
+            mill = Integer.parseInt(millStr);
         } catch (Exception e) {
             e.printStackTrace();
             return -1;
         }
 
-        //millTime=(min*60+second)*1000+mill*10;
+//        millTime=(min*60+second)*1000+mill*10;
         millTime=(min*60+second)*1000+mill; //00:12.570 最后是3位，最高999我觉得没必要乘以10了
         return millTime;
     }

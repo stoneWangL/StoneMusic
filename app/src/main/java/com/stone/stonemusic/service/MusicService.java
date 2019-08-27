@@ -218,7 +218,7 @@ public class MusicService extends Service implements MusicObserverListener{
 
     @Override
     public void observerUpData(int content) {
-        Log.d(TAG, "observerUpData->观察者类数据已刷新" + ", content=" + content);
+//        Log.d(TAG, "observerUpData->观察者类数据已刷新" + ", content=" + content);
         switch (content) {
             //Music源改变
             case MediaStateCode.MUSIC_POSITION_CHANGED:

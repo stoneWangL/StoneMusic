@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -62,6 +63,7 @@ public class OnlineMusicListActivity extends BaseActivity
     private List<Music> chooseMusicList = new ArrayList<>(); //当前选择的 歌曲列表
     private List<Music> onLineMusicList = new ArrayList<>(); //网络歌曲列表
     private LinearLayout bottomLayout, playLayout, playNextLayout;
+    LinearLayout bottomLinearLayout; //底部控制栏父布局
     private ImageView mIvPlay, mIvPlayNext, mIvBottomBarImage;
     private TextView mBottomBarTitle, mBottomBarArtist;
     private JumpToOtherWhere jumpToOtherWhere;
@@ -91,6 +93,7 @@ public class OnlineMusicListActivity extends BaseActivity
         recyclerView.setNestedScrollingEnabled(false);
 
         //底部播放栏
+        bottomLinearLayout = findViewById(R.id.linea_cardView_father);
         bottomLayout = findViewById(R.id.bottom_bar_layout);
         bottomLayout.setOnClickListener(this);
         playLayout = findViewById(R.id.play_layout);
@@ -136,40 +139,40 @@ public class OnlineMusicListActivity extends BaseActivity
 
     ////设置底部播放栏参数
     public void initMusicPlayImg() {
-
         try {
             chooseMusicList = SongModel.getInstance().getChooseSongList(); //初始化选中歌曲列表
-            int position = MediaUtils.currentSongPosition;
-            Log.i(TAG, "initMusicPlayImg() -> MediaUtils.currentSongPosition = " + MediaUtils.currentSongPosition);
+            if (null != chooseMusicList) {
+                int position = MediaUtils.currentSongPosition;
+                Log.i(TAG, "initMusicPlayImg() -> MediaUtils.currentSongPosition = " + MediaUtils.currentSongPosition);
 
-            mBottomBarTitle.setText(chooseMusicList.get(position).getTitle());
-            mBottomBarArtist.setText(chooseMusicList.get(position).getArtist());
+                mBottomBarTitle.setText(chooseMusicList.get(position).getTitle());
+                mBottomBarArtist.setText(chooseMusicList.get(position).getArtist());
 
-            String imagePath; //歌曲图片路径
-            if (SongModel.getInstance().getMusicType() == PlayType.OnlineType) { //当前为播放在线歌曲状态
-                imagePath = chooseMusicList.get(position).getPicUrl();
-            } else { //当前为播放本地歌曲状态
-                imagePath = MusicResources.getAlbumArt(new Long(chooseMusicList.get(position).getAlbum_id()).intValue());
-            }
-            if (null == imagePath || imagePath.equals("")) {
-                mIvBottomBarImage.setImageResource(R.drawable.play_background02);
+                String imagePath; //歌曲图片路径
+                if (SongModel.getInstance().getMusicType() == PlayType.OnlineType) { //当前为播放在线歌曲状态
+                    imagePath = chooseMusicList.get(position).getPicUrl();
+                } else { //当前为播放本地歌曲状态
+                    imagePath = MusicResources.getAlbumArt(new Long(chooseMusicList.get(position).getAlbum_id()).intValue());
+                }
+                if (null == imagePath || imagePath.equals("")) {
+                    mIvBottomBarImage.setImageResource(R.drawable.play_background02);
+                } else {
+                    Glide.with(MusicApplication.getContext()).load(imagePath).into(mIvBottomBarImage);
+                }
+                if (MediaUtils.currentState == MediaStateCode.PLAY_PAUSE ||
+                        MediaUtils.currentState == MediaStateCode.PLAY_STOP) {
+                    mIvPlay.setImageResource(R.drawable.ic_play_black);
+                } else {
+                    mIvPlay.setImageResource(R.drawable.ic_pause_black);
+                }
+                listAdapter.notifyDataSetChanged();
+                bottomLinearLayout.setVisibility(View.VISIBLE);
             } else {
-                Glide.with(MusicApplication.getContext()).load(imagePath).into(mIvBottomBarImage);
+                bottomLinearLayout.setVisibility(View.GONE);
             }
-
-
-            if (MediaUtils.currentState == MediaStateCode.PLAY_PAUSE ||
-                    MediaUtils.currentState == MediaStateCode.PLAY_STOP) {
-                mIvPlay.setImageResource(R.drawable.ic_play_black);
-            } else {
-                mIvPlay.setImageResource(R.drawable.ic_pause_black);
-            }
-
-            listAdapter.notifyDataSetChanged();
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     @NotNull
@@ -316,7 +319,7 @@ public class OnlineMusicListActivity extends BaseActivity
                 ThisActivityHandler.sendEmptyMessage(1);
                 break;
         }
-        Log.i(TAG, "observerUpData->观察者类数据已刷新");
+//        Log.d(TAG, "observerUpData->观察者类数据已刷新");
     }
 
     /*
