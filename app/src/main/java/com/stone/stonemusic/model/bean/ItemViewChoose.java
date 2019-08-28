@@ -6,7 +6,6 @@ package com.stone.stonemusic.model.bean;
 public class ItemViewChoose {
     private static ItemViewChoose sItemViewChoose = null;
     private int itemChoosePosition = -1;
-
     private ItemViewChoose(){}
 
     //单例
@@ -24,4 +23,5 @@ public class ItemViewChoose {
     public void setItemChoosePosition(int itemChoosePosition) {
         this.itemChoosePosition = itemChoosePosition;
     }
+
 }

@@ -45,8 +45,8 @@ public class TimeUtil {
             second = Integer.parseInt(timedata[1]);
             String millStr = timedata[2];
             int len = millStr.length();
-            if (len == 0)
-                millStr += "000";
+            if (timedata[2]==null || len == 0)
+                millStr = "000";
             if (len == 1)
                 millStr += "00";
             else if (len == 2)

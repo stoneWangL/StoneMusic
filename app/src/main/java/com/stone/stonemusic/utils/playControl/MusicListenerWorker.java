@@ -25,7 +25,7 @@ public class MusicListenerWorker implements Runnable {
         /*死循环，监听音乐状态*/
         for (;;) {
             try {
-                Thread.sleep(50); /*每1000毫秒更新一次*/
+                Thread.sleep(40); /*每1000毫秒更新一次*/
                 if (null != musicService.musicList) {
                     nowMediaNum = MediaUtils.getMediaPlayer().getCurrentPosition();
                     //listMediaNum = MediaUtils.getMediaPlayer().getDuration(); //播放器获取的时常是真实的,但是

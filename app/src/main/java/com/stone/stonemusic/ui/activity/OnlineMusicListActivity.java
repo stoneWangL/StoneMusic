@@ -256,6 +256,7 @@ public class OnlineMusicListActivity extends BaseActivity
      */
     @Override
     public void onItemClick(View v, int position) {
+        List<Music> lastMusicList = SongModel.getInstance().getChooseSongList();
         //本地item被点击，说明当前需要播放的歌曲需要切换到在线
         SongModel.getInstance().setMusicType(PlayType.OnlineType); //将播放类型切换为OnlineType
         //设置当前播放的歌曲类型为在线歌曲
@@ -265,7 +266,9 @@ public class OnlineMusicListActivity extends BaseActivity
         int lastPosition = ItemViewChoose.getInstance().getItemChoosePosition(); //获取上一个选中的位置
         MediaUtils.currentSongPosition = position; //设置当前播放位置全局position
         Log.i(TAG, "歌曲路径=" + onLineMusicList.get(position).getFileUrl());
-        if (position == lastPosition && null != jumpToOtherWhere) //点击的是正在播放的歌曲
+        if (null != jumpToOtherWhere && position == lastPosition
+                && lastMusicList.get(position).getMusicId().equals(
+                SongModel.getInstance().getChooseSongList().get(MediaUtils.currentSongPosition).getMusicId())) //点击的是正在播放的歌曲
             jumpToOtherWhere.GoToPlayActivity(); //调用父类方法，跳转到播放Activity
         else { //点击的是新的歌曲
             PlayControl.controlBtnPlayDiffSong();

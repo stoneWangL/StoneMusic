@@ -86,6 +86,7 @@ public class LocalSingleSongFragment extends Fragment implements
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                List<Music> lastMusicList = SongModel.getInstance().getChooseSongList();
                 //本地item被点击，说明当前需要播放的歌曲需要切换到本地
                 SongModel.getInstance().setMusicType(PlayType.LocalType); //将播放类型切换为LocalType
                 //设置当前播放的歌曲类型为本地歌曲
@@ -96,7 +97,9 @@ public class LocalSingleSongFragment extends Fragment implements
                 MediaUtils.currentSongPosition = position; //设置当前播放位置全局position
                 int lastPosition = ItemViewChoose.getInstance().getItemChoosePosition();
                 //点击的是正在播放的歌曲
-                if (position == lastPosition && null != jumpToOtherWhere)
+                if (position == lastPosition && null != jumpToOtherWhere
+                        && lastMusicList.get(position).getMusicId().equals(
+                        SongModel.getInstance().getChooseSongList().get(MediaUtils.currentSongPosition).getMusicId()))
                     jumpToOtherWhere.GoToPlayActivity(); //调用父类方法，跳转到播放Activity
                 //点击的不是当前播放的歌曲
                 else {
