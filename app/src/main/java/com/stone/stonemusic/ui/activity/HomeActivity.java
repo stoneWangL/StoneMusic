@@ -128,8 +128,8 @@ public class HomeActivity extends AppCompatActivity implements
         tabGeDan= tabLayoutBar.getTabAt(PAGE_GE_DAN);
         tabStyle = tabLayoutBar.getTabAt(PAGE_STYLE);
 
-        mIvPlay = findViewById(R.id.iv_play);
-        mIvPlayNext = findViewById(R.id.iv_play_next);
+        mIvPlay = findViewById(R.id.iv_bottom_play);
+        mIvPlayNext = findViewById(R.id.iv_bottom_play_next);
         mIvBottomBarImage = findViewById(R.id.bottom_bar_image);
         mBottomBarTitle = findViewById(R.id.bottom_bar_title);
         mBottomBarArtist = findViewById(R.id.bottom_bar_artist);
@@ -229,8 +229,14 @@ public class HomeActivity extends AppCompatActivity implements
         overridePendingTransition(R.anim.left_in,R.anim.stop);
     }
 
+    /**
+     * 点击进入查找界面
+     * @param view
+     */
     public void clickRightFind(View view) {
-        ToastUtils.getToastShort("点击了右侧搜索按钮");
+        Intent intent = new Intent(this, FindActivity.class);
+        startActivity(intent);
+//        overridePendingTransition(R.anim.left_in,R.anim.stop);
     }
 
     /*定义回调接口*/

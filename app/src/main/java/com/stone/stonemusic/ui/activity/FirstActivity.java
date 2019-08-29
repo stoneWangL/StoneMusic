@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.stone.stonemusic.R;
+import com.stone.stonemusic.base.BaseNoBarActivity;
 import com.stone.stonemusic.presenter.impl.JumpToOtherWhere;
 import com.stone.stonemusic.presenter.GetPermission;
 import com.stone.stonemusic.presenter.interf.JumpToOtherView;

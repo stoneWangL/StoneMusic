@@ -64,6 +64,7 @@ public class OnlineMusicListActivity extends BaseActivity
     private List<Music> onLineMusicList = new ArrayList<>(); //网络歌曲列表
     private LinearLayout bottomLayout, playLayout, playNextLayout;
     LinearLayout bottomLinearLayout; //底部控制栏父布局
+    CardView cardView;
     private ImageView mIvPlay, mIvPlayNext, mIvBottomBarImage;
     private TextView mBottomBarTitle, mBottomBarArtist;
     private JumpToOtherWhere jumpToOtherWhere;
@@ -94,12 +95,13 @@ public class OnlineMusicListActivity extends BaseActivity
 
         //底部播放栏
         bottomLinearLayout = findViewById(R.id.linea_cardView_father);
+        cardView = findViewById(R.id.cardView_bottom_bar_layout);
         bottomLayout = findViewById(R.id.bottom_bar_layout);
         bottomLayout.setOnClickListener(this);
         playLayout = findViewById(R.id.play_layout);
         playNextLayout = findViewById(R.id.play_next_layout);
-        mIvPlay = findViewById(R.id.iv_play);
-        mIvPlayNext = findViewById(R.id.iv_play_next);
+        mIvPlay = findViewById(R.id.iv_bottom_play);
+        mIvPlayNext = findViewById(R.id.iv_bottom_play_next);
         mIvBottomBarImage = findViewById(R.id.bottom_bar_image);
         mBottomBarTitle = findViewById(R.id.bottom_bar_title);
         mBottomBarArtist = findViewById(R.id.bottom_bar_artist);
@@ -166,9 +168,15 @@ public class OnlineMusicListActivity extends BaseActivity
                     mIvPlay.setImageResource(R.drawable.ic_pause_black);
                 }
                 listAdapter.notifyDataSetChanged();
+
                 bottomLinearLayout.setVisibility(View.VISIBLE);
+                cardView.setVisibility(View.VISIBLE);
+                bottomLayout.setVisibility(View.VISIBLE);
             } else {
                 bottomLinearLayout.setVisibility(View.GONE);
+                cardView.setVisibility(View.GONE);
+                bottomLayout.setVisibility(View.GONE);
+
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -336,4 +344,11 @@ public class OnlineMusicListActivity extends BaseActivity
             initMusicPlayImg();
         }
     };
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //从观察者队列中移除
+        MusicObserverManager.getInstance().remove(this);
+    }
 }

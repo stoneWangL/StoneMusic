@@ -161,9 +161,9 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
         /*当前时长 seekBar 全部时长*/
         tvCurrentTime.setText(OtherUtils.durationTime(0));
         mSeekBar.setProgress(0);
-        mSeekBar.setMax((int)musicList.get(position).getDuration());
+        mSeekBar.setMax(musicList.get(position).getDuration());
         mSeekBar.setProgress(MediaUtils.getMediaPlayer().getCurrentPosition());
-        tvTotalTime.setText(OtherUtils.durationTime((int)musicList.get(position).getDuration()));
+        tvTotalTime.setText(OtherUtils.durationTime(musicList.get(position).getDuration()));
 
         /*播放模式*/
         switch (MediaUtils.currentLoopMode) {
@@ -267,7 +267,6 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
                     mCallBackInterface.ChangeUI();
                 }
                 break;
-
             case MediaStateCode.PLAY_CONTINUE:
             case MediaStateCode.PLAY_STOP:
             case MediaStateCode.PLAY_PAUSE:
@@ -276,9 +275,8 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
             case MediaStateCode.MUSIC_SEEKBAR_CHANGED:
                 PlayActivityHandler.sendEmptyMessage(0);
                 break;
-
             default:
-                Log.i(TAG, "observerUpData->观察者类数据已刷新");
+//                Log.i(TAG, "observerUpData->观察者类数据已刷新");
                 break;
         }
     }

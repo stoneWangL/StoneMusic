@@ -10,8 +10,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.stone.stonemusic.R;
 import com.stone.stonemusic.model.Music;
@@ -21,8 +19,6 @@ import com.stone.stonemusic.model.bean.ThreadPoolBean;
 import com.stone.stonemusic.net.JsonToResult;
 import com.stone.stonemusic.presenter.interf.MusicObserverListener;
 import com.stone.stonemusic.presenter.impl.MusicObserverManager;
-import com.stone.stonemusic.presenter.OnLrcSearchClickListener;
-import com.stone.stonemusic.View.LrcView;
 import com.stone.stonemusic.utils.lyric.LrcUtil;
 import com.stone.stonemusic.net.DownLoadLrcFile;
 import com.stone.stonemusic.utils.URLProviderUtils;
@@ -51,7 +47,6 @@ public class PlayLyricFragment extends Fragment
 
     private List<Music> musicList = new ArrayList<>();
     String QueryPath = ""; //查询歌词的URL
-//    private static LrcView playPageLrcView;
     private static LyricView lyricView;
     private static Handler thisFragmentHandler;
     private boolean DownloadLrcResult = false;
@@ -89,29 +84,18 @@ public class PlayLyricFragment extends Fragment
                 switch (msg.what) {
                     //有歌词
                     case 1:
-//                        Log.i(TAG, "handler->本地有歌词了。LrcState = " + playPageLrcView.getLrcState());
-//                        playPageLrcView.setLrcLists(lrcLists);
-//                        playPageLrcView.setLrcState(LRC_READ_LOC_OK);
-                        lyricView.setLrcContentList(lrcLists);
-                        break;
+
                     //没歌词
                     case 2:
-//                        Log.i(TAG, "handler->本地没有歌词。LrcState = "+ playPageLrcView.getLrcState());
-//                        playPageLrcView.setLrcLists(null);
-//                        playPageLrcView.setLrcState(LRC_READ_LOC_FAIL);
-//                        lyricView.setLrcContentList(null);
 
-                        break;
                     case 3:
 
-                        break;
                     default:
                         break;
                 }
             }
         };
 
-//        playPageLrcView = view.findViewById(R.id.playpage_lrcview);
         lyricView = view.findViewById(R.id.lyricView);
         lyricView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -126,13 +110,11 @@ public class PlayLyricFragment extends Fragment
     }
 
     private void init() {
-//        hasLyric = false;
         musicList = SongModel.getInstance().getChooseSongList(); //重新获取歌曲list
         if (null != lyricView){
             Log.i(TAG, "init()->lyricView 不为 null");
 
             song = musicList.get(MediaUtils.currentSongPosition);
-//            songCopy = song;
             Log.i(TAG, "init() -> song.getTitle() = " + song.getTitle());
             lrcLists = LrcUtil.loadLrcFromLocalFile(song); /*加载本地歌词，获取歌词list*/
 
@@ -143,18 +125,12 @@ public class PlayLyricFragment extends Fragment
                 hasLyric = true; //有歌词
                 lyricView.setSongDuration(song.getDuration());
                 lyricView.setLrcContentList(lrcLists);
-
-//                thisFragmentHandler.sendEmptyMessage(1);
-
             } else {
                 //本地没有歌词
                 Log.i(TAG, "init()->本地无歌词");
                 hasLyric = false; //没歌词
                 List<LrcContent> list = new CopyOnWriteArrayList<>();
                 lyricView.setLrcContentList(list);
-                //lyricView.setLrcContentListSizeToZero(); //将listSize设置为0
-//                lyricView.setLrcContentList(null);
-                //本地没有歌词，再查询网络（后期可修改为手动点击触发）
             }
 
             thisFragmentHandler.post(runnableUi);

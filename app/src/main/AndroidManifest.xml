@@ -45,6 +45,8 @@
         <activity android:name=".ui.activity.AboutActivity" />
         <activity android:name=".ui.activity.OnlineMusicListActivity"
             android:theme="@style/AppTheme.FullScreen"/>
+        <activity android:name=".ui.activity.FindActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"/>
     </application>
 
 </manifest>

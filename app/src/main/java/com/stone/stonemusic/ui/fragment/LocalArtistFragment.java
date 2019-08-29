@@ -61,7 +61,7 @@ public class LocalArtistFragment extends Fragment implements
         listView = (ListView) view.findViewById(R.id.artist_list);
         mBottomBarTitle = (TextView) getActivity().findViewById(R.id.bottom_bar_title);
         mBottomBarArtist = (TextView) getActivity().findViewById(R.id.bottom_bar_artist);
-        mIvPlay = (ImageView) getActivity().findViewById(R.id.iv_play);
+        mIvPlay = (ImageView) getActivity().findViewById(R.id.iv_bottom_play);
         mIvBottomBarImage = (ImageView) getActivity().findViewById(R.id.bottom_bar_image);
 
         readMusic();

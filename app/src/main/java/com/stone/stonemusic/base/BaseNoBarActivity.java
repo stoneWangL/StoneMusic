@@ -1,4 +1,4 @@
-package com.stone.stonemusic.ui.activity;
+package com.stone.stonemusic.base;
 
 import android.graphics.Color;
 import android.os.Build;
