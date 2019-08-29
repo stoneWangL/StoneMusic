@@ -14,13 +14,16 @@ import com.stone.stonemusic.R;
 import com.stone.stonemusic.base.BaseActivity;
 import com.stone.stonemusic.model.Music;
 import com.stone.stonemusic.model.bean.SongModel;
+import com.stone.stonemusic.presenter.impl.JumpToOtherWhere;
 import com.stone.stonemusic.presenter.impl.MusicObserverManager;
+import com.stone.stonemusic.presenter.interf.JumpToOtherView;
 import com.stone.stonemusic.presenter.interf.MusicObserverListener;
 import com.stone.stonemusic.utils.MusicApplication;
 import com.stone.stonemusic.utils.code.MediaStateCode;
 import com.stone.stonemusic.utils.code.PlayType;
 import com.stone.stonemusic.utils.playControl.MediaUtils;
 import com.stone.stonemusic.utils.playControl.MusicResources;
+import com.stone.stonemusic.utils.playControl.PlayControl;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -33,12 +36,13 @@ import java.util.List;
  * @Description:
  */
 public class FindActivity extends BaseActivity
-        implements MusicObserverListener, View.OnClickListener {
+        implements MusicObserverListener, JumpToOtherView {
     private CardView bottomCardViewLayout;
     private LinearLayout bottomLinearLayout, layoutBottom;
     private ImageView mIvPlay, mIvPlayNext, mIvBottomBarImage;
     private TextView mBottomBarTitle, mBottomBarArtist;
     private List<Music> chooseMusicList = new ArrayList<>(); //当前选择的 歌曲列表
+    private JumpToOtherWhere jumpToOtherWhere;
 
     private static String TAG = "FindActivity";
 
@@ -57,9 +61,11 @@ public class FindActivity extends BaseActivity
     protected void initListener() {
         //添加进观察者队列
         MusicObserverManager.getInstance().add(this);
+        //初始化跳转类
+        jumpToOtherWhere = new JumpToOtherWhere(this);
+
         bottomCardViewLayout = findViewById(R.id.cardView_bottom_bar_layout);
         bottomLinearLayout = findViewById(R.id.bottom_bar_layout);
-        bottomLinearLayout.setOnClickListener(this);
         layoutBottom = findViewById(R.id.layout_bottom);
 
         mIvPlay = findViewById(R.id.iv_bottom_play);
@@ -81,7 +87,6 @@ public class FindActivity extends BaseActivity
             chooseMusicList = SongModel.getInstance().getChooseSongList(); //初始化选中歌曲列表
             if (null != chooseMusicList) {
                 int position = MediaUtils.currentSongPosition;
-//                Log.i(TAG, "initMusicPlayImg() -> MediaUtils.currentSongPosition = " + MediaUtils.currentSongPosition);
 
                 mBottomBarTitle.setText(chooseMusicList.get(position).getTitle());
                 mBottomBarArtist.setText(chooseMusicList.get(position).getArtist());
@@ -151,8 +156,46 @@ public class FindActivity extends BaseActivity
         MusicObserverManager.getInstance().remove(this);
     }
 
-    @Override
-    public void onClick(View v) {
 
+
+//    @Override
+//    public void onClick(View v) {
+//        switch (v.getId()) {
+//            case R.id.bottom_bar_layout: //点击底部歌曲信息显示栏，跳转到播放界面
+//                //跳转到播放界面
+//                jumpToOtherWhere.GoToPlayActivity();
+//                break;
+//        }
+//    }
+
+    /**
+     * bottomBar的播放按钮点击事件
+     * @param view
+     */
+    public void play(View view) {
+        if (chooseMusicList.size() > 0) {
+            PlayControl.controlBtnPlaySameSong();
+        }
     }
+
+    /**
+     * bottomBar的下一曲按钮点击事件
+     * @param view
+     */
+    public void playNext(View view) {
+        if (chooseMusicList.size() > 0) {
+            PlayControl.controlBtnNext();
+        }
+    }
+
+    /**
+     * bottomBar的下一曲按钮点击事件
+     * @param view
+     */
+    public void bottomBarClick(View view) {
+        //跳转到播放界面
+        jumpToOtherWhere.GoToPlayActivity();
+    }
+
+
 }
