@@ -135,7 +135,8 @@ public class FindActivity extends BaseHaveBottomBarActivity
                 break;
             case R.id.imageView_find_back:
                 finish();
-//                overridePendingTransition(R.anim.stop,R.anim.push_up_out);
+                overridePendingTransition(R.anim.stop, R.anim.right_out);
+//                overridePendingTransition(R.anim.right_in,R.anim.push_up_out);
                 break;
             default:
                 break;
