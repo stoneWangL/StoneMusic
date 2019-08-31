@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
     <!--左-back键 中-查找输入框 -->
     <LinearLayout
         android:id="@+id/layout_top"
@@ -9,7 +10,8 @@
         android:layout_height="?android:attr/actionBarSize"
         android:background="@color/colorStoneThemeShallow"
         android:orientation="horizontal"
-        android:layout_alignParentTop="true">
+        >
+        <!--android:layout_alignParentTop="true"-->
         <!-- 左-back键 -->
         <LinearLayout
             android:layout_width="?android:attr/actionBarSize"
@@ -19,7 +21,8 @@
                 android:id="@+id/imageView_find_back"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_back_black_30dp"/>
+                android:src="@drawable/ic_back_black_30dp"
+                />
         </LinearLayout>
         <!-- 中-查找输入框 -->
         <EditText
@@ -48,9 +51,11 @@
     <!--中间查找结果部分-->
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/layout_bottom"
-        android:layout_below="@+id/layout_top">
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        >
+        <!--android:layout_above="@+id/layout_bottom"-->
+        <!--android:layout_below="@+id/layout_top"-->
         <TextView
             android:id="@+id/textView_result_show"
             android:layout_width="match_parent"
@@ -63,6 +68,7 @@
             android:id="@+id/listView_find"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:divider="@null"
             />
     </FrameLayout>
 
@@ -72,10 +78,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_alignParentBottom="true">
+        >
+        <!--android:layout_alignParentBottom="true"-->
         <!--底部 当前音乐-->
         <include layout="@layout/bottom_bar"
             />
     </LinearLayout>
 
-</RelativeLayout>
+</LinearLayout>

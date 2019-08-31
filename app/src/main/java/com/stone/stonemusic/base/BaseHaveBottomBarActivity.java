@@ -36,7 +36,7 @@ import java.util.List;
  */
 public abstract class BaseHaveBottomBarActivity extends BaseActivity
         implements MusicObserverListener, JumpToOtherView {
-    private static String TAG = "FindActivity";
+    private static String TAG = "BaseHaveBottomBarActivity";
     protected CardView bottomCardViewLayout;
     protected LinearLayout bottomLinearLayout, layoutBottom;
     protected ImageView mIvPlay, mIvPlayNext, mIvBottomBarImage;

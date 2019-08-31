@@ -4,27 +4,27 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.stone.stonemusic.R;
+import com.stone.stonemusic.View.FindView;
+import com.stone.stonemusic.adapter.FindAdapter;
 import com.stone.stonemusic.base.BaseHaveBottomBarActivity;
-import com.stone.stonemusic.model.bean.ThreadPoolBean;
-import com.stone.stonemusic.net.DownLoadLrcFile;
-import com.stone.stonemusic.net.JsonToResult;
-import com.stone.stonemusic.utils.URLProviderUtils;
-import com.stone.stonemusic.utils.lyric.LrcUtil;
+import com.stone.stonemusic.model.Music;
+import com.stone.stonemusic.model.bean.ItemViewChoose;
+import com.stone.stonemusic.model.bean.SongModel;
+import com.stone.stonemusic.presenter.impl.FindPresenterImpl;
+import com.stone.stonemusic.utils.code.PlayType;
+import com.stone.stonemusic.utils.playControl.MediaUtils;
+import com.stone.stonemusic.utils.playControl.PlayControl;
 
-import org.jetbrains.annotations.NotNull;
+import java.util.ArrayList;
+import java.util.List;
 
-import java.io.IOException;
-
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 
 /**
  * @Author: stoneWang
@@ -32,11 +32,15 @@ import okhttp3.Response;
  * @Description:
  */
 public class FindActivity extends BaseHaveBottomBarActivity
-        implements View.OnClickListener {
+        implements View.OnClickListener, FindView {
     private static String TAG = "FindActivity";
     private EditText editText;
     private TextView textViewResultShow;
-    private ImageView ivFind;
+    private ImageView ivFind, ivBack;
+    FindPresenterImpl findPresenter;
+    private FindAdapter findAdapter;
+    private ListView listView;
+    private List<Music> musicList = new ArrayList<>();
 
 
     @Override
@@ -51,17 +55,65 @@ public class FindActivity extends BaseHaveBottomBarActivity
 
         ivFind = findViewById(R.id.imageView_find_search);
         ivFind.setOnClickListener(this);
+        ivBack = findViewById(R.id.imageView_find_back);
+        ivBack.setOnClickListener(this);
+
+        listView = findViewById(R.id.listView_find);
+
 
     }
 
     @Override
     protected void initDataOther() {
+        findPresenter = new FindPresenterImpl(this);
+        readMusic();
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                List<Music> lastMusicList = SongModel.getInstance().getChooseSongList();
+                //在线find item被点击，说明当前需要播放的歌曲需要切换到在线
+                SongModel.getInstance().setMusicType(PlayType.OnlineType); //将播放类型切换为OnlineType
+                //设置当前播放的歌曲类型为搜索到的list
+                SongModel.getInstance().setChooseSongList(SongModel.getInstance().getmFindSongList());
 
+                Log.d(TAG, "位置：" + position + "; 歌名：" + musicList.get(position).getTitle());
+
+                MediaUtils.currentSongPosition = position; //设置当前播放位置全局position
+                int lastPosition = ItemViewChoose.getInstance().getItemChoosePosition(); //上一个播放的位置
+                //点击的是正在播放的歌曲
+                if (position == lastPosition
+                        && lastMusicList.get(position).getMusicId().equals(
+                        SongModel.getInstance().getChooseSongList().get(MediaUtils.currentSongPosition).getMusicId()))
+                    jumpToOtherWhere.GoToPlayActivity(); //调用父类方法，跳转到播放Activity
+                    //点击的不是当前播放的歌曲
+                else {
+                    PlayControl.controlBtnPlayDiffSong(); //播放音乐
+                    //设置选中的item的位置,这里的position设置与ListView中当前播放位置的标识有关
+                    ItemViewChoose.getInstance().setItemChoosePosition(position);
+                    findAdapter.notifyDataSetChanged(); //更新adapter
+                }
+            }
+
+        });
+    }
+
+    private void readMusic(){
+        try{
+            musicList = SongModel.getInstance().getmFindSongList();
+
+            if (null != musicList && musicList.size() > 0){
+                findAdapter = new FindAdapter(this, R.layout.item_music, musicList);
+                listView.setAdapter(findAdapter);
+            }
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
     }
 
     @Override
     protected void observerUpDataOtherPlayStartPositionChange() {
-
+        ThisActivityHandler.sendEmptyMessage(2);
     }
 
     @Override
@@ -80,74 +132,24 @@ public class FindActivity extends BaseHaveBottomBarActivity
         switch (v.getId()) {
             case R.id.imageView_find_search:
                 clickFindBtn(); //搜索按钮被点击
+                break;
+            case R.id.imageView_find_back:
+                finish();
+//                overridePendingTransition(R.anim.stop,R.anim.push_up_out);
+                break;
             default:
                 break;
         }
     }
 
-    /**
-     * 搜索按钮被点击
-     */
-    private void clickFindBtn() {
-        //获取需要查询的字符串
-        String findStr = editText.getText().toString();
 
-        if (findStr.equals("")) {
-            //反馈查询结果为空
-            feedBackResult(0);
-        } else {
-            //构建查询url
-            final String QueryPath = URLProviderUtils.findByKeyWord(findStr, 1, 30, 0);
-            Log.d(TAG, "QueryPath=" + QueryPath);
-            //使用线程池，子线程查询
-            ThreadPoolBean.getInstance().execute(new Runnable() {
-                @Override
-                public void run() {
-                    OkHttpClient client = new OkHttpClient();
-                    Request request = new Request.Builder()
-                            .url(QueryPath)
-                            .get()
-                            .build();
-                    client.newCall(request).enqueue(new Callback() {
-                        /**
-                         * 子线程调用
-                         */
-                        @Override
-                        public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                            Log.i(TAG, "搜索关键词 -> 获取数据失败");
-                            feedBackResult(1);
-                        }
 
-                        /**
-                         * 子线程调用
-                         */
-                        @Override
-                        public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                            Log.i(TAG, "搜索关键词 -> 获取数据成功");
-                            feedBackResult(2);
-                            String result = response.body().string();
-                            Log.i(TAG, "result = " + result);
-
-                            final String findString = JsonToResult.getOnlineLyricFromJson(result);
-//                            //将LrcString保存为文件
-//                            DownloadLrcResult = DownLoadLrcFile.getInstance().
-//                                    writeLrcFromStringToFile(lrcString, song.getTitle(), song.getArtist());
-//
-//                            lrcLists = LrcUtil.loadLrcFromLocalFile(song); //加载本地歌词，获取歌词list
-//                            thisFragmentHandler.post(runnableUi);
-                        }
-                    });
-                }
-            });
-        }
-
-    }
 
     /**
      * 反馈，查询结果为空
      * @param result 0:表示查询结果为空， 1：表示查询失败， 2：查询成功
      */
-    private void feedBackResult(final int result) {
+    public void feedBackResult(final int result) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -166,6 +168,12 @@ public class FindActivity extends BaseHaveBottomBarActivity
         });
     }
 
+    @Override
+    public void notifyMusicList(final List<Music> list) {
+        SongModel.getInstance().setmFindSongList(list);
+        ThisActivityHandler.sendEmptyMessage(1);
+    }
+
     /**
      * 收到UI界面更新的通知后，在此刷新UI
      */
@@ -173,7 +181,34 @@ public class FindActivity extends BaseHaveBottomBarActivity
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
+            switch (msg.what) {
+                case 1:
+                    readMusic();
+                    break;
+                case 2:
+                    findAdapter.notifyDataSetChanged();
+                    break;
+            }
         }
     };
 
+    @Override
+    public void loadSuccess() {
+        findPresenter.loadSuccess();
+    }
+
+    @Override
+    public void loadFalse() {
+        findPresenter.loadFalse();
+    }
+
+    /**
+     * 搜索按钮被点击
+     */
+    @Override
+    public void clickFindBtn() {
+        //获取需要查询的字符串
+        String findStr = editText.getText().toString();
+        findPresenter.clickFindBtn(findStr);
+    }
 }

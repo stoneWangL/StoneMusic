@@ -121,23 +121,7 @@ public class JsonToResult implements PlayType {
         return null;
     }
 
-    private static Music getOnLineMusicInstance(
-            String name,
-            String id,
-            String ar_name,
-            String al_picUrl,
-            int dt) {
-        Music music = new Music();
-        music.setId(0); //网络歌曲设置id为0
-        music.setMusicType(PlayType.OnlineType); //设置歌曲类型->在线歌曲
-        music.setTitle(name);
-        music.setMusicId(id);
-        music.setArtist(ar_name);
-        music.setPicUrl(al_picUrl);
-        music.setFileUrl(URLProviderUtils.getSingleSong(id));
-        music.setDuration(dt);
-        return music;
-    }
+
 
     /**
      * 传入返回的歌词JSON数据，解析出需要的歌词部分，返回这部分的String
@@ -161,6 +145,75 @@ public class JsonToResult implements PlayType {
                 e.printStackTrace();
             }
         }
+        return null;
+    }
+
+    private static Music getOnLineMusicInstance(
+            String name,
+            String id,
+            String ar_name,
+            String al_picUrl,
+            int dt) {
+        Music music = new Music();
+        music.setId(0); //网络歌曲设置id为0
+        music.setMusicType(PlayType.OnlineType); //设置歌曲类型->在线歌曲
+        music.setTitle(name);
+        music.setMusicId(id);
+        music.setArtist(ar_name);
+        music.setPicUrl(al_picUrl);
+        music.setFileUrl(URLProviderUtils.getSingleSong(id));
+        music.setDuration(dt);
+        return music;
+    }
+
+    /**
+     * 返回单曲查询结果
+     * @param jsonData 原始JSON
+     * @return null:查询失败  List<Music>：查询到的单曲列表
+     */
+    public static List<Music> getFindResultFromJson(String jsonData) {
+        if (!TextUtils.isEmpty(jsonData)) { //返回数据非空
+            try {
+                JSONObject allResult = new JSONObject(jsonData);
+                int code = allResult.getInt("code");
+                if (200 == code) {
+                    String resultObjectString = allResult.getString("result"); //lrc object 的字符串
+                    JSONObject resultObject = new JSONObject(resultObjectString);
+
+                    String songsArrayString = resultObject.getString("songs");
+                    JSONArray songsArray = new JSONArray(songsArrayString);
+
+                    List<Music> listBeans = new ArrayList<>();
+                    for (int i = 0; i < songsArray.length(); i++) { //遍历playList数组,添加进对象
+                        JSONObject songListObject = songsArray.getJSONObject(i);
+                        String id = songListObject.getString("id"); //歌曲id
+                        String name = songListObject.getString("name"); //歌曲名
+                        int duration = songListObject.getInt("duration"); //歌曲时长
+
+                        //artists
+                        JSONArray songArrayArtists = new JSONArray(songListObject.getString("artists"));
+                        JSONObject artistObject = songArrayArtists.getJSONObject(0);
+                        String artist_name = artistObject.getString("name"); //歌手
+                        String artists_pic = artistObject.getString("img1v1Url"); //图片
+
+                        Music music = getOnLineMusicInstance(
+                                name, //歌曲名
+                                id, //网络歌曲id
+                                artist_name, //歌手
+                                artists_pic, //歌曲图片
+                                duration //歌曲时长
+                        );
+                        listBeans.add(music);
+                    }
+                    Log.i(TAG, "listBeans.size=" + listBeans.size());
+                    return listBeans;
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
         return null;
     }
 }

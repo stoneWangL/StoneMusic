@@ -61,7 +61,7 @@ public class URLProviderUtils {
      * @return String 类型的JSON数据
      */
     public static String findByKeyWord(String keyWord, int type, int limit, int offset) {
-        String url = "http://144.34.228.215:3000/search/multimatch?keywords="
+        String url = "http://144.34.228.215:3000/search?keywords="
                 + keyWord
                 + "&type=" + type
                 + "&limit=" + limit
