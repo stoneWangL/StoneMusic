@@ -1,11 +1,9 @@
 package com.stone.stonemusic.net;
 
-import android.os.Parcel;
 import android.text.TextUtils;
 import android.util.Log;
 
 import com.stone.stonemusic.model.Music;
-import com.stone.stonemusic.model.OnLineListBean;
 import com.stone.stonemusic.model.PlayListBean;
 import com.stone.stonemusic.utils.URLProviderUtils;
 import com.stone.stonemusic.utils.code.PlayType;

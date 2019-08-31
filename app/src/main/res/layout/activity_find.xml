@@ -46,12 +46,26 @@
 
 
     <!--中间查找结果部分-->
-    <ListView
-        android:id="@+id/listView_find"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/layout_bottom"
-        android:layout_below="@+id/layout_top"/>
+        android:layout_below="@+id/layout_top">
+        <TextView
+            android:id="@+id/textView_result_show"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text=""
+            android:textSize="@dimen/big_title"
+            android:textColor="@color/colorStoneThemeDark"/>
+        <ListView
+            android:id="@+id/listView_find"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+    </FrameLayout>
+
 
     <LinearLayout
         android:id="@+id/layout_bottom"

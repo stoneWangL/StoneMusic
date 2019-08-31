@@ -8,7 +8,9 @@
     <color name="halfWhite">#88ffffff</color>
     <color name="red">#ff0000</color>
 
+
     <color name="colorStoneThemeDark">#898989</color>
+    <color name="darkerGray" >@android:color/darker_gray</color>
     <color name="colorStoneThemeShallow">#fff</color>
     <!--<color name="colorBarBottom">#e1e1e1</color>-->
 
