@@ -4,7 +4,7 @@ import android.os.AsyncTask;
 
 import com.stone.stonemusic.model.Music;
 import com.stone.stonemusic.model.bean.SongModel;
-import com.stone.stonemusic.ui.activity.HomeActivity;
+import com.stone.stonemusic.UI.activity.HomeActivity;
 import com.stone.stonemusic.utils.MusicApplication;
 
 import java.util.List;

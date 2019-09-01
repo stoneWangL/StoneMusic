@@ -45,9 +45,11 @@ public class MusicResources {
                 while (cursor.moveToNext()) {
                     Music m = new Music();
                     long id = cursor.getLong(cursor.getColumnIndex(MediaStore.Audio.Media._ID));
-//                    String title = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.TITLE));
-                    String displayName = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.DISPLAY_NAME));
+
+                    String title = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.TITLE)); //可能乱码
+                    String displayName = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.DISPLAY_NAME)); //不会断码.mp3
 //                    String title = displayName.substring(0, displayName.length() - 1);
+
                     String artist = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.ARTIST));
                     long duration = cursor.getLong(cursor.getColumnIndex(MediaStore.Audio.Media.DURATION));
                     long size = cursor.getLong(cursor.getColumnIndex(MediaStore.Audio.Media.SIZE));
@@ -60,7 +62,8 @@ public class MusicResources {
                         m.setId(id);
                         m.setMusicId(""); //本地音乐设置MusicId为""
                         m.setMusicType(PlayType.LocalType);
-                        m.setTitle(displayName);
+                        m.setDisplayName(displayName);
+                        m.setTitle(title);
                         m.setArtist(artist);
                         m.setDuration((int)duration);
                         m.setSize(size);

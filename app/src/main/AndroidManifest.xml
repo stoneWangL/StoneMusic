@@ -20,7 +20,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".ui.activity.FirstActivity"
+            android:name=".UI.activity.FirstActivity"
             android:theme="@style/AppTheme.FullScreen"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -31,21 +31,21 @@
         </activity>
 
         <activity
-            android:name=".ui.activity.HomeActivity"
+            android:name=".UI.activity.HomeActivity"
             android:screenOrientation="portrait"
             android:launchMode="singleTask" />
-        <activity android:name=".ui.activity.PlayActivity"
+        <activity android:name=".UI.activity.PlayActivity"
             android:screenOrientation="portrait" />
 
         <service
             android:name=".service.MusicService"
             android:enabled="true"
             android:exported="true" />
-        <activity android:name=".ui.activity.SettingActivity" />
-        <activity android:name=".ui.activity.AboutActivity" />
-        <activity android:name=".ui.activity.OnlineMusicListActivity"
+        <activity android:name=".UI.activity.SettingActivity" />
+        <activity android:name=".UI.activity.AboutActivity" />
+        <activity android:name=".UI.activity.OnlineMusicListActivity"
             android:theme="@style/AppTheme.FullScreen"/>
-        <activity android:name=".ui.activity.FindActivity"
+        <activity android:name=".UI.activity.FindActivity"
             android:windowSoftInputMode="adjustPan|stateHidden"/>
     </application>
 

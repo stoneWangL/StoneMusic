@@ -1,11 +1,10 @@
 package com.stone.stonemusic.adapter;
 
 import android.content.Context;
-import android.view.View;
 
 import com.stone.stonemusic.base.BaseListAdapter;
 import com.stone.stonemusic.model.PlayListBean;
-import com.stone.stonemusic.widget.GeDanItemView;
+import com.stone.stonemusic.UI.widget.GeDanItemView;
 
 /**
  * @Author: stoneWang

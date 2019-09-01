@@ -19,13 +19,11 @@ import android.util.Log;
 import android.widget.RemoteViews;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.FutureTarget;
 import com.bumptech.glide.request.target.NotificationTarget;
-import com.bumptech.glide.request.target.SimpleTarget;
 import com.stone.stonemusic.R;
 import com.stone.stonemusic.model.Music;
 import com.stone.stonemusic.model.bean.SongModel;
-import com.stone.stonemusic.ui.activity.HomeActivity;
+import com.stone.stonemusic.UI.activity.HomeActivity;
 import com.stone.stonemusic.utils.code.PlayType;
 import com.stone.stonemusic.utils.playControl.MusicListenerWorker;
 import com.stone.stonemusic.presenter.broadcastReceiver.NotificationViewReceiver;

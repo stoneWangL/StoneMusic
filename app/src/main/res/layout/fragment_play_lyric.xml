@@ -14,7 +14,7 @@
         <!--android:text="歌词界面" />-->
 
     <!--新歌词控件-->
-    <com.stone.stonemusic.widget.LyricView
+    <com.stone.stonemusic.UI.widget.LyricView
         android:id="@+id/lyricView"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

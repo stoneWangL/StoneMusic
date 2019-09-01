@@ -182,10 +182,11 @@
             android:layout_weight="3"
             android:layout_height="match_parent" />
         <ImageView
+            android:id="@+id/play_lyc"
             android:layout_width="0dp"
             android:layout_weight="7"
             android:layout_height="match_parent"
-            android:src="@drawable/ic_love_red_24dp"
+            android:src="@drawable/ic_lrc_white_24dp"
             android:padding="@dimen/dp_6dp"/>
         <View
             android:layout_width="0dp"

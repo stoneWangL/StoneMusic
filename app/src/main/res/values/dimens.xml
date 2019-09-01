@@ -10,9 +10,11 @@
     <dimen name="big_item_artist">12sp</dimen>
     <dimen name="small_item_title">13sp</dimen>
     <dimen name="small_item_artist">11sp</dimen>
+    <dimen name="small_item_size">10sp</dimen>
 
     <!--位置dp-->
     <dimen name="item_height">61dp</dimen>
+    <dimen name="item_height_2">40dp</dimen>
     <dimen name="notification_height">100dp</dimen>
     <dimen name="dp_50dp">50dp</dimen>
     <dimen name="dp_37dp">37dp</dimen>

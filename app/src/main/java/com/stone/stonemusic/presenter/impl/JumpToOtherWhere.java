@@ -6,8 +6,8 @@ import android.os.Handler;
 
 import com.stone.stonemusic.R;
 import com.stone.stonemusic.presenter.interf.JumpToOtherView;
-import com.stone.stonemusic.ui.activity.HomeActivity;
-import com.stone.stonemusic.ui.activity.PlayActivity;
+import com.stone.stonemusic.UI.activity.HomeActivity;
+import com.stone.stonemusic.UI.activity.PlayActivity;
 
 /**
  * author : stoneWang

@@ -1,10 +1,7 @@
 package com.stone.stonemusic.presenter.impl;
 
 import android.util.Log;
-import android.view.View;
-
 import com.stone.stonemusic.View.FindView;
-import com.stone.stonemusic.View.OnLineView;
 import com.stone.stonemusic.model.Music;
 import com.stone.stonemusic.model.bean.ThreadPoolBean;
 import com.stone.stonemusic.net.JsonToResult;

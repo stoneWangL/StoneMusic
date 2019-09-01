@@ -9,8 +9,8 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.stone.stonemusic.ui.activity.OnlineMusicListActivity;
-import com.stone.stonemusic.widget.LoadMoreView;
+import com.stone.stonemusic.UI.activity.OnlineMusicListActivity;
+import com.stone.stonemusic.UI.widget.LoadMoreView;
 import java.util.ArrayList;
 import java.util.List;
 

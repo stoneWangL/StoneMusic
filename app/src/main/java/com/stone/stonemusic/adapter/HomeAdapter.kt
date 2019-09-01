@@ -4,8 +4,8 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import android.view.ViewGroup
-import com.stone.stonemusic.ui.activity.HomeActivity
-import com.stone.stonemusic.ui.fragment.*
+import com.stone.stonemusic.UI.activity.HomeActivity
+import com.stone.stonemusic.UI.fragment.*
 import com.stone.stonemusic.utils.code.HomeCode
 
 /**

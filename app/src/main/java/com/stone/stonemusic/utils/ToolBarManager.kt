@@ -1,9 +1,6 @@
 package com.stone.stonemusic.utils
 
-import android.content.Intent
 import android.support.v7.widget.Toolbar
-import com.stone.stonemusic.R
-import com.stone.stonemusic.ui.activity.SettingActivity
 
 
 /**

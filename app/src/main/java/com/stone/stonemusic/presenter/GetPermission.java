@@ -5,7 +5,7 @@ import android.content.pm.PackageManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 
-import com.stone.stonemusic.ui.activity.FirstActivity;
+import com.stone.stonemusic.UI.activity.FirstActivity;
 import com.stone.stonemusic.utils.MusicApplication;
 
 /**

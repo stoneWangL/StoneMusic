@@ -5,9 +5,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.view.ViewGroup;
 
-import com.stone.stonemusic.ui.activity.PlayActivity;
-import com.stone.stonemusic.ui.fragment.PlayImageFragment;
-import com.stone.stonemusic.ui.fragment.PlayLyricFragment;
+import com.stone.stonemusic.UI.activity.PlayActivity;
+import com.stone.stonemusic.UI.fragment.PlayImageFragment;
+import com.stone.stonemusic.UI.fragment.PlayLyricFragment;
 
 public class PlayFragmentPagerAdapter extends FragmentPagerAdapter {
 //    private final int PAGER_COUNT = 2;

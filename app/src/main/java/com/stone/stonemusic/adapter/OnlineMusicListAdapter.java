@@ -1,9 +1,6 @@
 package com.stone.stonemusic.adapter;
 
-
-import android.content.Context;
 import android.graphics.Bitmap;
-import android.provider.ContactsContract;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,14 +11,12 @@ import android.widget.TextView;
 
 import com.stone.stonemusic.R;
 import com.stone.stonemusic.View.OnLineView;
-import com.stone.stonemusic.model.Beauty;
 import com.stone.stonemusic.model.Music;
 import com.stone.stonemusic.model.bean.ItemViewChoose;
 import com.stone.stonemusic.model.bean.SongModel;
 import com.stone.stonemusic.utils.code.PlayType;
 import com.stone.stonemusic.utils.playControl.MediaUtils;
 
-import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -33,7 +28,6 @@ import java.util.List;
 public class OnlineMusicListAdapter extends RecyclerView.Adapter<OnlineMusicListAdapter.ViewHolder> {
     public static final String TAG = "OnlineMusicListAdapter";
     private int resourceId;
-    private Bitmap pic;
 
     private List<Music> list; //数据集合
     private OnLineView onLineView; //上下文
@@ -43,20 +37,6 @@ public class OnlineMusicListAdapter extends RecyclerView.Adapter<OnlineMusicList
         this.onLineView = onLineView;
         this.resourceId = resourceId;
     }
-
-//    //回调接口私有属性
-//    private OnItemClickListener onItemClickListener = null;
-//
-//    //setter方法
-//    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
-//        this.onItemClickListener = onItemClickListener;
-//    }
-//
-//    //回调接口
-//    public interface OnItemClickListener {
-//        void onItemClick(View v, ContactsContract.CommonDataKinds.Note note, int position);
-//    }
-
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {

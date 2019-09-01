@@ -9,6 +9,7 @@ public class Music implements Serializable, PlayType {
     private long id;
     private String musicId;
     private long album_id;
+    private String displayName;
     private String title;
     private String artist;
     private long size;//music的音乐长度
@@ -56,6 +57,14 @@ public class Music implements Serializable, PlayType {
 
     public void setAlbum_id(long album_id) {
         this.album_id = album_id;
+    }
+
+    public String getDisplayName() {
+        return displayName;
+    }
+
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
     }
 
     public String getTitle() {

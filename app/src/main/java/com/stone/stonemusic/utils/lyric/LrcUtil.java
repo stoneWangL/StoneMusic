@@ -111,11 +111,6 @@ public class LrcUtil implements LrcStateContants{
         } else { //网络歌曲,只需要在stoneWang中查找
             lrcPathString = getLrcPath(music.getTitle(), music.getArtist());
             file = new File(lrcPathString);
-
-//            // StoneMusic/Lyrics
-//            if (!file.exists()) {
-//                file = new File(lrcPathString);
-//            }
             Log.i(TAG, "网络歌词路径是：" + file.getAbsolutePath());
         }
 

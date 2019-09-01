@@ -30,9 +30,9 @@
                           <map>
                             <entry key="assetSourceType" value="FILE" />
                             <entry key="opacityPercent" value="90" />
-                            <entry key="outputName" value="ic_find_black_90_24dp" />
+                            <entry key="outputName" value="ic_lrc_white_24dp" />
                             <entry key="overrideSize" value="true" />
-                            <entry key="sourceFile" value="F:\图标_F盘\icon_find.svg" />
+                            <entry key="sourceFile" value="F:\图标_F盘\lrc.svg" />
                           </map>
                         </option>
                       </PersistentState>

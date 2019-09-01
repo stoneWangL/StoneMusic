@@ -5,9 +5,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.view.ViewGroup;
 
-import com.stone.stonemusic.ui.fragment.LocalArtistFragment;
-import com.stone.stonemusic.ui.fragment.LocalSingleSongFragment;
-import com.stone.stonemusic.ui.fragment.StyleFragment;
+import com.stone.stonemusic.UI.fragment.LocalArtistFragment;
+import com.stone.stonemusic.UI.fragment.LocalSingleSongFragment;
+import com.stone.stonemusic.UI.fragment.StyleFragment;
 import com.stone.stonemusic.utils.code.LocalCode;
 
 /**

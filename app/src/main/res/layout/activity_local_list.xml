@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.activity.HomeActivity">
+    tools:context=".UI.activity.HomeActivity">
 
     <!--左-设置 中-本地音乐/推荐歌单/推荐风格 右-查找-->
     <LinearLayout

@@ -5,16 +5,16 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.view.ViewGroup;
 
-import com.stone.stonemusic.ui.fragment.StyleFangSongFragment;
-import com.stone.stonemusic.ui.fragment.StyleFragment;
-import com.stone.stonemusic.ui.fragment.StyleGanDongFragment;
-import com.stone.stonemusic.ui.fragment.StyleGuDuFragment;
-import com.stone.stonemusic.ui.fragment.StyleHuaiJiuFragment;
-import com.stone.stonemusic.ui.fragment.StyleLangManFragment;
-import com.stone.stonemusic.ui.fragment.StyleQingXinFragment;
-import com.stone.stonemusic.ui.fragment.StyleShangGanFragment;
-import com.stone.stonemusic.ui.fragment.StyleXingGanFragment;
-import com.stone.stonemusic.ui.fragment.StyleZhiYuFragment;
+import com.stone.stonemusic.UI.fragment.StyleFangSongFragment;
+import com.stone.stonemusic.UI.fragment.StyleFragment;
+import com.stone.stonemusic.UI.fragment.StyleGanDongFragment;
+import com.stone.stonemusic.UI.fragment.StyleGuDuFragment;
+import com.stone.stonemusic.UI.fragment.StyleHuaiJiuFragment;
+import com.stone.stonemusic.UI.fragment.StyleLangManFragment;
+import com.stone.stonemusic.UI.fragment.StyleQingXinFragment;
+import com.stone.stonemusic.UI.fragment.StyleShangGanFragment;
+import com.stone.stonemusic.UI.fragment.StyleXingGanFragment;
+import com.stone.stonemusic.UI.fragment.StyleZhiYuFragment;
 import com.stone.stonemusic.utils.code.GeDanCode;
 
 /**
