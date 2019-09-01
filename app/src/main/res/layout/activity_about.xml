@@ -2,22 +2,24 @@
 <android.support.v7.widget.CardView
     android:layout_width="match_parent"
     android:layout_height="match_parent" xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardElevation="5dp"
+    app:cardElevation="20dp"
     app:cardUseCompatPadding="true"
-    app:cardCornerRadius="10dp"
+    app:cardCornerRadius="30dp"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white">
+        android:background="@color/white"
+        android:padding="@dimen/dp_20dp">
 
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="这是一款免费的音乐播放器，可使用网易云账号登录"/>
+            android:gravity="center_vertical"
+            android:text="\t这是一款个人兴趣开发的，免费的音乐播放器，包括本地音乐播放，网络歌单推荐和查找，歌词查找，后台播放的功能。\n\t如果有建议，欢迎反馈微信号：stoneWang，验证信息：stoneMusic"/>
 
     </LinearLayout>
 </android.support.v7.widget.CardView>

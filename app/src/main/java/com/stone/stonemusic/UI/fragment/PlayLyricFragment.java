@@ -238,6 +238,7 @@ public class PlayLyricFragment extends Fragment
     public void observerUpData(int content) {
 //        musicList = SongModel.getInstance().getChooseSongList();
         switch (content) {
+            case MediaStateCode.MUSIC_LRC_CHANGED: //歌词改变
             case MediaStateCode.MUSIC_POSITION_CHANGED: //歌曲源改变
 //                DclTimerTask.getInstance().destroyed();
 //                DclTimerTask.getInstance().start();
