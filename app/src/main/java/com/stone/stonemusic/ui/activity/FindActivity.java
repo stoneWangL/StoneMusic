@@ -17,13 +17,25 @@ import com.stone.stonemusic.base.BaseHaveBottomBarActivity;
 import com.stone.stonemusic.model.Music;
 import com.stone.stonemusic.model.bean.ItemViewChoose;
 import com.stone.stonemusic.model.bean.SongModel;
+import com.stone.stonemusic.model.bean.ThreadPoolBean;
+import com.stone.stonemusic.net.JsonToResult;
 import com.stone.stonemusic.presenter.impl.FindPresenterImpl;
+import com.stone.stonemusic.utils.URLProviderUtils;
 import com.stone.stonemusic.utils.code.PlayType;
 import com.stone.stonemusic.utils.playControl.MediaUtils;
 import com.stone.stonemusic.utils.playControl.PlayControl;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 
 /**
@@ -102,7 +114,7 @@ public class FindActivity extends BaseHaveBottomBarActivity
             musicList = SongModel.getInstance().getmFindSongList();
 
             if (null != musicList && musicList.size() > 0){
-                findAdapter = new FindAdapter(this, R.layout.item_music, musicList);
+                findAdapter = new FindAdapter(this, R.layout.item_music, musicList, this);
                 listView.setAdapter(findAdapter);
             }
 
@@ -173,6 +185,16 @@ public class FindActivity extends BaseHaveBottomBarActivity
     public void notifyMusicList(final List<Music> list) {
         SongModel.getInstance().setmFindSongList(list);
         ThisActivityHandler.sendEmptyMessage(1);
+    }
+
+    @Override
+    public void clickItemSet(int position) {
+        //获取当前find列表点击位置的信息
+        //弹出popUpWindow
+        //直接下载
+        final String QueryPath = musicList.get(position).getFileUrl();
+        Log.i(TAG, "点击的歌曲的播放路径：" + QueryPath);
+        //缓存功能先空置吧，以后再做
     }
 
     /**

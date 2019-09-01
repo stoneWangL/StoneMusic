@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.stone.stonemusic.R;
+import com.stone.stonemusic.View.FindView;
 import com.stone.stonemusic.model.Music;
 import com.stone.stonemusic.model.bean.ItemViewChoose;
 import com.stone.stonemusic.model.bean.SongModel;
@@ -30,12 +31,14 @@ public class FindAdapter extends ArrayAdapter<Music> {
     public static final String TAG = "FindAdapter";
     private int resourceId;
     List<Music> musicList;
+    FindView findView;
 
 
-    public FindAdapter(@NonNull Context context, int textViewResourceId, List<Music> list) {
+    public FindAdapter(@NonNull Context context, int textViewResourceId, List<Music> list, FindView findView) {
         super(context, textViewResourceId, list);
         resourceId = textViewResourceId;
         musicList = list;
+        this.findView = findView;
     }
 
     @NonNull
@@ -65,6 +68,7 @@ public class FindAdapter extends ArrayAdapter<Music> {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "position == " + position);
+                findView.clickItemSet(position); //让View层去处理
             }
         });
 

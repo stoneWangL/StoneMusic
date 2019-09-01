@@ -22,4 +22,6 @@ public interface FindView {
     void feedBackResult(final int result);
 
     void notifyMusicList(List<Music> musicList);
+
+    void clickItemSet(int position);
 }
