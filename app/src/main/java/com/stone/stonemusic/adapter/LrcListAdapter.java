@@ -10,7 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.stone.stonemusic.R;
-import com.stone.stonemusic.View.LrcListView;
+import com.stone.stonemusic.View.PlayFatherView;
 import com.stone.stonemusic.model.Music;
 
 import java.util.List;
@@ -24,10 +24,10 @@ public class LrcListAdapter extends ArrayAdapter<Music> {
 
     public static final String TAG = "LrcListAdapter";
     private int resourceId;
-    private LrcListView lrcListView;
+    private PlayFatherView lrcListView;
 
 
-    public LrcListAdapter(@NonNull Context context, int resourceId, @NonNull List<Music> objects, LrcListView lrcListView) {
+    public LrcListAdapter(@NonNull Context context, int resourceId, @NonNull List<Music> objects, PlayFatherView lrcListView) {
         super(context, resourceId, objects);
         this.resourceId = resourceId;
         this.lrcListView = lrcListView;

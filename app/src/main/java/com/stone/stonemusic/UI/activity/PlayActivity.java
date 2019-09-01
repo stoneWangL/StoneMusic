@@ -15,7 +15,6 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -25,8 +24,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.stone.stonemusic.R;
-import com.stone.stonemusic.View.LrcListView;
-import com.stone.stonemusic.adapter.LocalMusicAdapter;
+import com.stone.stonemusic.View.PlayFatherView;
 import com.stone.stonemusic.adapter.LrcListAdapter;
 import com.stone.stonemusic.adapter.PlayFragmentPagerAdapter;
 import com.stone.stonemusic.model.Music;
@@ -34,11 +32,11 @@ import com.stone.stonemusic.model.bean.SongModel;
 import com.stone.stonemusic.model.bean.ThreadPoolBean;
 import com.stone.stonemusic.net.DownLoadLrcFile;
 import com.stone.stonemusic.net.JsonToResult;
+import com.stone.stonemusic.presenter.impl.PlayFatherPresenterImpl;
 import com.stone.stonemusic.presenter.interf.MusicObserverListener;
 import com.stone.stonemusic.presenter.impl.MusicObserverManager;
 import com.stone.stonemusic.utils.URLProviderUtils;
 import com.stone.stonemusic.utils.code.PlayType;
-import com.stone.stonemusic.utils.lyric.LrcUtil;
 import com.stone.stonemusic.utils.playControl.MusicResources;
 import com.stone.stonemusic.utils.playControl.PlayControl;
 import com.stone.stonemusic.View.CircleView;
@@ -63,7 +61,7 @@ import okhttp3.Response;
 
 
 public class PlayActivity extends AppCompatActivity
-        implements View.OnClickListener, MusicObserverListener, LrcListView {
+        implements View.OnClickListener, MusicObserverListener, PlayFatherView {
     public static final String TAG = "PlayActivity";
     private List<Music> musicList = new ArrayList<>();
     private LinearLayout mLinearLayout;
@@ -88,6 +86,9 @@ public class PlayActivity extends AppCompatActivity
     TextView popupTitle ,popupArtist;
     boolean DownloadLrcResult;
     PopupWindow mPopWindow;
+    PlayFatherPresenterImpl playFatherPresenter;
+    List<Music> PopupList;
+    Music PopupMusic;
 
     /*辅助回调的set方法,供fragment调用*/
     private CallBackInterface mCallBackInterface;
@@ -102,6 +103,7 @@ public class PlayActivity extends AppCompatActivity
 
         //添加进观察者队列
         MusicObserverManager.getInstance().add(this);
+        playFatherPresenter = new PlayFatherPresenterImpl(this); //P层初始化
         init();
 
     }
@@ -274,107 +276,18 @@ public class PlayActivity extends AppCompatActivity
                 break;
             case R.id.play_lyc:
                 Log.d(TAG, "点击歌词图标");
-                clickIconLyc();
+                if (null != musicList){
+                    final Music music = musicList.get(MediaUtils.currentSongPosition);
+                    String findStr = "" + music.getTitle() + "-" + music.getArtist();
+                    playFatherPresenter.clickIconLyc(findStr, music);
+                }
                 break;
         }
     }
 
-    /**
-     * 点击歌词搜索
-     */
-    private void clickIconLyc() {
-        if (null == musicList) return;
 
-        final Music music = musicList.get(MediaUtils.currentSongPosition);
-        String findStr = "" + music.getTitle() + "-" + music.getArtist();
-        //构建查询url
-        final String QueryPath = URLProviderUtils.findByKeyWord(findStr, 1, 30, 0);
-        Log.d(TAG, "QueryPath=" + QueryPath);
-        //使用线程池，子线程查询
-        ThreadPoolBean.getInstance().execute(new Runnable() {
-            @Override
-            public void run() {
-                OkHttpClient client = new OkHttpClient();
-                Request request = new Request.Builder()
-                        .url(QueryPath)
-                        .get()
-                        .build();
-                client.newCall(request).enqueue(new Callback() {
-                    /**
-                     * 子线程调用
-                     */
-                    @Override
-                    public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                        Log.i(TAG, "搜索关键词 -> 获取数据失败");
-                    }
 
-                    /**
-                     * 子线程调用
-                     */
-                    @Override
-                    public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                        Log.i(TAG, "搜索关键词 -> 获取数据成功");
 
-                        String result = response.body().string();
-                        Log.i(TAG, "result = " + result);
-
-                        final List<Music> musicList = JsonToResult.getFindResultFromJson(result);
-                        if (null == musicList) {
-                            //没有查到
-                        } else {
-                            //已经查到
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    showPopupWindow(musicList, music);
-                                }
-                            });
-                        }
-                    }
-                });
-            }
-        });
-    }
-
-    private void showPopupWindow(List<Music> list, final Music song) {
-
-        //设置contentView
-        View contentView = LayoutInflater.from(this).inflate(R.layout.popup, null);
-        mPopWindow = new PopupWindow(contentView,
-                ActionBar.LayoutParams.MATCH_PARENT, 1000, true);
-        mPopWindow.setContentView(contentView);
-        //防止PopupWindow被软件盘挡住（可能只要下面一句，可能需要这两句）
-//        mPopWindow.setSoftInputMode(PopupWindow.INPUT_METHOD_NEEDED);
-        mPopWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-
-        imageViewPopupPic = contentView.findViewById(R.id.iv_popup_pic);
-        popupTitle = contentView.findViewById(R.id.tv_popup_title);
-        popupArtist = contentView.findViewById(R.id.tv_popup_artist);
-
-        popupTitle.setText("歌曲名：" + song.getTitle()); //设置歌名
-        popupArtist.setText(song.getArtist()); //设置歌手
-        String imagePath; //歌曲图片路径
-        if (SongModel.getInstance().getMusicType() == PlayType.OnlineType) { //当前为播放在线歌曲状态
-            imagePath = song.getPicUrl();
-        } else { //当前为播放本地歌曲状态
-            imagePath = MusicResources.getAlbumArt(new Long(song.getAlbum_id()).intValue());
-        }
-        if (null == imagePath || imagePath.equals("")) {
-            imageViewPopupPic.setImageResource(R.drawable.play_background02);
-        } else {
-            Glide.with(this).load(imagePath).into(imageViewPopupPic);
-        }
-
-        //设置各个控件的点击响应
-        final ListView listView = contentView.findViewById(R.id.listView_popup);
-        LrcListAdapter adapter = new LrcListAdapter(this, R.layout.item_music_2, list, this);
-        listView.setAdapter(adapter);
-        //是否具有获取焦点的能力
-        mPopWindow.setFocusable(true);
-        //显示PopupWindow
-        View rootView = LayoutInflater.from(this).inflate(R.layout.activity_play, null);
-        mPopWindow.showAtLocation(rootView, Gravity.BOTTOM, 0, 0);
-    }
 
     @Override
     public void onLrcItemClick(final Music song) {
@@ -393,84 +306,43 @@ public class PlayActivity extends AppCompatActivity
                     public void onClick(DialogInterface dialog, int which) {
                         //下载歌词
                         dialog.dismiss();
-                        getLrcOnline(song);
+                        Music desMusic = musicList.get(MediaUtils.currentSongPosition);
+                        playFatherPresenter.getLrcOnline(song, desMusic);
                     }
                 })
                 .create();
         dialog.show();
     }
 
-    /**
-     * 从网络获取歌词
-     * @return false 没有获取到， true 获取到了。
-     */
-    private boolean getLrcOnline(final Music song) {
-
-        if(null != song) {
-            String id = song.getMusicId();
-            if (!id.equals("")) {
-                final String QueryPath = URLProviderUtils.findLrc(id); //网络歌词查询URL
-                Log.i(TAG, "getLrcOnline -> QueryPath = " + QueryPath);
-
-                ThreadPoolBean.getInstance().execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        OkHttpClient client = new OkHttpClient();
-                        Request request = new Request.Builder()
-                                .url(QueryPath)
-                                .get()
-                                .build();
-                        client.newCall(request).enqueue(new Callback() {
-                            /**
-                             * 子线程调用
-                             */
-                            @Override
-                            public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                                Log.i(TAG, "查询歌词 -> 获取数据失败");
-                            }
-
-                            /**
-                             * 子线程调用
-                             */
-                            @Override
-                            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                                Log.i(TAG, "查询歌词 -> 获取数据成功");
-                                String result = response.body().string();
-                                Log.i(TAG, "歌词result = " + result);
-
-                                final String lrcString = JsonToResult.getOnlineLyricFromJson(result);
-                                //将LrcString保存为文件
-                                Music desMusic = musicList.get(MediaUtils.currentSongPosition);
-                                DownloadLrcResult = DownLoadLrcFile.getInstance().
-                                        writeLrcFromStringToFile(lrcString, desMusic.getTitle(), desMusic.getArtist());
-                                if (DownloadLrcResult) {
-                                    //使用观察者管理类通知，音乐源已改变需要更新
-                                    MusicObserverManager.getInstance().notifyObserver(MediaStateCode.MUSIC_LRC_CHANGED);
-                                    DownloadLrcSuccess();
-                                } else {
-                                    ToastUtils.getToastShort("歌曲下载失败");
-                                }
-                            }
-                        });
-                    }
-                });
-            } else {
-                Log.i(TAG, "没有musicID");
+    @Override
+    public void GetLrcListFail() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                ToastUtils.getToastShort("歌曲列表获取失败");
             }
-        } else {
-            //本地的歌曲 && 没有musicId
-
-        }
-
-        return false;
+        });
     }
 
-    private void DownloadLrcSuccess() {
+
+
+
+    public void DownloadLrcSuccess() {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 if (null != mPopWindow)
                     mPopWindow.dismiss();//让PopupWindow消失
+            }
+        });
+    }
+
+    @Override
+    public void DownloadLrcFail() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                ToastUtils.getToastShort("歌曲下载失败");
             }
         });
     }
@@ -488,10 +360,65 @@ public class PlayActivity extends AppCompatActivity
                 case 1:
                     initControlPlayUI();
                     break;
+                case 2:
+                    if (null != PopupList){
+                        showPopupWindow(PopupList);
+                    }
+                    break;
             }
 
         }
     };
+
+    @Override
+    public void GetLrcListSuccess(List<Music> list) {
+        PopupList = list;
+        PlayActivityHandler.sendEmptyMessage(2); //showPopupWindow
+
+    }
+
+    /**
+     * @param list 查询的可能有相同歌词的 List<Music> List
+     */
+    private void showPopupWindow(List<Music> list) {
+        final Music desSong = musicList.get(MediaUtils.currentSongPosition); //当前播放歌曲
+        //设置contentView
+        View contentView = LayoutInflater.from(this).inflate(R.layout.popup, null);
+        mPopWindow = new PopupWindow(contentView,
+                ActionBar.LayoutParams.MATCH_PARENT, 1000, true);
+        mPopWindow.setContentView(contentView);
+        //防止PopupWindow被软件盘挡住（可能只要下面一句，可能需要这两句）
+//        mPopWindow.setSoftInputMode(PopupWindow.INPUT_METHOD_NEEDED);
+        mPopWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+
+        imageViewPopupPic = contentView.findViewById(R.id.iv_popup_pic);
+        popupTitle = contentView.findViewById(R.id.tv_popup_title);
+        popupArtist = contentView.findViewById(R.id.tv_popup_artist);
+
+        popupTitle.setText("歌曲名：" + desSong.getTitle()); //设置歌名
+        popupArtist.setText(desSong.getArtist()); //设置歌手
+        String imagePath; //歌曲图片路径
+        if (SongModel.getInstance().getMusicType() == PlayType.OnlineType) { //当前为播放在线歌曲状态
+            imagePath = desSong.getPicUrl();
+        } else { //当前为播放本地歌曲状态
+            imagePath = MusicResources.getAlbumArt(new Long(desSong.getAlbum_id()).intValue());
+        }
+        if (null == imagePath || imagePath.equals("")) {
+            imageViewPopupPic.setImageResource(R.drawable.play_background02);
+        } else {
+            Glide.with(this).load(imagePath).into(imageViewPopupPic);
+        }
+
+        //设置各个控件的点击响应
+        final ListView listView = contentView.findViewById(R.id.listView_popup);
+        LrcListAdapter adapter = new LrcListAdapter(this, R.layout.item_music_2, list, this);
+        listView.setAdapter(adapter);
+        //是否具有获取焦点的能力
+        mPopWindow.setFocusable(true);
+        //显示PopupWindow
+        View rootView = LayoutInflater.from(this).inflate(R.layout.activity_play, null);
+        mPopWindow.showAtLocation(rootView, Gravity.BOTTOM, 0, 0);
+    }
 
 
     /*定义回调接口*/
@@ -518,7 +445,7 @@ public class PlayActivity extends AppCompatActivity
                 PlayActivityHandler.sendEmptyMessage(0);
                 break;
             default:
-//                Log.i(TAG, "observerUpData->观察者类数据已刷新");
+                Log.i(TAG, "observerUpData->接收消息未判断");
                 break;
         }
     }
@@ -526,7 +453,6 @@ public class PlayActivity extends AppCompatActivity
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
         mCallBackInterface = null; //释放引用
         //从观察者队列中移除
         MusicObserverManager.getInstance().remove(this);
