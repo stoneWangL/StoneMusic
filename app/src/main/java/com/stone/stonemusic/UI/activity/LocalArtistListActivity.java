@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -24,12 +25,14 @@ import java.util.List;
  * @CreateDate: 2019/9/2 17:24
  * @Description: 本地歌手歌曲列表
  */
-public class LocalArtistListActivity extends BaseHaveBottomBarActivity {
+public class LocalArtistListActivity extends BaseHaveBottomBarActivity
+        implements View.OnClickListener{
     public static final String TAG = "LocalArtistListActivity";
     private TextView artistTextView;
     private LocalArtistListAdapter artistListAdapter;
     private ListView listView;
     private List<Music> musicList;
+    private ImageView ivFind;
 
     @Override
     public int getLayoutId() {
@@ -38,11 +41,10 @@ public class LocalArtistListActivity extends BaseHaveBottomBarActivity {
 
     @Override
     protected void initListenerOther() {
+        ivFind = findViewById(R.id.imageView_localArtistList_find_back);
+        ivFind.setOnClickListener(this);
         artistTextView = findViewById(R.id.tv_localArtistList_artist);
-
         listView= findViewById(R.id.listView_localArtistList);
-
-
     }
 
     @Override
@@ -69,8 +71,6 @@ public class LocalArtistListActivity extends BaseHaveBottomBarActivity {
                     MediaUtils.currentSongPosition = position; //设置当前播放位置全局position
                     int lastPosition = ItemViewChoose.getInstance().getItemChoosePosition(); //获取上一个选择的position
                     //点击的是正在播放的歌曲
-//                    && lastMusicList.get(position).getMusicId().equals(
-//                            SongModel.getInstance().getChooseSongList().get(MediaUtils.currentSongPosition).getMusicId())
                     if (position == lastPosition //点前点击的position是否等于当前正在播放列表的position
                             && SongModel.getInstance().getMusicType() == PlayType.LocalArtistType //当前播放类型是否等于LocalArtistType
                             && lastMusicList.get(position).getId() ==
@@ -90,6 +90,18 @@ public class LocalArtistListActivity extends BaseHaveBottomBarActivity {
             });
         }
 
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.imageView_localArtistList_find_back:
+                finish();
+                overridePendingTransition(R.anim.stop, R.anim.right_out);
+                break;
+            default:
+                break;
+        }
     }
 
     @Override

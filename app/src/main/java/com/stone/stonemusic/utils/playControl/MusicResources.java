@@ -8,6 +8,7 @@ import android.util.Log;
 
 import com.stone.stonemusic.model.ArtistModel;
 import com.stone.stonemusic.model.Music;
+import com.stone.stonemusic.model.bean.SongModel;
 import com.stone.stonemusic.presenter.impl.MusicObserverManager;
 import com.stone.stonemusic.utils.code.MediaStateCode;
 import com.stone.stonemusic.utils.MusicApplication;
@@ -36,9 +37,9 @@ public class MusicResources {
      * @param context 上下文
      * @return List<Music> Music的list
      */
-    public List<Music> getMusic(Context context){
+    public List<Music> getMusic(Context context) {
         Cursor cursor = null;
-        try{
+        try {
             cursor = context.getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
                     null, null, null, MediaStore.Audio.Media.DEFAULT_SORT_ORDER);
             if (cursor != null){
@@ -95,7 +96,7 @@ public class MusicResources {
                 cursor.close();
             }
         }
-
+        SongModel.getInstance().setArtistMap(artistMap); //添加artistMap
         return musicList;
     }
 
@@ -103,6 +104,7 @@ public class MusicResources {
      * 统计艺术家/歌手栏一级Mode 初始化
      */
     public static void initArtistMode() {
+        artistMap = SongModel.getInstance().getArtistMap();
         Set<Map.Entry<String, ArrayList<Music>>> sAll = artistMap.entrySet();
         for (Map.Entry<String, ArrayList<Music>> mE : sAll) {
 //            Log.i(TAG, "artist = " + mE.getKey() +
@@ -130,6 +132,7 @@ public class MusicResources {
      * @return 歌手的MusicList
      */
     public static ArrayList<Music> getSameArtistMusicList(String artist) {
+        artistMap = SongModel.getInstance().getArtistMap();
         Set<Map.Entry<String, ArrayList<Music>>> sAll = artistMap.entrySet();
         for (Map.Entry<String, ArrayList<Music>> mE : sAll) {
 //            Log.i(TAG, "artist = " + mE.getKey() +

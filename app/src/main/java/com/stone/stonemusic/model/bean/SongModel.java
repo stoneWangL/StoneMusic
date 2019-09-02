@@ -2,6 +2,9 @@ package com.stone.stonemusic.model.bean;
 
 import com.stone.stonemusic.model.Music;
 import com.stone.stonemusic.utils.code.PlayType;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -10,8 +13,10 @@ import java.util.List;
 public class SongModel implements PlayType {
     private int musicType = PlayType.LocalType; //默认为本地,不设置的话就是本地音乐
     private static SongModel sSongModel=null;
+
     private List<Music> mChooseSongList; //歌曲列表 -> 当前播放的
     private List<Music> mLocalSongList; //歌曲列表 -> 本地歌曲列表
+    private HashMap<String, ArrayList<Music>> artistMap; //歌曲列表的hashMap -> 本地歌手歌曲列表de 父列表
     private List<Music> mLocalArtistSongList; //歌曲列表 -> 本地歌手歌曲列表
     private List<Music> mOnLineSongList; //歌曲列表 -> 在线歌曲列表
     private List<Music> mFindSongList; //歌曲列表 -> 查找歌曲列表
@@ -48,6 +53,14 @@ public class SongModel implements PlayType {
 
     public void setLocalSongList(List<Music> mLocalSongList) {
         this.mLocalSongList = mLocalSongList;
+    }
+
+    public HashMap<String, ArrayList<Music>> getArtistMap() {
+        return artistMap;
+    }
+
+    public void setArtistMap(HashMap<String, ArrayList<Music>> artistMap) {
+        this.artistMap = artistMap;
     }
 
     public List<Music> getmLocalArtistSongList() {

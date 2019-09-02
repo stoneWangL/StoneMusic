@@ -1,6 +1,5 @@
 package com.stone.stonemusic.utils.playControl;
 
-import android.util.Log;
 import com.stone.stonemusic.presenter.impl.MusicObserverManager;
 import com.stone.stonemusic.service.MusicService;
 import com.stone.stonemusic.utils.code.MediaStateCode;
@@ -48,10 +47,9 @@ public class MusicListenerWorker implements Runnable {
                     }
                 }
 
-
                 //使用观察者管理类通知，seekBar位置需要更新
                 MusicObserverManager.getInstance().notifyObserver(MediaStateCode.MUSIC_SEEKBAR_CHANGED);
-            } catch (InterruptedException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
