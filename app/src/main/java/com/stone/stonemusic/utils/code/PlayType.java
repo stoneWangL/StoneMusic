@@ -8,4 +8,5 @@ package com.stone.stonemusic.utils.code;
 public interface PlayType {
     int LocalType = 0;
     int OnlineType = 1;
+    int LocalArtistType = 2;
 }
