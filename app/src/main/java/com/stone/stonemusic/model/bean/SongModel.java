@@ -12,8 +12,10 @@ public class SongModel implements PlayType {
     private static SongModel sSongModel=null;
     private List<Music> mChooseSongList; //歌曲列表 -> 当前播放的
     private List<Music> mLocalSongList; //歌曲列表 -> 本地歌曲列表
+    private List<Music> mLocalArtistSongList; //歌曲列表 -> 本地歌手歌曲列表
     private List<Music> mOnLineSongList; //歌曲列表 -> 在线歌曲列表
     private List<Music> mFindSongList; //歌曲列表 -> 查找歌曲列表
+
     private SongModel() {}
 
     //单例,获取实例
@@ -46,6 +48,14 @@ public class SongModel implements PlayType {
 
     public void setLocalSongList(List<Music> mLocalSongList) {
         this.mLocalSongList = mLocalSongList;
+    }
+
+    public List<Music> getmLocalArtistSongList() {
+        return mLocalArtistSongList;
+    }
+
+    public void setmLocalArtistSongList(List<Music> mLocalArtistSongList) {
+        this.mLocalArtistSongList = mLocalArtistSongList;
     }
 
     public List<Music> getOnLineSongList() {

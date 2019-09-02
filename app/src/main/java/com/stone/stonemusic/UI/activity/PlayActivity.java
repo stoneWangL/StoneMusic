@@ -29,13 +29,9 @@ import com.stone.stonemusic.adapter.LrcListAdapter;
 import com.stone.stonemusic.adapter.PlayFragmentPagerAdapter;
 import com.stone.stonemusic.model.Music;
 import com.stone.stonemusic.model.bean.SongModel;
-import com.stone.stonemusic.model.bean.ThreadPoolBean;
-import com.stone.stonemusic.net.DownLoadLrcFile;
-import com.stone.stonemusic.net.JsonToResult;
 import com.stone.stonemusic.presenter.impl.PlayFatherPresenterImpl;
 import com.stone.stonemusic.presenter.interf.MusicObserverListener;
 import com.stone.stonemusic.presenter.impl.MusicObserverManager;
-import com.stone.stonemusic.utils.URLProviderUtils;
 import com.stone.stonemusic.utils.code.PlayType;
 import com.stone.stonemusic.utils.playControl.MusicResources;
 import com.stone.stonemusic.utils.playControl.PlayControl;
@@ -46,18 +42,8 @@ import com.stone.stonemusic.utils.playControl.MediaUtils;
 import com.stone.stonemusic.utils.MusicApplication;
 import com.stone.stonemusic.utils.OtherUtils;
 import com.stone.stonemusic.utils.ToastUtils;
-
-import org.jetbrains.annotations.NotNull;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 
 
 public class PlayActivity extends AppCompatActivity
@@ -84,7 +70,6 @@ public class PlayActivity extends AppCompatActivity
 
     ImageView imageViewPopupPic;
     TextView popupTitle ,popupArtist;
-    boolean DownloadLrcResult;
     PopupWindow mPopWindow;
     PlayFatherPresenterImpl playFatherPresenter;
     List<Music> PopupList;
@@ -291,7 +276,6 @@ public class PlayActivity extends AppCompatActivity
 
     @Override
     public void onLrcItemClick(final Music song) {
-//        Log.i(TAG, "popList点击了" + position);
         AlertDialog dialog = new AlertDialog.Builder(PlayActivity.this)
                 .setTitle("选择")
                 .setMessage("确定选择"+song.getTitle()+ "-" + song.getArtist()+".lrc 这个歌词么?")

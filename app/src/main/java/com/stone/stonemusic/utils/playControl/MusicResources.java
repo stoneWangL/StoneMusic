@@ -22,7 +22,7 @@ import java.util.Set;
 public class MusicResources {
     public static final String TAG = "MusicResources";
     private List<Music> musicList = new ArrayList<>();
-    public static HashMap<String, ArrayList<Music>> artistMap= new HashMap<>();
+    public static HashMap<String, ArrayList<Music>> artistMap= new HashMap<>(); //歌手一级模型, 歌手String， list 模型
     public static List<ArtistModel> artistModelList = new ArrayList<>();
     private static ArtistModel artistModel;
     private ArrayList<Music> artistList;
@@ -101,8 +101,6 @@ public class MusicResources {
 
     /**
      * 统计艺术家/歌手栏一级Mode 初始化
-     *
-     * 在
      */
     public static void initArtistMode() {
         Set<Map.Entry<String, ArrayList<Music>>> sAll = artistMap.entrySet();
@@ -127,9 +125,9 @@ public class MusicResources {
     }
 
     /**
-     * 输入歌手，返回该歌手的MusicList
-     * @param artist
-     * @return
+     * 输入歌手，返回该歌手的MusicList。 歌手二级菜单
+     * @param artist 歌手名
+     * @return 歌手的MusicList
      */
     public static ArrayList<Music> getSameArtistMusicList(String artist) {
         Set<Map.Entry<String, ArrayList<Music>>> sAll = artistMap.entrySet();

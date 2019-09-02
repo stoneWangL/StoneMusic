@@ -44,12 +44,6 @@ public abstract class BaseHaveBottomBarActivity extends BaseActivity
     protected List<Music> chooseMusicList = new ArrayList<>(); //当前选择的 歌曲列表
     protected JumpToOtherWhere jumpToOtherWhere;
 
-
-    @Override
-    public int getLayoutId() {
-        return 0;
-    }
-
     @Override
     protected void initListener() {
         //添加进观察者队列

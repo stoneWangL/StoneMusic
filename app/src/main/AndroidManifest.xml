@@ -47,6 +47,7 @@
             android:theme="@style/AppTheme.FullScreen"/>
         <activity android:name=".UI.activity.FindActivity"
             android:windowSoftInputMode="adjustPan|stateHidden"/>
+        <activity android:name=".UI.activity.LocalArtistListActivity" />
     </application>
 
 </manifest>

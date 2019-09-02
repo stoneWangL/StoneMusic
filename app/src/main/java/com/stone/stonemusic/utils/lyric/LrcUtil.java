@@ -3,7 +3,7 @@ package com.stone.stonemusic.utils.lyric;
 import android.util.Log;
 
 import com.stone.stonemusic.model.Music;
-import com.stone.stonemusic.data.LrcStateContants;
+import com.stone.stonemusic.utils.code.LrcStateContants;
 import com.stone.stonemusic.model.LrcContent;
 import com.stone.stonemusic.presenter.LrcComparator;
 import com.stone.stonemusic.utils.code.PlayType;

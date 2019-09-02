@@ -2,6 +2,7 @@ package com.stone.stonemusic.UI.fragment;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -10,13 +11,17 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.stone.stonemusic.R;
+import com.stone.stonemusic.UI.activity.LocalArtistListActivity;
 import com.stone.stonemusic.adapter.LocalArtistAdapter;
 import com.stone.stonemusic.model.ArtistModel;
+import com.stone.stonemusic.model.Music;
+import com.stone.stonemusic.model.bean.SongModel;
 import com.stone.stonemusic.presenter.interf.MusicObserverListener;
 import com.stone.stonemusic.utils.playControl.MusicResources;
 import com.stone.stonemusic.utils.code.MediaStateCode;
@@ -29,11 +34,12 @@ import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
 
-public class LocalArtistFragment extends Fragment implements
-        MusicObserverListener {
+public class LocalArtistFragment extends Fragment
+        implements MusicObserverListener {
     public static final String TAG = "ArtistListFragment";
     private ListView listView;
     private List<ArtistModel> modelArrayList = new ArrayList<>();
+    private List<Music> artistMusicList = new ArrayList<>(); //专辑歌曲二级list
     private static LocalArtistAdapter adapter;
 
     private TextView mNoMusic;
@@ -48,21 +54,19 @@ public class LocalArtistFragment extends Fragment implements
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-//        return inflater.inflate(R.layout.fragment_artist_list, container, false);
         View view = inflater.inflate(R.layout.fragment_artist_list, container, false);
 
-        mNoMusic = (TextView) view.findViewById(R.id.tv_no_music);
-        listView = (ListView) view.findViewById(R.id.artist_list);
-        mBottomBarTitle = (TextView) getActivity().findViewById(R.id.bottom_bar_title);
-        mBottomBarArtist = (TextView) getActivity().findViewById(R.id.bottom_bar_artist);
-        mIvPlay = (ImageView) getActivity().findViewById(R.id.iv_bottom_play);
-        mIvBottomBarImage = (ImageView) getActivity().findViewById(R.id.bottom_bar_image);
+        mNoMusic = view.findViewById(R.id.tv_no_music);
+        listView = view.findViewById(R.id.artist_list);
+        mBottomBarTitle = getActivity().findViewById(R.id.bottom_bar_title);
+        mBottomBarArtist = getActivity().findViewById(R.id.bottom_bar_artist);
+        mIvPlay = getActivity().findViewById(R.id.iv_bottom_play);
+        mIvBottomBarImage = getActivity().findViewById(R.id.bottom_bar_image);
 
         readMusic();
 
@@ -79,6 +83,20 @@ public class LocalArtistFragment extends Fragment implements
 
             adapter = new LocalArtistAdapter(MusicApplication.getContext(), R.layout.item_artist, modelArrayList);
             listView.setAdapter(adapter);
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Log.i(TAG, "点击位置=" + position + " 歌手名=" + modelArrayList.get(position).getArtist());
+                    artistMusicList = MusicResources.getSameArtistMusicList(
+                            modelArrayList.get(position).getArtist());
+                    if (null != artistMusicList) {
+                        SongModel.getInstance().setmLocalArtistSongList(artistMusicList);
+                        Intent intent = new Intent(getActivity(), LocalArtistListActivity.class);
+                        intent.putExtra("artist", modelArrayList.get(position).getArtist());
+                        startActivity(intent);
+                    }
+                }
+            });
         }catch(Exception e){
             e.printStackTrace();
         }

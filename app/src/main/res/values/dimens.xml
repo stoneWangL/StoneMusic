@@ -2,6 +2,7 @@
 <resources>
     <!--文字sp-->
     <dimen name="log_size">30sp</dimen>
+    <dimen name="large_title">25sp</dimen>
     <dimen name="big_title">20sp</dimen>
     <dimen name="sp20">20sp</dimen>
 

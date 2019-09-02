@@ -22,13 +22,13 @@ import com.stone.stonemusic.utils.lyric.TimeUtil;
 
 import java.util.List;
 
-import static com.stone.stonemusic.data.LrcStateContants.LRC_INIT;
-import static com.stone.stonemusic.data.LrcStateContants.LRC_QUERY_ONLINE_FAIL;
-import static com.stone.stonemusic.data.LrcStateContants.LRC_QUERY_ONLINE_ING;
-import static com.stone.stonemusic.data.LrcStateContants.LRC_QUERY_ONLINE_NULL;
-import static com.stone.stonemusic.data.LrcStateContants.LRC_QUERY_ONLINE_OK;
-import static com.stone.stonemusic.data.LrcStateContants.LRC_READ_LOC_FAIL;
-import static com.stone.stonemusic.data.LrcStateContants.LRC_READ_LOC_OK;
+import static com.stone.stonemusic.utils.code.LrcStateContants.LRC_INIT;
+import static com.stone.stonemusic.utils.code.LrcStateContants.LRC_QUERY_ONLINE_FAIL;
+import static com.stone.stonemusic.utils.code.LrcStateContants.LRC_QUERY_ONLINE_ING;
+import static com.stone.stonemusic.utils.code.LrcStateContants.LRC_QUERY_ONLINE_NULL;
+import static com.stone.stonemusic.utils.code.LrcStateContants.LRC_QUERY_ONLINE_OK;
+import static com.stone.stonemusic.utils.code.LrcStateContants.LRC_READ_LOC_FAIL;
+import static com.stone.stonemusic.utils.code.LrcStateContants.LRC_READ_LOC_OK;
 
 
 public class LrcView extends ScrollView implements

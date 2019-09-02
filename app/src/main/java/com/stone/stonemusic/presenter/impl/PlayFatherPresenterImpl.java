@@ -1,7 +1,5 @@
 package com.stone.stonemusic.presenter.impl;
 
-import android.content.DialogInterface;
-import android.support.v7.app.AlertDialog;
 import android.util.Log;
 
 import com.stone.stonemusic.View.PlayFatherView;

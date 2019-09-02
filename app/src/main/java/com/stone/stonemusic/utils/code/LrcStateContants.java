@@ -1,4 +1,4 @@
-package com.stone.stonemusic.data;
+package com.stone.stonemusic.utils.code;
 
 /*歌词界面状态常量*/
 public interface LrcStateContants {
