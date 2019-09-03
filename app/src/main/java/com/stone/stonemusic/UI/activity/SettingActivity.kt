@@ -1,10 +1,13 @@
 package com.stone.stonemusic.UI.activity
 
 import android.support.v7.widget.Toolbar
+import android.view.View
 import com.stone.stonemusic.R
 import com.stone.stonemusic.base.BaseActivity
 import com.stone.stonemusic.utils.ToolBarManager
 import org.jetbrains.anko.find
+
+
 
 /**
  * @Author: stoneWang
@@ -13,16 +16,20 @@ import org.jetbrains.anko.find
  */
 class SettingActivity: BaseActivity() , ToolBarManager{
 
+
     override val toolbar by lazy {
         find<Toolbar>(R.id.toolbar)
     }
+
 
     override fun getLayoutId(): Int {
         return R.layout.activity_setting
     }
 
+
     override fun initData() {
         initSettingToolbar()
+
     }
 
     override fun onBackPressed() {
@@ -30,4 +37,10 @@ class SettingActivity: BaseActivity() , ToolBarManager{
         finish()
         overridePendingTransition(R.anim.stop, R.anim.left_out)
     }
+
+    fun settingBack(view: View) {
+        finish()
+        overridePendingTransition(R.anim.stop, R.anim.left_out)
+    }
+
 }

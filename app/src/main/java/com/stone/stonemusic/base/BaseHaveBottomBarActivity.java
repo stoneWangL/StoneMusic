@@ -24,7 +24,6 @@ import com.stone.stonemusic.utils.playControl.MediaUtils;
 import com.stone.stonemusic.utils.playControl.MusicResources;
 import com.stone.stonemusic.utils.playControl.PlayControl;
 
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +33,7 @@ import java.util.List;
  * @CreateDate: 2019/8/28 17:32
  * @Description:
  */
-public abstract class BaseHaveBottomBarActivity extends BaseActivity
+public abstract class BaseHaveBottomBarActivity extends BaseActivityJava
         implements MusicObserverListener, JumpToOtherView {
     private static String TAG = "BaseHaveBottomBarActivity";
     protected CardView bottomCardViewLayout;
@@ -121,11 +120,6 @@ public abstract class BaseHaveBottomBarActivity extends BaseActivity
         }
     }
 
-    @NotNull
-    @Override
-    public String getLoggerTag() {
-        return null;
-    }
 
     @Override
     public void observerUpData(int content) {

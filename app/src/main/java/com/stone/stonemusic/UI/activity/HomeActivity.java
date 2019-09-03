@@ -224,6 +224,7 @@ public class HomeActivity extends AppCompatActivity implements
     //点击进入左侧设置界面
     public void clickLeftTabItem(View view) {
         Intent intent = new Intent(this, SettingActivity.class);
+//        Intent intent = new Intent(this, SettingActivityJava.class);
         startActivity(intent);
         overridePendingTransition(R.anim.left_in,R.anim.stop);
     }

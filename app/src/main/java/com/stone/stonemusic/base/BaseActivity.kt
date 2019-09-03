@@ -2,6 +2,8 @@ package com.stone.stonemusic.base
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import com.stone.stonemusic.R
+import com.stone.stonemusic.View.ActivityView
 import org.jetbrains.anko.*
 
 /**
@@ -13,6 +15,8 @@ abstract class BaseActivity: AppCompatActivity(), AnkoLogger {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        //设置顶部状态栏颜色
+        ActivityView.setStatusBarColor(this, R.color.colorStoneThemeShallow, true)
         setContentView(getLayoutId())
         initListener()
         initData()

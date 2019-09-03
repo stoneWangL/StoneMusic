@@ -25,23 +25,22 @@
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
         <activity
             android:name=".UI.activity.HomeActivity"
-            android:screenOrientation="portrait"
             android:launchMode="singleTask" />
-        <activity android:name=".UI.activity.PlayActivity"
-            android:screenOrientation="portrait" />
+        <activity android:name=".UI.activity.PlayActivity" />
 
         <service
             android:name=".service.MusicService"
             android:enabled="true"
             android:exported="true" />
+
         <activity android:name=".UI.activity.SettingActivity" />
+
         <activity android:name=".UI.activity.AboutActivity" />
         <activity android:name=".UI.activity.OnlineMusicListActivity"
             android:theme="@style/AppTheme.FullScreen"/>
