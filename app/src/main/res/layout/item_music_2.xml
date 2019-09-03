@@ -22,6 +22,13 @@
         android:layout_weight="6"
         android:gravity="center_vertical"
         android:orientation="horizontal">
+        <ImageView
+            android:id="@+id/iv_item2_playOrPause"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_marginEnd="11dp"
+            android:background="@drawable/ic_item_play"
+            android:visibility="visible"/>
         <TextView
             android:id="@+id/tv_item_title_artist"
             android:layout_width="wrap_content"

@@ -25,6 +25,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.stone.stonemusic.R;
 import com.stone.stonemusic.View.PlayFatherView;
+import com.stone.stonemusic.adapter.ChooseListAdapter;
 import com.stone.stonemusic.adapter.LrcListAdapter;
 import com.stone.stonemusic.adapter.PlayFragmentPagerAdapter;
 import com.stone.stonemusic.model.Music;
@@ -65,7 +66,7 @@ public class PlayActivity extends AppCompatActivity
     private TextView tvMusicName, tvMusicArtist, tvCurrentTime, tvTotalTime;
     private SeekBar mSeekBar;
     private CircleView cvLast, cvPlayOrPause, cvNext;
-    private ImageView ivMode, ivLast, ivPlayOrPause, ivNext;
+    private ImageView ivMode, ivLast, ivPlayOrPause, ivNext, ivChooseList;
     private ImageView iconLyc;
 
     ImageView imageViewPopupPic;
@@ -125,6 +126,7 @@ public class PlayActivity extends AppCompatActivity
 
         /*当前播放模式*/
         ivMode = (ImageView) findViewById(R.id.play_order_mode);
+        ivChooseList = findViewById(R.id.play_order_list);
 
         /*上一曲 播放暂停 下一曲*/
         cvLast = (CircleView) findViewById(R.id.circle_play_last);
@@ -135,6 +137,7 @@ public class PlayActivity extends AppCompatActivity
         ivNext = (ImageView) findViewById(R.id.iv_play_next);
 
         ivMode.setOnClickListener(this);
+        ivChooseList.setOnClickListener(this);
         cvLast.setOnClickListener(this);
         cvPlayOrPause.setOnClickListener(this);
         cvNext.setOnClickListener(this);
@@ -259,6 +262,10 @@ public class PlayActivity extends AppCompatActivity
                 //使用观察者管理类通知，音乐源已改变需要更新
 //                MusicObserverManager.getInstance().notifyObserver(MediaStateCode.MUSIC_POSITION_CHANGED);
                 break;
+            case R.id.play_order_list:
+                //显示当前播放列表
+                showChooseListPopupWindow();
+                break;
             case R.id.play_lyc:
                 Log.d(TAG, "点击歌词图标");
                 if (null != musicList){
@@ -359,6 +366,51 @@ public class PlayActivity extends AppCompatActivity
         PopupList = list;
         PlayActivityHandler.sendEmptyMessage(2); //showPopupWindow
 
+    }
+
+    /**
+     * 显示当前播放列表list
+     */
+    private void showChooseListPopupWindow() {
+        if (null == musicList) return;
+        final Music desSong = musicList.get(MediaUtils.currentSongPosition); //当前播放歌曲
+        //设置contentView
+        View contentView = LayoutInflater.from(this).inflate(R.layout.popup, null);
+//        ActionBar.LayoutParams.WRAP_CONTENT //自适应尺寸
+        mPopWindow = new PopupWindow(contentView,
+                ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.MATCH_PARENT, true);
+        mPopWindow.setContentView(contentView);
+        //防止PopupWindow被软件盘挡住（可能只要下面一句，可能需要这两句）
+//        mPopWindow.setSoftInputMode(PopupWindow.INPUT_METHOD_NEEDED);
+        mPopWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+
+        imageViewPopupPic = contentView.findViewById(R.id.iv_popup_pic);
+        popupTitle = contentView.findViewById(R.id.tv_popup_title);
+        popupArtist = contentView.findViewById(R.id.tv_popup_artist);
+
+        popupTitle.setText("歌曲名：" + desSong.getTitle()); //设置歌名
+        popupArtist.setText(desSong.getArtist()); //设置歌手
+        String imagePath; //歌曲图片路径
+        if (SongModel.getInstance().getMusicType() == PlayType.OnlineType) { //当前为播放在线歌曲状态
+            imagePath = desSong.getPicUrl();
+        } else { //当前为播放本地歌曲状态
+            imagePath = MusicResources.getAlbumArt(new Long(desSong.getAlbum_id()).intValue());
+        }
+        if (null == imagePath || imagePath.equals("")) {
+            imageViewPopupPic.setImageResource(R.drawable.play_background02);
+        } else {
+            Glide.with(this).load(imagePath).into(imageViewPopupPic);
+        }
+
+        //设置各个控件的点击响应
+        final ListView listView = contentView.findViewById(R.id.listView_popup);
+        ChooseListAdapter adapter = new ChooseListAdapter(this, R.layout.item_music_2, musicList);
+        listView.setAdapter(adapter);
+        //是否具有获取焦点的能力
+        mPopWindow.setFocusable(true);
+        //显示PopupWindow
+        View rootView = LayoutInflater.from(this).inflate(R.layout.activity_play, null);
+        mPopWindow.showAtLocation(rootView, Gravity.BOTTOM, 0, 0);
     }
 
     /**
