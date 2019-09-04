@@ -15,6 +15,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -29,6 +30,7 @@ import com.stone.stonemusic.adapter.ChooseListAdapter;
 import com.stone.stonemusic.adapter.LrcListAdapter;
 import com.stone.stonemusic.adapter.PlayFragmentPagerAdapter;
 import com.stone.stonemusic.model.Music;
+import com.stone.stonemusic.model.bean.ItemViewChoose;
 import com.stone.stonemusic.model.bean.SongModel;
 import com.stone.stonemusic.presenter.impl.PlayFatherPresenterImpl;
 import com.stone.stonemusic.presenter.interf.MusicObserverListener;
@@ -404,8 +406,52 @@ public class PlayActivity extends AppCompatActivity
 
         //设置各个控件的点击响应
         final ListView listView = contentView.findViewById(R.id.listView_popup);
-        ChooseListAdapter adapter = new ChooseListAdapter(this, R.layout.item_music_2, musicList);
+        final ChooseListAdapter adapter = new ChooseListAdapter(this, R.layout.item_music_2, musicList);
         listView.setAdapter(adapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                List<Music> lastMusicList = SongModel.getInstance().getChooseSongList();
+
+                //设置当前播放的歌曲类型为本地歌曲
+//                SongModel.getInstance().setChooseSongList(SongModel.getInstance().getLocalSongList());
+
+                Log.d(TAG, "showChooseListPopupWindow()->位置："+position+"; 歌名："+musicList.get(position).getTitle());
+
+                MediaUtils.currentSongPosition = position; //设置当前播放位置全局position
+                int lastPosition = ItemViewChoose.getInstance().getItemChoosePosition();
+                //点击的是正在播放的歌曲
+//                && lastMusicList.get(position).getMusicId().equals(
+//                        SongModel.getInstance().getChooseSongList().get(MediaUtils.currentSongPosition).getMusicId())
+                if (position == lastPosition) {
+                    //收回popup
+//                    jumpToOtherWhere.GoToPlayActivity(); //调用父类方法，跳转到播放Activity
+                }
+                //点击的不是当前播放的歌曲
+                else {
+                    PlayControl.controlBtnPlayDiffSong(); //播放音乐
+                    popupTitle.setText("歌曲名：" + musicList.get(position).getTitle()); //更新音乐名
+                    popupArtist.setText(musicList.get(position).getArtist()); //更新音乐作者
+                    //更新音乐专辑图
+                    String imagePath; //歌曲图片路径
+                    if (musicList.get(position).getMusicType() == PlayType.OnlineType) { //当前为播放在线歌曲状态
+                        imagePath = musicList.get(position).getPicUrl();
+                    } else { //当前为播放本地歌曲状态
+                        imagePath = MusicResources.getAlbumArt(new Long(musicList.get(position).getAlbum_id()).intValue());
+                    }
+                    if (null == imagePath || imagePath.equals("")) {
+                        imageViewPopupPic.setImageResource(R.drawable.play_background02);
+                    } else {
+                        Glide.with(getApplication()).load(imagePath).into(imageViewPopupPic);
+                    }
+
+                    //设置选中的item的位置,这里的position设置与ListView中当前播放位置的标识有关
+                    ItemViewChoose.getInstance().setItemChoosePosition(position);
+                }
+
+                adapter.notifyDataSetChanged(); //更新adapter
+            }
+        });
         //是否具有获取焦点的能力
         mPopWindow.setFocusable(true);
         //显示PopupWindow

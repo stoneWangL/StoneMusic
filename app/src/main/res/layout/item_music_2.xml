@@ -28,16 +28,26 @@
             android:layout_height="22dp"
             android:layout_marginEnd="11dp"
             android:background="@drawable/ic_item_play"
-            android:visibility="visible"/>
+            android:visibility="gone"/>
         <TextView
             android:id="@+id/tv_item_title_artist"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:singleLine="true"
             android:text="歌名-歌手.lrc"
             android:textSize="@dimen/small_item_size"
             android:textColor="@color/black"
             />
+
+        <ImageView
+            android:id="@+id/iv_item_set"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_clear_gray_24dp"
+            android:layout_gravity="center"
+            />
+
     </LinearLayout>
 
 </LinearLayout>
