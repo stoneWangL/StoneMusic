@@ -20,6 +20,7 @@ public class SongModel implements PlayType {
     private List<Music> mLocalArtistSongList; //歌曲列表 -> 本地歌手歌曲列表
     private List<Music> mOnLineSongList; //歌曲列表 -> 在线歌曲列表
     private List<Music> mFindSongList; //歌曲列表 -> 查找歌曲列表
+    private List<Music> loveSongList; //歌曲列表 -> 喜欢歌曲列表
 
     private SongModel() {}
 
@@ -77,6 +78,14 @@ public class SongModel implements PlayType {
 
     public void setOnLineSongList(List<Music> mOnLineSongList) {
         this.mOnLineSongList = mOnLineSongList;
+    }
+
+    public List<Music> getLoveSongList() {
+        return loveSongList;
+    }
+
+    public void setLoveSongList(List<Music> loveSongList) {
+        this.loveSongList = loveSongList;
     }
 
     public int getMusicType() {

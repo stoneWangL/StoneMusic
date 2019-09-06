@@ -10,11 +10,12 @@ import android.view.View
 import android.view.ViewGroup
 import com.stone.stonemusic.R
 import com.stone.stonemusic.UI.activity.AboutActivity
+import com.stone.stonemusic.UI.activity.LoveListActivity
 
 /**
  * @Author: stoneWang
  * @CreateDate: 2019/8/3 15:36
- * @Description:
+ * @Description: 设置界面fragment
  */
 class SettingFragment: PreferenceFragment() {
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -27,6 +28,9 @@ class SettingFragment: PreferenceFragment() {
         if ("about".equals(key)) {
             //点击了关于
             activity.startActivity(Intent(activity, AboutActivity::class.java))
+        } else if ("love".equals(key)) {
+            //点击了关于
+            activity.startActivity(Intent(activity, LoveListActivity::class.java))
         }
         return super.onPreferenceTreeClick(preferenceScreen, preference)
     }

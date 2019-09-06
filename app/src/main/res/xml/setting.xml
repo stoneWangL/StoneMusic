@@ -10,6 +10,9 @@
             android:key="no_wifi"
             android:title="非wifi下加载图片" />
     <Preference
+        android:key="love"
+        android:title="喜欢的音乐"/>
+    <Preference
             android:key="about"
             android:title="关于"/>
 </PreferenceScreen>

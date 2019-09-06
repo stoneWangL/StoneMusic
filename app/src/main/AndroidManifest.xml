@@ -47,6 +47,8 @@
         <activity android:name=".UI.activity.FindActivity"
             android:windowSoftInputMode="adjustPan|stateHidden"/>
         <activity android:name=".UI.activity.LocalArtistListActivity" />
+
+        <activity android:name=".UI.activity.LoveListActivity" />
     </application>
 
 </manifest>
