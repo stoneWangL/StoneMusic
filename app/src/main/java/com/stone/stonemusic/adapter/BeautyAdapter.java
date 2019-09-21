@@ -28,6 +28,11 @@ public class BeautyAdapter extends RecyclerView.Adapter<BeautyAdapter.BeautyView
      */
     private List<Beauty> data;
 
+    /**
+     * 构造函数
+     * @param data
+     * @param context
+     */
     public BeautyAdapter(List<Beauty> data, Context context) {
         this.data = data;
         this.mContext = context;
