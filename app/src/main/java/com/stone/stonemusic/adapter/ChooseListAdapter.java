@@ -30,6 +30,12 @@ public class ChooseListAdapter extends ArrayAdapter<Music> {
 //    private PlayFatherView lrcListView;
 
 
+    /**
+     * 构造函数
+     * @param context
+     * @param resourceId
+     * @param objects
+     */
     public ChooseListAdapter(@NonNull Context context, int resourceId, @NonNull List<Music> objects) {
         super(context, resourceId, objects);
         this.resourceId = resourceId;
