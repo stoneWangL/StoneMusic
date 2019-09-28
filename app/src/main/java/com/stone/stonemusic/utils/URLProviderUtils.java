@@ -1,7 +1,9 @@
 package com.stone.stonemusic.utils;
 
 
-
+/**
+ * 接口
+ */
 public class URLProviderUtils {
     private static final String serverUrl = "http://122.152.248.24:3000";
 
