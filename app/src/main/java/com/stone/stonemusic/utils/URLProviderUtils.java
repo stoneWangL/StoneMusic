@@ -3,10 +3,11 @@ package com.stone.stonemusic.utils;
 
 
 public class URLProviderUtils {
+    private static final String serverUrl = "http://122.152.248.24:3000";
 
     //网友推荐歌单-分类 http://144.34.228.215:3000/top/playlist/catlist?limit=2&offset=0&cat=怀旧
     public static String getRecommendAll(int offset, int size, String cat) {
-        String url = "http://144.34.228.215:3000/top/playlist/catlist?limit="
+        String url = serverUrl + "/top/playlist/catlist?limit="
                 + size
                 + "&offset=" + offset
                 + "&cat=" + cat;
@@ -15,14 +16,14 @@ public class URLProviderUtils {
 
     //http://144.34.228.215:3000/playlist/detail?id=2900722591
     public static String getOnLineList(String id) {
-        String url = "http://144.34.228.215:3000/playlist/detail?id="
+        String url = serverUrl + "/playlist/detail?id="
                 + id;
         return  url;
     }
 
     //歌手推荐
     public static String getArtistAll(int offset, int size, int cat) {
-        String url = "http://144.34.228.215:3000/artist/list?limit="
+        String url = serverUrl + "/artist/list?limit="
                 + size
                 + "&offset=" + offset
                 + "&cat=" + cat;
@@ -38,14 +39,14 @@ public class URLProviderUtils {
 
     //查看单曲是否可以播放
     public static String checkMusic(String id) {
-        String url = "http://144.34.228.215:3000/check/music?id="
+        String url = serverUrl + "/check/music?id="
                 + id;
         return url;
     }
 
     //根据歌曲id查询歌词
     public static String findLrc(String id) {
-        String url = "http://144.34.228.215:3000/lyric?id="
+        String url = serverUrl + "/lyric?id="
                 + id;
         return url;
     }
@@ -61,7 +62,7 @@ public class URLProviderUtils {
      * @return String 类型的JSON数据
      */
     public static String findByKeyWord(String keyWord, int type, int limit, int offset) {
-        String url = "http://144.34.228.215:3000/search?keywords="
+        String url = serverUrl + "/search?keywords="
                 + keyWord
                 + "&type=" + type
                 + "&limit=" + limit
