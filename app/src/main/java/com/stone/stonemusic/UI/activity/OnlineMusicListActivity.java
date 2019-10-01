@@ -26,7 +26,7 @@ import com.stone.stonemusic.model.Music;
 import com.stone.stonemusic.model.PlayListBean;
 import com.stone.stonemusic.model.bean.ItemViewChoose;
 import com.stone.stonemusic.model.bean.SongModel;
-import com.stone.stonemusic.presenter.impl.JumpToOtherWhere;
+import com.stone.stonemusic.presenter.impl.JumpToOtherViewImpl;
 import com.stone.stonemusic.presenter.impl.MusicObserverManager;
 import com.stone.stonemusic.presenter.impl.OnLineListPresenterImpl;
 import com.stone.stonemusic.presenter.interf.JumpToOtherView;
@@ -67,7 +67,7 @@ public class OnlineMusicListActivity extends BaseActivity
     CardView cardView;
     private ImageView mIvPlay, mIvPlayNext, mIvBottomBarImage;
     private TextView mBottomBarTitle, mBottomBarArtist;
-    private JumpToOtherWhere jumpToOtherWhere;
+    private JumpToOtherViewImpl jumpToOtherWhere;
 
     @Override
     public int getLayoutId() {
@@ -107,7 +107,7 @@ public class OnlineMusicListActivity extends BaseActivity
         mBottomBarArtist = findViewById(R.id.bottom_bar_artist);
 
         //初始化跳转类
-        jumpToOtherWhere = new JumpToOtherWhere(this);
+        jumpToOtherWhere = new JumpToOtherViewImpl(this);
 
         //P层实例化
         onLineListPresenter = new OnLineListPresenterImpl(this);

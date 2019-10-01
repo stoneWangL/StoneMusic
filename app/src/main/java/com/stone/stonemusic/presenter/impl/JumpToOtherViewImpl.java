@@ -13,12 +13,12 @@ import com.stone.stonemusic.UI.activity.PlayActivity;
  * author : stoneWang
  * date   : 2019/7/521:08
  */
-public class JumpToOtherWhere {
+public class JumpToOtherViewImpl {
 
     private JumpToOtherView jumpToOtherView;
     private Activity context;
 
-    public JumpToOtherWhere(JumpToOtherView activity) {
+    public JumpToOtherViewImpl(JumpToOtherView activity) {
         jumpToOtherView = activity;
         context = (Activity)jumpToOtherView;
     }

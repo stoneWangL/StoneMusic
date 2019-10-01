@@ -21,9 +21,9 @@ import com.stone.stonemusic.adapter.LocalMusicAdapter;
 import com.stone.stonemusic.model.bean.ItemViewChoose;
 import com.stone.stonemusic.model.Music;
 import com.stone.stonemusic.model.bean.SongModel;
-import com.stone.stonemusic.presenter.interf.JumpToOtherView;
-import com.stone.stonemusic.presenter.impl.JumpToOtherWhere;
+import com.stone.stonemusic.presenter.impl.JumpToOtherViewImpl;
 import com.stone.stonemusic.UI.activity.HomeActivity;
+import com.stone.stonemusic.presenter.interf.JumpToOtherView;
 import com.stone.stonemusic.utils.code.PlayType;
 import com.stone.stonemusic.utils.playControl.PlayControl;
 import com.stone.stonemusic.utils.code.MediaStateCode;
@@ -50,7 +50,7 @@ public class LocalSingleSongFragment extends Fragment implements
     private ImageView mIvPlay;
     private ImageView mIvBottomBarImage;
     private HomeActivity fatherActivity = null;
-    private JumpToOtherWhere jumpToOtherWhere;
+    private JumpToOtherViewImpl jumpToOtherWhere;
 
     public LocalSingleSongFragment() {}
 
@@ -59,7 +59,7 @@ public class LocalSingleSongFragment extends Fragment implements
         super.onAttach(context);
         fatherActivity = ((HomeActivity)context);
         fatherActivity.setCallBackInterface(this);
-        jumpToOtherWhere = new JumpToOtherWhere(fatherActivity);
+        jumpToOtherWhere = new JumpToOtherViewImpl(fatherActivity);
     }
     @Override
     public void ChangeUI() {

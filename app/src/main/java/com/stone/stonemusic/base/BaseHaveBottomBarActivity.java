@@ -13,7 +13,7 @@ import com.bumptech.glide.Glide;
 import com.stone.stonemusic.R;
 import com.stone.stonemusic.model.Music;
 import com.stone.stonemusic.model.bean.SongModel;
-import com.stone.stonemusic.presenter.impl.JumpToOtherWhere;
+import com.stone.stonemusic.presenter.impl.JumpToOtherViewImpl;
 import com.stone.stonemusic.presenter.impl.MusicObserverManager;
 import com.stone.stonemusic.presenter.interf.JumpToOtherView;
 import com.stone.stonemusic.presenter.interf.MusicObserverListener;
@@ -41,14 +41,14 @@ public abstract class BaseHaveBottomBarActivity extends BaseActivityJava
     protected ImageView mIvPlay, mIvPlayNext, mIvBottomBarImage;
     protected TextView mBottomBarTitle, mBottomBarArtist;
     protected List<Music> chooseMusicList = new ArrayList<>(); //当前选择的 歌曲列表
-    protected JumpToOtherWhere jumpToOtherWhere;
+    protected JumpToOtherViewImpl jumpToOtherWhere;
 
     @Override
     protected void initListener() {
         //添加进观察者队列
         MusicObserverManager.getInstance().add(this);
         //初始化跳转类
-        jumpToOtherWhere = new JumpToOtherWhere(this);
+        jumpToOtherWhere = new JumpToOtherViewImpl(this);
 
         bottomCardViewLayout = findViewById(R.id.cardView_bottom_bar_layout);
         bottomLinearLayout = findViewById(R.id.bottom_bar_layout);

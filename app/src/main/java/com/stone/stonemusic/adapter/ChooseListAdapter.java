@@ -13,7 +13,6 @@ import com.stone.stonemusic.R;
 import com.stone.stonemusic.model.Music;
 import com.stone.stonemusic.model.bean.ItemViewChoose;
 import com.stone.stonemusic.model.bean.SongModel;
-import com.stone.stonemusic.utils.code.PlayType;
 import com.stone.stonemusic.utils.playControl.MediaUtils;
 
 import java.util.List;

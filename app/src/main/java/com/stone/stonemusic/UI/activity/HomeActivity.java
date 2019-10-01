@@ -20,10 +20,10 @@ import com.stone.stonemusic.R;
 import com.stone.stonemusic.adapter.HomeAdapter;
 import com.stone.stonemusic.model.Music;
 import com.stone.stonemusic.model.bean.SongModel;
+import com.stone.stonemusic.presenter.interf.JumpToOtherView;
 import com.stone.stonemusic.utils.code.PlayType;
 import com.stone.stonemusic.utils.playControl.InitMusicModelTask;
-import com.stone.stonemusic.presenter.interf.JumpToOtherView;
-import com.stone.stonemusic.presenter.impl.JumpToOtherWhere;
+import com.stone.stonemusic.presenter.impl.JumpToOtherViewImpl;
 import com.stone.stonemusic.presenter.interf.MusicObserverListener;
 import com.stone.stonemusic.presenter.impl.MusicObserverManager;
 import com.stone.stonemusic.utils.playControl.PlayControl;
@@ -37,7 +37,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HomeActivity extends AppCompatActivity implements
-        MusicObserverListener, View.OnClickListener, JumpToOtherView{
+        MusicObserverListener, View.OnClickListener, JumpToOtherView {
     public static final String TAG = "HomeActivity";
 
     public ProgressDialog mDialog;
@@ -61,7 +61,7 @@ public class HomeActivity extends AppCompatActivity implements
     private TextView mBottomBarTitle, mBottomBarArtist;
     public List<Music> musicList = new ArrayList<>();
 
-    private JumpToOtherWhere jumpToOtherWhere;
+    private JumpToOtherViewImpl jumpToOtherWhere;
     private InitMusicModelTask initMusicModelTask;
 
     /*辅助回调的set方法*/
@@ -88,7 +88,7 @@ public class HomeActivity extends AppCompatActivity implements
         MusicObserverManager.getInstance().add(this);
 
         //初始化跳转类
-        jumpToOtherWhere = new JumpToOtherWhere(this);
+        jumpToOtherWhere = new JumpToOtherViewImpl(this);
         //初始化初始化MusicModel类(AsyncTask)
         initMusicModelTask = new InitMusicModelTask(this);
 

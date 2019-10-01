@@ -13,6 +13,7 @@ import java.util.Set;
 
 public class MusicApplication extends Application{
     public static final String TAG = "MusicAppUtils";
+    public static boolean isStarted = false;
 //    private static RefWatcher mRefWatcher;
 
     private static Context sContext;
@@ -59,6 +60,5 @@ public class MusicApplication extends Application{
             }
         }
     }
-
 
 }

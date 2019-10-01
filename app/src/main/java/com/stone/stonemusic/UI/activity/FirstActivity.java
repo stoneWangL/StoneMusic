@@ -11,18 +11,20 @@ import android.widget.TextView;
 
 import com.stone.stonemusic.R;
 import com.stone.stonemusic.base.BaseNoBarActivity;
-import com.stone.stonemusic.presenter.impl.JumpToOtherWhere;
+import com.stone.stonemusic.presenter.impl.JumpToOtherViewImpl;
 import com.stone.stonemusic.presenter.GetPermission;
 import com.stone.stonemusic.presenter.interf.JumpToOtherView;
+import com.stone.stonemusic.utils.MusicApplication;
 import com.stone.stonemusic.utils.ToastUtils;
 
-public class FirstActivity extends BaseNoBarActivity implements JumpToOtherView{
+public class FirstActivity extends BaseNoBarActivity
+        implements JumpToOtherView {
     private static String TAG = "FirstActivity";
     private TextView tv = null;
     private ImageView iv = null;
     private Animation animation1 = null, animation2 = null;
     private GetPermission getPermission;
-    public JumpToOtherWhere jumpToOtherWhere;
+    public JumpToOtherViewImpl jumpToOtherWhere;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,16 +32,27 @@ public class FirstActivity extends BaseNoBarActivity implements JumpToOtherView{
         setContentView(R.layout.activity_welcome);
 
         getPermission = new GetPermission(this);
-        jumpToOtherWhere = new JumpToOtherWhere(this);
+        jumpToOtherWhere = new JumpToOtherViewImpl(this);
 
         tv = (TextView) findViewById(R.id.first_music_text);
         iv = (ImageView) findViewById(R.id.first_music_log);
 
-        initAnim();
-        initPermissions();
+        init();
+
+
     }
 
+    /**
+     * 初始化
+     */
+    private void init() {
+        if (MusicApplication.isStarted) {
 
+        } else {
+            initAnim();
+        }
+        initPermissions();
+    }
 
 
     /**
