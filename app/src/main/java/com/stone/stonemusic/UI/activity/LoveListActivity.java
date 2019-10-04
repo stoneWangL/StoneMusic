@@ -2,6 +2,7 @@ package com.stone.stonemusic.UI.activity;
 
 import android.view.View;
 
+import com.stone.stonemusic.R;
 import com.stone.stonemusic.base.BaseHaveBottomBarActivity;
 
 /**
@@ -12,6 +13,12 @@ import com.stone.stonemusic.base.BaseHaveBottomBarActivity;
 public class LoveListActivity extends BaseHaveBottomBarActivity
         implements View.OnClickListener {
     public static final String TAG = "LoveListActivity";
+
+    @Override
+    public int getLayoutId() {
+        return R.layout.activity_love;
+    }
+
     @Override
     public void onClick(View v) {
 
@@ -42,8 +49,5 @@ public class LoveListActivity extends BaseHaveBottomBarActivity
 
     }
 
-    @Override
-    public int getLayoutId() {
-        return 0;
-    }
+
 }
