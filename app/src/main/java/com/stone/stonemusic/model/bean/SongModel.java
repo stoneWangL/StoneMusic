@@ -88,6 +88,11 @@ public class SongModel implements PlayType {
         this.loveSongList = loveSongList;
     }
 
+
+
+
+
+
     public int getMusicType() {
         return musicType;
     }

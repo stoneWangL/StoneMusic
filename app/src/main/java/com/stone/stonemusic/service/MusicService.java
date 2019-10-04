@@ -24,6 +24,7 @@ import com.stone.stonemusic.R;
 import com.stone.stonemusic.model.Music;
 import com.stone.stonemusic.model.bean.SongModel;
 import com.stone.stonemusic.UI.activity.HomeActivity;
+import com.stone.stonemusic.utils.LoveListSpUtil;
 import com.stone.stonemusic.utils.code.PlayType;
 import com.stone.stonemusic.utils.playControl.MusicListenerWorker;
 import com.stone.stonemusic.presenter.broadcastReceiver.NotificationViewReceiver;
@@ -253,12 +254,24 @@ public class MusicService extends Service implements MusicObserverListener{
         mLoopModeThread.start(); /*启动线程*/
 
         notificationViewReceiver = new NotificationViewReceiver(this);
+
+        //初始化各种音乐列表
+        initXXXList();
+
         //动态注册广播接收器
         RegisteredBroadcastReceiver();
 
         //添加进观察者队列
         MusicObserverManager.getInstance().add(this);
 
+    }
+
+    /**
+     * 初始化各种音乐列表
+     */
+    private void initXXXList() {
+        //APP启动后，Service初始化过程中，从SP中取出“我喜欢的音乐”列表
+        LoveListSpUtil.getLoveMusicListFromSp();
     }
 
 
@@ -275,10 +288,6 @@ public class MusicService extends Service implements MusicObserverListener{
         itFilter.addAction(AudioManager.ACTION_AUDIO_BECOMING_NOISY); //耳机拔出事件
         registerReceiver(notificationViewReceiver, itFilter);
     }
-
-
-
-
 
     @Override
     public void onDestroy() {
@@ -304,6 +313,5 @@ public class MusicService extends Service implements MusicObserverListener{
     public IBinder onBind(Intent intent) {
         return null;
     }
-
 
 }

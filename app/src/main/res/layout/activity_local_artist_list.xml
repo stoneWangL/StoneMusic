@@ -3,7 +3,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <!--左-back键 中-查找输入框 -->
+    <!--左-back键 中-歌手名 -->
     <LinearLayout
         android:id="@+id/layout_localArtistList_top"
         android:layout_width="match_parent"

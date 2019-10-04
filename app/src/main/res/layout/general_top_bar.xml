@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_localArtistList_top"
+    android:layout_width="match_parent"
+    android:layout_height="?android:attr/actionBarSize"
+    android:background="@color/colorStoneThemeShallow"
+    android:orientation="horizontal">
+    <!-- 左-back键 -->
+    <LinearLayout
+        android:layout_width="?android:attr/actionBarSize"
+        android:layout_height="?android:attr/actionBarSize"
+        android:gravity="center">
+        <ImageView
+            android:id="@+id/tv_general_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_back_black_30dp"
+            android:onClick="backClick"/>
+    </LinearLayout>
+
+    <!-- 中-歌手名 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="?android:attr/actionBarSize"
+        android:gravity="center_vertical">
+        <TextView
+            android:id="@+id/tv_general_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_back_black_30dp"
+            android:text="通用Title"
+            android:textSize="@dimen/big_title"
+            android:textStyle="bold"
+            android:textColor="@color/black"/>
+    </LinearLayout>
+</LinearLayout>
