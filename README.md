@@ -1,11 +1,11 @@
 @[TOC](StoneMusic)
-由于疫情原因，当前应用还未上架，现提供如下下载方式：
+### 由于疫情原因，当前应用还未上架，现提供如下下载方式：
 百度云：
 链接：https://pan.baidu.com/s/1bK5jtjp3vW_gj__FKIvlFg 
 提取码：ng71 
 
 
-复制这段内容后打开百度网盘手机App，操作更方便哦
+
 ## 简要介绍：
 - stoneMusic是一款基于Android的音乐播放器；
 - 该项目采用MVP拆分模式，减少代码耦合。
